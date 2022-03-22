@@ -1,5 +1,5 @@
 # Aerial Robotics - Group A
-  ---
+
 ## DEMO
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="50%">
 
