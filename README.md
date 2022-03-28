@@ -5,7 +5,8 @@
 
 ### Main Requirement: 
 * (Efficient and massive) Deployment of Docker (drone) based on the account (not for security but for personal convenience)
-* Simplify the user interface of the existing system (Kubernetes). No more interaction through terminal 
+* Simplify the user interface of the existing system (Kubernetes). Less clickings. No more interaction through terminal 
+* Client is expecting "drop and drag interface"
 
 ### Second Requirement: 
 * Status of drone (power on/off) and status control
@@ -56,5 +57,12 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 3. will the project be used by public or just with in the lab
 4. development environment
 5. Are the drone commercial or built in lab
+---
+
+## How to Divide Work? (3/22 discussion)
+1. First stage: Everyone agrees on draft features/layout of the website => the most obvious marking point
+   *"web accessibility" might be a strong plus in marking comparing to fancy UI 
+2. One person (at most two) is responsible for the frontend study  
+3. The rest of the members are dealing with Kubernates API for different features
 
 <https://docs.google.com/document/d/1XD38Y7_Qh-EGPpgBfbo9n7XeQuZsez-1S_5RAFQ7KT8/edit>
