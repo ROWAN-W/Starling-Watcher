@@ -14,7 +14,9 @@
 
 ### Main Task:
 * Study: ***Kubernetes API***
-* Build a web (additional layer) on Kubernetes ***Simple and clean user interface***. Connect our web to the specific ***Kubernetes API***
+* design and imlement our own API 
+* Build a web (additional layer) on Kubernetes with ***Simple and clean user interface***. 
+* Connect our web to our ***API***
 
 ### Project Status:
 * ***Mickey*** (First degree in Computer Science)  and ***Robert*** will be the only users for the starting stage of the project. 
