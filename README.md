@@ -63,10 +63,10 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 1. First stage: Everyone agrees on draft features/layout of the website => the most obvious marking point
    *"web accessibility" might be a strong plus in marking comparing to fancy UI 
 2. Proposal (deadline: 5/1)
-(1)Front-end: Evan, Yulin => React framwork => might be devided into main dashboard page (fetching from Kubernetes) and user setting page (fetching from database), will include responsive design
+(1)Front-end: Evan, Yulin => ***React*** framwork => might be devided into main dashboard page (fetching from Kubernetes) and user setting page (fetching from database), will include responsive design
 (2)Back-end: Rowan, Oshia, Pench => might be devided by API and database 
-3. Suggested we use Express.js to build our API (wrap Kubernetes API, pay attention to the quality of API design which must be intuitive and close to natural language)
-4. Suggested we use Node.js for the back-end, but not decided yet. Some might be in favor of Golang which is more type-strict. Also consider that TA has more experience in Node.js.
-->Might be a good idea that all of us take some time go through the tutorial and discuss nest week.
+3. Suggested we use ***Express.js*** to build our API (wrap Kubernetes API, pay attention to the quality of API design which must be intuitive and close to natural language)
+4. Suggested we use ***Node.js*** for the back-end, but not decided yet. Some might be in favor of ***Golang*** which is more type-strict. Also consider that TA has more experience in Node.js.
+->Might be a good idea that all of us take some time go through the tutorial and discuss next week.
 
 <https://docs.google.com/document/d/1XD38Y7_Qh-EGPpgBfbo9n7XeQuZsez-1S_5RAFQ7KT8/edit>
