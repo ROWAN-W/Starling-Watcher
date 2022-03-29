@@ -44,7 +44,7 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 * Work division and by extension project management is your task. I suggest we come to an understanding on requirements first, then you guys can decide on who does what. 
 
 ## HCI evaluation
-* Starting point : interview with Mickey and Robert, field trip (observation) to lab(requirement, compare to the old system)
+* Starting point : interview with Mickey and Robert, field trip (observation) to lab(requirement, compare to the old system,try the CLI of k8s that Mickey built )
 * Questionnaire for unprofessional drone users
 * Actual user evaluation (prototype, interview, observation)
 ---
