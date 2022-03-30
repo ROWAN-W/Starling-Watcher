@@ -1,5 +1,42 @@
 # Aerial Robotics - Group A
 
+##structure
+<table>
+  <tr>
+    <th>Back End</th>
+    <th colspan="2">Front End</th>
+  </tr>
+  <tr>
+    <th colspan="2"><strong>Server</strong></th>
+    <th><strong>Browser</strong></th>
+  </tr>
+  <tr>
+    <th><strong>JAVA/GO</strong></th>
+    <th><strong>NODE.JS<strong></th>
+    <th><strong>HTML+JS+CSS<strong></th>
+  </tr>
+  <tr>
+    <td>
+    <p>Service Layer</p>
+    <p>Provide data interface</p>
+    <p>Maintaining data stability</p>
+    <p>Encapsulating business logic</p>
+    </td>
+    <td>
+    <p>JS running on the server</p>
+    <p>Forwarding data, streaming services</p>
+    <p>Control Logic</p>
+    <p>Render pages to optimize the experience</p>
+    </td>
+    <td>
+    <p>JS running on the browser</p>
+    <p>CSS, JS loaded and running</p>
+    <p>DOM manipulation</p>
+    <p>REACT</p>
+    <p>General templates</p>
+    </td>
+  </tr>
+</table>
 ### DEMO
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="70%">
 
