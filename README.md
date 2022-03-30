@@ -1,6 +1,7 @@
 # Aerial Robotics - Group A
 
-##structure
+###structure
+
 <table>
   <tr>
     <th>Back End</th>
@@ -37,6 +38,7 @@
     </td>
   </tr>
 </table>
+      
 ### DEMO
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="70%">
 
