@@ -1,23 +1,66 @@
 # Aerial Robotics - Group A
 
+## Structure
+
+<table>
+  <tr>
+    <th>Back End</th>
+    <th colspan="2">Front End</th>
+  </tr>
+  <tr>
+    <th colspan="2"><strong>Server</strong></th>
+    <th><strong>Browser</strong></th>
+  </tr>
+  <tr>
+    <th><strong>JAVA/GO</strong></th>
+    <th><strong>NODE.JS<strong></th>
+    <th><strong>HTML+JS+CSS<strong></th>
+  </tr>
+  <tr>
+    <td>
+    <p>Service Layer</p>
+    <p>Provide data interface</p>
+    <p>Maintaining data stability</p>
+    <p>Encapsulating business logic</p>
+    </td>
+    <td>
+    <p>JS running on the server</p>
+    <p>Forwarding data, streaming services</p>
+    <p>Control Logic</p>
+    <p>Render pages to optimize the experience</p>
+    </td>
+    <td>
+    <p>JS running on the browser</p>
+    <p>CSS, JS loaded and running</p>
+    <p>DOM manipulation</p>
+    <p>REACT</p>
+    <p>General templates</p>
+    </td>
+  </tr>
+</table>
+      
 ### DEMO
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="70%">
 
 ### Main Requirement: 
-* (Efficient and massive) Deployment of Docker (drone) based on the account or project (not for security but for personal convenience)
+* (Efficient and massive) Deployment of Docker on drones based on the account or project (not for security but for personal convenience)
 * Simplify the user interface of the existing system (Kubernetes). Less clickings. No more interaction through terminal 
 * Client is expecting "drop and drag interface"
+* keep an account for users (not for security but for personal convenience)
 
 ### Second Requirement: 
-* Status of drone (power on/off) and status control
+* Status of drones (power on/off) and status control
 
 ### Main Task:
 * Study: ***Kubernetes API***
-* Build a web (additional layer) on Kubernetes ***Simple and clean user interface***. Connect our web to the specific ***Kubernetes API***
+* design and imlement our own API 
+* Build a web (additional layer) on Kubernetes with ***Simple and clean user interface***. 
+* Connect our web to our ***API***
 
 ### Project Status: (1/31 update)
-* ***Mickey*** is the only user (First degree in Computer Science) currently. Other users may be students/teachers in BRL.
-* Very specific for research team in the related feilds. Those students/teachers may have no idea of what Docker, Kuburnates are. Make it behind the scene entirely
+* ***Mickey*** (First degree in Computer Science)  and ***Robert*** will be the only users for the starting stage of the project. Other users may be students/teachers in BRL in summer.
+* The project targets drone-users with no computer science knowledge => They have no idea of what Docker, Kuburnates are. 
+* Very specific for research team in the related feilds.
 
 ### Preferred Output: (1/31 update)
 * All the compinents wrapped up as a docker. Easy to set up in BRL
@@ -45,7 +88,7 @@
 
 ### Side Note: (1/31 update)
 * Our hands are tied with available Kubernetes API
-* Abstraction of Docker achieves hardware independent *no need to concern drone as a special hardware too much
+* Abstraction of Docker achieves hardware independent *no need to consider drone as a special hardware(? we might need some drone specific feature) 
 * Clients want to participate in UI design (They may have a lot of ideas)
 
 ## Resources
@@ -67,8 +110,8 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 * Work division and by extension project management is your task. I suggest we come to an understanding on requirements first, then you guys can decide on who does what. 
 
 ## HCI evaluation
-* Starting point : interview with Mickey and Robert, field trip (observation) to lab(requirement, compare to the old system)
-* Questionnaire for  unprofessional drone users
+* Starting point : interview with Mickey and Robert, field trip (observation) to lab(requirement, compare to the old system,try the CLI of k8s that Mickey built )
+* Questionnaire for unprofessional drone users
 * Actual user evaluation (prototype, interview, observation)
 ---
 * **core user**
@@ -83,16 +126,20 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 3. will the project be used by public or just with in the lab
 4. development environment
 5. Are the drone commercial or built in lab
+6. What is the exact process of deployment on drones?
 ---
 
 ## How to Divide Work? (3/29 discussion)
 1. First stage: Everyone agrees on draft features/layout of the website => the most obvious marking point
    *"web accessibility" might be a strong plus in marking comparing to fancy UI 
+   
 2. Proposal (deadline: 5/1)
 (1)Front-end: Evan, Yulin => ***React*** framwork => might be devided into main dashboard page (fetching from Kubernetes) and user setting page (fetching from database), will include responsive design
-(2)Back-end: Rowan, Oshia, Pench => might be devided by API and database 
-3. Suggested we use ***Express.js*** to build our API (wrap Kubernetes API, pay attention to the quality of API design which must be intuitive and close to natural language)
-4. Suggested we use ***Node.js*** for the back-end, but not decided yet. Some might be in favor of ***Golang*** which is more type-strict. Also consider that TA has more experience in Node.js.
+(2)Back-end: Rowan, Oshia, Pench => might be devided into K8s studying, API and database building
+
+3. We are suggested to use ***Express.js*** to build our API (wrap Kubernetes API, pay attention to the quality of API design which must be intuitive and close to natural language)\
+
+4. ***Node.js***  is recommanded for the back-end, Some might be in favor of ***Golang*** which is more type-strict. Also consider that TA has more experience in Node.js.
 ->Might be a good idea that all of us take some time go through the tutorial and discuss next week.
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/structure_sample.jpeg" width="70%">
 
