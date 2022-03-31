@@ -144,3 +144,12 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/structure_sample.jpeg" width="70%">
 
 <https://docs.google.com/document/d/1XD38Y7_Qh-EGPpgBfbo9n7XeQuZsez-1S_5RAFQ7KT8/edit>
+---
+
+ ## Robotics Lab Meeting with Mickey & Robort (3/31 update)
+  1. Video Recordings
+  * video 1 :
+  <https://drive.google.com/file/d/1JJL7YRl53qMSYJGnuF_bmP1lwwzW_w4m/view?usp=sharing>
+  * video 2 :
+  <https://drive.google.com/file/d/1tlqhy1e00z71CuTZPfo3kooXiuSvR_D5/view?usp=sharing>
+  
