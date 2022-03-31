@@ -4,7 +4,7 @@
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="70%">
 
 ### Main Requirement: 
-* (Efficient and massive) Deployment of Docker (drone) based on the account (not for security but for personal convenience)
+* (Efficient and massive) Deployment of Docker (drone) based on the account or project (not for security but for personal convenience)
 * Simplify the user interface of the existing system (Kubernetes). Less clickings. No more interaction through terminal 
 * Client is expecting "drop and drag interface"
 
@@ -15,12 +15,38 @@
 * Study: ***Kubernetes API***
 * Build a web (additional layer) on Kubernetes ***Simple and clean user interface***. Connect our web to the specific ***Kubernetes API***
 
-### Project Status:
-* ***Mickey*** is the only user (First degree in Computer Science). It targets drone-goers without computer science knowledge => They have no idea of what Docker, Kuburnates are. Make it behind the scene entirely
+### Project Status: (1/31 update)
+* ***Mickey*** is the only user (First degree in Computer Science) currently. Other users may be students/teachers in BRL.
+* Very specific for research team in the related feilds. Those students/teachers may have no idea of what Docker, Kuburnates are. Make it behind the scene entirely
 
-### Side Note:
+### Preferred Output: (1/31 update)
+* All the compinents wrapped up as a docker. Easy to set up in BRL
+* Responsive design for mobile screen. Desktop is the main target.
+
+### Drone Hardware: (1/31 update)
+* Not made by themselves (current ones are bought from Russian company and are easy to upgrade)
+* auto-pilot board (responsible for high-speed stuff like motor control)  + Raspberry Pi (with container on it). Base board can be replaced with other model like Intel NUC
+
+### Deployment Workflow: (1/31 update)
+* dockerhub has containers (pay attention to the tag, users should be able to select it)
+* yml file specifies which image it wants, environment variables, network settings
+* add yml file to Kubernetes. Clients tend to use command line because UI is quite complicated. yml will display under the desired node
+* In node page, clients will frequently check logs and use the shell
+
+### Deployment Sidenote: (1/31 update)
+* yml: some are auto-generated and some ***we should let users select/fill it with nice UI***
+* type-labeling => for massive deployment
+* Users may have multiple projects. When he is going to start project B, he doesn't want to interrupted by the stuff in project A. He is thinking a button to "reset to default". Not everything messed up together
+
+### Prospect: (1/31 update)
+* Currently indoor flight arena (in BRL). Future will be outdoor (in Bristol Uni farm)
+* StarlingUAS can be used on different devices as long as it is compatible to Docker/ Kubernetes. Adding new feature for future projects is highly possible in BRL => need to be easy to maintain and modify
+* StarlingUAS is open-source
+
+### Side Note: (1/31 update)
 * Our hands are tied with available Kubernetes API
 * Abstraction of Docker achieves hardware independent *no need to concern drone as a special hardware too much
+* Clients want to participate in UI design (They may have a lot of ideas)
 
 ## Resources
 
