@@ -152,4 +152,14 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
   <https://drive.google.com/file/d/1JJL7YRl53qMSYJGnuF_bmP1lwwzW_w4m/view?usp=sharing>
   * video 2 :
   <https://drive.google.com/file/d/1tlqhy1e00z71CuTZPfo3kooXiuSvR_D5/view?usp=sharing>
+  * video 3 :
+  <https://drive.google.com/file/d/10EhBN6yvAsyp8hxcV-InC10oLcZikYSX/view?usp=sharing>
+  * video 4 :
+  <https://drive.google.com/file/d/1ThSq417OjQDhCEKyy_VqhjkiPXfpObik/view?usp=sharing>
+  * video 5 :
+  <https://drive.google.com/file/d/1A6zlIkVfEsIJZgFjnhAegc9N4-kkFyn9/view?usp=sharing>
+  * video 6 :
+  <https://drive.google.com/file/d/1SHXc9NzNON_41Y0kHMInJC-uwhNIqDdj/view?usp=sharing>
+    
+   
   
