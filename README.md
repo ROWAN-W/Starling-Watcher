@@ -79,12 +79,12 @@
 ### Deployment Sidenote: (1/31 update)
 * yml: some are auto-generated and some ***we should let users select/fill it with nice UI***
 * type-labeling => for massive deployment
-* Users may have multiple projects. When he is going to start project B, he doesn't want to interrupted by the stuff in project A. He is thinking a button to "reset to default". Not everything messed up together
+* Users may have multiple projects. The system should be able to  deploy these project without conflicts between them 
 
 ### Prospect: (1/31 update)
-* Currently indoor flight arena (in BRL). Future will be outdoor (in Bristol Uni farm)
-* StarlingUAS can be used on different devices as long as it is compatible to Docker/ Kubernetes. Adding new feature for future projects is highly possible in BRL => need to be easy to maintain and modify
-* StarlingUAS is open-source
+* will be implemented in indoor flight arena (in BRL) and outdoor (in Bristol Uni farm)
+* StarlingUAS can be used on different devices as long as it is compatible to Docker/ Kubernetes. Adding new feature for future projects is highly possible in BRL => should be easy to maintain and modify
+* StarlingUAS is open-source, any drone flyers can benefit from this system
 
 ### Side Note: (1/31 update)
 * Our hands are tied with available Kubernetes API
