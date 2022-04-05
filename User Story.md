@@ -3,7 +3,7 @@
 |***As*** a System developer, ***I want to*** have a user-friendly interface ***so that*** users will be able to **deploy** and **monitor** drones without needing to know more about the udnerlying implementation.|  
 ---
 | User Story | Requirements Priority |
-|:----------:|:---------------------:|
+|:----------|:---------------------:|
 |***As*** a drone flyer,***I want to*** have a human friendly interface ***so that*** I can drag-and-drop my docker images to deploy them on drones.|    |
 |***As*** a drone flyer,***I want to*** have my own account and data space ***so that***  I can store and load my config status more conveniently.|    |
 |***As*** a drone researcher,***I want to*** be able to control and monitor more than one drones ***so that*** I can implement multi-drone projects.|    |
