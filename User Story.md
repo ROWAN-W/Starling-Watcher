@@ -4,7 +4,7 @@
 ---
 | User Story | Requirements Priority |
 |:----------:|:---------------------:|
-|***As*** a user,***I want to*** sign in account ***so that*** I can have own data space,prevent others from modifying my files.|    |
+|***As*** a user,***I want to*** sign in an account ***so that*** I can have my own data space,and load my config files more conveniently.|    |
 |***As*** a user,***I want to*** build Projects ***so that*** I can Systematic manipulation of my configs.|    |
 |***As*** a user,***I want to*** have a list of drones ***so that*** I can make different configurations for each drone.|    |
 |***As*** a user,***I want to*** have a temples of configs ***so that*** I can avoid repeatedly entering configuration information.|    |
