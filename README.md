@@ -53,9 +53,9 @@
 
 ### Main Task:
 * Study: ***Kubernetes API***
-* design and imlement our own API 
-* Build a web (additional layer) on Kubernetes with ***Simple and clean user interface***. 
-* Connect our web to our ***API***
+* Build a web (additional layer) on Kubernetes with ***Simple and clean user interface***
+* Design and implement a database that stores user/project config info
+* Develope our main server that serves web pages and connects to k8s API and our database
 
 ### Project Status: (1/31 update)
 * ***Mickey*** (First degree in Computer Science)  and ***Robert*** will be the only users for the starting stage of the project. Other users may be students/teachers in BRL in summer.
