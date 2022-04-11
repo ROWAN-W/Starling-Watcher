@@ -57,38 +57,38 @@
 * Design and implement a database that stores user/project config info
 * Develope our main server that serves web pages and connects to k8s API and our database
 
-### Project Status: (1/31 update)
+### Project Status: (03/31 update)
 * ***Mickey*** (First degree in Computer Science)  and ***Robert*** will be the only users for the starting stage of the project. Other users may be students/teachers in BRL in summer.
 * The project targets drone-users with no computer science knowledge => They have no idea of what Docker, Kuburnates are. 
 * Very specific for research team in the related feilds.
 
-### Preferred Output: (1/31 update)
-* All the compinents wrapped up as a docker. Easy to set up in BRL
-* Responsive design for mobile screen. Desktop is the main target.
+### Preferred Output: (03/31 update)
+* All the compinents wrapped up as dockers, so that they are aasy to be set up in the main server of the lab
+* Responsive design for mobile screens, however, Desktop is still the main target.
 
-### Drone Hardware: (1/31 update)
-* Not made by themselves (current ones are bought from Russian company and are easy to upgrade)
-* auto-pilot board (responsible for high-speed stuff like motor control)  + Raspberry Pi (with container on it). Base board can be replaced with other model like Intel NUC
+### Software environment on drones: (03/31 update)
+* Not made by themselves (current ones are bought from a Russian company and are open sourced)
+* auto-pilot board (responsible for high-speed stuff like motor control)  + Raspberry Pi (with container on it).The current OS is Ubuntu, installed on Raspberry Pi. Base board can be replaced with other model like Intel NUC
 
-### Deployment Workflow: (1/31 update)
+### Deployment Workflow: (03/31 update)
 * dockerhub has containers (pay attention to the tag, users should be able to select it)
 * yml file specifies which image it wants, environment variables, network settings
 * add yml file to Kubernetes. Clients tend to use command line because UI is quite complicated. yml will display under the desired node
 * In node page, clients will frequently check logs and use the shell
 
-### Deployment Sidenote: (1/31 update)
+### Deployment Sidenote: (03/31 update)
 * yml: some are auto-generated and some ***we should let users select/fill it with nice UI***
 * type-labeling => for massive deployment
 * Users may have multiple projects. The system should be able to  deploy these project without conflicts between them 
 
-### Prospect: (1/31 update)
+### Prospect: (03/31 update)
 * will be implemented in indoor flight arena (in BRL) and outdoor (in Bristol Uni farm)
 * StarlingUAS can be used on different devices as long as it is compatible to Docker/ Kubernetes. Adding new feature for future projects is highly possible in BRL => should be easy to maintain and modify
 * StarlingUAS is open-source, any drone flyers can benefit from this system
 
-### Side Note: (1/31 update)
-* Our hands are tied with available Kubernetes API
-* Abstraction of Docker achieves hardware independent *no need to consider drone as a special hardware(? we might need some drone specific feature) 
+### Side Note: (03/31 update)
+* While dealing with the k8s API, consider the abstraction of dockers independent from the drones' hardware  *no need to consider drone as a special hardware 
+* While designing frontend webs, we need to focus on drone specific features
 * Clients want to participate in UI design (They may have a lot of ideas)
 
 ## Resources
