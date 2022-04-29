@@ -1,7 +1,6 @@
 # Aerial Robotics - Group A
 
-## Structure
-4/18 update
+## Structure (4/18 update)
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/structure.png" width="70%">
 <table>
   <tr>
@@ -43,6 +42,7 @@
 ### DEMO
 * Wireframe proposal by YL
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/starling-Create Config(Update).drawio.png" width="70%">
+
 * Draft by Mickey
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/demo.png" width="70%">
 
