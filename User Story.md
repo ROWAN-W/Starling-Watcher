@@ -12,3 +12,4 @@
 |***As*** a drone flyer,***I want to*** be able to clear the configs on drones with one button ***so that*** I don't have to worry about conflicts when reconfiguring.|    |
 |***As*** a drone resercher,***I want to*** have access to the log information of the drone ***so that*** I can analyse possible errors.|    |
 |***As*** a drone resercher,***I want to*** be able to open the original k8s interface if necessary ***so that*** I can peform profesional level tasks. (YL: not very sure if it's necessary)|    |
+|***As*** a drone resercher,***I want to*** have a terminal inside the interface ***so that*** I can communicate with the system directly and peform profesional level tasks. (TI: advanced feature)|    |
