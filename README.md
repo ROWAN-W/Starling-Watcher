@@ -157,8 +157,7 @@ API page:<https://github.com/kubernetes/dashboard/tree/master/src/app>
 
 4. ***Node.js***  is recommanded for the back-end, Some might be in favor of ***Golang*** which is more type-strict. Also consider that TA has more experience in Node.js.
 ->Might be a good idea that all of us take some time go through the tutorial and discuss next week.
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/structure_sample.jpeg" width="70%">
-
+  
 <https://docs.google.com/document/d/1XD38Y7_Qh-EGPpgBfbo9n7XeQuZsez-1S_5RAFQ7KT8/edit>
 ---
 
