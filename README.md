@@ -49,14 +49,14 @@ Source: <https://drive.google.com/file/d/1qo9ukiOWd5wVxgx-qhxOq1kFXkJKH_Cb/view>
 <img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design-Yulin.png" width="70%">
       
 * Design from Evan 04/06/2022
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design1-Evan.pdf" width="70%">      
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design2-Evan.pdf" width="70%">
+<https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design1-Evan.pdf>      
+<https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design2-Evan.pdf>
       
 * Design from Oshia 06/06/2022
 Source: <https://www.figma.com/proto/KhUZxJrOnzOa3HEAtcOV9P/Untitled?page-id=0%3A1&node-id=1%3A751&viewport=664%2C1044%2C0.42&scaling=min-zoom&starting-point-node-id=1%3A751>
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design1-Oshia.png" width="70%">
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design2-Oshia.png" width="70%">
-<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design3-Oshia.png" width="70%">
+<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design1-Oshia.png" width="50%">
+<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design2-Oshia.png" width="50%">
+<img src="https://github.com/ROWAN-W/SummerProject/blob/main/reference/Prototypes/design3-Oshia.png" width="50%">
 
 ### Main Requirement: 
 * (Efficient and massive) Deployment of Docker on drones based on the account or project (not for security but for personal convenience)
