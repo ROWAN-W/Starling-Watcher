@@ -1,0 +1,17 @@
+@import 'popup.css';
+@import 'user.css';
+@import 'image.css';
+@import 'node-edit.css';
+@import 'project.css';
+@import 'dropdown.css';
+
+html{
+    overflow-y: hidden;
+}
+
+
+.body{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-gap: 20px;
+}

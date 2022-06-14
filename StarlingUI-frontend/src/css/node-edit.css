@@ -1,0 +1,69 @@
+.node{
+    white-space: nowrap;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    max-width: 100%;
+}
+
+.node-name-input{
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+
+.node-image-tag-container{
+    white-space: nowrap;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+}
+
+.node-image-tag-container .image-tag {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    border-radius:5px;
+    background: #f2f2f2;
+}
+
+.image-tag-content{
+    white-space:nowrap;
+    overflow: hidden;   
+}
+
+.image-tag button {
+    font-size: 70%;
+    margin-left: 5px;
+}
+
+.node-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.recipe-edit__tag-container .tag {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    display: inline-block;
+    align-items: center;
+    border-radius: 3px;
+    background: #f2f2f2;
+}
+
+.recipe-edit__tag-container input{
+    flex: 1;
+    font-size: inherit;
+    padding: 5px 10;
+    outline: none;
+    border: 0;
+}
