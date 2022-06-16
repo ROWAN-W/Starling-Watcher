@@ -1,4 +1,4 @@
-package monitorTab;
+package com.example.starlingui.WebController;
 
 import org.springframework.stereotype.Controller;
 
