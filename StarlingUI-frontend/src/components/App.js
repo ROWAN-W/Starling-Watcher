@@ -7,6 +7,7 @@ import '../css/app.css';
 import ImageList from "./ImageList";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import DroneList from "./DroneList";
 
 export const ProjectContext = React.createContext();
 
@@ -15,6 +16,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState(sampleUsers);
   const [images, setImages] = useState([]);
+  const [droneListTrigger,setDroneListTrigger] = useState(true);
   
   const [selectedProjectID, setSelectedProjectID] = useState();
   const selectedProject = projects.find(project => project.id === selectedProjectID);
@@ -72,7 +74,6 @@ function App() {
     }
   }
 
-  //where to delete?
   function handleProjectDelete(id){
     console.log("delete project!");
     if(selectedProjectID!=null && selectedProjectID === id){
@@ -205,16 +206,34 @@ function App() {
     }
   }
 
+
+  function showDroneList(){
+    //two columns
+    if(droneListTrigger===false){
+      return (
+        <div><button onClick={()=>setDroneListTrigger(true)}>Drones</button> </div>       
+      ) 
+    //three columns //true
+    }else{
+      return (
+        <DroneList drones={sampleDrones} trigger={droneListTrigger} setTrigger={setDroneListTrigger}></DroneList>
+      )
+    }
+  }
+  
   return (
     <ProjectContext.Provider value={projectContextValue}>
     <User currentUser={currentUser}></User>
+    <div className="header">
     {showProjectTitle()}
-    <Menu selectedProject={selectedProject} updateProjectToData={updateProjectToData} handleProjectAdd={handleProjectAdd} handleProjectDelete={handleProjectDelete}></Menu>
+    <div className="navbar"><Menu selectedProject={selectedProject} updateProjectToData={updateProjectToData} handleProjectAdd={handleProjectAdd} handleProjectDelete={handleProjectDelete}></Menu></div>
+    </div>
     <div className="body">
-    <DndProvider backend={HTML5Backend}>
-    <ImageList></ImageList>
-    <Project currentUser={currentUser} selectedProject={selectedProject}></Project>
-    </DndProvider>
+        <DndProvider backend={HTML5Backend}>
+        <ImageList></ImageList>
+        <Project currentUser={currentUser} selectedProject={selectedProject} droneListTrigger={droneListTrigger}></Project>
+        </DndProvider>
+        {showDroneList()}
     </div>
     </ProjectContext.Provider>
 
@@ -240,6 +259,53 @@ const sampleUsers=[
     password: '5678',
 
   }
+]
+
+const sampleDrones = [
+  {
+    id: 1,
+    name: 'clover7',
+    type: 'Master',
+    mac: '00:00:5e:00:53:af',
+    info: 'What do you want to see here?'
+
+  },
+  {
+    id: 2,
+    name: 'clover2',
+    type: 'Worker',
+    mac: '00:00:8b:00:53:aa',
+    info: 'What do you want to see here?'
+  },
+  {
+    id: 3,
+    name: 'clover3',
+    type: 'Worker',
+    mac: '00:00:3c:00:53:cc',
+    info: 'What do you want to see here?'
+  },
+  {
+    id: 4,
+    name: 'clover4',
+    type: 'Worker',
+    mac: '00:00:6b:00:53:ff',
+    info: 'What do you want to see here?'
+  },
+  {
+    id: 5,
+    name: 'clover5',
+    type: 'Worker',
+    mac: '00:00:48:00:53:d4',
+    info: 'What do you want to see here?'
+  },
+  {
+    id: 6,
+    name: 'clover6',
+    type: 'Worker',
+    mac: '00:00:29:00:53:bb',
+    info: 'What do you want to see here?'
+  },
+
 ]
 
 let sampleProjects = [

@@ -3,7 +3,7 @@ import ImageEdit from './ImageEdit';
 import { ProjectContext } from './App';
 import { useDrop } from "react-dnd";
 
-export default function WorkingNode({masterNode,workingNode,handleWorkingNodeChange,handleWorkingNodeDelete,handleWorkingNodeDuplicate}) {
+export default function WorkingNode({masterNode,workingNode,workingNodes,handleWorkingNodeChange,handleWorkingNodeDelete,handleWorkingNodeDuplicate}) {
     
     const {images} = useContext(ProjectContext);
 
@@ -13,7 +13,7 @@ export default function WorkingNode({masterNode,workingNode,handleWorkingNodeCha
         collect: (monitor) =>({
             isOver:!!monitor.isOver(),
         }),
-    }), [masterNode,workingNode,images])
+    }), [masterNode,workingNode,workingNodes,images])
     
     const addImageToBoard = (id) =>{
         console.log(id);

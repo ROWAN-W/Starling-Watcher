@@ -4,7 +4,7 @@ import MasterNode from './MasterNode';
 import { v4 as uuidv4 } from 'uuid';
 import WorkingNode from './WorkingNode';
 
-export default function Project({currentUser, selectedProject}) {
+export default function Project({currentUser, selectedProject, droneListTrigger}) {
 
     const {projects, handleProjectChange} = useContext(ProjectContext);
 
@@ -72,6 +72,7 @@ function handleWorkingNodeDuplicate(workingNode){
             <WorkingNode
               key={workingNode.id}
               masterNode={selectedProject.masterNode}
+              workingNodes={selectedProject.workingNodes}
               workingNode={workingNode}
               handleWorkingNodeChange={handleWorkingNodeChange}
               handleWorkingNodeAdd={handleWorkingNodeAdd}
@@ -87,13 +88,28 @@ function handleWorkingNodeDuplicate(workingNode){
 
     }
 
+    function showProjectColumn(){
+      if(droneListTrigger){
+        return (
+          <div className='project-container-single'>
+           {showInstruction()}
+           {showProjectDetail()}
+          </div>
+        )
+      }else{
+        return (
+          <div className='project-container'>
+           {showInstruction()}
+           {showProjectDetail()}
+          </div>
+        )
+      }
+    }
+
     //show master node and working nodes only
 return (
   <>
-    <div className='project-container'>
-    {showInstruction()}
-    {showProjectDetail()}
-    </div>
+    {showProjectColumn()}
   </>
   )
 }

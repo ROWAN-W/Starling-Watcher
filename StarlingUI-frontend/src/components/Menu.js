@@ -29,12 +29,13 @@ export default function Menu( {selectedProject,updateProjectToData, handleProjec
     
   return (
     <>
-    <button>Deploy</button>
-    <button onClick={()=>updateProjectToData()}>Save</button>
-    <button onClick={()=>handleProjectDelete(true)}>Delete</button>
-    <button onClick={()=>handleProjectConfig(true)}>Share</button>
-    <button onClick={()=>handleProjectAdd()}>Create Project</button>
     <button onClick={()=>handleProjectSelection(true)}>Select Project</button>
+    <button onClick={()=>handleProjectAdd()}>Create Project</button>
+    <button onClick={()=>updateProjectToData()}>Save</button>
+    <button>Deploy</button>
+    <button onClick={()=>handleProjectConfig(true)}>Share</button>
+    <button onClick={()=>handleProjectDelete(true)}>Delete</button>
+    
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection} handleProjectDelete={handleProjectDelete}></ProjectList>
     <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject} setWarning={setWarning}></ShareProject>
     <SignOutWarning trigger={warning} setTrigger={setWarning}></SignOutWarning>

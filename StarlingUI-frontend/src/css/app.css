@@ -4,14 +4,25 @@
 @import 'node-edit.css';
 @import 'project.css';
 @import 'dropdown.css';
+@import 'drone.css';
 
 html{
     overflow-y: hidden;
 }
 
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar button{
+    margin-right: 10px;
+}
+
 
 .body{
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 300px 1fr auto;
     grid-gap: 20px;
 }
