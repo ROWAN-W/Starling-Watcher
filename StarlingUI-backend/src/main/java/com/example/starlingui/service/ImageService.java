@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ImageService {
 
-    public void setToken(User user);
+    void setToken(User user);
 
-    public List<Image> getImageList();
+    List<Image> getImageList();
+
 }

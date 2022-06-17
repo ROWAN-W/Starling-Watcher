@@ -1,6 +1,5 @@
 package com.example.starlingui.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -8,10 +7,16 @@ import org.springframework.stereotype.Component;
 @Data
 public class User {
 
-    @JSONField(name = "username")
     private String username;
 
-    @JSONField(name = "password")
     private String password;
 
+    public User(String username,String password){
+        this.username = username;
+        this.password = password;
+    }
+
+    public User() {
+        super();
+    }
 }

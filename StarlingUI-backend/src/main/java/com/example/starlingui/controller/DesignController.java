@@ -1,22 +1,22 @@
-package com.example.starlingui.WebController;
+package com.example.starlingui.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.gson.Gson;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/design")
-public class designController {
+public class DesignController {
 
-    @Autowired
+    @Resource
     private DockerHubServiceImpl dockerHubService;
 
 
@@ -30,9 +30,9 @@ public class designController {
         try {
             dockerHubService.setToken(user);
             List<Image> images = dockerHubService.getImageList();
-            JSONObject node = new JSONObject();
-            node.put("results",images);
-            return ResponseEntity.ok(node.toJSONString());
+            Gson gson = new Gson();
+            String json = gson.toJson(images);
+            return ResponseEntity.ok(json);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }

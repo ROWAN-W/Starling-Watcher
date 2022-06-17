@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 services:
   api:
     build:
@@ -10,13 +10,13 @@ services:
     working_dir: /app
     command: sh run.sh
     ports:
-      - 8080:8080
-      - 35729:35729
-      - 5005:5005
+      - "8080:8080"
+      - "35729:35729"
+      - "5005:5005"
     depends_on:
       - mongo_db
   mongo_db:
     image: "mongo:latest"
     restart: always
     ports:
-      - 27017:27017
+      - "27017:27017"

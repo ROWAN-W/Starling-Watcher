@@ -1,15 +1,15 @@
 package com.example.starlingui.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class DockerHubServiceImpl implements ImageService{
 
-    @Autowired
+    @Resource
     private RestTemplate restTemplate;
 
     private final AtomicLong counter = new AtomicLong();
@@ -37,14 +37,15 @@ public class DockerHubServiceImpl implements ImageService{
     public void setToken(User user) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String body= JSON.toJSONString(user);
+        String body= new Gson().toJson(user);
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         String loginUrl = "https://hub.docker.com/v2/users/login";
         ResponseEntity<String> result = restTemplate.postForEntity(loginUrl, request, String.class);
-        JSONObject token = JSONObject.parseObject(result.getBody());
+        JsonObject token = new Gson().fromJson(result.getBody(), JsonObject.class);
 
-        this.token = "Bearer " + token.getString("token");
+
+        this.token = "Bearer " + token.get("token").getAsString();
         this.username = user.getUsername();
     }
 
@@ -55,10 +56,10 @@ public class DockerHubServiceImpl implements ImageService{
     @Override
     public List<Image> getImageList() {
         String url = accountUrl+username;
-        JSONArray images = getRequest(url);
+        JsonArray images = getRequest(url);
         List<Image> imageList = new ArrayList<>();
         for(int i = 0; i < images.size();i++){
-            imageList.addAll(getImageTag(images.getJSONObject(i).getString("name")));
+            imageList.addAll(getImageTag(images.get(i).getAsJsonObject().get("name").getAsString()));
         }
         return imageList;
     }
@@ -70,13 +71,13 @@ public class DockerHubServiceImpl implements ImageService{
      */
     public List<Image> getImageTag(String imageName){
         String url = accountUrl+username+"/"+imageName+"/"+"tags";
-        JSONArray images = getRequest(url);
+        JsonArray images = getRequest(url);
         List<Image> imageList = new ArrayList<>();
         for(int i = 0; i < images.size();i++){
             Image image = new Image();
             image.setId(counter.incrementAndGet());
-            image.setName(username+"/"+imageName + ":" + images.getJSONObject(i).getString("name"));
-            image.setLastUpdated(images.getJSONObject(i).getString("last_updated"));
+            image.setName(username+"/"+imageName + ":" + images.get(i).getAsJsonObject().get("name").getAsString());
+            image.setLastUpdated(images.get(i).getAsJsonObject().get("last_updated").getAsString());
             imageList.add(image);
         }
         return imageList;
@@ -87,14 +88,14 @@ public class DockerHubServiceImpl implements ImageService{
      * @param url path of request
      * @return return json of response body
      */
-    public JSONArray getRequest(String url){
+    public JsonArray getRequest(String url){
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
                 url, HttpMethod.GET, requestEntity, String.class);
-        JSONObject jsonobject = JSONObject.parseObject(response.getBody());
-        return jsonobject.getJSONArray("results");
+        JsonObject jsonObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+        return jsonObject.getAsJsonArray("results");
     }
 
 }
