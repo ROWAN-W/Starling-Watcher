@@ -1,0 +1,154 @@
+{
+  "sampleProject": [
+    {
+      "id": 1,
+      "name": "Project A",
+      "dateModified": "21/06/2022 00:39:24",
+      "lastModifiedBy": 1,
+      "saved": true,
+      "ownerID": 1,
+      "memberIDs": [
+        1
+      ],
+      "config": [
+        {
+          "id": 1000,
+          "name": "design 1",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": [
+            {
+              "id": 1,
+              "name": "image1image1image1image1",
+              "command": "",
+              "args": "",
+              "env": [
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              "port": [
+                {
+                  "containerPort": "",
+                  "protocol": ""
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "image2image2image2image2",
+              "command": "",
+              "args": "",
+              "env": [
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              "port": [
+                {
+                  "containerPort": "",
+                  "protocol": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 10001,
+          "name": "A01",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": [
+            {
+              "id": 3,
+              "name": "image3image3image3image3",
+              "command": "",
+              "args": "",
+              "env": [
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              "port": [
+                {
+                  "containerPort": "",
+                  "protocol": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2ec89697-a139-4c58-b959-9ed4ca307dae",
+          "name": "new node",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": 1000,
+          "mappedDrones": [
+            4
+          ]
+        },
+        {
+          "nodeID": 10001,
+          "mappedDrones": [
+            3
+          ]
+        },
+        {
+          "nodeID": "2ec89697-a139-4c58-b959-9ed4ca307dae",
+          "mappedDrones": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Project B",
+      "dateModified": "19/06/2022 19:06:39",
+      "lastModifiedBy": 2,
+      "saved": true,
+      "ownerID": 2,
+      "memberIDs": [
+        2,
+        1,
+        3
+      ],
+      "config": [
+        {
+          "id": 2000,
+          "name": "design 2",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": 2000,
+          "mappedDrones": []
+        }
+      ]
+    }
+  ]
+}

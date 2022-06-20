@@ -1,0 +1,19 @@
+{
+  "sampleUser": [
+    {
+      "id": 1,
+      "name": "John",
+      "password": "1234"
+    },
+    {
+      "id": 2,
+      "name": "Alice",
+      "password": "1234"
+    },
+    {
+      "id": 3,
+      "name": "Bob",
+      "password": "5678"
+    }
+  ]
+}

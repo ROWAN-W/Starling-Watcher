@@ -27,3 +27,9 @@
 .popup-projects-title{
     display: inline;
 }
+
+.popup-pair-grid{
+    display: grid;
+    grid-template-columns: repeat(3,auto);
+    gap: 10px;
+}

@@ -47,23 +47,3 @@
     align-items: center;
     justify-content: center;
 }
-
-
-
-.recipe-edit__tag-container .tag {
-    padding: 5px;
-    border: 1px solid #ccc;
-    margin: 5px;
-    display: inline-block;
-    align-items: center;
-    border-radius: 3px;
-    background: #f2f2f2;
-}
-
-.recipe-edit__tag-container input{
-    flex: 1;
-    font-size: inherit;
-    padding: 5px 10;
-    outline: none;
-    border: 0;
-}

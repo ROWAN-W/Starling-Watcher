@@ -1,0 +1,40 @@
+{
+    "sampleDrone": [
+
+        {
+          "id": 2,
+          "name": "clover2",
+          "type": "Worker",
+          "mac": "00:00:8b:00:53:aa",
+          "info": "What do you want to see here?"
+        },
+        {
+          "id": 3,
+          "name": "clover3",
+          "type": "Worker",
+          "mac": "00:00:3c:00:53:cc",
+          "info": "What do you want to see here?"
+        },
+        {
+          "id": 4,
+          "name": "clover4",
+          "type": "Worker",
+          "mac": "00:00:6b:00:53:ff",
+          "info": "What do you want to see here?"
+        },
+        {
+          "id": 5,
+          "name": "clover5",
+          "type": "Worker",
+          "mac": "00:00:48:00:53:d4",
+          "info": "What do you want to see here?"
+        },
+        {
+          "id": 6,
+          "name": "clover6",
+          "type": "Worker",
+          "mac": "00:00:29:00:53:bb",
+          "info": "What do you want to see here?"
+        }
+    ]
+}
