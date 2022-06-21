@@ -16,6 +16,7 @@ function App() {
   const [currentUserID, setCurrentUserID] = useState();
   const [selectedProjectID, setSelectedProjectID] = useState();
   const [projects, setProjects] = useState();
+  const [userSignIn, setUserSignIn] = useState(false);
 
   const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[selectedProjectID,currentUserID])
@@ -23,9 +24,15 @@ function App() {
   const [images, setImages] = useState([]);
 
   //const history = useHistory();
+
+  /*useEffect(()=>{
+    console.log("first render")
+    signInPage();
+  },[]);*/
   
   useEffect(()=>{
     console.log("run every render can fetch data");
+    signInPage();
     //local storage can only store string
     //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(recipes));
   },[projects, currentUserID]);
@@ -198,7 +205,7 @@ function App() {
     users,
     projects,
     images,
-
+    signInPage,
     handleProjectSelect,
     handleCurrentUser,
     handleUserAdd,
@@ -209,13 +216,21 @@ function App() {
     handleProjectListChange,
     handleImageListChange,
   }
+
+  function signInPage(){
+    if(currentUserID===undefined){
+      setUserSignIn(true);
+    }
+  }
+
+  
   
   return (
     <Router>
     <ProjectContext.Provider value={projectContextValue}>
     <div className="top-bar">
     <Navbar></Navbar>
-    <User currentUser={users?.find(user => user.id === currentUserID)}></User>
+    <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={users?.find(user => user.id === currentUserID)}></User>
     </div>
     { (userError || projectError ) && <div className="message">{ userError }</div> }
     { (userPending || projectPending ) && <div className="message">Loading...</div> }

@@ -5,9 +5,9 @@ import CreateAccount from './CreateAccount';
 import ManageAccount from './ManageAccount';
 import SignOutWarning from '../SignOutWarning';
 
-export default function User( {currentUser} ) {
+export default function User( {currentUser, userSignIn, setUserSignIn} ) {
 
-    const [userSignIn, setUserSignIn] = useState(false);
+    //const [userSignIn, setUserSignIn] = useState(false);
     const [userManagement, setUserManagement] = useState(false);
     const [createNewAccount, setCreateNewAccount] = useState(false);
     const [accountManagement, setAccountManagement] = useState(false);

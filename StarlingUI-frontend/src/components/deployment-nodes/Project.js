@@ -5,7 +5,7 @@ import Node from './Node';
 
 export default function Project({currentUserID, selectedProject, droneListTrigger}) {
 
-    const {projects, handleProjectChange} = useContext(ProjectContext);
+    const {projects, handleProjectChange, signInPage} = useContext(ProjectContext);
 
   //pass in the object
   function handleChange(changes){
@@ -18,18 +18,6 @@ export default function Project({currentUserID, selectedProject, droneListTrigge
     const index = newNodes.findIndex(i=>i.id===id);
     newNodes[index] = node;
     handleChange({config:newNodes});
-}
-
-function handleMappingAdd(nodeID){
-  const newMapping = {
-      nodeID: nodeID,
-      mappedDrones: []
-  }
-  handleChange({mapping: [...selectedProject.mapping, newMapping]});
-}
-
-function handleMappingDelete(nodeID){
-  handleChange({mapping: selectedProject.mapping.filter(i=> i.nodeID !== nodeID)});
 }
 
 function handleNodeAdd(){
@@ -69,7 +57,7 @@ function handleNodeDuplicate(node){
     
     function showInstruction(){
       if(currentUserID===undefined){
-        return <div>Please sign in</div>
+        return <div>Please <em onClick={()=>signInPage()}>sign in</em></div>
       }
       else if(selectedProject===undefined){
         return <div>Please select or create a project</div>

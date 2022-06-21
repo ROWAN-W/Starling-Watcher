@@ -14,7 +14,7 @@ export default function DockerLogin(props) {
         console.log(userName);
         console.log(password);
 
-        const dockerAccount = sampleDockerAccounts.find(element => element.userName===userName && element.password===password);
+        const dockerAccount = props.dockerAccounts.find(element => element.userName===userName && element.password===password);
 
         if(dockerAccount===undefined){
             console.log("invalid login in");
@@ -71,54 +71,3 @@ export default function DockerLogin(props) {
         </div>
       ): ""
 }
-
-const sampleDockerAccounts = [
-    {
-        userName: 'apple',
-        password: 'bristol',
-        images: [
-            {
-                id:1,
-                name: 'image1image1image1image1',
-                dateModified: '29-Jan-2022'
-              },
-              {
-                id:2,
-                name: 'image2image2image2image2',
-                dateModified: '20-Apr-2022'
-              },
-              {
-                id:3,
-                name: 'image3image3image3image3',
-                dateModified: '01-Jan-2022'
-              },
-              {
-                id:4,
-                name: 'image4image4image4image4',
-                dateModified: '15-Mar-2022'
-              },
-              {
-                id:5,
-                name: 'image5image5image5image5',
-                dateModified: '06-Mar-2022'
-              }
-        ]
-
-    },
-    {
-        userName: 'yulin',
-        password: 'bristol',
-        images: [
-            {
-                id:6,
-                name: 'image6image6image6image6',
-                dateModified: '29-Jan-2022'
-            },
-            {
-                id:7,
-                name: 'image7image7image7image7',
-                dateModified: '20-Apr-2022'
-            },
-        ]
-    }
-]
