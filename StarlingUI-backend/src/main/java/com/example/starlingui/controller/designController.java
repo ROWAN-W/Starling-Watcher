@@ -1,4 +1,4 @@
-package designTab;
+package com.example.starlingui.controller;
 
 import org.springframework.stereotype.Controller;
 
