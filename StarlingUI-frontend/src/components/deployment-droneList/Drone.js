@@ -7,9 +7,9 @@ export default function Drone(props) {
 
     function showButton(){
         if(showInfo===false){
-            return <button onClick={()=>setShowInfo(true)}>▼</button>
+            return <span onClick={()=>setShowInfo(true)}>▼</span>
         }else{
-            return <button onClick={()=>setShowInfo(false)}>▲</button>
+            return <span onClick={()=>setShowInfo(false)}>▲</span>
         }
     }
 
@@ -18,8 +18,9 @@ export default function Drone(props) {
         <tbody>
         <tr>
             <td>{props.name}</td>
-            <td>{props.type}</td>
-            <td>{props.mac}</td>
+            <td>{props.hostname}</td>
+            <td>{props.ip}</td>
+            <td>{props.architecture}</td>
             <td>{showButton()}</td>
         </tr>
         <tr>

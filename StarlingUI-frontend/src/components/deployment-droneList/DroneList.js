@@ -25,12 +25,14 @@ export default function DroneList(props) {
     function sorting(col){
         if(order==="ASC"){
             console.log("ASC");
+            console.log([...props.data]);
             const sorted = [...props.data].sort((a,b)=>
             a[col].toLowerCase() > b[col].toLowerCase() ? 1: -1);
             props.setData(sorted);
             setOrder("DSC");
         }else if(order==="DSC"){
             console.log("DSC");
+            console.log([...props.data]);
             const sorted = [...props.data].sort((a,b)=>
             a[col].toLowerCase() < b[col].toLowerCase() ? 1: -1);
             props.setData(sorted);
@@ -56,8 +58,9 @@ export default function DroneList(props) {
         <thead>
         <tr>
             <th onClick={()=>{sorting("name");setOrderCol("name")}}>Name {showIcon("name")}</th>
-            <th onClick={()=>{sorting("type");setOrderCol("type")}}>Type {showIcon("type")}</th>
-            <th onClick={()=>{sorting("mac");setOrderCol("mac")}}>MAC {showIcon("mac")}</th>
+            <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Hostname {showIcon("hostname")}</th>
+            <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP Address {showIcon("ip")}</th>
+            <th onClick={()=>{sorting("architecture");setOrderCol("architecture")}}>Architecture {showIcon("architecture")}</th>
         </tr>
         </thead>
         

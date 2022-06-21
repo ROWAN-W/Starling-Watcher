@@ -4,7 +4,7 @@
     padding: 10px;
     border-radius: 5px;
     display: block;
-    max-width: 300px;
+    max-width: 400px;
     max-height: 400px;
     overflow-y: hidden;
 }
@@ -45,3 +45,23 @@ table {
     font-size: 50%;
 
 }
+
+.drone-item{
+    text-align: left;
+    padding-top: 10px;
+    font-size: 90%;
+    white-space: pre-wrap;
+    word-wrap:break-word
+}
+
+.drone-item-object{
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 10px;
+}
+
+.drone-item-object span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
