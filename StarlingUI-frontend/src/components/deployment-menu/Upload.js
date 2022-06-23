@@ -43,6 +43,9 @@ export default function Upload(props) {
 
     const checkMimeType=(event)=>{
         let file = event.target.files[0]; 
+        if(file===null || file===undefined){
+            return false;
+        }        
         console.log("checking");
         let str = file.name;
         console.log(file);
