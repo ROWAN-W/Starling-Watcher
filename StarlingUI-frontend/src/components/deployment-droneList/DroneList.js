@@ -51,8 +51,8 @@ export default function DroneList(props) {
     <div className='drone-container'>
     <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{handleUpdateTime();}}>Sync</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
     <div className='drone-update-time'>last sync: {updateTime}</div>
-    { (droneError ) && <div className="message">{ droneError }</div> }
-    { (dronePending ) && <div className="message">Loading...</div> }
+    { (droneError ) && <div>{ droneError }</div> }
+    { (dronePending ) && <div>Loading...</div> }
     { (props.data ) &&
     <table>
         <thead>

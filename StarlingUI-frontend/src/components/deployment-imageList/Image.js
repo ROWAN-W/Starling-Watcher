@@ -17,7 +17,7 @@ export default function Image(props) {
   return (
     <div className='image-tag' ref={drag} style={{border: isDragging? "5px solid pink": "0px"}}>
         <p>{props.name}</p>
-        <p>{props.dateModified}</p>
+        <p>{props.lastUpdated}</p>
     </div>
   )
 }

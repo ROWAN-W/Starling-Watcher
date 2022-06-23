@@ -19,23 +19,18 @@ function App() {
   const [userSignIn, setUserSignIn] = useState(false);
 
   const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
-  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[selectedProjectID,currentUserID])
+  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
   
   const [images, setImages] = useState([]);
 
   //const history = useHistory();
-
-  /*useEffect(()=>{
-    console.log("first render")
-    signInPage();
-  },[]);*/
   
   useEffect(()=>{
     console.log("run every render can fetch data");
     signInPage();
     //local storage can only store string
     //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(recipes));
-  },[projects, currentUserID]);
+  },[users, projectsData]);
   //empty: run every render; []: run first render; [...]: run when ... changes
 
   function handleProjectListChange(userId){
@@ -218,9 +213,13 @@ function App() {
   }
 
   function signInPage(){
-    if(currentUserID===undefined){
-      setUserSignIn(true);
-    }
+    console.log(users);
+    console.log(projectsData);
+    if(users && projectsData){
+      if(currentUserID===undefined){
+        setUserSignIn(true);
+      }
+    } 
   }
 
   

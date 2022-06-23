@@ -3,12 +3,13 @@
     {
       "id": 1,
       "name": "Project A",
-      "dateModified": "21/06/2022 22:46:38",
+      "dateModified": "23/06/2022 19:00:33",
       "lastModifiedBy": 1,
       "saved": true,
       "ownerID": 1,
       "memberIDs": [
-        1
+        1,
+        2
       ],
       "config": [
         {
@@ -21,40 +22,12 @@
           },
           "containers": [
             {
-              "id": 1,
-              "name": "image1image1image1image1",
+              "id": 1384,
+              "name": "charaznablegundam/getting-started:latest",
               "command": "",
               "args": "",
-              "env": [
-                {
-                  "name": "",
-                  "value": ""
-                }
-              ],
-              "port": [
-                {
-                  "containerPort": "",
-                  "protocol": ""
-                }
-              ]
-            },
-            {
-              "id": 2,
-              "name": "image2image2image2image2",
-              "command": "",
-              "args": "",
-              "env": [
-                {
-                  "name": "",
-                  "value": ""
-                }
-              ],
-              "port": [
-                {
-                  "containerPort": "",
-                  "protocol": ""
-                }
-              ]
+              "env": [],
+              "port": []
             }
           ]
         },
@@ -68,22 +41,12 @@
           },
           "containers": [
             {
-              "id": 3,
-              "name": "image3image3image3image3",
+              "id": 1385,
+              "name": "charaznablegundam/testdevelop_api:v2",
               "command": "",
               "args": "",
-              "env": [
-                {
-                  "name": "",
-                  "value": ""
-                }
-              ],
-              "port": [
-                {
-                  "containerPort": "",
-                  "protocol": ""
-                }
-              ]
+              "env": [],
+              "port": []
             }
           ]
         },
@@ -95,7 +58,16 @@
             "app": "starling",
             "platform": "pixhawk"
           },
-          "containers": []
+          "containers": [
+            {
+              "id": 1386,
+              "name": "charaznablegundam/testdevelop_api:v1",
+              "command": "",
+              "args": "",
+              "env": [],
+              "port": []
+            }
+          ]
         }
       ],
       "mapping": [

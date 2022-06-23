@@ -4,10 +4,12 @@ import ProjectList from "./ProjectList";
 import ShareProject from './ShareProject';
 import SignOutWarning from '../SignOutWarning';
 import Deploy from './Deploy';
+import Upload from './Upload';
 
 export default function Menu( {selectedProject,updateProjectToData, handleProjectAdd, handleProjectDelete, drones} ) {
 
     const [projectSelection, setProjectSelection] = useState(false);
+    const [projectLoad, setProjectLoad] = useState(false);
     const [projectConfig, setProjectConfig] = useState(false);
     const [projectDeploy, setProjectDeploy] = useState(false);
     const [warning, setWarning] = useState(false);
@@ -34,11 +36,16 @@ export default function Menu( {selectedProject,updateProjectToData, handleProjec
         setProjectDeploy(clickEvent);
       }
     }
+
+    function handleProjectLoad(clickEvent){
+      setProjectLoad(clickEvent);
+    }
     
   return (
     <>
     <button onClick={()=>handleProjectSelection(true)}>Select Project</button>
     <button onClick={()=>handleProjectAdd()}>Create Project</button>
+    <button onClick={()=>handleProjectLoad(true)}>Load Project</button>
     <button onClick={()=>updateProjectToData()}>Save</button>
     <button onClick={()=>handleProjectDeploy(true)}>Deploy</button>
     <button onClick={()=>handleProjectConfig(true)}>Share</button>
@@ -49,6 +56,7 @@ export default function Menu( {selectedProject,updateProjectToData, handleProjec
     <SignOutWarning trigger={warning} setTrigger={setWarning} massage="Due to permission change, you will be logged out soon"></SignOutWarning>
     <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} selectedProject={selectedProject}></DeleteWarning>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} selectedProject={selectedProject} drones={drones} updateProjectToData={updateProjectToData}></Deploy>
+    <Upload trigger={projectLoad} setTrigger={setProjectLoad}></Upload>
     </>
   )
 }
