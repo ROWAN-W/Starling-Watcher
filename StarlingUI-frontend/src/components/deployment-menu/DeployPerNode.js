@@ -9,7 +9,8 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
     useEffect(()=>{
         console.log("rendered in deploy per node first time");
         setSelectedDrones([...selectedDrones, ...nodeToMap.mappedDrones]);
-      },[]);
+        console.log(selectedDrones);
+      },[mappedDrones]);
     
     function handleChange(changes){
         console.log("change"+nodeToMap.nodeID);

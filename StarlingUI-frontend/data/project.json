@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Project A",
-      "dateModified": "21/06/2022 00:39:24",
+      "dateModified": "21/06/2022 22:46:38",
       "lastModifiedBy": 1,
       "saved": true,
       "ownerID": 1,
@@ -102,7 +102,7 @@
         {
           "nodeID": 1000,
           "mappedDrones": [
-            4
+            2
           ]
         },
         {
@@ -114,7 +114,7 @@
         {
           "nodeID": "2ec89697-a139-4c58-b959-9ed4ca307dae",
           "mappedDrones": [
-            2
+            4
           ]
         }
       ]

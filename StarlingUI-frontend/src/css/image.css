@@ -22,3 +22,16 @@
 .docker-expand input, label{
     display: block;
 }
+
+.image__search{
+    border: 1px solid black;
+    border-radius: 2px;
+    outline: none;
+    width: 50%;    
+}
+
+.image__search-container{
+    text-align: right;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
