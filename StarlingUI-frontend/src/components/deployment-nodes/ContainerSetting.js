@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import NodeEnvEdit from './NodeEnvEdit';
 import { v4 as uuidv4 } from 'uuid';
 import NodePortEdit from './NodePortEdit';
@@ -22,8 +22,15 @@ export default function ContainerSetting(props) {
         props.handleContainerChange(props.container.id, {...props.container, ...changes})
     }
 
-    function saveChange(){
+    /*function saveChange(){
         handleChange({command:command,args: args, env: envs, port: ports});
+        props.setTrigger(false);
+    }*/
+
+    const saveChange = (e) => {
+        e.preventDefault();
+        handleChange({command:command,args: args, env: envs, port: ports});
+        props.setTrigger(false);
     }
 
     function handleEnvChange(id, variable){
@@ -71,6 +78,7 @@ export default function ContainerSetting(props) {
             <div className='popup-projects-inner'>
             <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 <h3>Advanced Settings</h3>
+                <form onSubmit={saveChange}>
                     <label 
                         htmlFor='command'>command
                     </label>
@@ -131,8 +139,9 @@ export default function ContainerSetting(props) {
                         <button onClick={()=>handlePortAdd()}>Add Port</button>
                     </div>
                     <br/>
-                    <button onClick={()=>{saveChange();props.setTrigger(false)}}>Save Change</button>
-                    <button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                    <button type='submit'>Save Change</button>
+                    <button type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                </form>
             </div>
         </div>
     ): ""

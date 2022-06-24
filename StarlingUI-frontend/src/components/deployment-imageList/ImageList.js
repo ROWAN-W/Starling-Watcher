@@ -63,7 +63,7 @@ export default function ImageList() {
   function showInstruction(){
     if(images.length!==0 && showSwitchButton){
       return(
-        <button onClick={()=>{setUserSignIn(true); setSwitchButton(false);handleImageListChange([]);}}>Switch docker hub account</button>
+        <button onClick={()=>{setUserSignIn(true); setSwitchButton(false);handleImageListChange([]);}}>Log out</button>
       )    
     }
   }

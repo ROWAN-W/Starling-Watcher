@@ -16,8 +16,15 @@ export default function NodeLabel(props) {
         props.handleNodeChange(props.node.id, {...props.node, ...changes})
     }
 
-    function saveChange(){
+    /*function saveChange(){
         handleChange({name:name, label: {app: app, platform: platform} });
+        props.setTrigger(false);
+    }*/
+
+    const saveChange = (e) => {
+        e.preventDefault();
+        handleChange({name:name, label: {app: app, platform: platform} });
+        props.setTrigger(false);
     }
 
 
@@ -27,6 +34,7 @@ return (props.trigger) ?(
         <div className='popup-projects-inner'>
         <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
             <h3>Advanced Settings</h3>
+            <form onSubmit={saveChange}>
                 <label 
                     htmlFor='name'>Name
                 </label>
@@ -35,6 +43,7 @@ return (props.trigger) ?(
                     name='name' 
                     id='name'
                     value={name}
+                    required
                     onChange={e=>setName(e.target.value)}
                     >
                 </input>
@@ -48,6 +57,7 @@ return (props.trigger) ?(
                     name='app' 
                     id='app'
                     value={app}
+                    required
                     onChange={e=>setApp(e.target.value)}
                     >
                 </input>
@@ -59,12 +69,14 @@ return (props.trigger) ?(
                     name='platform' 
                     id='platform'
                     value={platform}
+                    required
                     onChange={e=>setPlatform(e.target.value)}
                     >
                 </input>
                 <br></br>
-                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Save Change</button>
-                <button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                <button type="submit">Save Change</button>
+                <button type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+            </form>
         </div>
     </div>
 ): ""

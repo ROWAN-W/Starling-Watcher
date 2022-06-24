@@ -43,3 +43,7 @@ html{
     font-weight: bold;
 
 }
+
+::placeholder {
+    color: rgb(186, 182, 182);
+  }

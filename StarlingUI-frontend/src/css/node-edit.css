@@ -7,11 +7,19 @@
     max-width: 100%;
 }
 
-.node-name-input{
-    border: none;
+.node-title-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.node-title{
+    font-size: large;
+    font-weight: bold;
+    border:none;
+    
     background-color: transparent;
-    resize: none;
-    outline: none;
+    width: 60%;
 }
 
 .node-image-tag-container{

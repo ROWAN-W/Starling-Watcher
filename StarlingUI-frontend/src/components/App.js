@@ -18,6 +18,8 @@ function App() {
   const [projects, setProjects] = useState();
   const [userSignIn, setUserSignIn] = useState(false);
 
+  const [deployedProjectID, setDeployedProjectID] = useState();
+
   const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
   
@@ -49,6 +51,8 @@ function App() {
 
   function handleProjectAdd(){
     if(currentUserID!==undefined){
+      const masterId = uuidv4();
+
       const newProject = {
       id: uuidv4(),
       name: 'new project',
@@ -59,7 +63,7 @@ function App() {
       memberIDs: [currentUserID],
       config:[
         {
-          id:uuidv4(),
+          id:masterId,
           name: 'new design',
           kind: 'master',
           label: 
@@ -71,7 +75,12 @@ function App() {
           containers:[]    
         },
       ],
-      mapping:[]
+      mapping:[
+        {
+          nodeID: masterId,
+          mappedDrones: []
+        }
+      ]
     }
     console.log("add project!");
     postToServer('http://localhost:8000/sampleProject',newProject);
@@ -195,10 +204,15 @@ function App() {
     setImages(imagesFromDockerHub);
   }
 
+  function handleDeployedProject(projectID){
+    setDeployedProjectID(projectID);
+  }
+
   const projectContextValue = {
     currentUserID,
     users,
     projects,
+    projectsData,
     images,
     signInPage,
     handleProjectSelect,
@@ -210,6 +224,7 @@ function App() {
     handleProjectAdd,
     handleProjectListChange,
     handleImageListChange,
+    handleDeployedProject
   }
 
   function signInPage(){
@@ -239,7 +254,7 @@ function App() {
         <Deployment currentUserID={currentUserID} selectedProject={projects?.find(project => project.id === selectedProjectID)} updateProjectToData={updateProjectToData} handleProjectAdd={handleProjectAdd} handleProjectDelete={handleProjectDelete}></Deployment>
       </Route>
       <Route path="/monitor">
-        <Monitor></Monitor>
+        <Monitor deployedProjectID={deployedProjectID}></Monitor>
       </Route>
     </Switch>
     }

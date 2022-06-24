@@ -4,23 +4,45 @@ import useFetch from '../useFetch';
 
 export default function DroneList(props) {
 
-    const [updateClick, setUpdateClick] = useState(false);
-    const { error: droneError, isPending: dronePending , data:drones } = useFetch('http://localhost:8002/sampleDrone',[updateClick])
+    //const { error: droneError, isPending: dronePending , data:drones } = useFetch('http://localhost:8002/sampleDrone',[props.updateClick])
 
-    const [updateTime, setUpdateTime] = useState(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
     const [order, setOrder] = useState("ASC"); 
     const [orderCol, setOrderCol] = useState();
+
+
+    const [dronePending, setIsPending] = useState(true);
+    const [droneError, setError] = useState(null);
+    //const [waiting, setWaiting] = useState(false);
     
 
-    useEffect(()=>{
-        console.log("render drone list");
-        props.setData(drones);
-      },[drones]);
-
-    function handleUpdateTime(){
-        setUpdateClick(prev=>!prev);
-        setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
-    }
+    useEffect(() => {
+        const url = "http://localhost:8002/sampleDrone";
+          
+          fetch(url)
+          .then(res => {
+            if (!res.ok) { // error coming back from server
+                setIsPending(false);
+                props.setWaiting(false);
+                props.setData();
+                setError('Error Details: '+res.status);
+            } 
+            return res.json();
+          })
+          .then(data => {
+            setIsPending(false);
+            props.setWaiting(false);
+            props.setData(data);
+            setError(null);
+            console.log("fetch "+url);
+          })
+          .catch(err => {
+            // auto catches network / connection error
+            setIsPending(false);
+            props.setWaiting(false);
+            setError(err.message);
+          })
+        
+      },[props.updateClick])
 
     function sorting(col){
         if(order==="ASC"){
@@ -45,14 +67,36 @@ export default function DroneList(props) {
             return <span className='drone-sort-icon'>↑↓</span>
         }
     }
+
+    function message(){
+       
+        if(props.waiting===true){
+            props.setUpdateMes("Please wait...");
+            return <div>Please wait...</div>
+        }
+        if(droneError){
+            props.setUpdateMes("No available drones...");
+            return <div>{ droneError }</div>
+        }
+        if(dronePending){
+            props.setUpdateMes("Loading...");
+            return <div>Loading...</div>
+        }
+        if(!props.data && !droneError){
+            props.setUpdateMes("Please wait...");
+            return <div>Please wait...</div>
+        }
+        if(props.data){
+            props.setUpdateMes("");
+        }
+    }
       
     return (props.trigger) ?(
     <>
     <div className='drone-container'>
-    <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{handleUpdateTime();}}>Sync</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
-    <div className='drone-update-time'>last sync: {updateTime}</div>
-    { (droneError ) && <div>{ droneError }</div> }
-    { (dronePending ) && <div>Loading...</div> }
+    <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{props.handleUpdateTime();}}>{droneError? "Try Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
+    <div className='drone-update-time'>last sync: {props.updateTime}</div>
+    {message()}
     { (props.data ) &&
     <table>
         <thead>
@@ -73,3 +117,10 @@ export default function DroneList(props) {
     </>
   ): ""
 }
+
+/**
+ *         //setUpdateMes
+        //{ (droneError ) && <div>{ droneError }</div> }
+        //{ (dronePending ) && <div>Loading...</div> }
+        //{ (!props.data && !droneError) && <div>Please wait...</div> }
+ */

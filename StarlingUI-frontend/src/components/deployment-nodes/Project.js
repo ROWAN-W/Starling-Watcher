@@ -106,7 +106,6 @@ function handleNodeDuplicate(node){
       }
     }
 
-    //show master node and working nodes only
 return (
   <>
     {showProjectColumn()}

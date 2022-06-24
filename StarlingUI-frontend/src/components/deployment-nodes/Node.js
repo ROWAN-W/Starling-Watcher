@@ -50,8 +50,18 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
                 name: addedImage.name,
                 command: '',
 	         	args: '',
-                env: [],
-                port: [],
+                env: [
+                    {
+                        name: "",
+                        value: ""
+                    }
+                ],
+                port: [
+                    {
+                        containerPort: "",
+                        protocol: ""
+                    }
+                ],
             }
             handleChange({containers: [...node.containers, newContainer]});
         }
@@ -72,20 +82,16 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
     }
     
-    //need detail change
+    
       return (
     <div>
         <div className='node'>
-            <input 
-                type='text' 
-                name='name' 
-                id='name'
-                value={node.name || ''}
-                onChange={e=>handleChange({name:e.target.value})}
-                className='node-name-input'></input>
+            <div className='node-title-bar'>
+            <div className='node-title'>{node.name}</div>
             <span>{node.kind.charAt(0).toUpperCase() + node.kind.slice(1)}</span>
             <button onClick={()=>setSetting(true)}>Setting</button>
             <NodeLabel trigger={setting} setTrigger={setSetting} node={node} handleNodeChange={handleNodeChange}></NodeLabel>
+            </div>
         <br></br>
         <p>Number of images: {node.containers.length}</p>
         <button onClick={()=>handleImageAllDelete()}>Clear All</button>
@@ -99,3 +105,16 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     </div>
       )
     }
+
+    /**
+     * <form><input 
+                type='text' 
+                name='name' 
+                id='name'
+                value={node.name}
+                required
+                placeholder = "Your Config Name"
+                onChange={e=>handleChange({name:e.target.value})}
+                className='node-name-input'>
+            </input></form>
+     */

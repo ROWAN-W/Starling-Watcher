@@ -10,8 +10,23 @@ import { ProjectContext } from './App';
 function Deployment({currentUserID, selectedProject, updateProjectToData}) {
 
   const {handleProjectChange, handleProjectAdd, handleProjectDelete} = useContext(ProjectContext);
-  const [data,setData] = useState();
+  
   const [droneListTrigger,setDroneListTrigger] = useState(true);
+  //holding drones data!
+  const [data,setData]=useState();
+
+  const [updateClick, setUpdateClick] = useState(false);
+  const [updateTime, setUpdateTime] = useState(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
+  const [updateMes, setUpdateMes] = useState('');
+  const [waiting, setWaiting] = useState(false);
+
+
+  function handleUpdateTime(){
+    setWaiting(true);
+    setData(); //clear data
+    setUpdateClick(prev=>!prev);
+    setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
+  }
 
   function handleChange(changes){
     handleProjectChange(selectedProject.id, {...selectedProject,...changes})
@@ -21,10 +36,12 @@ function Deployment({currentUserID, selectedProject, updateProjectToData}) {
     if(selectedProject===undefined){
       return <h1>Project Planning</h1>
     }else{
-      return <div><input
+      return <div><form><input
       className="project-title"
       value={selectedProject.name}
-      onChange={e=>handleChange({name: e.target.value})}></input></div>
+      required
+      placeholder = "Your Project Name"
+      onChange={e=>handleChange({name: e.target.value})}></input></form></div>
     }
   }
 
@@ -37,16 +54,34 @@ function Deployment({currentUserID, selectedProject, updateProjectToData}) {
     //three columns //true
     }else{
       return (
-        <DroneList trigger={droneListTrigger} setTrigger={setDroneListTrigger} data={data} setData={setData}></DroneList>
+        <DroneList trigger={droneListTrigger} setTrigger={setDroneListTrigger} 
+        data={data} setData={setData} 
+        handleUpdateTime={handleUpdateTime}
+        updateClick={updateClick}
+        updateTime={updateTime}
+        setUpdateMes = {setUpdateMes}
+        updateMes = {updateMes}
+        waiting = {waiting}
+        setWaiting = {setWaiting}
+        ></DroneList>
       )
     }
   }
+
   
   return (
     <>
     <div className="header">
     {showProjectTitle()}
-    <div className="menu"><Menu selectedProject={selectedProject} updateProjectToData={updateProjectToData} handleProjectAdd={handleProjectAdd} handleProjectDelete={handleProjectDelete} drones={data}></Menu></div>
+    <div className="menu">
+      <Menu 
+      selectedProject={selectedProject} 
+      updateProjectToData={updateProjectToData} 
+      handleProjectAdd={handleProjectAdd} 
+      handleProjectDelete={handleProjectDelete} 
+      drones={data} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
+      updateMes = {updateMes}
+      ></Menu></div>
     </div>
     <div className="body">
         <DndProvider backend={HTML5Backend}>

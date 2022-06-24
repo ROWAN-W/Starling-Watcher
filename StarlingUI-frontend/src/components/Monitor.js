@@ -1,7 +1,8 @@
 import React from 'react'
 
-export default function Monitor() {
+export default function Monitor({deployedProjectID}) {
+
   return (
-    <div>Monitor</div>
+    <div>Monitor: {deployedProjectID}</div>
   )
 }
