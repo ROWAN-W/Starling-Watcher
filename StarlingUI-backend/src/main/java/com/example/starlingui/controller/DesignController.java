@@ -5,6 +5,7 @@ import com.example.starlingui.model.Image;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ public class DesignController {
     /**
      * @Description Add a new user
      * @param user User to be added to the database
-     * @return return 403 if user already exists, return 200 if success
+     * @return return User id and username 403 if user already exists, return 200 if success
      */
     @PostMapping("/users")
     public ResponseEntity<String> newUser(@RequestBody User user) {
@@ -69,14 +70,18 @@ public class DesignController {
             return new ResponseEntity<>("User already exists!", HttpStatus.FORBIDDEN);
         }
         userDao.save(user);
-        return new ResponseEntity<>("Add success", HttpStatus.OK);
+        Gson gson = new Gson();
+        JsonObject userJson = (JsonObject) gson.toJsonTree(user);
+        userJson.remove("password");
+        String jsonString = gson.toJson(userJson);
+        return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
 
     /**
      * @Description Modify the information of user
      * @param user new user
      * @param id id of the user to be updated
-     * @return 403 if user to be updated doesn't exist, 200 if success
+     * @return User id and username, Http Status is 403 if user to be updated doesn't exist, 200 if success
      */
     @PutMapping("/users/{id}")
     public ResponseEntity<String> replaceUser(@RequestBody User user, @PathVariable String id) {
@@ -87,7 +92,11 @@ public class DesignController {
         User userToUpdate = optUser.get();
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setPassword(user.getPassword());
-        return new ResponseEntity<>("Modify success", HttpStatus.OK);
+        Gson gson = new Gson();
+        JsonObject userJson = (JsonObject) gson.toJsonTree(userToUpdate);
+        userJson.remove("password");
+        String jsonString = gson.toJson(userJson);
+        return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
 
 }
