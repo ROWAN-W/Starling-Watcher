@@ -1,4 +1,4 @@
-import React,{useContext, useEffect, useState} from 'react';
+import React,{useContext, useState} from 'react';
 import { ProjectContext } from '../App';
 
 export default function LoginIn(props) {
@@ -9,10 +9,12 @@ export default function LoginIn(props) {
     const [password, setPassword] = useState();
     //0 is neutral, 1 is valid, -1 is invalid
     const [valid, setValid] = useState(0);
+    const [forgot, setForgot] = useState(false);
 
-    useEffect(()=>{
-        console.log("re-render login");
-      },[valid]);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        checkValid();
+    }
 
     function checkValid(){
         console.log(userName);
@@ -31,6 +33,14 @@ export default function LoginIn(props) {
         }
     }
 
+    function forgotPassword(){
+        if(forgot){
+            return <p>Forgot password? Please contact administrator.</p>
+        }else{
+            return <p>Forgot password?</p>
+        }
+    }
+
     function showInValid(){
         if(valid===-1){
             return(
@@ -42,6 +52,7 @@ export default function LoginIn(props) {
     function clearField(){
         setUserName('');
         setPassword('');
+        setForgot(false);
     }
 
     
@@ -52,6 +63,7 @@ export default function LoginIn(props) {
             <h3>Sign in</h3>
             {showInValid()}
             <p onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);setValid(0);clearField();}}>New user? Create an account</p>
+                <form onSubmit={handleSubmit}>
                 <label 
                     htmlFor='userName'>User Name
                 </label>
@@ -59,6 +71,7 @@ export default function LoginIn(props) {
                     type='text' 
                     name='userName' 
                     id='userName'
+                    required
                     onChange={e=>setUserName(e.target.value)}
                     >
                 </input>
@@ -70,11 +83,13 @@ export default function LoginIn(props) {
                     type='password' 
                     name='password' 
                     id='password'
+                    required
                     onChange={e=>setPassword(e.target.value)}
                     >
                 </input>
-                <p>Forgot Password?</p>
-                <button onClick={()=>{checkValid()}}>Sign in</button>
+                <div onClick={()=>setForgot(prev=>!prev)}>{forgotPassword()}</div>
+                <button type='submit'>Sign in</button>
+                </form>
         </div>
     </div>
   ): ""

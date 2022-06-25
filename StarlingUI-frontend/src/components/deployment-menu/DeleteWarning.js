@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import { ProjectContext } from '../App';
 
 export default function DeleteWarning(props) {
 
-    const {currentUserID,handleProjectDelete} = useContext(ProjectContext);
+    const {currentUserID} = useContext(ProjectContext);
 
     function message(){
         if(currentUserID===props.selectedProject.ownerID){
@@ -11,7 +11,7 @@ export default function DeleteWarning(props) {
             return(
                 <>
                 <p>Are you sure you want to delete the project?</p>
-                <button onClick={()=>{props.setTrigger(false);handleProjectDelete(props.selectedProject.id)}}>Confirm</button>
+                <button onClick={()=>{props.setTrigger(false);props.setProjectDelete(true)}}>Confirm</button>
                 <button onClick={()=>{props.setTrigger(false);}}>Cancel</button>
                 </>
             )

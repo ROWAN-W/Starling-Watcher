@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
+import { ProjectContext } from '../App';
 import DeleteWarning from './DeleteWarning';
+import DeleteProject from './DeleteProject';
 import ProjectList from "./ProjectList";
-import ShareProject from './ShareProject';
-import SignOutWarning from '../SignOutWarning';
+import ShareProject from './share/ShareProject';
+import SignOutWarning from './share/SignOutWarning';
 import Deploy from './deploy/Deploy';
 import Upload from './Upload';
 import SaveMessage from './SaveMessage';
 import DeployMessage from './deploy/DeployMessage';
+import CreateProject from './CreateProject';
 
-export default function Menu( {selectedProject,updateProjectToData, handleProjectAdd, handleProjectDelete, drones, handleUpdateTime, updateTime, updateMes} ) {
+export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, updateMes} ) {
+
+  const {currentUserID} = useContext(ProjectContext);
 
     const [projectSelection, setProjectSelection] = useState(false);
+    const [projectCreate, setProjectCreate] = useState(false);
     const [projectSave, setProjectSave] = useState(false);
     const [projectLoad, setProjectLoad] = useState(false);
     const [projectConfig, setProjectConfig] = useState(false);
     const [projectDeploy, setProjectDeploy] = useState(false);
     const [warning, setWarning] = useState(false);
     const [deleteWarning, setDeleteWarning] = useState(false);
+    const [projectDelete, setProjectDelete] = useState(false);
     
     const [deployWarning, setDeployWarning] = useState(false);
     const [deployWarningMes, setDeployWarningMes] = useState('');
@@ -91,11 +98,17 @@ export default function Menu( {selectedProject,updateProjectToData, handleProjec
         setProjectSave(clickEvent);
       }
     }
+
+    function handleProjectCreate(clickEvent){
+      if(currentUserID!==undefined){
+        setProjectCreate(clickEvent);
+      }
+    }
     
   return (
     <>
     <button onClick={()=>handleProjectSelection(true)}>Select Project</button>
-    <button onClick={()=>handleProjectAdd()}>Create Project</button>
+    <button onClick={()=>handleProjectCreate(true)}>Create Project</button>
     <button onClick={()=>handleProjectLoad(true)}>Load Project</button>
     <button onClick={()=>handleProjectSave(true)}>Save</button>
     <button onClick={()=>handleProjectDeploy(true)}>Deploy</button>
@@ -103,12 +116,14 @@ export default function Menu( {selectedProject,updateProjectToData, handleProjec
     <button onClick={()=>handleProjectDelete(true)}>Delete</button>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
+    <CreateProject trigger={projectCreate} setTrigger={setProjectCreate}></CreateProject>
     <SaveMessage trigger={projectSave} setTrigger={setProjectSave} selectedProject={selectedProject}></SaveMessage>
     <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject} setWarning={setWarning}></ShareProject>
     <SignOutWarning trigger={warning} setTrigger={setWarning} massage="Due to permission change, you will be logged out soon"></SignOutWarning>
-    <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} selectedProject={selectedProject}></DeleteWarning>
+    <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} setProjectDelete={setProjectDelete} selectedProject={selectedProject}></DeleteWarning>
+    <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} 
-    selectedProject={selectedProject} updateProjectToData={updateProjectToData} 
+    selectedProject={selectedProject} 
     drones={drones} handleUpdateTime={handleUpdateTime} updateTime={updateTime} updateMes ={updateMes}
     ></Deploy>
     <DeployMessage trigger={deployWarning} setTrigger={setDeployWarning} message={deployWarningMes}></DeployMessage>

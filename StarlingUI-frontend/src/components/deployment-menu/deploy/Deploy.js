@@ -101,30 +101,3 @@ export default function Deploy(props) {
         </div>
       ): ""
 }
-
-//props.updateProjectToData()
-
-    /**
-     * { (drones) &&
-                props.selectedProject.mapping.map(node=>{
-                    const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)
-                    return(
-                        <>
-                        <div><button onClick={()=>{handleUpdateTime();}}>Sync</button></div>
-                        <div className='drone-update-time'>last sync: {updateTime}</div>
-                        <DeployPerNode key={node.nodeID} 
-                        completeNode={completeNode} 
-                        nodeToMap={node} 
-                        allDrones={drones} 
-                        handleMappingChange={handleMappingChange}
-                        selectedDrones={selectedDrones}
-                        setSelectedDrones={setSelectedDrones}
-                        ></DeployPerNode>
-                        <div>
-                        <button onClick={()=>{props.setTrigger(false);setResult('')}}>Deploy</button>
-                        <button onClick={()=>{props.setTrigger(false);setResult('')}}>Close</button>
-                        </div>
-                        </>
-                    ) 
-                })}
-     */

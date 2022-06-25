@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import '../css/app.css';
 import Navbar from "./Navbar";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-//import { useHistory, useParams } from "react-router-dom";
 import Deployment from "./Deployment";
 import Monitor from "./Monitor";
 import useFetch from "./useFetch";
@@ -15,24 +14,22 @@ function App() {
 
   const [currentUserID, setCurrentUserID] = useState();
   const [selectedProjectID, setSelectedProjectID] = useState();
-  const [projects, setProjects] = useState();
+  const [projects, setProjects] = useState([]);
   const [userSignIn, setUserSignIn] = useState(false);
 
   const [deployedProjectID, setDeployedProjectID] = useState();
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
-  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[]);
+  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID,selectedProjectID])
   
   const [images, setImages] = useState([]);
-
-  //const history = useHistory();
   
   useEffect(()=>{
     console.log("run every render can fetch data");
     signInPage();
     //local storage can only store string
     //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(recipes));
-  },[users, projectsData]);
+  },[currentUserID, users, projectsData]);
   //empty: run every render; []: run first render; [...]: run when ... changes
 
   function handleProjectListChange(userId){
@@ -49,62 +46,9 @@ function App() {
     }
   }
 
-  function handleProjectAdd(){
-    if(currentUserID!==undefined){
-      const masterId = uuidv4();
-
-      const newProject = {
-      id: uuidv4(),
-      name: 'new project',
-      dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
-      lastModifiedBy: currentUserID,
-      saved: false,
-      ownerID: currentUserID,
-      memberIDs: [currentUserID],
-      config:[
-        {
-          id:masterId,
-          name: 'new design',
-          kind: 'master',
-          label: 
-            {
-              app: 'starling',
-              platform: 'pixhawk'
-            }
-          ,
-          containers:[]    
-        },
-      ],
-      mapping:[
-        {
-          nodeID: masterId,
-          mappedDrones: []
-        }
-      ]
-    }
-    console.log("add project!");
-    postToServer('http://localhost:8000/sampleProject',newProject);
-    setProjects([...projects,newProject]);
-    setSelectedProjectID(newProject.id);
-    }
-  }
-
-  function handleProjectDelete(id){
-    console.log("delete project!");
-    if(selectedProjectID!==null && selectedProjectID === id){
-      setSelectedProjectID(undefined);
-    }
-    setProjects(projects.filter(project=>project.id!==id));
-    fetch('http://localhost:8000/sampleProject/' + id, {
-      method: 'DELETE'
-    }).then(() => {
-      //history.push('/');
-    })
-  }
-
   function handleProjectSelect(id){
     console.log("select project! "+id);
-    updateProjectToData();
+    //updateProjectToData();
     setSelectedProjectID(id);
   }
 
@@ -214,14 +158,14 @@ function App() {
     projects,
     projectsData,
     images,
+    setProjects,
+    setSelectedProjectID,
     signInPage,
     handleProjectSelect,
     handleCurrentUser,
     handleUserAdd,
     handleUserChange,
     handleProjectChange,
-    handleProjectDelete,
-    handleProjectAdd,
     handleProjectListChange,
     handleImageListChange,
     handleDeployedProject
@@ -251,7 +195,7 @@ function App() {
     { (users && projectsData ) &&
     <Switch>
       <Route exact path="/">
-        <Deployment currentUserID={currentUserID} selectedProject={projects?.find(project => project.id === selectedProjectID)} updateProjectToData={updateProjectToData} handleProjectAdd={handleProjectAdd} handleProjectDelete={handleProjectDelete}></Deployment>
+        <Deployment currentUserID={currentUserID} selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>
       </Route>
       <Route path="/monitor">
         <Monitor deployedProjectID={deployedProjectID}></Monitor>

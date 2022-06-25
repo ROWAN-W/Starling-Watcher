@@ -7,9 +7,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
 
-function Deployment({currentUserID, selectedProject, updateProjectToData}) {
+function Deployment({currentUserID, selectedProject}) {
 
-  const {handleProjectChange, handleProjectAdd, handleProjectDelete} = useContext(ProjectContext);
+  const {handleProjectChange} = useContext(ProjectContext);
   
   const [droneListTrigger,setDroneListTrigger] = useState(true);
   //holding drones data!
@@ -76,9 +76,6 @@ function Deployment({currentUserID, selectedProject, updateProjectToData}) {
     <div className="menu">
       <Menu 
       selectedProject={selectedProject} 
-      updateProjectToData={updateProjectToData} 
-      handleProjectAdd={handleProjectAdd} 
-      handleProjectDelete={handleProjectDelete} 
       drones={data} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
       updateMes = {updateMes}
       ></Menu></div>

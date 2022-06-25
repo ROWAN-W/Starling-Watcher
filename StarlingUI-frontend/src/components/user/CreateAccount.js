@@ -8,19 +8,15 @@ export default function CreateAccount(props) {
     const [newUserName, setNewUserName] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordAgain, setNewPasswordAgain] = useState('');
-    //0 is neutral, 1 is valid, -1 is invalid, -2 is already exist, -3 is missing info
+    //0 is neutral, 1 is valid, -1 is invalid, -2 is already exist
     const [valid, setValid] = useState(0);
 
-    useEffect(()=>{
-        console.log("re-render create account");
-      },[valid]);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        checkValid();
+    }
     
     function checkValid(){
-        if(newUserName===''||newPassword===''){
-            console.log("no user name / password")
-            setValid(-3);
-            return;
-        }
         if(newPassword!==newPasswordAgain){
             console.log("unmatched password")
             setValid(-1);
@@ -50,11 +46,6 @@ export default function CreateAccount(props) {
                 <h4>User name already exists!</h4>
             );
         }
-        if(valid===-3){
-            return(
-                <h4>User name and password is required!</h4>
-            );
-        }
     }
 
     function clearField(){
@@ -69,6 +60,7 @@ export default function CreateAccount(props) {
             <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setValid(0);clearField()}}>&times;</button>
                 <h3>Create Account</h3>
                 {showInValid()}
+                    <form onSubmit={handleSubmit}>
                     <label 
                         htmlFor='userName'>User Name
                     </label>
@@ -76,6 +68,7 @@ export default function CreateAccount(props) {
                         type='text'
                         name='userName' 
                         id='userName'
+                        required
                         onChange={e=>setNewUserName(e.target.value)}
                         >
                     </input>
@@ -87,6 +80,7 @@ export default function CreateAccount(props) {
                         type='password' 
                         name='password' 
                         id='password'
+                        required
                         onChange={e=>setNewPassword(e.target.value)}
                         >
                     </input>
@@ -98,11 +92,13 @@ export default function CreateAccount(props) {
                         type='password' 
                         name='passwordAgain' 
                         id='passwordAgain'
+                        required
                         onChange={e=>setNewPasswordAgain(e.target.value)}
                         >
                     </input>
                     <p></p>
-                    <button onClick={()=>{checkValid()}}>Sign up</button>
+                    <button>Sign up</button>
+                    </form>
             </div>
         </div>
       ): ""

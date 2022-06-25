@@ -3,15 +3,12 @@ import LoginIn from './LoginIn';
 import UserDropDown from './UserDropDown';
 import CreateAccount from './CreateAccount';
 import ManageAccount from './ManageAccount';
-import SignOutWarning from '../SignOutWarning';
 
 export default function User( {currentUser, userSignIn, setUserSignIn} ) {
 
-    //const [userSignIn, setUserSignIn] = useState(false);
     const [userManagement, setUserManagement] = useState(false);
     const [createNewAccount, setCreateNewAccount] = useState(false);
     const [accountManagement, setAccountManagement] = useState(false);
-    const [warning, setWarning] = useState(false);
 
     function handleCreateNewAccount(clickEvent){
         setCreateNewAccount(clickEvent);
@@ -51,8 +48,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
                     <span>{currentUser.name}</span>
                     <UserDropDown trigger={userManagement} setTrigger={setUserManagement} handleAccountManagement={handleAccountManagement}></UserDropDown>
                 </div>
-                <ManageAccount trigger={accountManagement} setTrigger={setAccountManagement} currentUser={currentUser} setWarning={setWarning}></ManageAccount>
-                <SignOutWarning trigger={warning} setTrigger={setWarning} message="Due to account change, you will be logged out soon"></SignOutWarning>
+                <ManageAccount trigger={accountManagement} setTrigger={setAccountManagement} currentUser={currentUser}></ManageAccount>
                 </>
             );
         }
