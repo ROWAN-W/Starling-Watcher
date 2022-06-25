@@ -1,5 +1,5 @@
 ### API Path
-<table>
+<!-- <table>
   <tr>
     <th><strong>Methods</strong></th>
     <th><strong>Urls<strong></th>
@@ -10,4 +10,9 @@
     <td>/design/images</td>
     <td>get images list from dokcerhub</td>
   </tr>
-</table>
+</table> -->
+| Methods | Urls | Actions |
+| ---------- | ------- | -------- |
+| POST | /design/images | get images list from dokcerhub |
+| Post | /users | add a new user |
+| Put | /users/{id} | update the information of a user |
