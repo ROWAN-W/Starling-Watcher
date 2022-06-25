@@ -76,7 +76,7 @@ public class DockerHubServiceImpl implements ImageService{
         for(int i = 0; i < images.size();i++){
             Image image = new Image();
             image.setId(counter.incrementAndGet());
-            image.setImage(username+"/"+imageName + ":" + images.get(i).getAsJsonObject().get("name").getAsString());
+            image.setName(username+"/"+imageName + ":" + images.get(i).getAsJsonObject().get("name").getAsString());
             image.setLastUpdated(images.get(i).getAsJsonObject().get("last_updated").getAsString());
             imageList.add(image);
         }

@@ -9,7 +9,7 @@ public class Image {
 
     private long id;
 
-    private String image;
+    private String name;
 
     private String lastUpdated;
 
