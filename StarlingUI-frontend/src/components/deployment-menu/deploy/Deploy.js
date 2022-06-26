@@ -10,14 +10,15 @@ export default function Deploy(props) {
     const [sync, setSync] = useState(false);
 
     useEffect(()=>{
-        console.log("rendered in deploy");
-        let arrayDroneId = [];
-        for(let i=0;i<props.selectedProject?.mapping.length;i++){
+        if(props.trigger===true){
+            let arrayDroneId = [];
+            for(let i=0;i<props.selectedProject?.mapping.length;i++){
             console.log(props.selectedProject.mapping[i].mappedDrones);
             arrayDroneId = [...arrayDroneId,...props.selectedProject.mapping[i].mappedDrones];
+            }
+            console.log(arrayDroneId);
+            setSelectedDrones(arrayDroneId);
         }
-        console.log(arrayDroneId);
-        setSelectedDrones(arrayDroneId);
       },[props.trigger]);
     
 

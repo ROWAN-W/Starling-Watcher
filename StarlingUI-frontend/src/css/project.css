@@ -10,6 +10,7 @@
     padding: 10px;
     border-radius: 5px;
     max-width: 100%;
+    min-width: 50%;
     max-height: 400px;
     overflow-y: auto;
 }
@@ -26,6 +27,7 @@
     padding: 10px;
     border-radius: 5px;
     max-width: 100%;
+    min-width: 50%;
     max-height: 400px;
     overflow-y: auto;
 }

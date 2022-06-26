@@ -24,8 +24,9 @@
     right: 16px;
 }
 
-.popup-projects-title{
-    display: inline;
+.popup-projects-inner table{
+    border: none;
+    margin: 0 auto;
 }
 
 .popup-pair-grid{

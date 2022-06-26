@@ -4,7 +4,6 @@ import DeleteWarning from './DeleteWarning';
 import DeleteProject from './DeleteProject';
 import ProjectList from "./ProjectList";
 import ShareProject from './share/ShareProject';
-import SignOutWarning from './share/SignOutWarning';
 import Deploy from './deploy/Deploy';
 import Upload from './Upload';
 import SaveMessage from './SaveMessage';
@@ -21,7 +20,6 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     const [projectLoad, setProjectLoad] = useState(false);
     const [projectConfig, setProjectConfig] = useState(false);
     const [projectDeploy, setProjectDeploy] = useState(false);
-    const [warning, setWarning] = useState(false);
     const [deleteWarning, setDeleteWarning] = useState(false);
     const [projectDelete, setProjectDelete] = useState(false);
     
@@ -29,7 +27,9 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     const [deployWarningMes, setDeployWarningMes] = useState('');
 
     function handleProjectSelection(clickEvent){
+      if(currentUserID!==undefined){
         setProjectSelection(clickEvent);
+      }
     }
 
     function handleProjectConfig(clickEvent){
@@ -112,14 +112,13 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <button onClick={()=>handleProjectLoad(true)}>Load Project</button>
     <button onClick={()=>handleProjectSave(true)}>Save</button>
     <button onClick={()=>handleProjectDeploy(true)}>Deploy</button>
-    <button onClick={()=>handleProjectConfig(true)}>Share</button>
+    <button onClick={()=>handleProjectConfig(true)}>Members</button>
     <button onClick={()=>handleProjectDelete(true)}>Delete</button>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
     <CreateProject trigger={projectCreate} setTrigger={setProjectCreate}></CreateProject>
     <SaveMessage trigger={projectSave} setTrigger={setProjectSave} selectedProject={selectedProject}></SaveMessage>
-    <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject} setWarning={setWarning}></ShareProject>
-    <SignOutWarning trigger={warning} setTrigger={setWarning} massage="Due to permission change, you will be logged out soon"></SignOutWarning>
+    <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject}></ShareProject>
     <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} setProjectDelete={setProjectDelete} selectedProject={selectedProject}></DeleteWarning>
     <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} 

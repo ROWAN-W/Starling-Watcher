@@ -13,22 +13,28 @@ export default function ProjectList(props) {
     <div className='popup-projects'>
         <div className='popup-projects-inner'>
             <button className='popup-close-btn' onClick={()=>props.setTrigger(false)}>&times;</button>
-            <div className='popup-projects-title'>
-                <span>Project Name&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span>Last Modified</span>
-            </div>
+            <table>
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Last Modified</th>
+                <th>Last Modified by</th>
+            </tr>
+            </thead>
+            <tbody>
             {projects?.map(project=>{
                 return(
-                    <div 
+                    <tr 
                         key={project.id} 
                         onClick={()=>{handleProjectSelect(project.id); props.setTrigger(false)}}>
-                        <span>{project.name}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <span>{project.dateModified}</span>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;{users.find(user=>user.id===project.lastModifiedBy).name}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    </div>
+                        <td width="50%">{project.name}</td>
+                        <td width="50%">{project.dateModified}</td>
+                        <td width="50%">{users.find(user=>user.id===project.lastModifiedBy).name}</td>
+                    </tr>
                 ) 
             })}
+            </tbody>
+            </table>
         </div>
     </div>
   ): ""

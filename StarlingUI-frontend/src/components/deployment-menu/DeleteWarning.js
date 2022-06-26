@@ -10,7 +10,7 @@ export default function DeleteWarning(props) {
             console.log("it's owner");
             return(
                 <>
-                <p>Are you sure you want to delete the project?</p>
+                <p>Are you sure you want to delete {props.selectedProject.name}?<br></br>This action cannot be undone!</p>
                 <button onClick={()=>{props.setTrigger(false);props.setProjectDelete(true)}}>Confirm</button>
                 <button onClick={()=>{props.setTrigger(false);}}>Cancel</button>
                 </>
@@ -30,6 +30,7 @@ export default function DeleteWarning(props) {
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
             <button className='popup-close-btn' onClick={()=>props.setTrigger(false)}>&times;</button>
+            <h3>Delete Project</h3>
                 {message()}
             </div>
         </div>

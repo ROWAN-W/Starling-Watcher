@@ -19,24 +19,32 @@ function App() {
 
   const [deployedProjectID, setDeployedProjectID] = useState();
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[]);
-  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID,selectedProjectID])
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
+  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
   
   const [images, setImages] = useState([]);
-  
+
   useEffect(()=>{
-    console.log("run every render can fetch data");
+    console.log("run when current user changes");
     signInPage();
     //local storage can only store string
-    //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(recipes));
-  },[currentUserID, users, projectsData]);
+    //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
+  },[currentUserID]);
   //empty: run every render; []: run first render; [...]: run when ... changes
+
+  function signInPage(){
+    if(users && projectsData){
+      //user sign out
+      if(currentUserID===undefined){
+        setUserSignIn(true);
+      }
+    } 
+  }
 
   function handleProjectListChange(userId){
     console.log("project list change");
     if(userId!==undefined){
       console.log("based on the user");
-      console.log(projectsData);
       const userProjects = projectsData.filter(project=>project.memberIDs.find(id=>id===userId));
       console.log(userProjects);
       setProjects(userProjects);
@@ -47,8 +55,6 @@ function App() {
   }
 
   function handleProjectSelect(id){
-    console.log("select project! "+id);
-    //updateProjectToData();
     setSelectedProjectID(id);
   }
 
@@ -62,40 +68,9 @@ function App() {
     setProjects(newProjects);
   }
 
-  function updateProjectToData(){
-    if(selectedProjectID!==undefined){
-      console.log("update before you go");
-      const updatedProject = projects.find(p=>p.id===selectedProjectID);
-      saveProjectToServer(updatedProject);
-    }
-  }
-  
-//when change project and change account
-  function saveProjectToServer(updatedProject){
-    if(updatedProject.saved===false){
-      updatedProject.saved=true;
-      let today = new Date();
-      updatedProject.dateModified = today.toLocaleDateString()+' '+today.toLocaleTimeString();
-      updatedProject.lastModifiedBy = currentUserID;
-      const index = projectsData.findIndex(p=>p.id===selectedProjectID);
-      if(index!==-1){
-        console.log("existing project");
-        putToServer('http://localhost:8000/sampleProject',updatedProject.id,updatedProject);
-      }else{
-        console.log("new project");
-        postToServer('http://localhost:8000/sampleProject',updatedProject);
-      }
-    }else{
-      console.log("already saved");
-    }
-  }
-
   function handleCurrentUser(name){ //handle user select
     if(name===undefined){
       console.log("user sign out!");
-
-      updateProjectToData();
-
       setCurrentUserID(undefined);
       setSelectedProjectID(undefined);
       handleProjectListChange(undefined);
@@ -109,6 +84,7 @@ function App() {
     }
   }
 
+  //temporary solution. should be replaced with the operations from the backend
   function handleUserAdd(newUserName, newPassword){
     const newUser = {id: uuidv4(), name: newUserName, password: newPassword};
     console.log('new user added');
@@ -144,7 +120,6 @@ function App() {
   }
 
   function handleImageListChange(imagesFromDockerHub){
-    console.log("load images from docker hub")
     setImages(imagesFromDockerHub);
   }
 
@@ -154,9 +129,8 @@ function App() {
 
   const projectContextValue = {
     currentUserID,
-    users,
     projects,
-    projectsData,
+    users,
     images,
     setProjects,
     setSelectedProjectID,
@@ -166,22 +140,9 @@ function App() {
     handleUserAdd,
     handleUserChange,
     handleProjectChange,
-    handleProjectListChange,
     handleImageListChange,
     handleDeployedProject
-  }
-
-  function signInPage(){
-    console.log(users);
-    console.log(projectsData);
-    if(users && projectsData){
-      if(currentUserID===undefined){
-        setUserSignIn(true);
-      }
-    } 
-  }
-
-  
+  } 
   
   return (
     <Router>

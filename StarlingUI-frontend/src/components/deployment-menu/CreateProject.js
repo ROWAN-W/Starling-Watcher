@@ -24,7 +24,7 @@ export default function CreateProject(props) {
         name: 'New Project['+number+']',
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
-        saved: false,
+        saved: true,
         ownerID: currentUserID,
         memberIDs: [currentUserID],
         config:[
@@ -74,7 +74,7 @@ export default function CreateProject(props) {
         })
         .then(data => {
             setIsPending(false);
-            setResult("Your project has been successfully created"); //respond from Pench's server
+            setResult("Your project has been successfully created and saved"); //respond from Pench's server
             //setResult(data);
             console.log("post "+url);
             setProjects([...projects,data]);

@@ -84,7 +84,7 @@ export default function SaveMessage(props) {
         })
         .then(data => {
             setIsPending(false);
-            setResult("Your project has been successfully saved"); //respond from Pench's server
+            setResult("Your changes have been successfully saved"); //respond from Pench's server
             //setResult(data);
             console.log("put "+url);
         })
@@ -104,7 +104,7 @@ export default function SaveMessage(props) {
             <>
             {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
             <p>{result}</p>
-            <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>
+            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
             </>
         )
     }

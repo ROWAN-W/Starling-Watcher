@@ -7,22 +7,21 @@ export default function ShareProject(props) {
 
     const {users, currentUserID, handleProjectChange} = useContext(ProjectContext);
 
-    const [existingMembers, setExistingMembers] = useState(props.selectedProject?.memberIDs);
+    const [existingMembers, setExistingMembers] = useState([]);
 
 
     useEffect(()=>{
-        console.log("rendered in share");
-        setExistingMembers(props.selectedProject?.memberIDs);
-      },[props.selectedProject?.memberIDs]);
+        if(props.trigger===true){
+            console.log("rendered in share");
+            setExistingMembers(props.selectedProject?.memberIDs);
+        }
+      },[props.trigger]);
     
     function handleChange(changes){
         handleProjectChange(props.selectedProject.id, {...props.selectedProject,...changes});
     }
 
     function saveChange(){
-        console.log("save change");
-        console.log(existingMembers);
-        console.log(currentUserID);
         const result = existingMembers.find(member=>member===currentUserID);
         if(result===undefined){
             console.log("delete yourself");
@@ -38,9 +37,7 @@ export default function ShareProject(props) {
         
     function removeMember(id){
         console.log("remove member");
-
         setExistingMembers(existingMembers.filter(member=>member!==id));
-        
     }
 
     function addMember(id){
@@ -48,18 +45,39 @@ export default function ShareProject(props) {
         setExistingMembers([...existingMembers,id]);
     }
 
+    function content(){
+        if(props.selectedProject.ownerID===currentUserID){
+            return(
+                <>
+                <h3>Share {props.selectedProject.name}</h3>
+                <MemberSelection addMember={addMember} options={users.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
+                <p></p>
+                <div>People with access</div>
+                {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
+                <div>
+                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Save Change</button><button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                </div>
+                </>
+            )
+        }
+        else{
+            return(
+                <>
+                <h3>Members of {props.selectedProject.name}</h3>
+                {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
+                <div>
+                <button onClick={()=>{props.setTrigger(false)}}>OK</button>
+                </div>
+                </>
+            )
+        }
+    }
 
     return (props.trigger) ?(
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>props.setTrigger(false)}>&times;</button>
-                <h3>Share {props.selectedProject.name}</h3>
-                <h4>People with access</h4>
-                {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
-                <MemberSelection addMember={addMember} options={users.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
-                <div>
-                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Save</button><button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
-                </div>
+            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                {content()}
             </div>
         </div>
       ): ""

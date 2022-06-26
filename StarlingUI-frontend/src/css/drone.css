@@ -4,7 +4,8 @@
     padding: 10px;
     border-radius: 5px;
     display: block;
-    max-width: 400px;
+    max-width: 100%;
+    min-width: 50%;
     max-height: 400px;
     overflow-y: hidden;
 }
