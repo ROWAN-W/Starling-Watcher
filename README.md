@@ -16,3 +16,4 @@
 | POST | /design/images | get images list from dokcerhub |
 | Post | /design/users | add a new user |
 | Put | /design/users/{id} | update the information of a user |
+| POST | /design/templating | deploy user's designs to Kubernetes|
