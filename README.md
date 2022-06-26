@@ -14,5 +14,5 @@
 | Methods | Urls | Actions |
 | ---------- | ------- | -------- |
 | POST | /design/images | get images list from dokcerhub |
-| Post | /users | add a new user |
-| Put | /users/{id} | update the information of a user |
+| Post | /design/users | add a new user |
+| Put | /design/users/{id} | update the information of a user |
