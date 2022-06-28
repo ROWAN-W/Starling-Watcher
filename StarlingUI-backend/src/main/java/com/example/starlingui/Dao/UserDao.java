@@ -40,4 +40,8 @@ public class UserDao implements Dao<User>{
     public List<User> findAll() {
         return repo.findAll();
     }
+
+    public void deleteAll() {
+        repo.deleteAll();
+    }
 }

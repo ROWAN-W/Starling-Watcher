@@ -28,10 +28,6 @@ public class DesignController {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private UserRepository repo;
-
-
     /**
      * @Description Post request(with Body param)
      * @param user DockerHub User information(username,password)
@@ -50,17 +46,6 @@ public class DesignController {
         }
     }
 
-//    /**
-//     * @Description delete a user
-//     * @param id id of User
-//     * @return return id and ok http status
-//     */
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<String> deleteUser(@PathVariable("id") String id) {
-//        userDao.deleteById(id);
-//        return new ResponseEntity<>(id, HttpStatus.OK);
-//    }
-
     /**
      * @Description Add a new user
      * @param user User to be added to the database
@@ -68,13 +53,14 @@ public class DesignController {
      */
     @PostMapping("/users")
     public ResponseEntity<String> newUser(@RequestBody User user) {
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
         String id = user.getId();
-        Optional<User> optUser = userDao.getById(id);
+        Optional<User> optUser = userDao.getById(id);;
         if (optUser.isPresent()) {
             return new ResponseEntity<>("User already exists!", HttpStatus.FORBIDDEN);
         }
         userDao.save(user);
-        Gson gson = new Gson();
         JsonObject userJson = (JsonObject) gson.toJsonTree(user);
         userJson.remove("password");
         String jsonString = gson.toJson(userJson);
@@ -105,15 +91,9 @@ public class DesignController {
 
     @GetMapping("/users")
     public ResponseEntity<String> allUsers() {
-        userDao.deleteAll();
-        userDao.save(new User("Pench", "haha"));
         List<User> users = userDao.findAll();
-//        StringBuilder jsonBuilder = new StringBuilder();
         Gson gson = new Gson();
         String json = gson.toJson(users);
-//        for (User user : users) {
-//            jsonBuilder.append(gson.toJson(user));
-//        }
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 }
