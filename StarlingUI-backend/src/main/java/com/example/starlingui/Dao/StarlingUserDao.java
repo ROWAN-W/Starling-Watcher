@@ -1,6 +1,6 @@
 package com.example.starlingui.Dao;
 
-import com.example.starlingui.model.User;
+import com.example.starlingui.model.StarlingUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserDao implements Dao<User>{
+public class StarlingUserDao implements Dao<StarlingUser>{
 
     @Autowired
-    private UserRepository repo;
+    private StarlingUserRepository repo;
 
     @Override
-    public void save(User user) {
+    public void save(StarlingUser user) {
         repo.save(user);
     }
 
     @Override
-    public Optional<User> getById(String id) {
+    public Optional<StarlingUser> getById(String id) {
         return repo.findById(id);
     }
 
@@ -33,11 +33,11 @@ public class UserDao implements Dao<User>{
 //        repo.deleteById(id);
 //    }
 
-    public User findByName(String name) {
+    public StarlingUser findByName(String name) {
         return repo.findByName(name);
     }
 
-    public List<User> findAll() {
+    public List<StarlingUser> findAll() {
         return repo.findAll();
     }
 
