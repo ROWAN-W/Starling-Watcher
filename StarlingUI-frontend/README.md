@@ -13,4 +13,10 @@ for drones test: npx json-server --watch data/drone.json --port 8002
 
 ## developing
 
-save data to local storage (browser)
+Add new Env in advanced settings, add delete function on master node, add more info on drones (deploy)
+
+## pending
+
+User features transition with ther server - server is not 100% ready 
+
+save data to local storage (browser) - implement it later
