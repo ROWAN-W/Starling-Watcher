@@ -1,6 +1,7 @@
 package com.example.starlingui.controller;
 
 import com.example.starlingui.Dao.UserDao;
+import com.example.starlingui.Dao.UserRepository;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
@@ -26,6 +27,9 @@ public class DesignController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserRepository repo;
 
 
     /**
@@ -99,4 +103,15 @@ public class DesignController {
         return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<String> allUsers() {
+        userDao.save(new User("Pench", "haha"));
+        List<User> users = userDao.findAll();
+        StringBuilder jsonBuilder = new StringBuilder();
+        Gson gson = new Gson();
+        for (User user : users) {
+            jsonBuilder.append(gson.toJson(user));
+        }
+        return new ResponseEntity<>(jsonBuilder.toString(), HttpStatus.OK);
+    }
 }
