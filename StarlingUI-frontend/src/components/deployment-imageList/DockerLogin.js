@@ -5,20 +5,13 @@ export default function DockerLogin(props) {
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    //const [waiting, setWaiting] = useState(false);
 
     function checkValid(){
         console.log("try to login dock hub");
-        //props.setWaiting(true);
         props.finalLogin(userName,password);
         clearField();
-        props.setWaiting(true);
-        setTimeout(() => {
-            props.setSwitchButton(true);
-            props.setTrigger(false);
-            console.log("waiting");
-            props.setWaiting(false);
-        }, "2500")
+        props.setSwitchButton(true);
+        props.setTrigger(false);
     }
 
     const handleSubmit = (e) => {
@@ -27,7 +20,6 @@ export default function DockerLogin(props) {
     }
 
     function clearField(){
-        //props.setError(false);
         setUserName('');
         setPassword('');
     }
@@ -61,7 +53,6 @@ export default function DockerLogin(props) {
                     </input>
                     <br></br>
                     <button type="submit">Sign in</button>
-                    {props.waiting && <div>Please wait...</div>}
                 </form>
         </div>
       ): ""

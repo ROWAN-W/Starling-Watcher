@@ -4,13 +4,17 @@ import { ProjectContext } from '../../App';
 
 export default function Deploy(props) {
 
-    const {handleDeployedProject, handleProjectChange} = useContext(ProjectContext);
+    const {handleProjectChange} = useContext(ProjectContext);
     const [selectedDrones, setSelectedDrones] = useState([]);
     const [deployFeedback, setDeployFeedback] = useState('');
     const [sync, setSync] = useState(false);
+    const [deployWaiting, setDeployWaiting] = useState(false);
 
     useEffect(()=>{
         if(props.trigger===true){
+            props.handleUpdateTime();
+            setSync(true);
+            removeAllMappings()
             let arrayDroneId = [];
             for(let i=0;i<props.selectedProject?.mapping.length;i++){
             console.log(props.selectedProject.mapping[i].mappedDrones);
@@ -53,11 +57,12 @@ export default function Deploy(props) {
                     return false;
                 }
             }
+            setDeployWaiting(true);
             setDeployFeedback('Deploying...');
             //faking server response
             setTimeout(() => {
+                setDeployWaiting(false);
                 setDeployFeedback('Success!');
-                handleDeployedProject(props.selectedProject.id);
             }, "2000")
             return true;
         }
@@ -69,14 +74,19 @@ export default function Deploy(props) {
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-                <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>&times;</button>
+                {!props.waiting && !deployWaiting && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>&times;</button>}
                 <h3>Deploy Configuration to Drones</h3>
+                <h4>{deployFeedback}</h4>
+                {!props.waiting &&
+                    <>
+                    {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Drones</button></div>}
+                    <div className='drone-update-time'>last sync: {props.updateTime}</div>
+                    </>
+                }
                 
-                <div className='drone-update-time'><button onClick={()=>{props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Drones</button></div>
-                <div className='drone-update-time'>last sync: {props.updateTime}</div>
-                
-                {<div>{props.updateMes}</div>}
-                
+                {props.waiting && <div>Please wait...</div>}
+                {props.error && <div>No available drones</div>}
+
                 {props.selectedProject.mapping.map(node=>{
                     //for displaying node name
                     const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)
@@ -93,11 +103,14 @@ export default function Deploy(props) {
                         ></DeployPerNode>
                     ) 
                 })}
-                {deployFeedback}
+                
+                {!props.waiting && !deployWaiting && 
+                <>
                 <div>
                 <button onClick={()=>{finalCheck()}}>Deploy</button>
                 <button onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>Close</button>
                 </div>
+                </>}
             </div>
         </div>
       ): ""

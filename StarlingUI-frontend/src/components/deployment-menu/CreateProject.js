@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateProject(props) {
     
-    const {projects, currentUserID, setProjects, setSelectedProjectID} = useContext(ProjectContext);
+    const {projects, currentUserID, setProjects, handleProjectSelect} = useContext(ProjectContext);
 
     const [result, setResult] = useState('Please wait...');
     const [savePending, setIsPending] = useState(false);
@@ -50,11 +50,11 @@ export default function CreateProject(props) {
       }
         console.log("add project in create project!");
         //replace with Pench's
+        setIsPending(true);
         postToServer('http://localhost:8000/sampleProject',newProject);
         }
       
       function postToServer(url,data){
-        setIsPending(true);
         const options = {
             method: "POST",
             headers: {
@@ -63,10 +63,11 @@ export default function CreateProject(props) {
             },
             body: JSON.stringify(data),
         };
-
+        
         fetch(url,options)
         .then(res => {
         if (!res.ok) { // error coming back from server
+            setIsPending(false);
             setResult('Error Details: '+res.status);
             return;
         } 
@@ -78,7 +79,7 @@ export default function CreateProject(props) {
             //setResult(data);
             console.log("post "+url);
             setProjects([...projects,data]);
-            setSelectedProjectID(data.id);
+            handleProjectSelect(data.id);
         })
         .catch(err => {
             setIsPending(false);
@@ -92,7 +93,7 @@ export default function CreateProject(props) {
             <>
             {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
             <p>{result}</p>
-            <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>
+            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
             </>
         )
     }

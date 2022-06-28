@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import { ProjectContext } from '../App';
 import LoginIn from './LoginIn';
 import UserDropDown from './UserDropDown';
@@ -15,7 +15,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
     const [accountManagement, setAccountManagement] = useState(false);
 
     const [unsavedWarning, setUnsavedWarning] = useState(false);
-    const [unsavedProjectNames, setUnsavedProjectNames] = useState([]);
+    const [unsavedProjectIDs, setUnsavedProjectIDs] = useState([]);
 
     function handleCreateNewAccount(clickEvent){
         setCreateNewAccount(clickEvent);
@@ -48,13 +48,13 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
         let unsavedArray=[];
         for(let i=0;i<projects.length;i++){
             if(projects[i].memberIDs.includes(currentUserID) && projects[i].saved===false){
-                unsavedArray = [...unsavedArray, projects[i].name];
+                unsavedArray = [...unsavedArray, projects[i].id];
             }
         }
         console.log(unsavedArray);
         if(unsavedArray.length!==0){
             setUnsavedWarning(true);
-            setUnsavedProjectNames(unsavedArray);
+            setUnsavedProjectIDs(unsavedArray);
             //show warning
         }
         else{
@@ -85,7 +85,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
                     handleUserSignOut={handleUserSignOut}></UserDropDown>
                 </div>
                 <ManageAccount trigger={accountManagement} setTrigger={setAccountManagement} currentUser={currentUser}></ManageAccount>
-                <UnsavedWarning trigger={unsavedWarning} setTrigger={setUnsavedWarning} unsavedProjectNames={unsavedProjectNames}></UnsavedWarning>
+                <UnsavedWarning trigger={unsavedWarning} setTrigger={setUnsavedWarning} unsavedProjectIDs={unsavedProjectIDs}></UnsavedWarning>
                 </>
             );
         }

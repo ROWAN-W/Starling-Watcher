@@ -7,10 +7,10 @@ import ShareProject from './share/ShareProject';
 import Deploy from './deploy/Deploy';
 import Upload from './Upload';
 import SaveMessage from './SaveMessage';
-import DeployMessage from './deploy/DeployMessage';
+import DeployWarning from './deploy/DeployWarning';
 import CreateProject from './CreateProject';
 
-export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, updateMes} ) {
+export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, error, waiting} ) {
 
   const {currentUserID} = useContext(ProjectContext);
 
@@ -27,7 +27,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     const [deployWarningMes, setDeployWarningMes] = useState('');
 
     function handleProjectSelection(clickEvent){
-      if(currentUserID!==undefined){
+      if(currentUserID!==''){
         setProjectSelection(clickEvent);
       }
     }
@@ -52,14 +52,14 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
         //checking before deploying
         if(drones===null||drones===undefined||drones.length===0){
           console.log("cannot deploy without available drones!");
-          setDeployWarningMes("No available drones to deploy.");
-          setDeployWarning(true);
+          setDeployWarningMes("No available drones to deploy. Click \"Sync Again\" to sync available drones");
+          setDeployWarning(clickEvent);
           return;
         }
         if(selectedProject.name===''){
           console.log("cannot deploy without project name!");
           setDeployWarningMes("Please provide a project name.");
-          setDeployWarning(true);
+          setDeployWarning(clickEvent);
           return;
         }
         let nameArray = [];
@@ -67,19 +67,19 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
             if(selectedProject.config[i].containers.length===0){
                 console.log("cannot deploy without images!");
                 setDeployWarningMes("Please specify at least one image for Master and each Deployment.");
-                setDeployWarning(true);
+                setDeployWarning(clickEvent);
                 return;
             }
             if(selectedProject.config[i].name==''){
                 console.log("cannot deploy without node name!");
                 setDeployWarningMes("Please provide a name for Master and each Deployment.");
-                setDeployWarning(true);
+                setDeployWarning(clickEvent);
                 return;
             }
             if(nameArray.includes(selectedProject.config[i].name)){
                 console.log("cannot deploy without duplicate node name!");
                 setDeployWarningMes("Please provide an unique name for Master and each Deployment.");
-                setDeployWarning(true);
+                setDeployWarning(clickEvent);
                 return;
             }
             nameArray = [...nameArray,selectedProject.config[i].name];
@@ -100,7 +100,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     }
 
     function handleProjectCreate(clickEvent){
-      if(currentUserID!==undefined){
+      if(currentUserID!==''){
         setProjectCreate(clickEvent);
       }
     }
@@ -112,7 +112,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <button onClick={()=>handleProjectLoad(true)}>Load Project</button>
     <button onClick={()=>handleProjectSave(true)}>Save</button>
     <button onClick={()=>handleProjectDeploy(true)}>Deploy</button>
-    <button onClick={()=>handleProjectConfig(true)}>Members</button>
+    <button onClick={()=>handleProjectConfig(true)}>Share</button>
     <button onClick={()=>handleProjectDelete(true)}>Delete</button>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
@@ -123,9 +123,9 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} 
     selectedProject={selectedProject} 
-    drones={drones} handleUpdateTime={handleUpdateTime} updateTime={updateTime} updateMes ={updateMes}
+    drones={drones} handleUpdateTime={handleUpdateTime} updateTime={updateTime} error = {error} waiting = {waiting}
     ></Deploy>
-    <DeployMessage trigger={deployWarning} setTrigger={setDeployWarning} message={deployWarningMes}></DeployMessage>
+    <DeployWarning trigger={deployWarning} setTrigger={setDeployWarning} message={deployWarningMes}></DeployWarning>
     <Upload trigger={projectLoad} setTrigger={setProjectLoad}></Upload>
     </>
   )

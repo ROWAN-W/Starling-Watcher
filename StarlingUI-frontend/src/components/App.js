@@ -8,34 +8,66 @@ import Deployment from "./Deployment";
 import Monitor from "./Monitor";
 import useFetch from "./useFetch";
 
+const LOCAL_STORAGE_KEY_USER = 'Starling.user';
+const LOCAL_STORAGE_KEY = 'Starling.user.projects';
+
 export const ProjectContext = React.createContext();
 
 function App() {
 
-  const [currentUserID, setCurrentUserID] = useState();
+  const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
+  /*const [currentUserID, setCurrentUserID] = useState(() => { 
+    //load/get from storage
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_USER)
+    if (saved == null) {
+      return ''
+    } else {
+      return JSON.parse(saved)
+    }
+  })*/
+
   const [selectedProjectID, setSelectedProjectID] = useState();
+  
   const [projects, setProjects] = useState([]);
+  /*const [projects, setProjects] = useState(() => { 
+    //load/get from storage
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (saved == null) {
+      return []
+    } else {
+      return JSON.parse(saved)
+    }
+  })*/
+  
   const [userSignIn, setUserSignIn] = useState(false);
 
-  const [deployedProjectID, setDeployedProjectID] = useState();
-
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
+  const { error: userError, isPending: userPending , data: users } = useFetch('/sampleUser',[currentUserID]);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
   
   const [images, setImages] = useState([]);
 
+  /*useEffect(()=>{
+    console.log("run when current user changes and store to storage");
+    localStorage.setItem(LOCAL_STORAGE_KEY_USER,JSON.stringify(currentUserID));
+    signInPage();
+  },[currentUserID]);
+  //empty: run every render; []: run first render; [...]: run when ... changes
+
+  useEffect(()=>{
+    console.log("run when project content changes and store to storage");
+    localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
+  },[projects]);*/
+
   useEffect(()=>{
     console.log("run when current user changes");
     signInPage();
-    //local storage can only store string
-    //localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
   },[currentUserID]);
-  //empty: run every render; []: run first render; [...]: run when ... changes
 
   function signInPage(){
     if(users && projectsData){
       //user sign out
-      if(currentUserID===undefined){
+      //test
+      if(currentUserID===''){
         setUserSignIn(true);
       }
     } 
@@ -71,7 +103,8 @@ function App() {
   function handleCurrentUser(name){ //handle user select
     if(name===undefined){
       console.log("user sign out!");
-      setCurrentUserID(undefined);
+      //test
+      setCurrentUserID('');
       setSelectedProjectID(undefined);
       handleProjectListChange(undefined);
     }else{
@@ -89,7 +122,7 @@ function App() {
     const newUser = {id: uuidv4(), name: newUserName, password: newPassword};
     console.log('new user added');
     postToServer('http://localhost:8001/sampleUser',newUser);
-    setCurrentUserID(newUser.id);
+    
   }
 
   function handleUserChange(id, user){
@@ -104,6 +137,7 @@ function App() {
       body: JSON.stringify(data)
     }).then(() => {
       console.log('info added');
+      setCurrentUserID(data.id);
     })
   }
 
@@ -119,29 +153,19 @@ function App() {
     })
   }
 
-  function handleImageListChange(imagesFromDockerHub){
-    setImages(imagesFromDockerHub);
-  }
-
-  function handleDeployedProject(projectID){
-    setDeployedProjectID(projectID);
-  }
-
   const projectContextValue = {
     currentUserID,
     projects,
     users,
     images,
+    setImages,
     setProjects,
-    setSelectedProjectID,
     signInPage,
     handleProjectSelect,
     handleCurrentUser,
     handleUserAdd,
     handleUserChange,
-    handleProjectChange,
-    handleImageListChange,
-    handleDeployedProject
+    handleProjectChange
   } 
   
   return (
@@ -156,10 +180,10 @@ function App() {
     { (users && projectsData ) &&
     <Switch>
       <Route exact path="/">
-        <Deployment currentUserID={currentUserID} selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>
+        <Deployment selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>
       </Route>
       <Route path="/monitor">
-        <Monitor deployedProjectID={deployedProjectID}></Monitor>
+        <Monitor></Monitor>
       </Route>
     </Switch>
     }

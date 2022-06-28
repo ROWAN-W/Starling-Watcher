@@ -3,11 +3,7 @@ import { ProjectContext } from '../App';
 
 export default function ProjectList(props) {
     
-    const {currentUserID, users, projects, handleProjectSelect} = useContext(ProjectContext);
-
-    useEffect(()=>{
-        console.log("rendered in projectList");
-      },[currentUserID]);
+    const {users, projects, handleProjectSelect} = useContext(ProjectContext);
 
     return (props.trigger) ? (
     <div className='popup-projects'>
@@ -17,8 +13,8 @@ export default function ProjectList(props) {
             <thead>
             <tr>
                 <th>Project Name</th>
-                <th>Last Modified</th>
-                <th>Last Modified by</th>
+                <th>Last Saved</th>
+                <th>Last Saved by</th>
             </tr>
             </thead>
             <tbody>

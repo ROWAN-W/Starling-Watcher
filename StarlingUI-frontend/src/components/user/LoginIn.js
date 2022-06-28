@@ -17,11 +17,7 @@ export default function LoginIn(props) {
     }
 
     function checkValid(){
-        console.log(userName);
-        console.log(password);
-
         const result = users.find(element => element.name===userName && element.password===password);
-
         if(result===undefined){
             setValid(-1);
         }else{

@@ -1,10 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { useDrag } from "react-dnd";
-import { ProjectContext } from '../App';
 
 export default function Image(props) {
-
-  const {images,projects} = useContext(ProjectContext);
     
     const [{isDragging},drag] = useDrag(()=>({
         type: "image",

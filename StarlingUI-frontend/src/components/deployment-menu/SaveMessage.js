@@ -72,6 +72,7 @@ export default function SaveMessage(props) {
         fetch(url+'/'+id,options)
         .then(res => {
         if (!res.ok) { // error coming back from server
+            setIsPending(false);
             setResult('Error Details: '+res.status);
 
             //recover old data

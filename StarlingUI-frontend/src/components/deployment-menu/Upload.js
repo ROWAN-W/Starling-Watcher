@@ -6,6 +6,7 @@ export default function Upload(props) {
     
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
+    const [savePending, setIsPending] = useState(false);
     const [deployable, setDeployable] = useState(false);
 
     function handleFileUpload(){
@@ -16,13 +17,23 @@ export default function Upload(props) {
         const fd = new FormData();
         fd.append('file',selectedFile);
         axios.post("http://localhost:8000/upload",fd)
-        .then(res => {
-            setResult('File uploaded successfully');
-            console.log(res);
-            setDeployable(true);
+        .then(res => { 
+            if (!res.ok) { // error coming back from server
+                setIsPending(false);
+                setResult('Error Details: '+res.status);   
+                return;
+            } 
+            return res.json();
           })
+        .then(data => {
+            setIsPending(false);
+            setResult('File uploaded successfully'); //respond from Rowan's server
+            //setResult(data); 
+        })
           .catch(err => {
-            setResult('File upload failed');
+            setIsPending(false);
+            // auto catches network / connection error
+            setResult("Failed to connect to the server");
             console.log(err);
         })
     }
@@ -35,6 +46,7 @@ export default function Upload(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsPending(true);
         setResult('Please wait...');
         setDeployable(false);
         handleFileUpload();
@@ -65,7 +77,7 @@ export default function Upload(props) {
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-                <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
                 <h3>Upload file & Deploy</h3>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit}>
                     <div className="form-group files">

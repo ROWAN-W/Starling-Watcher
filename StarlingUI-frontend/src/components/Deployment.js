@@ -7,9 +7,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
 
-function Deployment({currentUserID, selectedProject}) {
+function Deployment({selectedProject}) {
 
-  const {handleProjectChange} = useContext(ProjectContext);
+  const {currentUserID, handleProjectChange} = useContext(ProjectContext);
   
   const [droneListTrigger,setDroneListTrigger] = useState(true);
   //holding drones data!
@@ -17,12 +17,14 @@ function Deployment({currentUserID, selectedProject}) {
 
   const [updateClick, setUpdateClick] = useState(false);
   const [updateTime, setUpdateTime] = useState(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
-  const [updateMes, setUpdateMes] = useState('');
-  const [waiting, setWaiting] = useState(false);
 
+  
+  const [waiting, setWaiting] = useState(true);
+  const [error, setError] = useState(null);
 
   function handleUpdateTime(){
     setWaiting(true);
+    setError(null);
     setData(); //clear data
     setUpdateClick(prev=>!prev);
     setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
@@ -41,6 +43,7 @@ function Deployment({currentUserID, selectedProject}) {
       value={selectedProject.name}
       required
       placeholder = "Your Project Name"
+      maxLength = {40}
       onChange={e=>handleChange({name: e.target.value})}></input></form></div>
     }
   }
@@ -59,10 +62,10 @@ function Deployment({currentUserID, selectedProject}) {
         handleUpdateTime={handleUpdateTime}
         updateClick={updateClick}
         updateTime={updateTime}
-        setUpdateMes = {setUpdateMes}
-        updateMes = {updateMes}
         waiting = {waiting}
         setWaiting = {setWaiting}
+        error = {error}
+        setError = {setError}
         ></DroneList>
       )
     }
@@ -77,7 +80,7 @@ function Deployment({currentUserID, selectedProject}) {
       <Menu 
       selectedProject={selectedProject} 
       drones={data} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
-      updateMes = {updateMes}
+      error = {error} waiting = {waiting}
       ></Menu></div>
     </div>
     <div className="body">

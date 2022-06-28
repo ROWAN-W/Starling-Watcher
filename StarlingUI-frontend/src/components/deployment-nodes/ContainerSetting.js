@@ -139,7 +139,7 @@ export default function ContainerSetting(props) {
                         <button onClick={()=>handlePortAdd()}>Add Port</button>
                     </div>
                     <br/>
-                    <button type='submit'>Save Change</button>
+                    <button type='submit'>Done</button>
                     <button type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </form>
             </div>

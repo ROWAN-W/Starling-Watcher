@@ -21,9 +21,10 @@ export default function Project({currentUserID, selectedProject, droneListTrigge
 }
 
 function handleNodeAdd(){
+  const number = selectedProject.config.length;
   const newNode = {
       id: uuidv4(),
-      name: 'new node',
+      name: 'new node['+number+']',
       kind: 'deployment',
       label: {app: 'starling',platform: 'pixhawk'},
       containers: []
@@ -46,7 +47,7 @@ function handleNodeDuplicate(node){
   console.log("duplicate")
   const newNode = {
       id: uuidv4(),
-      name: 'new-'+node.name,
+      name: node.name+'-copy',
       kind: 'deployment',
       label: node.label,
       containers: [...node.containers],
@@ -56,7 +57,8 @@ function handleNodeDuplicate(node){
 }
     
     function showInstruction(){
-      if(currentUserID===undefined){
+      //test
+      if(currentUserID===''){
         return <div>Please <em onClick={()=>signInPage()}>sign in</em></div>
       }
       else if(selectedProject===undefined){
@@ -65,7 +67,7 @@ function handleNodeDuplicate(node){
     }
 
     function showProjectDetail(){
-      if(currentUserID!==undefined && selectedProject!==undefined){
+      if(currentUserID!=='' && selectedProject!==undefined){
         console.log(selectedProject);
         console.log(projects);
         return (

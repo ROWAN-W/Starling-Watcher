@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import { ProjectContext } from '../App';
 
 export default function CreateAccount(props) {
@@ -10,6 +10,8 @@ export default function CreateAccount(props) {
     const [newPasswordAgain, setNewPasswordAgain] = useState('');
     //0 is neutral, 1 is valid, -1 is invalid, -2 is already exist
     const [valid, setValid] = useState(0);
+
+    //const [instruction, setInstruction] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,6 +30,15 @@ export default function CreateAccount(props) {
             setValid(-2);
             return;
         }
+        /*console.log("valid new account");
+        setValid(1);
+        //temporary solution
+        setInstruction("Success:");  
+        setTimeout(() => {
+            handleUserAdd(newUserName,newPassword);
+            props.setTrigger(false);
+            clearField();
+        }, 2500);*/
         handleUserAdd(newUserName,newPassword);
         console.log("valid new account");
         setValid(1);
@@ -52,6 +63,7 @@ export default function CreateAccount(props) {
         setNewUserName('');
         setNewPassword('');
         setNewPasswordAgain('');
+        //setInstruction('');
     }
 
     return (props.trigger) ?(
@@ -103,3 +115,5 @@ export default function CreateAccount(props) {
         </div>
       ): ""
 }
+
+//{instruction!=='' && <h4>Success: Manual sign in or refresh if the page isn't redirecting.</h4>}

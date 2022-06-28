@@ -8,7 +8,7 @@ export default function Member({owner,member,removeMember}) {
     function showProjectMember(){
         if(member===owner){
             return(
-                <div>{users.find(user=>user.id===owner).name}&nbsp;(project owner)</div>
+                <div>{users.find(user=>user.id===owner).name}&nbsp;(owner)</div>
             )
         }
         else{

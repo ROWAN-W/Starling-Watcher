@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Drone from './Drone'
-import useFetch from '../useFetch';
 
 export default function DroneList(props) {
 
-    //const { error: droneError, isPending: dronePending , data:drones } = useFetch('http://localhost:8002/sampleDrone',[props.updateClick])
-
     const [order, setOrder] = useState("ASC"); 
-    const [orderCol, setOrderCol] = useState();
-
-
-    const [dronePending, setIsPending] = useState(true);
-    const [droneError, setError] = useState(null);
-    //const [waiting, setWaiting] = useState(false);
-    
+    const [orderCol, setOrderCol] = useState();    
 
     useEffect(() => {
         const url = "http://localhost:8002/sampleDrone";
@@ -21,25 +12,23 @@ export default function DroneList(props) {
           fetch(url)
           .then(res => {
             if (!res.ok) { // error coming back from server
-                setIsPending(false);
                 props.setWaiting(false);
                 props.setData();
-                setError('Error Details: '+res.status);
+                props.setError('Error Details: '+res.status);
+                return;
             } 
             return res.json();
           })
           .then(data => {
-            setIsPending(false);
             props.setWaiting(false);
             props.setData(data);
-            setError(null);
+            props.setError(null);
             console.log("fetch "+url);
           })
           .catch(err => {
             // auto catches network / connection error
-            setIsPending(false);
             props.setWaiting(false);
-            setError(err.message);
+            props.setError(err.message);
           })
         
       },[props.updateClick])
@@ -67,36 +56,14 @@ export default function DroneList(props) {
             return <span className='drone-sort-icon'>↑↓</span>
         }
     }
-
-    function message(){
-       
-        if(props.waiting===true){
-            props.setUpdateMes("Please wait...");
-            return <div>Please wait...</div>
-        }
-        if(droneError){
-            props.setUpdateMes("No available drones...");
-            return <div>{ droneError }</div>
-        }
-        if(dronePending){
-            props.setUpdateMes("Loading...");
-            return <div>Loading...</div>
-        }
-        if(!props.data && !droneError){
-            props.setUpdateMes("Please wait...");
-            return <div>Please wait...</div>
-        }
-        if(props.data){
-            props.setUpdateMes("");
-        }
-    }
       
     return (props.trigger) ?(
     <>
     <div className='drone-container'>
-    <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{props.handleUpdateTime();}}>{droneError? "Try Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
+    <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
     <div className='drone-update-time'>last sync: {props.updateTime}</div>
-    {message()}
+    {props.waiting && <div>Please wait...</div>}
+    {props.error && <div>{ props.error }</div>}
     { (props.data ) &&
     <table>
         <thead>
@@ -117,10 +84,3 @@ export default function DroneList(props) {
     </>
   ): ""
 }
-
-/**
- *         //setUpdateMes
-        //{ (droneError ) && <div>{ droneError }</div> }
-        //{ (dronePending ) && <div>Loading...</div> }
-        //{ (!props.data && !droneError) && <div>Please wait...</div> }
- */

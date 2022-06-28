@@ -6,7 +6,7 @@ import SearchBox from './ImageSearchBox';
 
 export default function ImageList() {
 
-  const { images, handleImageListChange} = useContext(ProjectContext);
+  const { images, setImages} = useContext(ProjectContext);
 
   const [userSignIn, setUserSignIn] = useState(false); //login window
   const [showSwitchButton, setSwitchButton] = useState(true); //switch button
@@ -14,15 +14,14 @@ export default function ImageList() {
   const [finalUserName, setFinalUserName] = useState("charaznablegundam");
   const [finalPassword, setFinalPassword] = useState("362514hao");
 
-    const [imagesData, setData] = useState(null);
-    const [imagePending, setIsPending] = useState(true);
     const [imageError, setError] = useState(null);
-    const [waiting, setWaiting] = useState(false);
+    const [waiting, setWaiting] = useState(true);
 
   const [searchResult, setSearchResult] = useState([...images]);
   const [searchImage, setSearchImage] = useState('');
     
   useEffect(() => {
+    if(waiting===true){
       const url = "http://localhost:8080/design/images";
         
       const options = {
@@ -36,7 +35,7 @@ export default function ImageList() {
             password: finalPassword,
         }),
         };
-
+        
         fetch(url,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
@@ -45,44 +44,36 @@ export default function ImageList() {
           return res.json();
         })
         .then(data => {
-          setIsPending(false);
-          setData(data);
+          setWaiting(false);
+          setImages(data);
           setError(null);
           console.log("fetch "+url);
-          handleImageListChange(data);
         })
         .catch(err => {
           // auto catches network / connection error
-          setIsPending(false);
+          setWaiting(false);
           setError(err.message);
         })
-      
+    }  
     },[finalUserName,finalPassword])
 
 
   function showInstruction(){
     if(images.length!==0 && showSwitchButton){
       return(
-        <button onClick={()=>{setUserSignIn(true); setSwitchButton(false);handleImageListChange([]);}}>Log out</button>
+        <button onClick={()=>{
+          setUserSignIn(true); 
+          setSwitchButton(false);
+          setImages([]); 
+          setFinalUserName(''); setFinalPassword('')}}>Log out</button>
       )    
     }
   }
 
   function finalLogin(username, password){
-    if(username===finalUserName && password===finalPassword){
-      console.log("same account");
-      if(imagesData!=null){
-        handleImageListChange(imagesData);
-      }else{
-        console.log("same failure");
-        handleImageListChange([]);
-      }
-    }
-    else{
-      console.log("different account need reload");
-      setFinalUserName(username);
-      setFinalPassword(password);
-    }
+    setFinalUserName(username);
+    setFinalPassword(password);
+    setWaiting(true);
   }
 
   function loginWindow(trigger){
@@ -108,15 +99,15 @@ export default function ImageList() {
   }
 
   function show(){
-    if(imagePending){
-      return <div>Loading...</div>
+    if(waiting){
+      return <div>Please wait...</div>
     }
     else{
       if(imageError && !userSignIn){
         return (
           <>
             <div>{imageError}</div> 
-            <div><button onClick={()=>{setUserSignIn(true)}}>Try again</button></div>
+            <div><button onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}}>Try again</button></div>
           </>
         )
       }
@@ -128,7 +119,7 @@ export default function ImageList() {
         )
       }
       else if(!userSignIn){
-        if(!imageError&& !waiting && images){
+        if(images){
           return(
             <>
             {showInstruction()}
@@ -155,35 +146,3 @@ export default function ImageList() {
     </>
   )
 }
-
-/**
- * <>
-      <div className='image-tag-container'>
-      {imagePending&& <div>Loading...</div> }
-      
-      {imageError && !userSignIn &&
-      <div>
-        {imageError} 
-        <div><button onClick={()=>{setUserSignIn(true)}}>Try again</button></div>
-      </div>}
-      
-      <>
-      {!userSignIn && showInstruction()}
-      {loginWindow(userSignIn)}
-      </>
-      
-      { !imageError&& !waiting && !imagePending&&
-        <>
-        {!userSignIn && <SearchBox handleImageSearch={handleImageSearch}/>}
-        {searchImage===''? 
-        images.map(image=>{
-            return <Image key={image.id} {...image}></Image>
-        }):
-        searchResult.map(image=>{
-          return <Image key={image.id} {...image}></Image>
-        })}
-        </>
-      }
-      </div>
-    </>
- */

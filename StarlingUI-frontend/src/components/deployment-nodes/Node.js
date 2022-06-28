@@ -105,16 +105,3 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     </div>
       )
     }
-
-    /**
-     * <form><input 
-                type='text' 
-                name='name' 
-                id='name'
-                value={node.name}
-                required
-                placeholder = "Your Config Name"
-                onChange={e=>handleChange({name:e.target.value})}
-                className='node-name-input'>
-            </input></form>
-     */

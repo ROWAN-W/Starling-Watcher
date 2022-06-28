@@ -74,7 +74,7 @@ return (props.trigger) ?(
                     >
                 </input>
                 <br></br>
-                <button type="submit">Save Change</button>
+                <button type="submit">Done</button>
                 <button type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
             </form>
         </div>

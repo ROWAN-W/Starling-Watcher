@@ -55,7 +55,7 @@ export default function ShareProject(props) {
                 <div>People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
                 <div>
-                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Save Change</button><button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button><button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </div>
                 </>
             )
@@ -64,6 +64,7 @@ export default function ShareProject(props) {
             return(
                 <>
                 <h3>Members of {props.selectedProject.name}</h3>
+                <p>Only project owner can add/delete members.</p>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
                 <div>
                 <button onClick={()=>{props.setTrigger(false)}}>OK</button>
