@@ -105,13 +105,15 @@ public class DesignController {
 
     @GetMapping("/users")
     public ResponseEntity<String> allUsers() {
+        userDao.deleteAll();
         userDao.save(new User("Pench", "haha"));
         List<User> users = userDao.findAll();
-        StringBuilder jsonBuilder = new StringBuilder();
+//        StringBuilder jsonBuilder = new StringBuilder();
         Gson gson = new Gson();
-        for (User user : users) {
-            jsonBuilder.append(gson.toJson(user));
-        }
-        return new ResponseEntity<>(jsonBuilder.toString(), HttpStatus.OK);
+        String json = gson.toJson(users);
+//        for (User user : users) {
+//            jsonBuilder.append(gson.toJson(user));
+//        }
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 }
