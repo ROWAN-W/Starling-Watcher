@@ -6,6 +6,7 @@ import com.example.starlingui.model.StarlingUser;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -47,18 +49,15 @@ public class DesignController {
 
     /**
      * @Description Add a new user
-     * @param user User to be added to the database
-     * @return return User id and username 403 if user already exists, return 200 if success
+     * @param user User to be added to the database, contains name and password
+     * @return return User id and name, 403 if user already exists, return 200 if success
      */
     @PostMapping("/users")
     public ResponseEntity<String> newUser(@RequestBody StarlingUser user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        String id = user.getId();
         String name = user.getName();
-        Optional<StarlingUser> optUser = userDao.getById(id);
-        StarlingUser oldUser = userDao.findByName(name);
-        if (optUser.isPresent() || oldUser != null) {
+        if (starlingUserNameExists(name)) {
             return new ResponseEntity<>("User already exists!", HttpStatus.FORBIDDEN);
         }
         userDao.save(user);
@@ -70,25 +69,35 @@ public class DesignController {
 
     /**
      * @Description Modify the information of user
-     * @param user new user
+     * @param body contains old password and new password
      * @param id id of the user to be updated
      * @return User id and username, Http Status is 403 if user to be updated doesn't exist, 200 if success
      */
     @PutMapping("/users/{id}")
-    public ResponseEntity<String> replaceUser(@RequestBody StarlingUser user, @PathVariable String id) {
-        Optional<StarlingUser> optUser = userDao.getById(id);
-        if (optUser.isEmpty()) {
-            return new ResponseEntity<>("User does not exist!", HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> replaceUser(@RequestBody String body, @PathVariable String id) {
+        try {
+            Gson gson = new Gson();
+            JsonObject bodyJson = gson.fromJson(body, JsonObject.class);
+            String oldPassword = bodyJson.get("oldPassword").getAsString();
+            String password = bodyJson.get("password").getAsString();
+            Optional<StarlingUser> optUser = userDao.getById(id);
+            if (optUser.isEmpty()) {
+                return new ResponseEntity<>("User does not exist!", HttpStatus.FORBIDDEN);
+            }
+            StarlingUser userToUpdate = optUser.get();
+            if (!Objects.equals(oldPassword, userToUpdate.getPassword())) {
+                return new ResponseEntity<>("Invalid old password!", HttpStatus.FORBIDDEN);
+            }
+            userToUpdate.setPassword(password);
+            userDao.save(userToUpdate);
+            JsonObject userJson = (JsonObject) gson.toJsonTree(userToUpdate);
+            userJson.remove("password");
+            String jsonString = gson.toJson(userJson);
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Invalid Request body!", HttpStatus.FORBIDDEN);
         }
-        StarlingUser userToUpdate = optUser.get();
-        userToUpdate.setName(user.getName());
-        userToUpdate.setPassword(user.getPassword());
-        userDao.save(userToUpdate);
-        Gson gson = new Gson();
-        JsonObject userJson = (JsonObject) gson.toJsonTree(userToUpdate);
-        userJson.remove("password");
-        String jsonString = gson.toJson(userJson);
-        return new ResponseEntity<>(jsonString, HttpStatus.OK);
+
     }
 
     @GetMapping("/users")
@@ -110,5 +119,10 @@ public class DesignController {
         userDao.save(new StarlingUser("Alice", "1234"));
         userDao.save(new StarlingUser("Bob", "5678"));
         return new ResponseEntity<>("Database has been initialized", HttpStatus.OK);
+    }
+
+    private boolean starlingUserNameExists(String name) {
+        StarlingUser user = userDao.findByName(name);
+        return user != null;
     }
 }
