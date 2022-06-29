@@ -3,7 +3,7 @@ import { ProjectContext } from '../App';
 
 export default function ProjectList(props) {
     
-    const {users, projects, handleProjectSelect} = useContext(ProjectContext);
+    const {userData, projects, handleProjectSelect} = useContext(ProjectContext);
 
     return (props.trigger) ? (
     <div className='popup-projects'>
@@ -25,7 +25,7 @@ export default function ProjectList(props) {
                         onClick={()=>{handleProjectSelect(project.id); props.setTrigger(false)}}>
                         <td width="50%">{project.name}</td>
                         <td width="50%">{project.dateModified}</td>
-                        <td width="50%">{users.find(user=>user.id===project.lastModifiedBy).name}</td>
+                        <td width="50%">{userData.find(user=>user.id===project.lastModifiedBy).name}</td>
                     </tr>
                 ) 
             })}

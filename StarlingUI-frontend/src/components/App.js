@@ -15,6 +15,8 @@ export const ProjectContext = React.createContext();
 
 function App() {
 
+  const [userData, setUserData] = useState();
+
   const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
   /*const [currentUserID, setCurrentUserID] = useState(() => { 
     //load/get from storage
@@ -41,7 +43,7 @@ function App() {
   
   const [userSignIn, setUserSignIn] = useState(false);
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[currentUserID]);
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[]);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
   
   const [images, setImages] = useState([]);
@@ -57,6 +59,13 @@ function App() {
     console.log("run when project content changes and store to storage");
     localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
   },[projects]);*/
+
+  useEffect(()=>{
+    if(users){
+      console.log("run when getting users from the server");
+      setUserData(users);
+    }
+  },[users]);
 
   useEffect(()=>{
     console.log("run when current user changes");
@@ -109,8 +118,8 @@ function App() {
       handleProjectListChange(undefined);
     }else{
       console.log("user sign in!");
-      console.log(users);
-      const id = users.find(user => user.name === name).id;
+      console.log(userData);
+      const id = userData.find(user => user.name === name).id;
       console.log(id);
       setCurrentUserID(id);
       handleProjectListChange(id);
@@ -118,45 +127,17 @@ function App() {
   }
 
   //temporary solution. should be replaced with the operations from the backend
-  function handleUserAdd(newUserName, newPassword){
-    const newUser = {id: uuidv4(), name: newUserName, password: newPassword};
-    console.log('new user added');
-    postToServer('http://localhost:8001/sampleUser',newUser);
-    
-  }
-
-  function handleUserChange(id, user){
-    console.log('user info change');
-    putToServer('http://localhost:8001/sampleUser',id,user);
-  }
-
-  function postToServer(url,data){
-    fetch(url, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(() => {
-      console.log('info added');
-      setCurrentUserID(data.id);
-    })
-  }
-
-  function putToServer(url,id,data){
-    fetch(url+'/'+id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then(() => {
-      console.log('info change');
-    })
+  function handleUserAdd(id, name){
+    const newUser = {id: id, name: name};
+    console.log(newUser);
+    setUserData([...userData, newUser]);
+    setCurrentUserID(id);
   }
 
   const projectContextValue = {
     currentUserID,
     projects,
-    users,
+    userData,
     images,
     setImages,
     setProjects,
@@ -164,7 +145,6 @@ function App() {
     handleProjectSelect,
     handleCurrentUser,
     handleUserAdd,
-    handleUserChange,
     handleProjectChange
   } 
   
@@ -173,9 +153,9 @@ function App() {
     <ProjectContext.Provider value={projectContextValue}>
     <div className="top-bar">
     <Navbar></Navbar>
-    <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={users?.find(user => user.id === currentUserID)}></User>
+    { (users && projectsData ) && <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>}
     </div>
-    { (userError || projectError ) && <div className="message">{ userError }</div> }
+    { (userError || projectError ) && <div className="message">{ userError } {projectError}</div> }
     { (userPending || projectPending ) && <div className="message">Loading...</div> }
     { (users && projectsData ) &&
     <Switch>

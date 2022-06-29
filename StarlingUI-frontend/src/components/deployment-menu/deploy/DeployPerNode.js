@@ -7,7 +7,6 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
     const [mappedDrones, setMappedDrones] = useState(nodeToMap.mappedDrones);
 
     useEffect(()=>{
-        console.log("rendered in deploy per node first time");
         if(sync===true){
           setSync(false);
           removeAll();
@@ -18,19 +17,21 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
         console.log("change"+nodeToMap.nodeID);
         handleMappingChange(nodeToMap.nodeID, {...nodeToMap,...changes});
     }
-        
-    function removeDrone(id){
+
+    //drone now is name, not id
+    function removeDrone(name){
         console.log("remove drone");
-        setMappedDrones(mappedDrones.filter(drone=>drone!==id));
-        setSelectedDrones(selectedDrones.filter(drone=>drone!==id));
-        handleChange({mappedDrones: mappedDrones.filter(drone=>drone!==id)});
+        setMappedDrones(mappedDrones.filter(drone=>drone!==name));
+        setSelectedDrones(selectedDrones.filter(drone=>drone!==name));
+        handleChange({mappedDrones: mappedDrones.filter(drone=>drone!==name)});
     }
 
-    function addDrone(id){
+    //drone now is name, not id
+    function addDrone(name){
         console.log("add drone");
-        setMappedDrones([...mappedDrones,id]);
-        setSelectedDrones([...selectedDrones,id])
-        handleChange({mappedDrones: [...mappedDrones,id]});
+        setMappedDrones([...mappedDrones,name]);
+        setSelectedDrones([...selectedDrones,name])
+        handleChange({mappedDrones: [...mappedDrones,name]});
     }
 
     function removeAll(){
@@ -46,7 +47,7 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
     {mappedDrones?.map(drone=><div key={drone}><DroneItem  allDrones={allDrones} drone={drone} removeDrone={removeDrone}></DroneItem></div>)}
         <DroneItemSelection 
         addDrone={addDrone} 
-        options={allDrones?.filter(x => !selectedDrones?.includes(x.id))}></DroneItemSelection>
+        options={allDrones?.filter(x => !selectedDrones?.includes(x.name))}></DroneItemSelection>
     </>
   )
 }

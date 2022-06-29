@@ -3,15 +3,16 @@ import { ProjectContext } from '../App';
 
 export default function CreateAccount(props) {
 
-    const {users, handleUserAdd} = useContext(ProjectContext);
+    const {handleUserAdd} = useContext(ProjectContext);
 
     const [newUserName, setNewUserName] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordAgain, setNewPasswordAgain] = useState('');
-    //0 is neutral, 1 is valid, -1 is invalid, -2 is already exist
-    const [valid, setValid] = useState(0);
 
-    //const [instruction, setInstruction] = useState('');
+    const [createUserError, setError] = useState(null);
+    const [waiting, setWaiting] = useState(false);
+
+    const [instruction, setInstruction] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,57 +22,69 @@ export default function CreateAccount(props) {
     function checkValid(){
         if(newPassword!==newPasswordAgain){
             console.log("unmatched password")
-            setValid(-1);
+            setError("Unmatched password!");
             return;
         }
-        const result = users.find(element => element.name===newUserName);
-        if(result!==undefined){
-            console.log("invalid user name")
-            setValid(-2);
-            return;
-        }
-        /*console.log("valid new account");
-        setValid(1);
-        //temporary solution
-        setInstruction("Success:");  
-        setTimeout(() => {
-            handleUserAdd(newUserName,newPassword);
-            props.setTrigger(false);
+        setWaiting(true);
+        const url = "http://localhost:8080/design/users";
+        
+        const options = {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify({
+            name: newUserName,
+            password: newPassword,
+        }),
+        };
+        
+        fetch(url,options)
+        .then(res => {
+          if (!res.ok) { // error coming back from server
+            throw Error('Create Account Failure. Error Details: '+res.status);
+          } 
+          return res.json();
+        })
+        .then(data => {
+          console.log("valid new account");
+          console.log(data);
+          setWaiting(false);
+          setError(null);
+          console.log("fetch "+url);
+          setInstruction("Success: Manual sign in or refresh if the page isn't redirecting.");
+          
+          setTimeout(() => {
+            handleUserAdd(data.id,data.name);
             clearField();
-        }, 2500);*/
-        handleUserAdd(newUserName,newPassword);
-        console.log("valid new account");
-        setValid(1);
-        clearField();
-        props.setTrigger(false)
-    }
-
-    function showInValid(){
-        if(valid===-1){
-            return(
-                <h4>Please make sure your passwords match!</h4>
-            );
-        }
-        if(valid===-2){
-            return(
-                <h4>User name already exists!</h4>
-            );
-        }
+            props.setTrigger(false);
+          }, 3000)
+        })
+        .catch(err => {
+          // auto catches network / connection error
+          setWaiting(false);
+          setError(err.message);
+        })        
     }
 
     function clearField(){
         setNewUserName('');
         setNewPassword('');
         setNewPasswordAgain('');
-        //setInstruction('');
+        setError(null);
+        setWaiting(false);
+        setInstruction('');
     }
 
     return (props.trigger) ?(
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setValid(0);clearField()}}>&times;</button>
+            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 <h3>Create Account</h3>
-                {showInValid()}
+                {createUserError && <h4>{createUserError}</h4>}
+                {waiting && <h4>Please wait...</h4>}
+                <h4>{instruction}</h4>
                     <form onSubmit={handleSubmit}>
                     <label 
                         htmlFor='userName'>User Name
@@ -115,5 +128,3 @@ export default function CreateAccount(props) {
         </div>
       ): ""
 }
-
-//{instruction!=='' && <h4>Success: Manual sign in or refresh if the page isn't redirecting.</h4>}

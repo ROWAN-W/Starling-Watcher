@@ -24,6 +24,12 @@
     right: 16px;
 }
 
+.popup-hide-btn{
+    position: absolute;
+    top:16px;
+    right: 46px;
+}
+
 .popup-projects-inner table{
     border: none;
     margin: 0 auto;

@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default function DroneItem({ allDrones,drone, removeDrone}) {
+//drone now is name, not id
+export default function DroneItem({ allDrones, drone, removeDrone}) {
     
     return(
-        <div>{allDrones?.find(d=>d.id===drone).name}<span className='dropdown-remove' onClick={() => removeDrone(drone)}>&times;</span></div>
+        <div>{drone}<span className='dropdown-remove' onClick={() => removeDrone(drone)}>&times;</span></div>
     )
 }

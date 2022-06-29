@@ -12,16 +12,18 @@ export default function Deploy(props) {
 
     useEffect(()=>{
         if(props.trigger===true){
+            //if want once sync, clear previous mappings
             props.handleUpdateTime();
             setSync(true);
             removeAllMappings()
-            let arrayDroneId = [];
+            //if want keep previous mappings
+            /*let arrayDroneId = [];
             for(let i=0;i<props.selectedProject?.mapping.length;i++){
             console.log(props.selectedProject.mapping[i].mappedDrones);
             arrayDroneId = [...arrayDroneId,...props.selectedProject.mapping[i].mappedDrones];
             }
             console.log(arrayDroneId);
-            setSelectedDrones(arrayDroneId);
+            setSelectedDrones(arrayDroneId);*/
         }
       },[props.trigger]);
     
@@ -74,9 +76,13 @@ export default function Deploy(props) {
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-                {!props.waiting && !deployWaiting && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>&times;</button>}
+                {!props.waiting && !deployWaiting && 
+                <>
+                <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>&times;</button>
+                <button className='popup-hide-btn'>_</button>
+                </>}
                 <h3>Deploy Configuration to Drones</h3>
-                <h4>{deployFeedback}</h4>
+                
                 {!props.waiting &&
                     <>
                     {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Drones</button></div>}
@@ -103,7 +109,7 @@ export default function Deploy(props) {
                         ></DeployPerNode>
                     ) 
                 })}
-                
+                <h4>{deployFeedback}</h4>
                 {!props.waiting && !deployWaiting && 
                 <>
                 <div>

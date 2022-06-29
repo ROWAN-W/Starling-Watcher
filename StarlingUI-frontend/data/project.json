@@ -2,19 +2,20 @@
   "sampleProject": [
     {
       "id": 1,
-      "name": "Project A",
-      "dateModified": "23/06/2022 19:00:33",
-      "lastModifiedBy": 1,
+      "name": "Project ABC",
+      "dateModified": "29/06/2022 12:36:06",
+      "lastModifiedBy": "62bc77959aabba031f57ef30",
       "saved": true,
-      "ownerID": 1,
+      "ownerID": "62bc77959aabba031f57ef30",
       "memberIDs": [
-        1,
-        2
+        "62bc77959aabba031f57ef30",
+        "62bc77959aabba031f57ef31",
+        "62bc77959aabba031f57ef32"
       ],
       "config": [
         {
           "id": 1000,
-          "name": "design 1",
+          "name": "A11",
           "kind": "master",
           "label": {
             "app": "starling",
@@ -22,18 +23,19 @@
           },
           "containers": [
             {
-              "id": 1384,
-              "name": "charaznablegundam/getting-started:latest",
+              "id": 1385,
+              "name": "charaznablegundam/testdevelop_api:v2",
               "command": "",
               "args": "",
               "env": [],
+              "env2": [],
               "port": []
             }
           ]
         },
         {
           "id": 10001,
-          "name": "A01",
+          "name": "A22",
           "kind": "deployment",
           "label": {
             "app": "starling",
@@ -46,13 +48,14 @@
               "command": "",
               "args": "",
               "env": [],
+              "env2": [],
               "port": []
             }
           ]
         },
         {
           "id": "2ec89697-a139-4c58-b959-9ed4ca307dae",
-          "name": "new node",
+          "name": "A33",
           "kind": "deployment",
           "label": {
             "app": "starling",
@@ -65,43 +68,55 @@
               "command": "",
               "args": "",
               "env": [],
+              "env2": [],
               "port": []
             }
           ]
+        },
+        {
+          "id": "9479a49c-edaa-485f-a6ff-c27d2aa3ec14",
+          "name": "new node[3]",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
         }
       ],
       "mapping": [
         {
           "nodeID": 1000,
           "mappedDrones": [
-            2
           ]
         },
         {
           "nodeID": 10001,
           "mappedDrones": [
-            3
           ]
         },
         {
           "nodeID": "2ec89697-a139-4c58-b959-9ed4ca307dae",
           "mappedDrones": [
-            4
           ]
+        },
+        {
+          "nodeID": "9479a49c-edaa-485f-a6ff-c27d2aa3ec14",
+          "mappedDrones": []
         }
       ]
     },
     {
       "id": 2,
       "name": "Project B",
-      "dateModified": "19/06/2022 19:06:39",
-      "lastModifiedBy": 2,
+      "dateModified": "26/06/2022 16:49:15",
+      "lastModifiedBy": "62bc77959aabba031f57ef30",
       "saved": true,
-      "ownerID": 2,
+      "ownerID": "62bc77959aabba031f57ef30",
       "memberIDs": [
-        2,
-        1,
-        3
+        "62bc77959aabba031f57ef31",
+        "62bc77959aabba031f57ef30",
+        "62bc77959aabba031f57ef32"
       ],
       "config": [
         {

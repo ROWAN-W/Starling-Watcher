@@ -5,7 +5,7 @@ import MemberSelection from './MemberSelection';
 
 export default function ShareProject(props) {
 
-    const {users, currentUserID, handleProjectChange} = useContext(ProjectContext);
+    const {userData, currentUserID, handleProjectChange} = useContext(ProjectContext);
 
     const [existingMembers, setExistingMembers] = useState([]);
 
@@ -50,7 +50,7 @@ export default function ShareProject(props) {
             return(
                 <>
                 <h3>Share {props.selectedProject.name}</h3>
-                <MemberSelection addMember={addMember} options={users.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
+                <MemberSelection addMember={addMember} options={userData.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
                 <p></p>
                 <div>People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}

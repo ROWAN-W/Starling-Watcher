@@ -3,7 +3,7 @@ import { ProjectContext } from '../App';
 
 export default function LoginIn(props) {
 
-    const {users, handleCurrentUser} = useContext(ProjectContext);
+    const {userData, handleCurrentUser} = useContext(ProjectContext);
 
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -17,7 +17,7 @@ export default function LoginIn(props) {
     }
 
     function checkValid(){
-        const result = users.find(element => element.name===userName && element.password===password);
+        const result = userData.find(element => element.name===userName && element.password===password);
         if(result===undefined){
             setValid(-1);
         }else{
