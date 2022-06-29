@@ -13,7 +13,7 @@ for drones test: npx json-server --watch data/drone.json --port 8002
 
 ## developing
 
-Add new Env in advanced settings, add delete function on master node, add more info on drones (deploy)
+Add new Env in advanced settings, add more info on drones (deploy)
 
 ## pending
 
