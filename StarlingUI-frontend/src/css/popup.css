@@ -34,3 +34,7 @@
     grid-template-columns: repeat(3,auto);
     gap: 10px;
 }
+
+.popup-major{
+    display: flex;
+}

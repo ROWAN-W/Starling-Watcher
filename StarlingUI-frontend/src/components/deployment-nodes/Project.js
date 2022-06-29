@@ -1,16 +1,30 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect, useRef} from 'react'
 import { ProjectContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 import Node from './Node';
+import Filter from './Filter';
+import SearchBox from './SearchBox';
 
 export default function Project({currentUserID, selectedProject, droneListTrigger}) {
 
-    const {projects, handleProjectChange, signInPage} = useContext(ProjectContext);
+    const {handleProjectChange, signInPage} = useContext(ProjectContext);
 
-  //pass in the object
+    const [filterValue, setFilterValue] = useState('all');
+    const [searchNode, setSearchNode] = useState('');
+
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+      scrollToBottom()
+    }, [selectedProject?.config.length]);
+
+
   function handleChange(changes){
-  //a brand new object
-  handleProjectChange(selectedProject.id, {...selectedProject,...changes});
+      handleProjectChange(selectedProject.id, {...selectedProject,...changes});
   }
 
   function handleNodeChange(id, node){
@@ -52,7 +66,6 @@ function handleNodeDuplicate(node){
       label: node.label,
       containers: [...node.containers],
   }
-
   handleChange({config: [...selectedProject.config, newNode]});
 }
     
@@ -68,11 +81,47 @@ function handleNodeDuplicate(node){
 
     function showProjectDetail(){
       if(currentUserID!=='' && selectedProject!==undefined){
-        console.log(selectedProject);
-        console.log(projects);
-        return (
-        <>
-          {selectedProject.config.map(node=>
+        if(filterValue!=='all'){
+          const filterResult = selectedProject.config.filter(node=>node.kind===filterValue);
+          return (
+            <>
+              {searchNode===''? 
+              filterResult.map(node=>
+                <Node
+                  key={node.id}
+                  nodes={selectedProject.config}
+                  node={node}
+                  handleNodeChange={handleNodeChange}
+                  handleNodeDelete={handleNodeDelete}
+                  handleNodeDuplicate={handleNodeDuplicate}
+                >
+                </Node>):
+                filterResult.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
+                  <Node
+                    key={node.id}
+                    nodes={selectedProject.config}
+                    node={node}
+                    handleNodeChange={handleNodeChange}
+                    handleNodeDelete={handleNodeDelete}
+                    handleNodeDuplicate={handleNodeDuplicate}
+                  >
+                  </Node>
+                )}
+              
+                {selectedProject===undefined? null: 
+                <div className='btn-add-node'><button onClick = {()=>{
+                  setFilterValue('all');
+                  setSearchNode('');
+                  handleNodeAdd();
+                  }}>Add Node</button></div>}
+            </>
+          )
+        }
+        else{
+          return (
+          <>
+          {searchNode===''?
+          selectedProject.config.map(node=>
             <Node
               key={node.id}
               nodes={selectedProject.config}
@@ -81,30 +130,45 @@ function handleNodeDuplicate(node){
               handleNodeDelete={handleNodeDelete}
               handleNodeDuplicate={handleNodeDuplicate}
             >
-            </Node>)}
+            </Node>): 
+            selectedProject.config.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
+              <Node
+                key={node.id}
+                nodes={selectedProject.config}
+                node={node}
+                handleNodeChange={handleNodeChange}
+                handleNodeDelete={handleNodeDelete}
+                handleNodeDuplicate={handleNodeDuplicate}
+              >
+              </Node>)}
+
             {selectedProject===undefined? null: 
-            <div className='btn-add-node'><button onClick = {()=>handleNodeAdd()}>Add Node</button></div>}
-        </>
+            <div className='btn-add-node'><button onClick = {()=>{handleNodeAdd();setSearchNode('');}}>Add Node</button><div ref={messagesEndRef} /></div>}
+          </>
         )
       }
-
+      }
     }
 
     function showProjectColumn(){
-      if(droneListTrigger){
+      if(selectedProject===undefined){
         return (
-          <div className='project-container-single'>
+          <div className='project'>
            {showInstruction()}
-           {showProjectDetail()}
           </div>
         )
       }else{
         return (
-          <div className='project-container'>
-           {showInstruction()}
+          <div className='project'>
+            <div className='image__search-container'>
+              <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter>
+              <SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
+            </div>
+          <div className={droneListTrigger? 'project-container-single': 'project-container'}>
            {showProjectDetail()}
           </div>
-        )
+          </div>
+          )
       }
     }
 

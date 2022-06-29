@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react'
 import Container from './Container';
 import { ProjectContext } from '../App';
 import { useDrop } from "react-dnd";
-import NodeLabel from './NodeLabel';
+import NodeSetting from './NodeSetting.js';
 
 export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handleNodeDuplicate}) {
     
@@ -56,6 +56,12 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
                         value: ""
                     }
                 ],
+                env2: [
+                    {
+                        name: "",
+	                    valueFrom: { name: "", key: ""}
+                    }
+                ],
                 port: [
                     {
                         containerPort: "",
@@ -79,6 +85,12 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
                     <button onClick = {()=>handleNodeDelete(node.id)}>Delete</button>
                 </div>
             )
+        }else{
+            return(
+                <div className='node-btn'>
+                    <button onClick = {()=>handleNodeDelete(node.id)}>Delete</button>
+                </div>
+            )
         }
     }
     
@@ -90,7 +102,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
             <div className='node-title'>{node.name}</div>
             <span>{node.kind.charAt(0).toUpperCase() + node.kind.slice(1)}</span>
             <button onClick={()=>setSetting(true)}>Setting</button>
-            <NodeLabel trigger={setting} setTrigger={setSetting} node={node} handleNodeChange={handleNodeChange}></NodeLabel>
+            <NodeSetting trigger={setting} setTrigger={setSetting} node={node} nodes={nodes} handleNodeChange={handleNodeChange}></NodeSetting>
             </div>
         <br></br>
         <p>Number of images: {node.containers.length}</p>
