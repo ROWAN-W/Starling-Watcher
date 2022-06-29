@@ -26,7 +26,7 @@ export default function NodeSetting(props) {
         if(kind==='master'){
             console.log('need checking');
             for(let i=0;i<props.nodes.length;i++){
-                if(props.nodes[i].kind==='master'){
+                if(props.nodes[i].kind==='master' && props.nodes[i].id!==props.node.id){
                     //more than one master
                     console.log("invalid")
                     setWarning('One Master at most in the project');

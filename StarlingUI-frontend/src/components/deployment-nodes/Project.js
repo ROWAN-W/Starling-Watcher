@@ -35,7 +35,7 @@ export default function Project({currentUserID, selectedProject, droneListTrigge
 }
 
 function handleNodeAdd(){
-  const number = selectedProject.config.length;
+  const number = selectedProject.config.length+1;
   const newNode = {
       id: uuidv4(),
       name: 'new node['+number+']',
