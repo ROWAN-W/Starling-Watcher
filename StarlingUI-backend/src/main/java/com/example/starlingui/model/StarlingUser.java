@@ -2,16 +2,20 @@ package com.example.starlingui.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Component;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.stereotype.Component;
 
-@Component
+@Document(collection = "starlingUsers")
 @Data
 public class StarlingUser {
 
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String name;
+
     private String password;
 
     public StarlingUser(String name, String password) {

@@ -23,16 +23,6 @@ public class StarlingUserDao implements Dao<StarlingUser>{
         return repo.findById(id);
     }
 
-//    @Override
-//    public void update(User user) {
-//
-//    }
-
-//    @Override
-//    public void deleteById(String id) {
-//        repo.deleteById(id);
-//    }
-
     public StarlingUser findByName(String name) {
         return repo.findByName(name);
     }
