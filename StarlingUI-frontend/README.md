@@ -1,10 +1,9 @@
 # Integration Stage
 
-Ready: image list.
+Ready: image list. user db
 
-In progress: User DB
 
-Pending: Project DB, Drones, Deployment
+Pending: Project DB, Drones, Upload File, Deployment
 
 
 for project db test: npx json-server --watch data/project.json --port 8000
@@ -18,7 +17,10 @@ Add new Env in advanced settings, add more info on drones (deploy)
 
 ## pending
 
-user login api
-
-
 save data to local storage (browser) - implement it later
+
+## side note
+
+use http://localhost:8080/design/database to see the entire user db
+
+use http://localhost:8080/design/initialize to init the entire user db. it will provide new id for each user, and the project.json needs to be modified correspondingly
