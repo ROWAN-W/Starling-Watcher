@@ -2,9 +2,10 @@
 
 Ready: image list.
 
-Pending: User DB, Project DB, Drones, Deployment
+In progress: User DB
 
-for user db test: npx json-server --watch data/user.json --port 8001
+Pending: Project DB, Drones, Deployment
+
 
 for project db test: npx json-server --watch data/project.json --port 8000
 
@@ -17,6 +18,7 @@ Add new Env in advanced settings, add more info on drones (deploy)
 
 ## pending
 
-User features transition with ther server - server is not 100% ready 
+user login api
+
 
 save data to local storage (browser) - implement it later
