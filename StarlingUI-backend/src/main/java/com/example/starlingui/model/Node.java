@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.*;
 
@@ -15,7 +16,7 @@ import java.util.Map.*;
 public class Node {
 
     private String id;
-    private String name;
+    private String nodeName;
     private String role;
     private String ip;
     private String hostname;
@@ -24,9 +25,11 @@ public class Node {
     private Map<String,String> labels;
     private Map<String,String> annotations;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    //fields for monitor page
+    private List<Pod> pods;
+
+
+
 
     public void setId(String id) {
         this.id = id;
@@ -36,9 +39,7 @@ public class Node {
         this.annotations = annotations;
     }
 
-    public String getName() {
-        return name;
-    }
+
 
     public Map<String, String> getAnnotations() {
         return annotations;
@@ -100,6 +101,22 @@ public class Node {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getNodeName() {
+        return nodeName;
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    public List<Pod> getPods() {
+        return pods;
+    }
+
+    public void setPods(List<Pod> pods) {
+        this.pods = pods;
     }
 
 

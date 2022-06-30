@@ -1,6 +1,7 @@
 package com.example.starlingui.service;
 
 import com.example.starlingui.model.Node;
+import com.example.starlingui.model.Pod;
 import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class NodeService {
             System.out.println(id);
             node.setId(String.valueOf(id));
             System.out.println(item.getMetadata().getName());
-            node.setName(item.getMetadata().getName());
+            node.setNodeName(item.getMetadata().getName());
             System.out.println(item.getMetadata().getLabels());
             node.setLabels(item.getMetadata().getLabels());
             System.out.println(item.getMetadata().getAnnotations());
@@ -57,12 +58,17 @@ public class NodeService {
             System.out.println(item.getMetadata().getCreationTimestamp());
             node.setCreationTime(item.getMetadata().getCreationTimestamp().toString());
             System.out.println(item.getStatus().getNodeInfo().getArchitecture());
-            node.setCreationTime(item.getStatus().getNodeInfo().getArchitecture());
+            node.setArchitecture(item.getStatus().getNodeInfo().getArchitecture());
             nodeList.add(node);
             id++;
         }
 
         return nodeList;
+    }
+
+
+    private List<Pod> getPods(V1Node node){
+        return null;
     }
 
 
