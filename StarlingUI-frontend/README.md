@@ -1,14 +1,12 @@
 # Integration Stage
 
-Ready: image list. user db
+Ready: image list. user db. drones
 
 
-Pending: Project DB, Drones, Upload File, Deployment
+Pending: Project DB, Upload File, Deployment
 
 
 for project db test: npx json-server --watch data/project.json --port 8000
-
-for drones test: npx json-server --watch data/drone.json --port 8002
 
 
 ## developing
