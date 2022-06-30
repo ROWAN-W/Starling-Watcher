@@ -85,13 +85,13 @@ export default function Deploy(props) {
                 
                 {!props.waiting &&
                     <>
-                    {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Drones</button></div>}
+                    {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Devices</button></div>}
                     <div className='drone-update-time'>last sync: {props.updateTime}</div>
                     </>
                 }
                 
                 {props.waiting && <div>Please wait...</div>}
-                {props.error && <div>No available drones</div>}
+                {props.error && <div>No available devices</div>}
 
                 {props.selectedProject.mapping.map(node=>{
                     //for displaying node name

@@ -118,7 +118,7 @@ export default function ContainerSetting(props) {
                     )}
                     </div>
                     <div>
-                        <button onClick={()=>handleEnvAdd()}>Add Env</button>
+                        <button type='button' onClick={()=>handleEnvAdd()}>Add Env</button>
                     </div>
                     <p></p>
                     <label>Port:</label>
@@ -136,7 +136,7 @@ export default function ContainerSetting(props) {
                     )}
                     </div>
                     <div>
-                        <button onClick={()=>handlePortAdd()}>Add Port</button>
+                        <button type='button' onClick={()=>handlePortAdd()}>Add Port</button>
                     </div>
                     <br/>
                     <button type='submit'>Done</button>

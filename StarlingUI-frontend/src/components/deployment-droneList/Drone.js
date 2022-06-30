@@ -17,7 +17,7 @@ export default function Drone(props) {
         <>
         <tbody>
         <tr>
-            <td>{props.name}</td>
+            <td>{props.nodeName}</td>
             <td>{props.hostname}</td>
             <td>{props.ip}</td>
             <td>{props.architecture}</td>

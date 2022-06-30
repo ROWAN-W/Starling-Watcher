@@ -7,7 +7,7 @@ export default function DroneList(props) {
     const [orderCol, setOrderCol] = useState();    
 
     useEffect(() => {
-        const url = "http://localhost:8002/sampleDrone";
+        const url = "http://localhost:8080/design/available-nodes";
           
           fetch(url)
           .then(res => {
@@ -68,7 +68,7 @@ export default function DroneList(props) {
     <table>
         <thead>
         <tr>
-            <th onClick={()=>{sorting("name");setOrderCol("name")}}>Name {showIcon("name")}</th>
+            <th onClick={()=>{sorting("nodeName");setOrderCol("nodeName")}}>Name {showIcon("nodeName")}</th>
             <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Hostname {showIcon("hostname")}</th>
             <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP Address {showIcon("ip")}</th>
             <th onClick={()=>{sorting("architecture");setOrderCol("architecture")}}>Architecture {showIcon("architecture")}</th>

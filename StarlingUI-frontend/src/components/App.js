@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import User from "./user/User";
-import { v4 as uuidv4 } from 'uuid';
 import '../css/app.css';
 import Navbar from "./Navbar";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -44,7 +43,7 @@ function App() {
   
   const [userSignIn, setUserSignIn] = useState(false);
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[],setUserData);
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[],setUserData);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID],null)
   
   const [images, setImages] = useState([]);
@@ -64,19 +63,13 @@ function App() {
 
   useEffect(()=>{
     console.log("run when current user changes");
-    //setTimeout(() => {
-      signInPage();
-    //}, 5000)
-    
+    signInPage();
   },[currentUserID]);
 
   function signInPage(){
-    //if(users && projectsData){
-      //test
-      if(currentUserID===''){
-        setUserSignIn(true);
-      }
-    //} 
+    if(currentUserID===''){
+      setUserSignIn(true);
+    }
   }
 
   function handleProjectListChange(userId){

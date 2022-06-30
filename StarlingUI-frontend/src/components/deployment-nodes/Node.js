@@ -56,12 +56,6 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
                         value: ""
                     }
                 ],
-                env2: [
-                    {
-                        name: "",
-	                    valueFrom: { name: "", key: ""}
-                    }
-                ],
                 port: [
                     {
                         containerPort: "",

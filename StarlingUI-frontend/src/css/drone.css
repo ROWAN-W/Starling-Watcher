@@ -20,18 +20,25 @@
 }
 
 td {
-    height: 35px;
+    height: 50px;
     vertical-align: bottom;
     text-align: center;
-  }
+}
+
+td, th {
+    word-wrap: break-word;
+    
+    white-space: normal;
+    hyphens: auto;   
+}
 
 table {
-    white-space: nowrap;
+    
     border: 2px solid #ccc;
     padding: 10px;
     border-radius: 5px;
     display: block;
-    max-width: 100%;
+    max-width: 400px;
     max-height: 350px;
     overflow-y: auto;
     overflow-x: hidden;
