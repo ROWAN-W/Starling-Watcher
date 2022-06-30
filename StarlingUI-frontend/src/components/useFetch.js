@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useFetch = (url,dep) => {
+const useFetch = (url,dep,func) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -16,6 +16,9 @@ const useFetch = (url,dep) => {
         return res.json();
       })
       .then(data => {
+        if(func!==null){
+          func(data);
+        }
         setIsPending(false);
         setData(data);
         setError(null);

@@ -79,7 +79,7 @@ export default function SaveMessage(props) {
             props.selectedProject.saved=false;
             props.selectedProject.dateModified = dateModified;
             props.selectedProject.lastModifiedBy = lastModifiedBy;        
-            return;
+            throw Error('Error Details: '+res.status);
         } 
         return res.json();
         })

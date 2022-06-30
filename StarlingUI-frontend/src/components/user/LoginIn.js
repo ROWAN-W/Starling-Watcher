@@ -3,12 +3,15 @@ import { ProjectContext } from '../App';
 
 export default function LoginIn(props) {
 
-    const {userData, handleCurrentUser} = useContext(ProjectContext);
+    const {handleCurrentUser} = useContext(ProjectContext);
 
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
-    //0 is neutral, 1 is valid, -1 is invalid
-    const [valid, setValid] = useState(0);
+
+    const [loginError, setError] = useState(null);
+    const [waiting, setWaiting] = useState(false);
+
+    //const [instruction, setInstruction] = useState('');
     const [forgot, setForgot] = useState(false);
 
     const handleSubmit = (e) => {
@@ -17,16 +20,48 @@ export default function LoginIn(props) {
     }
 
     function checkValid(){
-        const result = userData.find(element => element.name===userName && element.password===password);
-        if(result===undefined){
-            setValid(-1);
-        }else{
-            handleCurrentUser(result.name);
-            setValid(1);
-            console.log(result.name);
+        setError(null);
+        setWaiting(true);
+        const url = "http://localhost:8080/design/login";
+        
+        const options = {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify({
+            name: userName,
+            password: password,
+        }),
+        };
+        
+        fetch(url,options)
+        .then(res => {
+          if (!res.ok) { // error coming back from server
+            throw Error('Login Failure. Error Details: '+res.status);
+          } 
+          return res.json();
+        })
+        .then(data => {
+          console.log("valid account");
+          console.log(data);
+          setWaiting(false);
+          setError(null);
+          console.log("fetch "+url);
+          //setInstruction("Success!");
+          
+          //setTimeout(() => {
+            handleCurrentUser(data.name);
             clearField();
             props.setTrigger(false);
-        }
+          //}, 2000)
+        })
+        .catch(err => {
+          // auto catches network / connection error
+          setWaiting(false);
+          setError(err.message);
+        })        
     }
 
     function forgotPassword(){
@@ -37,28 +72,25 @@ export default function LoginIn(props) {
         }
     }
 
-    function showInValid(){
-        if(valid===-1){
-            return(
-                <h4>Invalid user name or password!</h4>
-            );
-        }
-    }
-
     function clearField(){
         setUserName('');
         setPassword('');
         setForgot(false);
+        setError(null);
+        setWaiting(false);
+        //setInstruction('');
     }
 
     
   return (props.trigger) ?(
     <div className='popup-projects'>
         <div className='popup-projects-inner'>
-        <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setValid(0);clearField();}}>&times;</button>
+        <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField();}}>&times;</button>
             <h3>Sign in</h3>
-            {showInValid()}
-            <p onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);setValid(0);clearField();}}>New user? Create an account</p>
+            {loginError && <h4>{loginError}</h4>}
+            {waiting && <h4>Please wait...</h4>}
+            <h4>{/*instruction*/}</h4>
+            <p onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
                 <form onSubmit={handleSubmit}>
                 <label 
                     htmlFor='userName'>User Name

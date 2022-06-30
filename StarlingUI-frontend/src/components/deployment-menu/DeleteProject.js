@@ -30,7 +30,7 @@ export default function DeleteProject(props) {
         if (!res.ok) { // error coming back from server
             setIsPending(false);
             setResult('Error Details: '+res.status);
-            return;
+            throw Error('Error Details: '+res.status);
         } 
         return res.json();
         })

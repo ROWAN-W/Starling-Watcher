@@ -21,10 +21,11 @@ export default function CreateAccount(props) {
     
     function checkValid(){
         if(newPassword!==newPasswordAgain){
-            console.log("unmatched password")
+            console.log("unmatched new/confirmed password")
             setError("Unmatched password!");
             return;
         }
+        setError(null);
         setWaiting(true);
         const url = "http://localhost:8080/design/users";
         
@@ -53,13 +54,13 @@ export default function CreateAccount(props) {
           setWaiting(false);
           setError(null);
           console.log("fetch "+url);
-          setInstruction("Success: Manual sign in or refresh if the page isn't redirecting.");
+          setInstruction("Success!");
           
           setTimeout(() => {
             handleUserAdd(data.id,data.name);
             clearField();
             props.setTrigger(false);
-          }, 3000)
+          }, 2000)
         })
         .catch(err => {
           // auto catches network / connection error

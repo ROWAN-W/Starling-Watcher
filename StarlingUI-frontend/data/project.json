@@ -3,14 +3,13 @@
     {
       "id": 1,
       "name": "Project ABC",
-      "dateModified": "29/06/2022 12:36:06",
-      "lastModifiedBy": "62bc77959aabba031f57ef30",
+      "dateModified": "30/06/2022 13:37:59",
+      "lastModifiedBy": "62bd2a60b997d251e4ffbcba",
       "saved": true,
-      "ownerID": "62bc77959aabba031f57ef30",
+      "ownerID": "62bd2a60b997d251e4ffbcba",
       "memberIDs": [
-        "62bc77959aabba031f57ef30",
-        "62bc77959aabba031f57ef31",
-        "62bc77959aabba031f57ef32"
+        "62bd2a60b997d251e4ffbcba",
+        "62bd35f9b997d251e4ffbcbd"
       ],
       "config": [
         {
@@ -87,18 +86,15 @@
       "mapping": [
         {
           "nodeID": 1000,
-          "mappedDrones": [
-          ]
+          "mappedDrones": []
         },
         {
           "nodeID": 10001,
-          "mappedDrones": [
-          ]
+          "mappedDrones": []
         },
         {
           "nodeID": "2ec89697-a139-4c58-b959-9ed4ca307dae",
-          "mappedDrones": [
-          ]
+          "mappedDrones": []
         },
         {
           "nodeID": "9479a49c-edaa-485f-a6ff-c27d2aa3ec14",
@@ -110,13 +106,13 @@
       "id": 2,
       "name": "Project B",
       "dateModified": "26/06/2022 16:49:15",
-      "lastModifiedBy": "62bc77959aabba031f57ef30",
+      "lastModifiedBy": "62bd2a60b997d251e4ffbcba",
       "saved": true,
-      "ownerID": "62bc77959aabba031f57ef30",
+      "ownerID": "62bd2a60b997d251e4ffbcba",
       "memberIDs": [
-        "62bc77959aabba031f57ef31",
-        "62bc77959aabba031f57ef30",
-        "62bc77959aabba031f57ef32"
+        "62bd2a60b997d251e4ffbcbb",
+        "62bd2a60b997d251e4ffbcba",
+        "62bd2a60b997d251e4ffbcbc"
       ],
       "config": [
         {
@@ -133,6 +129,36 @@
       "mapping": [
         {
           "nodeID": 2000,
+          "mappedDrones": []
+        }
+      ]
+    },
+    {
+      "id": "8ea596bb-4066-45f1-8a76-f0d7f38400de",
+      "name": "New Project[1]",
+      "dateModified": "30/06/2022 13:36:36",
+      "lastModifiedBy": "62bd35f9b997d251e4ffbcbd",
+      "saved": true,
+      "ownerID": "62bd35f9b997d251e4ffbcbd",
+      "memberIDs": [
+        "62bd35f9b997d251e4ffbcbd",
+        "62bd2a60b997d251e4ffbcba"
+      ],
+      "config": [
+        {
+          "id": "0481ff66-54c0-4995-91fc-e2c8ec442cf3",
+          "name": "new design",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": "0481ff66-54c0-4995-91fc-e2c8ec442cf3",
           "mappedDrones": []
         }
       ]

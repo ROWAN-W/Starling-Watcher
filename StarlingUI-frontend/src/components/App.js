@@ -15,6 +15,7 @@ export const ProjectContext = React.createContext();
 
 function App() {
 
+  //
   const [userData, setUserData] = useState();
 
   const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
@@ -43,8 +44,8 @@ function App() {
   
   const [userSignIn, setUserSignIn] = useState(false);
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[]);
-  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID])
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[],setUserData);
+  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID],null)
   
   const [images, setImages] = useState([]);
 
@@ -60,26 +61,22 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
   },[projects]);*/
 
-  useEffect(()=>{
-    if(users){
-      console.log("run when getting users from the server");
-      setUserData(users);
-    }
-  },[users]);
 
   useEffect(()=>{
     console.log("run when current user changes");
-    signInPage();
+    //setTimeout(() => {
+      signInPage();
+    //}, 5000)
+    
   },[currentUserID]);
 
   function signInPage(){
-    if(users && projectsData){
-      //user sign out
+    //if(users && projectsData){
       //test
       if(currentUserID===''){
         setUserSignIn(true);
       }
-    } 
+    //} 
   }
 
   function handleProjectListChange(userId){
@@ -87,6 +84,7 @@ function App() {
     if(userId!==undefined){
       console.log("based on the user");
       const userProjects = projectsData.filter(project=>project.memberIDs.find(id=>id===userId));
+      console.log(projectsData);
       console.log(userProjects);
       setProjects(userProjects);
     }else{
@@ -126,7 +124,6 @@ function App() {
     }
   }
 
-  //temporary solution. should be replaced with the operations from the backend
   function handleUserAdd(id, name){
     const newUser = {id: id, name: name};
     console.log(newUser);
@@ -157,7 +154,7 @@ function App() {
     </div>
     { (userError || projectError ) && <div className="message">{ userError } {projectError}</div> }
     { (userPending || projectPending ) && <div className="message">Loading...</div> }
-    { (users && projectsData ) &&
+    { (users && projectsData ) && 
     <Switch>
       <Route exact path="/">
         <Deployment selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>

@@ -30,11 +30,11 @@ export default function ManageAccount(props) {
 
     function checkValid(){
         if(newPassword!==newPasswordAgain){
-            console.log("unmatched password")
-            setError("Unmatched password!");
+            console.log("unmatched new/confirmed password")
+            setError("Unmatched new/confirmed password!");
             return;
         }
-
+        setError(null);
         setWaiting(true);
         const url = "http://localhost:8080/design/users";
         
@@ -63,11 +63,11 @@ export default function ManageAccount(props) {
           setWaiting(false);
           setError(null);
           console.log("fetch "+url);
-          setInstruction("Success: The window will close automatically.");
+          setInstruction("Success!");
           setTimeout(() => {
             clearField();
             props.setTrigger(false);
-          }, 3000)
+          }, 2000)
         })
         .catch(err => {
           // auto catches network / connection error

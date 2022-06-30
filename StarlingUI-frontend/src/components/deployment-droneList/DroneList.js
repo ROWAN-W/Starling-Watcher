@@ -15,7 +15,7 @@ export default function DroneList(props) {
                 props.setWaiting(false);
                 props.setData();
                 props.setError('Error Details: '+res.status);
-                return;
+                throw Error('Error Details: '+res.status);
             } 
             return res.json();
           })
