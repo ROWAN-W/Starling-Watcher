@@ -16,36 +16,14 @@ public class StarlingProject {
 
     @Id
     private String id;
-
-    private String name;
-    private String dateModified;
-    private String lastModifiedBy;
-    private String saved;
-    private String ownerID;
-    private List<String> memberIDs;
-    private List<ProjectConfig> config;
-    private List<ProjectMapping> mapping;
-
+    private String json;
 
     public StarlingProject() {
         super();
     }
 
-    public StarlingProject(String name) {
-        this.name = name;
+    public StarlingProject(String json) {
+        this.json = json;
     }
 
-    public void setMemberIDs(JSONArray ja) throws Exception {
-        memberIDs = new ArrayList<>();
-        for (int i = 0; i < ja.length(); i++) {
-            memberIDs.add(ja.get(i).toString());
-        }
-    }
-
-    public void setConfig(JSONArray ja) {
-        config = new ArrayList<>();
-        for (int i = 0; i < ja.length(); i++) {
-            config.add(ja.getJSONObject(i));
-        }
-    }
 }

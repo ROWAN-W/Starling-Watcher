@@ -197,7 +197,12 @@ public class DesignController {
     @GetMapping("/projects")
     public ResponseEntity<String> getAllProjects() {
         List<StarlingProject> projects = projectDao.findAll();
-        JSONArray ja = new JSONArray(projects);
+        JSONArray ja = new JSONArray();
+        for (StarlingProject project : projects) {
+            JSONObject jsonObject = new JSONObject(project.getJson());
+            jsonObject.put("id", project.getId());
+            ja.put(jsonObject);
+        }
         return new ResponseEntity<>(ja.toString(), HttpStatus.OK);
     }
 
@@ -209,8 +214,8 @@ public class DesignController {
     @PostMapping("/projects")
     public ResponseEntity<String> saveProject(@RequestBody String body) {
         try {
-            StarlingProject project = projectDao.save(body);
-//            StarlingProject project = new StarlingProject("hei");
+            StarlingProject project = new StarlingProject(body);
+            projectDao.save(project);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", project.getId());
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
@@ -234,9 +239,10 @@ public class DesignController {
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
         StarlingProject project = optProject.get();
-//        project.setJson(body);
+        project.setJson(body);
         projectDao.save(project);
-        JSONObject jsonObject = new JSONObject(project);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", id);
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
@@ -254,13 +260,9 @@ public class DesignController {
         }
         StarlingProject project = optProject.get();
         projectDao.deleteById(id);
-        JSONObject jsonObject = new JSONObject(project);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", id);
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
-    }
-
-    private boolean starlingUserNameExists(String name) {
-        StarlingUser user = userDao.findByName(name);
-        return user != null;
     }
 
     /**
