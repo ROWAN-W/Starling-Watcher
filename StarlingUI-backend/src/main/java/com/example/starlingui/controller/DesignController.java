@@ -184,9 +184,9 @@ public class DesignController {
     public ResponseEntity<String> initializeDatabase() {
         userDao.deleteAll();
         projectDao.deleteAll();
-        userDao.save(new StarlingUser("John", "1234"));
-        userDao.save(new StarlingUser("Alice", "1234"));
-        userDao.save(new StarlingUser("Bob", "5678"));
+        userDao.save(new StarlingUser("34567ihf87ft687guy6" , "John", "1234"));
+        userDao.save(new StarlingUser("kjt67889hut7iof8iuu", "Alice", "1234"));
+        userDao.save(new StarlingUser("40jf94jf93jjf40f3j0", "Bob", "5678"));
         return new ResponseEntity<>("Database has been initialized", HttpStatus.OK);
     }
 
@@ -208,30 +208,14 @@ public class DesignController {
      */
     @PostMapping("/projects")
     public ResponseEntity<String> saveProject(@RequestBody String body) {
-//        JSONObject bodyJson = new JSONObject(body);
-//        projectDao.save(project);
-//        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         try {
-            JSONObject jsonObject = new JSONObject(body);
-            String name = jsonObject.get("name").toString();
-            String dateModified = jsonObject.get("dateModified").toString();
-            String lastModifiedBy = jsonObject.get("lastModifiedBy").toString();
-            String saved = jsonObject.get("saved").toString();
-            String ownerID = jsonObject.get("ownerID").toString();
-            String memberIDs = jsonObject.get("memberIDs").toString();
-            String config = jsonObject.get("config").toString();
-            StarlingProject project = new StarlingProject(name);
-            project.setDateModified(dateModified);
-            project.setSaved(saved);
-            project.setLastModifiedBy(lastModifiedBy);
-            project.setOwnerID(ownerID);
-            project.setMemberIDs(memberIDs);
-            project.setConfig(config);
-            projectDao.save(project);
-            jsonObject = new JSONObject(project);
+            StarlingProject project = projectDao.save(body);
+//            StarlingProject project = new StarlingProject("hei");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", project.getId());
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (Exception e) {
-            String errorJson = getErrorJson("Invalid request body!");
+            String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
     }
@@ -250,7 +234,7 @@ public class DesignController {
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
         StarlingProject project = optProject.get();
-        project.setJson(body);
+//        project.setJson(body);
         projectDao.save(project);
         JSONObject jsonObject = new JSONObject(project);
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);

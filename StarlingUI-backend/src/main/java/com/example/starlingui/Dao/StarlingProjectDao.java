@@ -1,6 +1,8 @@
 package com.example.starlingui.Dao;
 
 import com.example.starlingui.model.StarlingProject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,26 @@ public class StarlingProjectDao implements Dao<StarlingProject> {
     @Override
     public void save(StarlingProject starlingProject) {
         repo.save(starlingProject);
+    }
+
+    public StarlingProject save(String body) throws Exception {
+        JSONObject jsonObject = new JSONObject(body);
+        String name = jsonObject.get("name").toString();
+//        String dateModified = jsonObject.get("dateModified").toString();
+//        String lastModifiedBy = jsonObject.get("lastModifiedBy").toString();
+//        String saved = jsonObject.get("saved").toString();
+//        String ownerID = jsonObject.get("ownerID").toString();
+        JSONArray memberIDs = jsonObject.getJSONArray("memberIDs");
+        JSONArray config = jsonObject.getJSONArray("config");
+        StarlingProject project = new StarlingProject(name);
+//        project.setDateModified(dateModified);
+//        project.setSaved(saved);
+//        project.setLastModifiedBy(lastModifiedBy);
+//        project.setOwnerID(ownerID);
+        project.setMemberIDs(memberIDs);
+        project.setConfig(config);
+        return repo.save(project);
+//        return project;
     }
 
     @Override

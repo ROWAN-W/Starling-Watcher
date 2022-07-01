@@ -17,7 +17,8 @@ public class StarlingUser {
 
     private String password;
 
-    public StarlingUser(String name, String password) {
+    public StarlingUser(String id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
     }
