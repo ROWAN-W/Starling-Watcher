@@ -27,10 +27,12 @@ public class StarlingUserDao implements Dao<StarlingUser>{
         return repo.findByName(name);
     }
 
+    @Override
     public List<StarlingUser> findAll() {
         return repo.findAll();
     }
 
+    @Override
     public void deleteAll() {
         repo.deleteAll();
     }

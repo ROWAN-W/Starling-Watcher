@@ -1,7 +1,9 @@
 package com.example.starlingui.controller;
 
+import com.example.starlingui.Dao.StarlingProjectDao;
 import com.example.starlingui.Dao.StarlingUserDao;
 import com.example.starlingui.model.Image;
+import com.example.starlingui.model.StarlingProject;
 import com.example.starlingui.model.StarlingUser;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
@@ -31,6 +33,9 @@ public class DesignController {
     @Autowired
     private StarlingUserDao userDao;
 
+    @Autowired
+    private StarlingProjectDao projectDao;
+
     /**
      * @Description Post request(with Body param)
      * @param user DockerHub User information(username,password)
@@ -50,12 +55,12 @@ public class DesignController {
     }
 
     /**
-     * @Description Add a new user
+     * @Description Save a new user
      * @param user User to be added to the database, contains name and password
      * @return return User id and name, 403 if user already exists, return 200 if success
      */
     @PostMapping("/users")
-    public ResponseEntity<String> newUser(@RequestBody StarlingUser user) {
+    public ResponseEntity<String> saveUser(@RequestBody StarlingUser user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
 //        String name = user.getName();
@@ -75,18 +80,19 @@ public class DesignController {
     }
 
     /**
-     * @Description Modify the information of user
+     * @Description Update the password of user
      * @param body Contains old password and new password
      * @param id id of the user to be updated
      * @return User id and username, Http Status is 403 if user to be updated doesn't exist, 200 if success
      */
     @PutMapping("/users/{id}")
-    public ResponseEntity<String> replaceUser(@RequestBody String body, @PathVariable String id) {
+    public ResponseEntity<String> updateUser(@RequestBody String body, @PathVariable String id) {
         try {
-            Gson gson = new Gson();
-            JsonObject bodyJson = gson.fromJson(body, JsonObject.class);
-            String oldPassword = bodyJson.get("oldPassword").getAsString();
-            String password = bodyJson.get("password").getAsString();
+            JSONObject bodyJson = new JSONObject(body);
+//            Gson gson = new Gson();
+//            JsonObject bodyJson = gson.fromJson(body, JsonObject.class);
+            String oldPassword = bodyJson.get("oldPassword").toString();
+            String password = bodyJson.get("password").toString();
             Optional<StarlingUser> optUser = userDao.getById(id);
             if (optUser.isEmpty()) {
                 String errorJson = getErrorJson("User does not exist!");
@@ -95,14 +101,18 @@ public class DesignController {
             StarlingUser userToUpdate = optUser.get();
             if (!Objects.equals(oldPassword, userToUpdate.getPassword())) {
                 String errorJson = getErrorJson("Invalid old password!");
-                return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+//                return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorJson);
             }
             userToUpdate.setPassword(password);
             userDao.save(userToUpdate);
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(userToUpdate);
+//            JsonObject jsonObject = (JsonObject) gson.toJsonTree(userToUpdate);
+            JSONObject jsonObject = new JSONObject(userToUpdate);
             jsonObject.remove("password");
-            String json = gson.toJson(jsonObject);
-            return new ResponseEntity<>(json, HttpStatus.OK);
+//            String json = gson.toJson(jsonObject);
+//            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+//            return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+            return ResponseEntity.ok(jsonObject.toString());
         } catch (Exception e) {
             return new ResponseEntity<>("Invalid Request body!", HttpStatus.FORBIDDEN);
         }
@@ -144,7 +154,9 @@ public class DesignController {
                 String errorJson = getErrorJson("Invalid username or password!");
                 return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
             }
-            return new ResponseEntity<>(body, HttpStatus.OK);
+            JSONObject jsonObject = new JSONObject(user);
+            jsonObject.remove("password");
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (Exception e) {
             String errorJson = getErrorJson("Invalid username or password!");
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
@@ -152,15 +164,16 @@ public class DesignController {
     }
 
     /**
-     * @Description Used for tests
+     * @Description Used for tests, get all users
      * @return information of all users
      */
     @GetMapping("/database")
     public ResponseEntity<String> showDatabase() {
         List<StarlingUser> users = userDao.findAll();
-        Gson gson = new Gson();
-        String json = gson.toJson(users);
-        return new ResponseEntity<>(json, HttpStatus.OK);
+//        Gson gson = new Gson();
+//        String json = gson.toJson(users);
+        JSONArray ja = new JSONArray(users);
+        return new ResponseEntity<>(ja.toString(), HttpStatus.OK);
     }
 
     /**
@@ -170,10 +183,95 @@ public class DesignController {
     @GetMapping("/initialize")
     public ResponseEntity<String> initializeDatabase() {
         userDao.deleteAll();
+        projectDao.deleteAll();
         userDao.save(new StarlingUser("John", "1234"));
         userDao.save(new StarlingUser("Alice", "1234"));
         userDao.save(new StarlingUser("Bob", "5678"));
         return new ResponseEntity<>("Database has been initialized", HttpStatus.OK);
+    }
+
+    /**
+     * @Description Get all projects in database
+     * @return All projects informaion
+     */
+    @GetMapping("/projects")
+    public ResponseEntity<String> getAllProjects() {
+        List<StarlingProject> projects = projectDao.findAll();
+        JSONArray ja = new JSONArray(projects);
+        return new ResponseEntity<>(ja.toString(), HttpStatus.OK);
+    }
+
+    /**
+     * @Description Add a new project to database
+     * @param body Project data
+     * @return id and 200
+     */
+    @PostMapping("/projects")
+    public ResponseEntity<String> saveProject(@RequestBody String body) {
+//        JSONObject bodyJson = new JSONObject(body);
+//        projectDao.save(project);
+//        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+        try {
+            JSONObject jsonObject = new JSONObject(body);
+            String name = jsonObject.get("name").toString();
+            String dateModified = jsonObject.get("dateModified").toString();
+            String lastModifiedBy = jsonObject.get("lastModifiedBy").toString();
+            String saved = jsonObject.get("saved").toString();
+            String ownerID = jsonObject.get("ownerID").toString();
+            String memberIDs = jsonObject.get("memberIDs").toString();
+            String config = jsonObject.get("config").toString();
+            StarlingProject project = new StarlingProject(name);
+            project.setDateModified(dateModified);
+            project.setSaved(saved);
+            project.setLastModifiedBy(lastModifiedBy);
+            project.setOwnerID(ownerID);
+            project.setMemberIDs(memberIDs);
+            project.setConfig(config);
+            projectDao.save(project);
+            jsonObject = new JSONObject(project);
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            String errorJson = getErrorJson("Invalid request body!");
+            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**
+     * @Description Update a project
+     * @param body New project data
+     * @param id id of project to be updated
+     * @return 403 if id does not match, 200 and id if success
+     */
+    @PutMapping("/projects/{id}")
+    public ResponseEntity<String> updateProject(@RequestBody String body, @PathVariable String id) {
+        Optional<StarlingProject> optProject = projectDao.getById(id);
+        if (optProject.isEmpty()) {
+            String errorJson = getErrorJson("Project id does not exist!");
+            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+        }
+        StarlingProject project = optProject.get();
+        project.setJson(body);
+        projectDao.save(project);
+        JSONObject jsonObject = new JSONObject(project);
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+    }
+
+    /**
+     * @Description Delete a project
+     * @param id id of project to be deleted
+     * @return 403 if id does not match, id and 200 if success
+     */
+    @DeleteMapping("/projects/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable String id) {
+        Optional<StarlingProject> optProject = projectDao.getById(id);
+        if (optProject.isEmpty()) {
+            String errorJson = getErrorJson("Project id does not exist!");
+            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+        }
+        StarlingProject project = optProject.get();
+        projectDao.deleteById(id);
+        JSONObject jsonObject = new JSONObject(project);
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     private boolean starlingUserNameExists(String name) {
