@@ -72,7 +72,7 @@ export default function ManageAccount(props) {
         .catch(err => {
           // auto catches network / connection error
           setWaiting(false);
-          setError(err.message);
+          setError('Failed to connect to the server');
         })        
     }
 

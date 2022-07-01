@@ -7,7 +7,6 @@ export default function Upload(props) {
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
-    const [deployable, setDeployable] = useState(false);
 
     function handleFileUpload(){
         if(selectedFile===null || selectedFile===undefined){
@@ -41,14 +40,12 @@ export default function Upload(props) {
     function clearField(){
         setSelectedFile();
         setResult('');
-        setDeployable(false);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsPending(true);
         setResult('Please wait...');
-        setDeployable(false);
         handleFileUpload();
     }
 
@@ -81,10 +78,10 @@ export default function Upload(props) {
                 <h3>Upload file & Deploy</h3>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit}>
                     <div className="form-group files">
-                        <input type="file" className="form-control" required onChange={e=>{setSelectedFile();checkMimeType(e)&&setSelectedFile(e.target.files[0]);}} onClick={()=>{setResult('');setDeployable(false);}}/>
+                        <input type="file" className="form-control" required onChange={e=>{setSelectedFile();checkMimeType(e)&&setSelectedFile(e.target.files[0]);}} onClick={()=>{setResult('');}}/>
                     </div>
                     <div>{result}</div> 
-                    <div><button type='submit'>Upload</button>{deployable && <button type='button'>Deploy</button> }</div> 
+                    <div><button type='submit'>Deploy</button></div> 
                 </form>
             </div>
         </div>

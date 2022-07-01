@@ -6,6 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
+import DeployMini from "./deployment-menu/deploy/DeployMini";
 
 function Deployment({selectedProject}) {
 
@@ -21,6 +22,9 @@ function Deployment({selectedProject}) {
   
   const [waiting, setWaiting] = useState(true);
   const [error, setError] = useState(null);
+
+  const [minimize, setMinimize] = useState(null); //save
+
 
   function handleUpdateTime(){
     setWaiting(true);
@@ -81,15 +85,18 @@ function Deployment({selectedProject}) {
       selectedProject={selectedProject} 
       drones={data} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
       error = {error} waiting = {waiting}
+      minimize = {minimize} setMinimize={setMinimize}
       ></Menu></div>
     </div>
     <div className="body">
+      
         <DndProvider backend={HTML5Backend}>
         <ImageList></ImageList>
         <Project currentUserID={currentUserID} selectedProject={selectedProject} droneListTrigger={droneListTrigger}></Project>
         </DndProvider>
         {showDroneList()}
     </div>
+    {selectedProject!==undefined && <DeployMini trigger={minimize} setTrigger={setMinimize}></DeployMini>}
     </>
   )
 }

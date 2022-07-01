@@ -28,7 +28,7 @@ export default function DroneList(props) {
           .catch(err => {
             // auto catches network / connection error
             props.setWaiting(false);
-            props.setError(err.message);
+            props.setError('Failed to connect to the server');
           })
         
       },[props.updateClick])
@@ -60,7 +60,7 @@ export default function DroneList(props) {
     return (props.trigger) ?(
     <>
     <div className='drone-container'>
-    <div><span className='drone-container-title'>Available Drones</span><button onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
+    <div><span className='drone-container-title'>Available Devices</span><button onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
     <div className='drone-update-time'>last sync: {props.updateTime}</div>
     {props.waiting && <div>Please wait...</div>}
     {props.error && <div>{ props.error }</div>}

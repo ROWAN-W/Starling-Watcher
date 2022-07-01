@@ -43,7 +43,7 @@ function App() {
   
   const [userSignIn, setUserSignIn] = useState(false);
 
-  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8001/sampleUser',[],setUserData);
+  const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[],setUserData);
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID],null)
   
   const [images, setImages] = useState([]);

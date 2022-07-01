@@ -29,6 +29,23 @@ html{
     grid-gap: 20px;
 }
 
+.minimize{
+    height: 40px; 
+    position: fixed; 
+    bottom:0%;
+    right: 0%;
+    width:25%; 
+    background-color: gray; 
+    opacity: 1;
+    text-align: left;
+}
+
+.minimize-title{
+    color: white;
+    padding-left: 10px;
+    font-weight: bolder;
+}
+
 .message{
     border: none;
     background-color: transparent;

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { ProjectContext } from '../App';
 import DeleteWarning from './DeleteWarning';
 import DeleteProject from './DeleteProject';
@@ -10,7 +10,7 @@ import SaveMessage from './SaveMessage';
 import DeployWarning from './deploy/DeployWarning';
 import CreateProject from './CreateProject';
 
-export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, error, waiting} ) {
+export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, error, waiting, minimize, setMinimize} ) {
 
   const {currentUserID} = useContext(ProjectContext);
 
@@ -25,6 +25,14 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     
     const [deployWarning, setDeployWarning] = useState(false);
     const [deployWarningMes, setDeployWarningMes] = useState('');
+
+    useEffect(()=>{
+      if(minimize===false){
+          //resume Deploy window
+          console.log("resume window")
+          handleProjectDeploy(true);
+      }
+    },[minimize]);
 
     function handleProjectSelection(clickEvent){
       if(currentUserID!==''){
@@ -46,13 +54,12 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
 
     function handleProjectDeploy(clickEvent){
       if(selectedProject!==undefined){
-
         console.log(drones);
 
         //checking before deploying
         if(drones===null||drones===undefined||drones.length===0){
-          console.log("cannot deploy without available drones!");
-          setDeployWarningMes("No available drones to deploy. Click \"Sync Again\" to sync available drones");
+          console.log("cannot deploy without available devices!");
+          setDeployWarningMes("No available devices to deploy. Click \"Sync Again\" to sync available devices");
           setDeployWarning(clickEvent);
           return;
         }
@@ -123,7 +130,9 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} 
     selectedProject={selectedProject} 
-    drones={drones} handleUpdateTime={handleUpdateTime} updateTime={updateTime} error = {error} waiting = {waiting}
+    drones={drones} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
+    error = {error} waiting = {waiting}
+    minimize = {minimize} setMinimize = {setMinimize}
     ></Deploy>
     <DeployWarning trigger={deployWarning} setTrigger={setDeployWarning} message={deployWarningMes}></DeployWarning>
     <Upload trigger={projectLoad} setTrigger={setProjectLoad}></Upload>

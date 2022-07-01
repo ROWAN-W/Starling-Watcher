@@ -19,20 +19,20 @@
     font-weight: bold;
 }
 
-td {
+.drone-container td {
     height: 50px;
     vertical-align: bottom;
     text-align: center;
 }
 
-td, th {
+.drone-container td, .drone-container th {
     word-wrap: break-word;
     
     white-space: normal;
     hyphens: auto;   
 }
 
-table {
+.drone-container table {
     
     border: 2px solid #ccc;
     padding: 10px;

@@ -44,3 +44,17 @@
 .popup-major{
     display: flex;
 }
+
+.popup-projects tr{
+    height: 50px;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.popup-projects table {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
