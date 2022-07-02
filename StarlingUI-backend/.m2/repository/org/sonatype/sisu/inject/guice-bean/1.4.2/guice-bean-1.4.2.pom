@@ -24,7 +24,7 @@
     <module>guice-bean-converters</module>
     <module>guice-bean-locators</module>
     <module>guice-bean-binders</module>
-    <module>guice-bean-containers</module>
+    <module>guice-bean-domainContainers</module>
     <module>sisu-inject-bean</module>
   </modules>
 
@@ -63,7 +63,7 @@
       </dependency>
       <dependency>
         <groupId>org.sonatype.sisu.inject</groupId>
-        <artifactId>guice-bean-containers</artifactId>
+        <artifactId>guice-bean-domainContainers</artifactId>
         <version>${project.version}</version>
       </dependency>
 

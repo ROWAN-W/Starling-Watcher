@@ -14,6 +14,7 @@ services:
       - "8080:8080"
       - "35729:35729"
       - "5005:5005"
+      - "443:443"
     depends_on:
       - mongo_db
   mongo_db:

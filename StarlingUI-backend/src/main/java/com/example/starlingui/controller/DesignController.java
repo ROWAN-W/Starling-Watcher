@@ -2,10 +2,13 @@ package com.example.starlingui.controller;
 
 import com.example.starlingui.model.Design;
 import com.example.starlingui.model.Image;
+import com.example.starlingui.model.domainNode;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
+import com.example.starlingui.service.NodeService;
 import com.example.starlingui.service.TemplatingServiceImp;
 import com.google.gson.Gson;
+import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.example.starlingui.Dao.StarlingProjectDao;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 import java.util.Objects;
@@ -62,6 +66,31 @@ public class DesignController {
 
     /**
 
+    /**
+     * @Description Get request (available nodes)
+     * @return ResponseEntity<String>
+     */
+
+    @GetMapping("/available-nodes")
+    public ResponseEntity<String> getAvailableNodes(){
+        try{
+            NodeService nodeService=new NodeService();
+            List<domainNode> domainNodeList =nodeService.getNodeList();
+            Gson gson = new Gson();
+            String json = gson.toJson(domainNodeList);
+            return ResponseEntity.ok(json);
+        }
+        catch (ApiException apiException){
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Kubernetes API fail :"+apiException.getMessage());
+        }
+        catch (IOException ioException){
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Kubernetes API fail :"+ioException.getMessage());
      * @Description Post request(with Body param)
      * @param designs Pod designs from user (name,config,mapping)
      * @return return ResponseEntity<String>
@@ -79,6 +108,9 @@ public class DesignController {
                     .body("Deploy fail :"+ e.getMessage());
         }
     }
+
+
+
 
 
      * @Description Save a new user

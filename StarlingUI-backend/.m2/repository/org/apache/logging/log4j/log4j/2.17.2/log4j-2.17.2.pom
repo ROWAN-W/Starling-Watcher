@@ -565,7 +565,7 @@
       </dependency>
       <dependency>
         <groupId>org.apache.flume</groupId>
-        <artifactId>flume-ng-node</artifactId>
+        <artifactId>flume-ng-domainNode</artifactId>
         <version>${flumeVersion}</version>
         <exclusions>
           <exclusion>

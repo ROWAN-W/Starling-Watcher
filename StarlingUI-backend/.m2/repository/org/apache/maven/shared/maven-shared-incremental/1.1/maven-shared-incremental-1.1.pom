@@ -90,7 +90,7 @@
         </exclusion>
         <exclusion>
           <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-container-default</artifactId>
+          <artifactId>plexus-domainContainer-default</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.codehaus.plexus</groupId>

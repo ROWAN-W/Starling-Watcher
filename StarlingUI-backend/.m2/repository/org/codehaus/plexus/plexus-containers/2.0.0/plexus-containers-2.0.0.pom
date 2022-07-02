@@ -8,7 +8,7 @@
     <version>5.1</version>
   </parent>
 
-  <artifactId>plexus-containers</artifactId>
+  <artifactId>plexus-domainContainers</artifactId>
   <version>2.0.0</version>
   <packaging>pom</packaging>
 
@@ -20,18 +20,18 @@
   <modules>
     <module>plexus-component-annotations</module>
     <module>plexus-component-metadata</module>
-    <module>plexus-container-default</module>
+    <module>plexus-domainContainer-default</module>
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/codehaus-plexus/plexus-containers.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/codehaus-plexus/plexus-containers.git</developerConnection>
-    <url>https://github.com/codehaus-plexus/plexus-containers</url>
-    <tag>plexus-containers-2.0.0</tag>
+    <connection>scm:git:https://github.com/codehaus-plexus/plexus-domainContainers.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/codehaus-plexus/plexus-domainContainers.git</developerConnection>
+    <url>https://github.com/codehaus-plexus/plexus-domainContainers</url>
+    <tag>plexus-domainContainers-2.0.0</tag>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>http://github.com/codehaus-plexus/plexus-containers/issues</url>
+    <url>http://github.com/codehaus-plexus/plexus-domainContainers/issues</url>
   </issueManagement>
   <distributionManagement>
     <site>
@@ -41,7 +41,7 @@
   </distributionManagement>
 
   <properties>
-    <scm.url>scm:git:git@github.com:codehaus-plexus/plexus-containers.git</scm.url>
+    <scm.url>scm:git:git@github.com:codehaus-plexus/plexus-domainContainers.git</scm.url>
     <classWorldsVersion>2.6.0</classWorldsVersion>
     <plexusUtilsVersion>3.1.1</plexusUtilsVersion>
     <xbeanReflectVersion>3.7</xbeanReflectVersion>
@@ -53,7 +53,7 @@
     <dependencies>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-container-default</artifactId>
+        <artifactId>plexus-domainContainer-default</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

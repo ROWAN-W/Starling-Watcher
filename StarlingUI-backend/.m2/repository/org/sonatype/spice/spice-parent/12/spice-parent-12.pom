@@ -48,7 +48,7 @@
     <dependencies>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-container-default</artifactId>
+        <artifactId>plexus-domainContainer-default</artifactId>
         <version>${plexus.version}</version>
         <scope>provided</scope>
         <exclusions>
