@@ -14,7 +14,6 @@ export const ProjectContext = React.createContext();
 
 function App() {
 
-  //
   const [userData, setUserData] = useState();
 
   const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
@@ -44,7 +43,7 @@ function App() {
   const [userSignIn, setUserSignIn] = useState(false);
 
   const { error: userError, isPending: userPending , data: users } = useFetch('http://localhost:8080/design/users',[],setUserData);
-  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8000/sampleProject',[currentUserID],null)
+  const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8080/design/projects',[currentUserID],null)
   
   const [images, setImages] = useState([]);
 
@@ -100,8 +99,8 @@ function App() {
     setProjects(newProjects);
   }
 
-  function handleCurrentUser(name){ //handle user select
-    if(name===undefined){
+  function handleCurrentUser(id){ //handle user select
+    if(id===undefined){
       console.log("user sign out!");
       //test
       setCurrentUserID('');
@@ -110,8 +109,6 @@ function App() {
     }else{
       console.log("user sign in!");
       console.log(userData);
-      const id = userData.find(user => user.name === name).id;
-      console.log(id);
       setCurrentUserID(id);
       handleProjectListChange(id);
     }

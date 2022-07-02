@@ -52,7 +52,7 @@ export default function ImageList() {
         .catch(err => {
           // auto catches network / connection error
           setWaiting(false);
-          setError('Failed to connect to the server');
+          setError(err.message);
         })
     }  
     },[finalUserName,finalPassword])

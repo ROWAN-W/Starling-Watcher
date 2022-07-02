@@ -12,9 +12,6 @@ export default function DroneList(props) {
           fetch(url)
           .then(res => {
             if (!res.ok) { // error coming back from server
-                props.setWaiting(false);
-                props.setData();
-                props.setError('Error Details: '+res.status);
                 throw Error('Error Details: '+res.status);
             } 
             return res.json();
@@ -27,8 +24,9 @@ export default function DroneList(props) {
           })
           .catch(err => {
             // auto catches network / connection error
+            props.setData();
             props.setWaiting(false);
-            props.setError('Failed to connect to the server');
+            props.setError(err.message);
           })
         
       },[props.updateClick])

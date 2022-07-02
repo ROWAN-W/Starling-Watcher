@@ -39,7 +39,7 @@ export default function LoginIn(props) {
         fetch(url,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
-            throw Error('Login Failure. Error Details: '+res.status);
+            throw Error('Login Failure. Error Details: '+"Invalid username or password!");
           } 
           return res.json();
         })
@@ -52,7 +52,7 @@ export default function LoginIn(props) {
           //setInstruction("Success!");
           
           //setTimeout(() => {
-            handleCurrentUser(data.name);
+            handleCurrentUser(data.id);
             clearField();
             props.setTrigger(false);
           //}, 2000)
@@ -60,7 +60,7 @@ export default function LoginIn(props) {
         .catch(err => {
           // auto catches network / connection error
           setWaiting(false);
-          setError('Failed to connect to the server');
+          setError(err.message);
         })        
     }
 

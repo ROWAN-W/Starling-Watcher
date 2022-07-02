@@ -9,6 +9,7 @@ export default function SaveMessage(props) {
     const [savePending, setIsPending] = useState(false);
     const [dateModified, setDateModified] = useState();
     const [lastModifiedBy,setLastModifiedBy] = useState();
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
         if(props.trigger===true && checkBeforeSave()===true){
@@ -44,7 +45,7 @@ export default function SaveMessage(props) {
       function handleProjectSave(){
         if(props.selectedProject.saved===false){
           setIsPending(true);
-          const url = "http://localhost:8000/sampleProject"; //replace with Pench's
+          const url = "http://localhost:8080/design/projects"; 
           
           props.selectedProject.saved=true;
           let today = new Date();
@@ -72,9 +73,6 @@ export default function SaveMessage(props) {
         fetch(url+'/'+id,options)
         .then(res => {
         if (!res.ok) { // error coming back from server
-            setIsPending(false);
-            setResult('Error Details: '+res.status);
-
             //recover old data
             props.selectedProject.saved=false;
             props.selectedProject.dateModified = dateModified;
@@ -85,14 +83,16 @@ export default function SaveMessage(props) {
         })
         .then(data => {
             setIsPending(false);
+            setError(null);
             setResult("Your changes have been successfully saved"); //respond from Pench's server
             //setResult(data);
             console.log("put "+url);
+            console.log(data);
         })
         .catch(err => {
             setIsPending(false);
-            // auto catches network / connection error
-            setResult("Failed to connect to the server");
+            setError(err.message);
+            setResult('');
             //recover old data
             props.selectedProject.saved=false;
             props.selectedProject.dateModified = dateModified;
@@ -104,7 +104,7 @@ export default function SaveMessage(props) {
         return(
             <>
             {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{result}</p>
+            <p>{error? error: result}</p>
             {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
             </>
         )

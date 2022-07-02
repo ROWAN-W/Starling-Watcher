@@ -18,8 +18,6 @@ export default function Upload(props) {
         axios.post("http://localhost:8000/upload",fd)
         .then(res => { 
             if (!res.ok) { // error coming back from server
-                setIsPending(false);
-                setResult('Error Details: '+res.status);   
                 throw Error('Error Details: '+res.status);
             } 
             return res.json();
@@ -31,9 +29,7 @@ export default function Upload(props) {
         })
           .catch(err => {
             setIsPending(false);
-            // auto catches network / connection error
-            setResult("Failed to connect to the server");
-            console.log(err);
+            setResult(err.message);
         })
     }
 

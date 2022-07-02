@@ -8,6 +8,7 @@ export default function CreateProject(props) {
 
     const [result, setResult] = useState('Please wait...');
     const [savePending, setIsPending] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -20,7 +21,7 @@ export default function CreateProject(props) {
         const number = projects.length+1;
 
         const newProject = {
-        id: uuidv4(),
+        id: "",
         name: 'New Project['+number+']',
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
@@ -49,42 +50,42 @@ export default function CreateProject(props) {
         ]
       }
         console.log("add project in create project!");
-        //replace with Pench's
         setIsPending(true);
-        postToServer('http://localhost:8000/sampleProject',newProject);
+        postToServer('http://localhost:8080/design/projects',newProject);
         }
       
-      function postToServer(url,data){
+      function postToServer(url,project){
         const options = {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json;charset=UTF-8",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(project),
         };
         
         fetch(url,options)
         .then(res => {
         if (!res.ok) { // error coming back from server
-            setIsPending(false);
-            setResult('Error Details: '+res.status);
             throw Error('Error Details: '+res.status);
         } 
         return res.json();
         })
-        .then(data => {
+        .then(data => { //id
             setIsPending(false);
+            setError(null);
             setResult("Your project has been successfully created and saved"); //respond from Pench's server
             //setResult(data);
             console.log("post "+url);
-            setProjects([...projects,data]);
-            handleProjectSelect(data.id);
+            console.log(data);
+            project.id = data.id; //id from db {"id": "62c04445cda4856fc0226778"}
+            setProjects([...projects,project]);
+            handleProjectSelect(data.id); 
         })
-        .catch(err => {
+        .catch(err => { // auto catches network / connection error
             setIsPending(false);
-            // auto catches network / connection error
-            setResult('Failed to connect to the server');
+            setError(err.message);
+            setResult('');
         })
       }
 
@@ -92,7 +93,7 @@ export default function CreateProject(props) {
         return(
             <>
             {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{result}</p>
+            <p>{error? error: result}</p>
             {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
             </>
         )

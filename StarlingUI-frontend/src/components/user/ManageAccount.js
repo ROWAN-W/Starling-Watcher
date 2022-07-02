@@ -53,7 +53,7 @@ export default function ManageAccount(props) {
         fetch(url+'/'+currentUserID,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
-            throw Error('Manage Account Failure. Error Details: '+res.status);
+            throw Error('Manage Account Failure. Error Details: '+"Invalid old password!");
           } 
           return res.json();
         })
@@ -70,9 +70,8 @@ export default function ManageAccount(props) {
           }, 2000)
         })
         .catch(err => {
-          // auto catches network / connection error
           setWaiting(false);
-          setError('Failed to connect to the server');
+          setError(err.message);
         })        
     }
 

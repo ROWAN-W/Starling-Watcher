@@ -44,7 +44,7 @@ export default function CreateAccount(props) {
         fetch(url,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
-            throw Error('Create Account Failure. Error Details: '+res.status);
+            throw Error('Create Account Failure. Error Details: '+"Duplicate user name!");
           } 
           return res.json();
         })
@@ -65,7 +65,7 @@ export default function CreateAccount(props) {
         .catch(err => {
           // auto catches network / connection error
           setWaiting(false);
-          setError('Failed to connect to the server');
+          setError(err.message);
         })        
     }
 
