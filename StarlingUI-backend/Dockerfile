@@ -3,4 +3,5 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y inotify-tools dos2unix
 ENV HOME=/app
 RUN mkdir -p $HOME
+RUN mkdir -p $HOME/config
 WORKDIR $HOME

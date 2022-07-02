@@ -7,6 +7,7 @@ services:
     volumes:
       - ./:/app
       - ./.m2:/root/.m2
+      - $HOME/.kube/config:/app/config
     working_dir: /app
     command: sh run.sh
     ports:

@@ -1,0 +1,167 @@
+{
+  "sampleProject": [
+    {
+      "id": 1,
+      "name": "Project ABC",
+      "dateModified": "30/06/2022 13:37:59",
+      "lastModifiedBy": "62bd2a60b997d251e4ffbcba",
+      "saved": true,
+      "ownerID": "62bd2a60b997d251e4ffbcba",
+      "memberIDs": [
+        "62bd2a60b997d251e4ffbcba",
+        "62bd35f9b997d251e4ffbcbd"
+      ],
+      "config": [
+        {
+          "id": 1000,
+          "name": "A11",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": [
+            {
+              "id": 1385,
+              "name": "charaznablegundam/testdevelop_api:v2",
+              "command": "",
+              "args": "",
+              "env": [],
+              "env2": [],
+              "port": []
+            }
+          ]
+        },
+        {
+          "id": 10001,
+          "name": "A22",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": [
+            {
+              "id": 1385,
+              "name": "charaznablegundam/testdevelop_api:v2",
+              "command": "",
+              "args": "",
+              "env": [],
+              "env2": [],
+              "port": []
+            }
+          ]
+        },
+        {
+          "id": "2ec89697-a139-4c58-b959-9ed4ca307dae",
+          "name": "A33",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": [
+            {
+              "id": 1386,
+              "name": "charaznablegundam/testdevelop_api:v1",
+              "command": "",
+              "args": "",
+              "env": [],
+              "env2": [],
+              "port": []
+            }
+          ]
+        },
+        {
+          "id": "9479a49c-edaa-485f-a6ff-c27d2aa3ec14",
+          "name": "new node[3]",
+          "kind": "deployment",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": 1000,
+          "mappedDrones": []
+        },
+        {
+          "nodeID": 10001,
+          "mappedDrones": []
+        },
+        {
+          "nodeID": "2ec89697-a139-4c58-b959-9ed4ca307dae",
+          "mappedDrones": []
+        },
+        {
+          "nodeID": "9479a49c-edaa-485f-a6ff-c27d2aa3ec14",
+          "mappedDrones": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Project B",
+      "dateModified": "26/06/2022 16:49:15",
+      "lastModifiedBy": "62bd2a60b997d251e4ffbcba",
+      "saved": true,
+      "ownerID": "62bd2a60b997d251e4ffbcba",
+      "memberIDs": [
+        "62bd2a60b997d251e4ffbcbb",
+        "62bd2a60b997d251e4ffbcba",
+        "62bd2a60b997d251e4ffbcbc"
+      ],
+      "config": [
+        {
+          "id": 2000,
+          "name": "design 2",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": 2000,
+          "mappedDrones": []
+        }
+      ]
+    },
+    {
+      "id": "8ea596bb-4066-45f1-8a76-f0d7f38400de",
+      "name": "New Project[1]",
+      "dateModified": "30/06/2022 13:36:36",
+      "lastModifiedBy": "62bd35f9b997d251e4ffbcbd",
+      "saved": true,
+      "ownerID": "62bd35f9b997d251e4ffbcbd",
+      "memberIDs": [
+        "62bd35f9b997d251e4ffbcbd",
+        "62bd2a60b997d251e4ffbcba"
+      ],
+      "config": [
+        {
+          "id": "0481ff66-54c0-4995-91fc-e2c8ec442cf3",
+          "name": "new design",
+          "kind": "master",
+          "label": {
+            "app": "starling",
+            "platform": "pixhawk"
+          },
+          "containers": []
+        }
+      ],
+      "mapping": [
+        {
+          "nodeID": "0481ff66-54c0-4995-91fc-e2c8ec442cf3",
+          "mappedDrones": []
+        }
+      ]
+    }
+  ]
+}
