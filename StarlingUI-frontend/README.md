@@ -11,7 +11,7 @@ for project db test: npx json-server --watch data/project.json --port 8000
 
 ## developing
 
-add more info on drones (deploy)
+CSS learning (OMG)
 
 ## pending
 
