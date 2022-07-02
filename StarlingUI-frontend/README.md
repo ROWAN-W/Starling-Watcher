@@ -1,12 +1,8 @@
 # Integration Stage
 
-Ready: image list. user db. drones
+Ready: image list. user db. project db. drones
 
-
-Pending: Project DB, Upload File, Deployment
-
-
-for project db test: npx json-server --watch data/project.json --port 8000
+Pending: Upload File, Deployment
 
 
 ## developing
@@ -19,6 +15,4 @@ save data to local storage (browser) - implement it later
 
 ## side note
 
-use http://localhost:8080/design/database to see the entire user db
-
-use http://localhost:8080/design/initialize to init the entire user db. it will provide new id for each user, and the project.json needs to be modified correspondingly
+use http://localhost:8080/design/database to see the entire user db and project db
