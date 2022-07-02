@@ -275,8 +275,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
+            <groupId>org.glassfish.jersey.domainContainers</groupId>
+            <artifactId>jersey-domainContainer-servlet</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

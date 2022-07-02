@@ -5,28 +5,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class Container {
+public class domainContainer {
+    private String id;
     private String containerName;
     private String containerID;
 
     // possible states: waiting, running, terminated
     private  String containerState;
 
-    public String getContainerID() {
-        return containerID;
-    }
 
-    public String getContainerName() {
-        return containerName;
-    }
-
-    public void setContainerID(String containerID) {
-        this.containerID = containerID;
-    }
-
-    public String getContainerState() {
-        return containerState;
-    }
 
     public void setContainerName(String containerName) {
         this.containerName = containerName;
@@ -36,4 +23,11 @@ public class Container {
         this.containerState = containerState;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

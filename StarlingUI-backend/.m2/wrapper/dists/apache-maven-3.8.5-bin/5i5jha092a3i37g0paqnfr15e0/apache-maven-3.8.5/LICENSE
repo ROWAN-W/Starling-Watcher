@@ -281,7 +281,7 @@ subject to the terms and conditions of the following licenses:
 
 - lib/plexus-component-annotations-2.1.0.jar: org.codehaus.plexus:plexus-component-annotations:jar:2.1.0
     Project: Plexus :: Component Annotations
-    Project URL: http://codehaus-plexus.github.io/plexus-containers/plexus-component-annotations/
+    Project URL: http://codehaus-plexus.github.io/plexus-domainContainers/plexus-component-annotations/
     License: Apache License, Version 2.0 (Apache-2.0)
     License URL: http://www.apache.org/licenses/LICENSE-2.0.txt (lib/plexus-component-annotations.license)
 

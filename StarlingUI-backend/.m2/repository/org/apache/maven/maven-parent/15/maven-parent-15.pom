@@ -736,7 +736,7 @@ under the License.
                 <link>http://velocity.apache.org/engine/releases/velocity-1.5/apidocs/</link>
                 <link>http://plexus.codehaus.org/plexus-utils/apidocs/</link>
                 <link>http://plexus.codehaus.org/plexus-classworlds/apidocs/</link>
-                <link>http://plexus.codehaus.org/plexus-containers/plexus-container-default/apidocs/</link>
+                <link>http://plexus.codehaus.org/plexus-domainContainers/plexus-container-default/apidocs/</link>
               </links>
             </configuration>
             <reportSets>

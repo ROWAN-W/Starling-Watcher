@@ -3,17 +3,17 @@ package com.example.starlingui.model;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Map.*;
+
 
 
 
 
 @Component
 @Data
-public class Node {
+public class domainNode {
 
     private String id;
     private String nodeName;
@@ -26,7 +26,7 @@ public class Node {
     private Map<String,String> annotations;
 
     //fields for monitor page
-    private List<Pod> pods;
+    private List<domainPod> Pods;
 
 
 
@@ -45,21 +45,6 @@ public class Node {
         return annotations;
     }
 
-    public Map<String, String> getLabels() {
-        return labels;
-    }
-
-    public String getArchitecture() {
-        return architecture;
-    }
-
-    public String getCreationTime() {
-        return creationTime;
-    }
-
-    public String getHostname() {
-        return hostname;
-    }
 
     public String getId() {
         return id;
@@ -77,9 +62,6 @@ public class Node {
         this.creationTime = creationTime;
     }
 
-    public String getIp() {
-        return ip;
-    }
 
     public void setHostname(String hostname) {
         this.hostname = hostname;
@@ -111,12 +93,10 @@ public class Node {
         this.nodeName = nodeName;
     }
 
-    public List<Pod> getPods() {
-        return pods;
-    }
 
-    public void setPods(List<Pod> pods) {
-        this.pods = pods;
+
+    public void setPods(List<domainPod> domainPods) {
+        this.Pods = domainPods;
     }
 
 

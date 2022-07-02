@@ -107,7 +107,7 @@
   <dependencies>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-container-default</artifactId>
+      <artifactId>plexus-domainContainer-default</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>

@@ -8,26 +8,20 @@ import java.util.List;
 
 @Component
 @Data
-public class Pod {
+public class domainPod {
+    private String id;
     private String podName;
     private String namespace;
 
-    private List<Container> containers;
+    private List<domainContainer> containers;
 
-    public List<Container> getContainers() {
+    public List<domainContainer> getContainers() {
         return containers;
     }
 
-    public String getNamespace() {
-        return namespace;
-    }
 
-    public String getPodName() {
-        return podName;
-    }
-
-    public void setContainers(List<Container> containers) {
-        this.containers = containers;
+    public void setContainers(List<domainContainer> domainContainers) {
+        this.containers = domainContainers;
     }
 
     public void setNamespace(String namespace) {
@@ -38,4 +32,11 @@ public class Pod {
         this.podName = podName;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
