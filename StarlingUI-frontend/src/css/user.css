@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
+.user-tag {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    display: inline-block;
+    align-items: center;
+    border-radius:5px;
+    background: #f2f2f2;
+}
+
+.user-tag button {
+    border: none;
+    outline: none;
+    font-size: 100%;
+}

@@ -1,0 +1,115 @@
+{
+    "sampleDrone": [
+
+        {
+          "id": 20,
+          "name": "clover2",
+          "hostname":"minikube",
+          "ip":"192.168.49.1", 
+          "role": "master",
+          "creationTime":"Tue, 14 Jun 2022 13:52:12 +0100",
+          "architecture":"amd64",
+          "labels":           
+          {
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube"
+          },
+          "annotations":        
+          {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        },
+        {
+          "id": 30,
+          "name": "clover3",
+          "hostname":"minikube",
+          "ip":"192.168.49.2", 
+          "role": "master" ,
+          "creationTime":"Tue, 14 Jun 2022 13:52:12 +0100",
+          "architecture":"amd64",
+          "labels":           
+          {
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube"
+          },
+          "annotations":        
+          {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        },
+        {
+          "id": 40,
+          "name": "clover4",
+          "hostname":"minikube",
+          "ip":"192.168.49.3", 
+          "role": "master" ,
+          "creationTime":"Tue, 14 Jun 2022 13:52:12 +0100",
+          "architecture":"amd64",
+          "labels":           
+          {
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube"
+          },
+          "annotations":        
+          {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        },
+        {
+          "id": 50,
+          "name": "clover5",
+          "hostname":"minikube",
+          "ip":"192.168.49.4", 
+          "role": "master" ,
+          "creationTime":"Tue, 14 Jun 2022 13:52:12 +0100",
+          "architecture":"amd64",
+          "labels":           
+          {
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube"
+          },
+          "annotations":        
+          {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        },
+        {
+          "id": 60,
+          "name": "clover6",
+          "hostname":"minikube",
+          "ip":"192.168.49.5", 
+          "role": "master" ,
+          "creationTime":"Tue, 14 Jun 2022 13:52:12 +0100",
+          "architecture":"amd64",
+          "labels":           
+          {
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube"
+          },
+          "annotations":        
+          {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+    ]
+}
