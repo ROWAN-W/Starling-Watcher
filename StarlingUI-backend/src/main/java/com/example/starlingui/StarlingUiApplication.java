@@ -1,7 +1,6 @@
 package com.example.starlingui;
 
-import com.example.starlingui.service.NodeService;
-import io.fabric8.kubernetes.client.KubernetesClientException;
+import com.example.starlingui.service.designNodeServiceImpl;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,11 +20,6 @@ public class StarlingUiApplication {
     }
 
     public static void main(String[] args) {
-
-        NodeService nodeService=new NodeService();
-        try {nodeService.getNodeList();}
-        catch (IOException ioException){System.out.println("io");}
-        catch (ApiException apiException){System.out.println("api");}
 
         SpringApplication.run(StarlingUiApplication.class, args);
     }
