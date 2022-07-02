@@ -1,26 +1,31 @@
 package com.example.starlingui.controller;
 
-import com.example.starlingui.Dao.StarlingProjectDao;
-import com.example.starlingui.Dao.StarlingUserDao;
+import com.example.starlingui.model.Design;
 import com.example.starlingui.model.Image;
-import com.example.starlingui.model.StarlingProject;
-import com.example.starlingui.model.StarlingUser;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
+import com.example.starlingui.service.TemplatingServiceImp;
 import com.google.gson.Gson;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import com.example.starlingui.Dao.StarlingProjectDao;
+import com.example.starlingui.Dao.StarlingUserDao;
+import com.example.starlingui.model.StarlingProject;
+import com.example.starlingui.model.StarlingUser;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 
 
 import javax.annotation.Resource;
 import java.util.List;
+
 import java.util.Objects;
 import java.util.Optional;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -29,6 +34,7 @@ public class DesignController {
 
     @Resource
     private DockerHubServiceImpl dockerHubService;
+
 
     @Autowired
     private StarlingUserDao userDao;
@@ -55,6 +61,26 @@ public class DesignController {
     }
 
     /**
+
+     * @Description Post request(with Body param)
+     * @param designs Pod designs from user (name,config,mapping)
+     * @return return ResponseEntity<String>
+     */
+    @PostMapping("/templating")
+    public ResponseEntity<String> doTemplatingAndDeploy(@RequestBody Design designs) {
+        try {
+            TemplatingServiceImp templating = new TemplatingServiceImp();
+            String message = templating.doTemplating(designs);
+            return ResponseEntity.ok(message);
+        }catch(Exception e){
+            return ResponseEntity
+                    .status(400)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Deploy fail :"+ e.getMessage());
+        }
+    }
+
+
      * @Description Save a new user
      * @param user User to be added to the database, contains name and password
      * @return return User id and name, 403 if user already exists, return 200 if success
@@ -70,7 +96,7 @@ public class DesignController {
         try {
             userDao.save(user);
         } catch (Exception e) {
-            String errorJson = getErrorJson("Duplicated user name!");
+            String errorJson = getErrorJson("Duplicate user name!");
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
         JsonObject userJson = (JsonObject) gson.toJsonTree(user);

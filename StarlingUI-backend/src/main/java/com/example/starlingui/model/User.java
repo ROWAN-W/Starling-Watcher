@@ -20,6 +20,7 @@ public class User {
         super();
     }
 
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -27,4 +28,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
