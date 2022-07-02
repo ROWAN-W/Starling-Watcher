@@ -3,6 +3,7 @@ import Container from './Container';
 import { ProjectContext } from '../App';
 import { useDrop } from "react-dnd";
 import NodeSetting from './NodeSetting.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handleNodeDuplicate}) {
     
@@ -52,12 +53,14 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
 	         	args: '',
                 env: [
                     {
+                        id: uuidv4(),
                         name: "",
                         value: ""
                     }
                 ],
                 port: [
                     {
+                        id: uuidv4(),
                         containerPort: "",
                         protocol: ""
                     }
