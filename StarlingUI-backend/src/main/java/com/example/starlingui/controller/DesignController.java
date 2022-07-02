@@ -5,7 +5,7 @@ import com.example.starlingui.model.Image;
 import com.example.starlingui.model.domainNode;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
-import com.example.starlingui.service.NodeService;
+import com.example.starlingui.service.designNodeServiceImpl;
 import com.example.starlingui.service.TemplatingServiceImp;
 import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
@@ -19,8 +19,6 @@ import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
-
 
 
 import javax.annotation.Resource;
@@ -64,34 +62,34 @@ public class DesignController {
         }
     }
 
-    /**
 
     /**
      * @Description Get request (available nodes)
      * @return ResponseEntity<String>
      */
 
-    @GetMapping("/available-nodes")
-    public ResponseEntity<String> getAvailableNodes(){
-        try{
-            NodeService nodeService=new NodeService();
-            List<domainNode> domainNodeList =nodeService.getNodeList();
+    @GetMapping("/nodes")
+    public ResponseEntity<String> getAvailableNodes() {
+        try {
+            designNodeServiceImpl designNodeServiceImpl = new designNodeServiceImpl();
+            List<domainNode> domainNodeList = designNodeServiceImpl.getNodeList();
             Gson gson = new Gson();
             String json = gson.toJson(domainNodeList);
             return ResponseEntity.ok(json);
-        }
-        catch (ApiException apiException){
+        } catch (ApiException apiException) {
             return ResponseEntity
                     .status(404)
                     .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("Kubernetes API fail :"+apiException.getMessage());
-        }
-        catch (IOException ioException){
+                    .body("Kubernetes API fail :" + apiException.getMessage());
+        } catch (IOException ioException) {
             return ResponseEntity
                     .status(404)
                     .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("Kubernetes API fail :"+ioException.getMessage());
-     * @Description Post request(with Body param)
+                    .body("Kubernetes API fail :" + ioException.getMessage());
+        }
+    }
+
+    /** @Description Post request(with Body param)
      * @param designs Pod designs from user (name,config,mapping)
      * @return return ResponseEntity<String>
      */
@@ -113,7 +111,7 @@ public class DesignController {
 
 
 
-     * @Description Save a new user
+     /** @Description Save a new user
      * @param user User to be added to the database, contains name and password
      * @return return User id and name, 403 if user already exists, return 200 if success
      */
