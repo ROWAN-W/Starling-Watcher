@@ -33,12 +33,4 @@ auto compile and run
 #### start back end
 `./mvnw spring-boot:run`
 #### start front end
-Ready: image list.
-
-for user db test: `npx json-server --watch data/user.json --port 8001`
-
-for project db test: `npx json-server --watch data/project.json --port 8000`
-
-for drones test: `npx json-server --watch data/drone.json --port 8002`
-
-
+Ready: image list. users db, projects db, drone 
