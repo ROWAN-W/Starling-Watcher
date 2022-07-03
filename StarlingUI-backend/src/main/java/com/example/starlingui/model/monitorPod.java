@@ -8,20 +8,20 @@ import java.util.List;
 
 @Component
 @Data
-public class domainPod {
+public class monitorPod {
     private String id;
     private String podName;
     private String namespace;
 
-    private List<domainContainer> containers;
+    private List<monitorContainer> containers;
 
-    public List<domainContainer> getContainers() {
+    public List<monitorContainer> getContainers() {
         return containers;
     }
 
 
-    public void setContainers(List<domainContainer> domainContainers) {
-        this.containers = domainContainers;
+    public void setContainers(List<monitorContainer> Containers) {
+        this.containers =Containers;
     }
 
     public void setNamespace(String namespace) {

@@ -10,6 +10,8 @@ import java.util.Map;
 @Data
 public class designNode extends domainNode{
 
+    private String id;
+    private String nodeName;
     private String role;
     private String ip;
     private String hostname;
@@ -19,6 +21,22 @@ public class designNode extends domainNode{
     private Map<String,String> annotations;
 
 
+
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
 
     public String getRole() {
         return role;
@@ -55,8 +73,6 @@ public class designNode extends domainNode{
             }
         });
     }
-
-
 
 
     public void setRole(String role) {
