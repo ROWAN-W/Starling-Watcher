@@ -1,8 +1,9 @@
 package com.example.starlingui.service;
 
-import com.example.starlingui.model.domainContainer;
+
 import com.example.starlingui.model.domainNode;
-import com.example.starlingui.model.domainPod;
+import com.example.starlingui.model.monitorContainer;
+import com.example.starlingui.model.monitorPod;
 import com.example.starlingui.model.monitorNode;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
@@ -45,8 +46,6 @@ public class monitorNodeServiceImpl implements NodeService{
             //System.out.println(item.getMetadata().getName());
             node.setNodeName(item.getMetadata().getName());
 
-
-
             //get pods
             node.setPods(getPodsOfNode(node.getNodeName(),api));
 
@@ -64,30 +63,30 @@ public class monitorNodeServiceImpl implements NodeService{
      * @return List<Pod>
      * @throws ApiException
      */
-    private List<domainPod> getPodsOfNode (String nodeName, CoreV1Api api) throws ApiException{
+    private List<monitorPod> getPodsOfNode (String nodeName, CoreV1Api api) throws ApiException{
         int id=0;
-        ArrayList<domainPod> domainPods =new ArrayList<>();
+        ArrayList<monitorPod> monitorPods =new ArrayList<>();
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
             if(item.getSpec().getNodeName().equals(nodeName)){
                 //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
-                domainPod domainPod =new domainPod();
+                monitorPod monitorPod =new monitorPod();
                 //System.out.println(String.valueOf(id));
-                domainPod.setId(String.valueOf(id));
+                monitorPod.setId(String.valueOf(id));
                 //System.out.println(item.getMetadata().getName());
-                domainPod.setPodName(item.getMetadata().getName());
+                monitorPod.setPodName(item.getMetadata().getName());
                 //System.out.println(item.getMetadata().getNamespace());
-                domainPod.setNamespace(item.getMetadata().getNamespace());
+                monitorPod.setNamespace(item.getMetadata().getNamespace());
                 //get containers
-                domainPod.setContainers(getContainersOfPod(item));
-                domainPods.add(domainPod);
+                monitorPod.setContainers(getContainersOfPod(item));
+                monitorPods.add(monitorPod);
                 id++;
             }
 
 
         }
-        return domainPods;
+        return monitorPods;
     }
 
 
@@ -98,35 +97,35 @@ public class monitorNodeServiceImpl implements NodeService{
      * @throws ApiException
      */
 
-    private List<domainContainer> getContainersOfPod (V1Pod pod) throws ApiException{
-        ArrayList<domainContainer> domainContainers =new ArrayList<>();
+    private List<monitorContainer> getContainersOfPod (V1Pod pod) throws ApiException{
+        ArrayList<monitorContainer> containers =new ArrayList<>();
         int id=0;
         for(int i=0;i<pod.getStatus().getContainerStatuses().size();i++){
-            domainContainer domainContainer =new domainContainer();
+            monitorContainer container =new monitorContainer();
             //System.out.println(String.valueOf(id));
-            domainContainer.setId(String.valueOf(id));
+            container.setId(String.valueOf(id));
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getName());
-            domainContainer.setContainerName(pod.getStatus().getContainerStatuses().get(i).getName());
+            container.setContainerName(pod.getStatus().getContainerStatuses().get(i).getName());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getContainerID());
-            domainContainer.setId(pod.getStatus().getContainerStatuses().get(i).getContainerID());
+            container.setContainerID(pod.getStatus().getContainerStatuses().get(i).getContainerID());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated());
             if(pod.getStatus().getContainerStatuses().get(i).getState().getRunning()!=null){
-                domainContainer.setContainerState("running");
+                container.setContainerState("running");
             }
             else if(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated()!=null){
-                domainContainer.setContainerState("terminated");
+                container.setContainerState("terminated");
             }
             else if(pod.getStatus().getContainerStatuses().get(i).getState().getWaiting()!=null){
-                domainContainer.setContainerState("waiting");
+                container.setContainerState("waiting");
             }
             else{
-                domainContainer.setContainerState("null");
+                container.setContainerState("null");
             }
-            domainContainers.add(domainContainer);
+            containers.add(container);
             id++;
         }
 
-        return domainContainers;
+        return containers;
     }
 
 

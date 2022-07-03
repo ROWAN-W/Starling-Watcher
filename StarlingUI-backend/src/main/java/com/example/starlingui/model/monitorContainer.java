@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class domainContainer {
+public class monitorContainer {
     private String id;
     private String containerName;
     private String containerID;
@@ -29,5 +29,9 @@ public class domainContainer {
 
     public String getId() {
         return id;
+    }
+
+    public void setContainerID(String containerID) {
+        this.containerID = containerID;
     }
 }
