@@ -22,7 +22,7 @@ export default function CreateProject(props) {
 
         const newProject = {
         id: "",
-        name: 'New Project['+number+']',
+        name: 'new-project-'+number,
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
         saved: true,
@@ -31,12 +31,13 @@ export default function CreateProject(props) {
         config:[
           {
             id:masterId,
-            name: 'new design',
+            name: 'new-design',
             kind: 'master',
+            //can be empty
             label: 
               {
-                app: 'starling',
-                platform: 'pixhawk'
+                app: '',
+                platform: ''
               }
             ,
             containers:[]    

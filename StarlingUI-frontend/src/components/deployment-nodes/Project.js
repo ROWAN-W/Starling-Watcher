@@ -38,9 +38,10 @@ function handleNodeAdd(){
   const number = selectedProject.config.length+1;
   const newNode = {
       id: uuidv4(),
-      name: 'new node['+number+']',
+      name: 'new-deployment-'+number,
       kind: 'deployment',
-      label: {app: 'starling',platform: 'pixhawk'},
+      //can be empty
+      label: {app: '',platform: ''},
       containers: []
   }
   const newMapping = {

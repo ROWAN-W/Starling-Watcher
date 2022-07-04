@@ -21,6 +21,13 @@ export default function NodeSetting(props) {
         props.handleNodeChange(props.node.id, {...props.node, ...changes})
     }
 
+    /**
+    * contain at most 63 characters
+    * contain only lowercase alphanumeric characters or '-'
+    * start with an alphanumeric character
+    * end with an alphanumeric character
+     */
+
     const saveChange = (e) => {
         e.preventDefault();
         if(kind==='master'){
@@ -34,13 +41,63 @@ export default function NodeSetting(props) {
                 }
             }
         }
+
+        for (let i = 0; i < name.length; i++) {
+            let code = name.charCodeAt(i);
+            if ((code !== 45) && // '-'
+                !(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+                
+                console.log("contain only lowercase alphanumeric characters or '-'!");
+                setWarning("Name can only contain lowercase alphanumeric characters or '-'")
+                return;
+            }
+        }
+        if(name.charCodeAt(0)===45 || name.charCodeAt(name.length-1)===45){
+            console.log("start/end with an alphanumeric character");
+            setWarning("Name can only start/end with an alphanumeric character")
+            return;
+        }
+
+        if(!labelCheck(app) || !labelCheck(platform)){
+            return false;
+        }
         console.log("valid")
         setWarning('');
         handleChange({name:name, kind:kind, label: {app: app, platform: platform} });
         props.setTrigger(false);
     }
+    
+    /**
+    * must be 63 characters or less (can be empty),
+    * unless empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]),
+    * could contain dashes (-), underscores (_), dots (.), and alphanumerics between.  (e.g. "starling.test-_test”, “pixhawk--test..__test”. they are all valid)
+     */
 
-
+    function labelCheck(value){
+        if(value!==''){
+            for (let i = 0; i < value.length; i++) {
+            let code = value.charCodeAt(i);
+            if ((code !== 45) && (code !== 95) && (code !== 46) && // '-' '_' '.'
+                !(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+                
+                console.log("contain only lowercase alphanumeric characters or '-' or more!");
+                setWarning("Value can only contain lowercase alphanumeric characters or '-', '_' and '.'")
+                return false;
+                }
+            }
+            if(value.charCodeAt(0)===45 || value.charCodeAt(value.length-1)===45 ||
+            value.charCodeAt(0)===95 || value.charCodeAt(value.length-1)===95 ||
+            value.charCodeAt(0)===46 || value.charCodeAt(value.length-1)===46){
+                console.log("start/end with an alphanumeric character");
+                setWarning("Value can only start/end with an alphanumeric character")
+                return false;
+            }
+        }
+        return true;
+     
+    }
 
 return (props.trigger) ?(
     <div className='popup-projects'>
@@ -59,6 +116,7 @@ return (props.trigger) ?(
                     id='name'
                     value={name}
                     required
+                    maxLength = {63}
                     onChange={e=>setName(e.target.value)}
                     >
                 </input>
@@ -80,7 +138,7 @@ return (props.trigger) ?(
                     name='app' 
                     id='app'
                     value={app}
-                    required
+                    maxLength = {63}
                     onChange={e=>setApp(e.target.value)}
                     >
                 </input>
@@ -92,7 +150,7 @@ return (props.trigger) ?(
                     name='platform' 
                     id='platform'
                     value={platform}
-                    required
+                    maxLength = {63}
                     onChange={e=>setPlatform(e.target.value)}
                     >
                 </input>

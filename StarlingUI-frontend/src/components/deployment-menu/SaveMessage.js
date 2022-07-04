@@ -23,23 +23,42 @@ export default function SaveMessage(props) {
         }
     },[props.trigger]);
 
+    /*
+        * contain at most 63 characters
+        * contain only lowercase alphanumeric characters or '-'
+        * start with an alphanumeric character
+        * end with an alphanumeric character
+     */
+
     function checkBeforeSave(){   
         if(props.selectedProject===undefined || props.selectedProject===null){
             return false;
-        }     
-        if(props.selectedProject.name===''){
+        }
+        const name = props.selectedProject.name;      
+        if(name===''){
           console.log("cannot save project name!");
           setResult("Please provide a project name.")
           return false;
         }
-        for(let i=0;i<props.selectedProject.config.length;i++){
-            if(props.selectedProject.config[i].name==''){
-                console.log("cannot save node name!");
-                setResult("Please provide a name for Master and each Deployment.")
+        else{
+            for (let i = 0; i < name.length; i++) {
+                let code = name.charCodeAt(i);
+                if ((code !== 45) && // '-'
+                    !(code > 47 && code < 58) && // numeric (0-9)
+                    !(code > 96 && code < 123)) { // lower alpha (a-z)
+                    
+                    console.log("contain only lowercase alphanumeric characters or '-'!");
+                    setResult("Project name can only contain lowercase alphanumeric characters or '-'")
+                    return false;
+                }
+            }
+            if(name.charCodeAt(0)===45 || name.charCodeAt(name.length-1)===45){
+                console.log("start/end with an alphanumeric character");
+                setResult("Project name can only start/end with an alphanumeric character")
                 return false;
             }
+            return true;
         }
-        return true;
     }
 
       function handleProjectSave(){

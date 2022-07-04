@@ -68,6 +68,25 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
           setDeployWarningMes("Please provide a project name.");
           setDeployWarning(clickEvent);
           return;
+        }else{
+          for (let i = 0; i < selectedProject.name.length; i++) {
+            let code = selectedProject.name.charCodeAt(i);
+            if ((code !== 45) && // '-'
+                !(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+                
+                console.log("contain only lowercase alphanumeric characters or '-'!");
+                setDeployWarningMes("Project name can only contain lowercase alphanumeric characters or '-'")
+                setDeployWarning(clickEvent);
+                return;
+            }
+          }
+          if(selectedProject.name.charCodeAt(0)===45 || selectedProject.name.charCodeAt(selectedProject.name.length-1)===45){
+              console.log("start/end with an alphanumeric character");
+              setDeployWarningMes("Project name can only start/end with an alphanumeric character")
+              setDeployWarning(clickEvent);
+              return;
+          }
         }
         let nameArray = [];
         for(let i=0;i<selectedProject.config.length;i++){
@@ -77,14 +96,8 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
                 setDeployWarning(clickEvent);
                 return;
             }
-            if(selectedProject.config[i].name==''){
-                console.log("cannot deploy without node name!");
-                setDeployWarningMes("Please provide a name for Master and each Deployment.");
-                setDeployWarning(clickEvent);
-                return;
-            }
             if(nameArray.includes(selectedProject.config[i].name)){
-                console.log("cannot deploy without duplicate node name!");
+                console.log("cannot deploy with duplicate node name!");
                 setDeployWarningMes("Please provide an unique name for Master and each Deployment.");
                 setDeployWarning(clickEvent);
                 return;

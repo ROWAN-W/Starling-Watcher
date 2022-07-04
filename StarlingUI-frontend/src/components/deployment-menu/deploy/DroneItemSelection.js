@@ -13,8 +13,8 @@ export default function DroneItemSelection({options,addDrone}) {
     
         <div className={classnames('dropdown-options', { 'dropdown-active': isActive })}>
           {options?.map(item =>
-            <div onClick={() => {addDrone(item.name);setIsActive(!isActive)}} className="dropdown-item" key={item.id}>
-              {item.name}
+            <div onClick={() => {addDrone(item.nodeName);setIsActive(!isActive)}} className="dropdown-item" key={item.id}>
+              {item.nodeName}
             </div>
           )}
         </div>

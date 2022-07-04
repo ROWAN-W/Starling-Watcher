@@ -25,7 +25,6 @@ function Deployment({selectedProject}) {
 
   const [minimize, setMinimize] = useState(null); //save
 
-
   function handleUpdateTime(){
     setWaiting(true);
     setError(null);
@@ -47,7 +46,7 @@ function Deployment({selectedProject}) {
       value={selectedProject.name}
       required
       placeholder = "Your Project Name"
-      maxLength = {40}
+      maxLength = {63}
       onChange={e=>handleChange({name: e.target.value})}></input></form></div>
     }
   }

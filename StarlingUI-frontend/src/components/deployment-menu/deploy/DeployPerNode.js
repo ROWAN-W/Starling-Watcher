@@ -47,7 +47,7 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
     {mappedDrones?.map(drone=><div key={drone}><DroneItem  allDrones={allDrones} drone={drone} removeDrone={removeDrone}></DroneItem></div>)}
         <DroneItemSelection 
         addDrone={addDrone} 
-        options={allDrones?.filter(x => !selectedDrones?.includes(x.name))}></DroneItemSelection>
+        options={allDrones?.filter(x => !selectedDrones?.includes(x.nodeName))}></DroneItemSelection>
     </>
   )
 }

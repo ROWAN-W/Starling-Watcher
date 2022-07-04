@@ -43,7 +43,8 @@ html{
 .minimize-title{
     color: white;
     padding-left: 10px;
-    font-weight: bolder;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .message{
