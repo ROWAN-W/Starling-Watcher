@@ -138,7 +138,7 @@ public class TemplatingServiceImp implements TemplatingService {
 
 
     public ContainerBuilder getEnvList(ContainerBuilder container, List<Env> envArray){
-        if(envArray.size() >= 1 && envArray.get(0).getName() != null) {
+        if(envArray.size() >= 1 && envArray.get(0).getName() != "") {
             List<EnvVar> envVarList = new ArrayList<>();
             for (Env env : envArray) {
                 EnvVar envVar = new EnvVar();
