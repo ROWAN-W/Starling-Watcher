@@ -1,6 +1,5 @@
 package com.example.starlingui.service;
 
-
 import com.example.starlingui.model.*;
 import io.fabric8.kubernetes.api.model.*;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -22,37 +21,69 @@ public class TemplatingServiceImp implements TemplatingService {
 
     public TemplatingServiceImp() {}
 
+
+    /**
+     * @Description get POST request from the frontend, then do templating and deploy to Kubernetes.
+     * @param JsonOfDesign Json of Design List
+     * @return String of deploy status message
+     */
     @Override
     public String doTemplating(Design JsonOfDesign){
         String projectName = JsonOfDesign.getName();
         io.fabric8.kubernetes.client.Config config = new ConfigBuilder().build();
 
         final KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
-            List<Configuration> configList = JsonOfDesign.getConfig();
-            //Loop through every Config and do templating then deploy one by one。
-            for (Configuration configOfDesign : configList) {
-                List<Containers> containersArray = configOfDesign.getContainers();
-                if (containersArray != null) {
-                    String deploymentName = configOfDesign.getName().toLowerCase();
-                    Deployment deployment = deploymentTemplating(configOfDesign);
-                    String id = configOfDesign.getId();
-                    //add node selector part to the deployment object
-                    ArrayList<String> nodeNameList = getMapping(id, JsonOfDesign);
-                    if (nodeNameList.size() > 0) {
-                        for (String nodeName : nodeNameList) {
-                            deployment.getMetadata().setName(deploymentName + "-" + nodeName);
-                            deployment.getSpec().getTemplate().getSpec().setNodeName(nodeName);
-                            //Deploy at here
-                            // Node name will define which node to deploy.
-                            client.apps().deployments().inNamespace(projectName).resource(deployment).createOrReplace();
-                            //return mapper.writeValueAsString(deployment);
-                        }
+        List<Configuration> configList = JsonOfDesign.getConfig();
+        //Check whether the namespace exist or not, and create one if it does not.
+        checkNameSpace(client, projectName);
+        //Loop through every Config and do templating then deploy one by one。
+        for (Configuration configOfDesign : configList) {
+            List<Containers> containersArray = configOfDesign.getContainers();
+            if (containersArray != null) {
+                String deploymentName = configOfDesign.getName().toLowerCase();
+                Deployment deployment = deploymentTemplating(configOfDesign);
+                String id = configOfDesign.getId();
+                //Add node selector part to the deployment object
+                ArrayList<String> nodeNameList = getMapping(id, JsonOfDesign);
+                if (nodeNameList.size() > 0) {
+                    for (String nodeName : nodeNameList) {
+                        deployment.getMetadata().setName(deploymentName + "-" + nodeName);
+                        deployment.getSpec().getTemplate().getSpec().setNodeName(nodeName);
+                        //Deploy at here
+                        //Node name will define which node to deploy.
+                        client.apps().deployments().inNamespace(projectName).resource(deployment).createOrReplace();
+                        //return mapper.writeValueAsString(deployment);
                     }
                 }
             }
+        }
         return "Deploy Completed";
     }
 
+
+    /**
+     * @Description Check whether the namespace exist or not, and create one if it does not.
+     * @param client,projectName Kubernetes client and projectName for namesapce
+     */
+    public void checkNameSpace(KubernetesClient client, String projectName){
+        NamespaceList List = client.namespaces().list();
+        List<Namespace> namespaceList = List.getItems();
+        for (Namespace namespace : namespaceList) {
+            if (projectName.equals(namespace.getMetadata().getName())) {
+                return;
+            }
+        }
+        NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
+        Namespace newNameSpace = namespaceBuilder.withNewMetadata().withName(projectName).endMetadata().build();
+        client.namespaces().resource(newNameSpace).create();
+    }
+
+
+    /**
+     * @Description deployment spec configuration.
+     * @param configOfDesign Json of Design List
+     * @return Deployment
+     */
     public Deployment deploymentTemplating(Configuration configOfDesign){
         String kind = configOfDesign.getKind();
         Deployment deployment = generateDeploymentTemplate(configOfDesign);
@@ -62,13 +93,19 @@ public class TemplatingServiceImp implements TemplatingService {
         return deployment;
     }
 
+
+    /**
+     * @Description Create a Deployment object which ends with metadata.（Doesn't include the spec info）
+     * @param configOfDesign Json of Design List
+     * @return Deployment
+     */
     public Deployment generateDeploymentTemplate(Configuration configOfDesign){
         String deploymentName = configOfDesign.getName().toLowerCase();
         Map<String, String> labelMap = configOfDesign.getLabel();
+        //put our uniquely identified labels in the deployment and pods
         labelMap.put("Internal-label","RTYHP");
         Map<String, String> MatchLabels = getMatchLabels(deploymentName);
         MatchLabels.put("Internal-label","RTYHP");
-        //Create a Deployment object template which ends with metadata part.（Doesn't include the spec info）
         return new DeploymentBuilder()
                 .withApiVersion("apps/v1")
                 .withKind("Deployment")
@@ -89,6 +126,12 @@ public class TemplatingServiceImp implements TemplatingService {
                 .build();
     }
 
+
+    /**
+     * @Description Create a PodSpecBuilder object and build the spec of it.
+     * @param configOfDesign,kind Json of Design List and the kind of deployment
+     * @return PodSpecBuilder
+     */
     public PodSpecBuilder setPodSpec(Configuration configOfDesign, String kind){
         PodSpecBuilder pod = new PodSpecBuilder();
         //set default HostNetwork and ShareProcessNamespace;
@@ -99,12 +142,18 @@ public class TemplatingServiceImp implements TemplatingService {
         if(!kind.equalsIgnoreCase("master")) {
             pod.withVolumes(getVolumes());
         }
-        // containers spec templating
+        //containers spec templating
         List<Containers> containersArray = configOfDesign.getContainers();
         pod = getContainerSpec(containersArray, pod);
         return pod;
     }
 
+
+    /**
+     * @Description Build the spec of the Container by user's design then append to the pod
+     * @param containersArray,pod List of Containers and a PodSpecBuilder
+     * @return PodSpecBuilder
+     */
     public PodSpecBuilder getContainerSpec(List<Containers> containersArray, PodSpecBuilder pod){
         //get containers info
         for(int i = 0; i < containersArray.size(); i++) {
@@ -137,8 +186,13 @@ public class TemplatingServiceImp implements TemplatingService {
     }
 
 
+    /**
+     * @Description Build the content of the Env by user's design then append to the ContainerBuilder
+     * @param container,envArray A ContainerBuilder and a list of Env
+     * @return ContainerBuilder
+     */
     public ContainerBuilder getEnvList(ContainerBuilder container, List<Env> envArray){
-        if(envArray.size() >= 1 && envArray.get(0).getName() != null) {
+        if(envArray.size() >= 1 && !envArray.get(0).getName().equals("")) {
             List<EnvVar> envVarList = new ArrayList<>();
             for (Env env : envArray) {
                 EnvVar envVar = new EnvVar();
@@ -152,6 +206,11 @@ public class TemplatingServiceImp implements TemplatingService {
     }
 
 
+    /**
+     * @Description Build the content of the Port by user's design then append to the ContainerBuilder
+     * @param container,portArray A ContainerBuilder and a list of Env
+     * @return ContainerBuilder
+     */
     public ContainerBuilder getPortList(ContainerBuilder container, List<Port> portArray){
         if(portArray.size() >= 1 && portArray.get(0).getContainerPort() != 0) {
             List<ContainerPort> containerPortList = new ArrayList<>();
@@ -168,6 +227,12 @@ public class TemplatingServiceImp implements TemplatingService {
         return container;
     }
 
+
+    /**
+     * @Description Build the default content of the Toleration
+     * @param kind master or deployment kind
+     * @return Toleration
+     */
     public Toleration getToleration(String kind){
         TolerationBuilder toleration = new TolerationBuilder();
         if(kind.equalsIgnoreCase("deployment")) {
@@ -182,12 +247,23 @@ public class TemplatingServiceImp implements TemplatingService {
         return toleration.build();
     }
 
+
+    /**
+     * @Description Build the default content of the Volume
+     * @return Volume
+     */
     public Volume getVolumes(){
         VolumeBuilder volumes = new VolumeBuilder();
         volumes.withName("vehicleconfig").withNewHostPath("/etc/starling/vehicle.config", "File");
         return volumes.build();
     }
 
+
+    /**
+     * @Description Get the node mapping list of the current design
+     * @param id,JsonOfDesign design id and Json of Design List
+     * @return Toleration
+     */
     public ArrayList<String> getMapping(String id, Design JsonOfDesign){
         List<Mapping> mapping = JsonOfDesign.getMapping();
         //HashMap<String, String> nodeSelector = mapping.get(0).get(id);
@@ -200,12 +276,17 @@ public class TemplatingServiceImp implements TemplatingService {
         return nodeNameList ;
     }
 
-    public Map<String, String> getMatchLabels(String nodeName){
-        //spec.selector.matchLabels and spec.template.metadata.labels will be the same as the pod name.
+
+    /**
+     * @Description Build the MatchLabel of the current design
+     * @param deploymentName design id and Json of Design List
+     * @return Map<String, String>
+     */
+    public Map<String, String> getMatchLabels(String deploymentName){
+        //spec.selector.matchLabels and spec.template.metadata.labels will be the same as the deployment name.
         Map<String, String> MatchLabelMap = new HashMap<>();
-        MatchLabelMap.put("name", nodeName);
+        MatchLabelMap.put("name", deploymentName);
         return MatchLabelMap;
     }
-
 
 }
