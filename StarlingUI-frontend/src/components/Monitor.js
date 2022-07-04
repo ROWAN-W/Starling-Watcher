@@ -11,6 +11,7 @@ export default function Monitor() {
 
   
   useEffect(() => {
+    //replace with Rowan's
     const url = "http://localhost:8002/sampleDrone";
           
           fetch(url)
@@ -43,7 +44,6 @@ export default function Monitor() {
     setError(null);
     setData(); //clear data
     setUpdateClick(prev=>!prev);
-    setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
   }
 
   return (
