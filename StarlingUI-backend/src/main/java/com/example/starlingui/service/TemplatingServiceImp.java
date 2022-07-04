@@ -50,7 +50,7 @@ public class TemplatingServiceImp implements TemplatingService {
                         deployment.getMetadata().setName(deploymentName + "-" + nodeName);
                         deployment.getSpec().getTemplate().getSpec().setNodeName(nodeName);
                         //Deploy at here
-                        // Node name will define which node to deploy.
+                        //Node name will define which node to deploy.
                         client.apps().deployments().inNamespace(projectName).resource(deployment).createOrReplace();
                         //return mapper.writeValueAsString(deployment);
                     }
@@ -73,10 +73,8 @@ public class TemplatingServiceImp implements TemplatingService {
                 return;
             }
         }
-        //Namespace newNameSpace = new Namespace();
         NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
         Namespace newNameSpace = namespaceBuilder.withNewMetadata().withName(projectName).endMetadata().build();
-        //newNameSpace.getMetadata().setName(projectName);
         client.namespaces().resource(newNameSpace).create();
     }
 
