@@ -7,7 +7,7 @@ export default function DroneList(props) {
     const [orderCol, setOrderCol] = useState();    
 
     useEffect(() => {
-        const url = "http://localhost:8002/sampleDrone";
+        const url = "http://localhost:8080/design/nodes";
           
           fetch(url)
           .then(res => {

@@ -15,19 +15,16 @@ export default function Upload(props) {
         }
         const fd = new FormData();
         fd.append('file',selectedFile);
-        axios.post("http://localhost:8000/upload",fd)
-        .then(res => { 
-            if (!res.ok) { // error coming back from server
-                throw Error('Error Details: '+res.status);
-            } 
-            return res.json();
-          })
-        .then(data => {
-            setIsPending(false);
-            setResult('File uploaded successfully'); //respond from Rowan's server
-            //setResult(data); 
+        axios.post("http://localhost:8000/upload",fd, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
         })
-          .catch(err => {
+        .then(res => { 
+            setIsPending(false);
+            setResult('Success'); //respond from Rowan's server
+          })
+        .catch(err => {
             setIsPending(false);
             setResult(err.message);
         })

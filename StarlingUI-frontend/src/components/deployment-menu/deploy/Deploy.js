@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
+import axios from 'axios';
 
 export default function Deploy(props) {
 
@@ -9,7 +10,6 @@ export default function Deploy(props) {
     const [deployFeedback, setDeployFeedback] = useState('');
     const [sync, setSync] = useState(false);
     const [deployWaiting, setDeployWaiting] = useState(false);
-    
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -69,11 +69,20 @@ export default function Deploy(props) {
             }
             setDeployWaiting(true);
             setDeployFeedback('Deploying...');
-            //faking server response
-            setTimeout(() => {
+            
+            const url = "http://localhost:8080/design/templating";
+            
+            axios.post(url, props.selectedProject)
+            .then(res => {
+                console.log(res.data);
                 setDeployWaiting(false);
-                setDeployFeedback('Success!');
-            }, "2000")
+                setDeployFeedback('Success! Please check out in the monitor page.');
+            })
+            .catch(err => {
+                setDeployWaiting(false);
+                setDeployFeedback(err.message);
+            })
+            
             return true;
         }
         setDeployFeedback('Please specify at least one drone for each design/deployment');
