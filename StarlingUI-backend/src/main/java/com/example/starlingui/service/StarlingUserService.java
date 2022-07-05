@@ -62,11 +62,11 @@ public class StarlingUserService implements StarlingService<StarlingUser> {
         String password = bodyJson.get("password").toString();
         Optional<StarlingUser> optUser = userDao.getById(id);
         if (optUser.isEmpty()) {
-            throw new Exception("User does not exist!")
+            throw new Exception("User does not exist!");
         }
         StarlingUser userToUpdate = optUser.get();
         if (!Objects.equals(oldPassword, userToUpdate.getPassword())) {
-            throw new Exception("Invalid old password!")
+            throw new Exception("Invalid old password!");
         }
         userToUpdate.setPassword(password);
         userDao.save(userToUpdate);
@@ -84,12 +84,18 @@ public class StarlingUserService implements StarlingService<StarlingUser> {
         return gson.toJson(userJson);
     }
 
-    /**
-     * @Description accept error message and make it json style
-     * @param message error message
-     * @return error message in json style
-     */
-    private String getErrorJson(String message) {
-        return new JSONObject().put("errorMsg", message).toString();
+    public String showAll() {
+        List<StarlingUser> users = userDao.findAll();
+        JSONArray ja = new JSONArray(users);
+        return ja.toString();
     }
+
+//    /**
+//     * @Description accept error message and make it json style
+//     * @param message error message
+//     * @return error message in json style
+//     */
+//    private String getErrorJson(String message) {
+//        return new JSONObject().put("errorMsg", message).toString();
+//    }
 }

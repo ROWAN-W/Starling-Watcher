@@ -4,31 +4,18 @@ import com.example.starlingui.model.Design;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.domainNode;
 import com.example.starlingui.model.User;
-import com.example.starlingui.service.DockerHubServiceImpl;
-import com.example.starlingui.service.StarlingUserService;
-import com.example.starlingui.service.designNodeServiceImpl;
-import com.example.starlingui.service.TemplatingServiceImp;
+import com.example.starlingui.service.*;
 import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import com.example.starlingui.Dao.StarlingProjectDao;
-import com.example.starlingui.Dao.StarlingUserDao;
-import com.example.starlingui.model.StarlingProject;
 import com.example.starlingui.model.StarlingUser;
-import com.google.gson.JsonObject;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
-
-import java.util.Objects;
-import java.util.Optional;
-
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -39,11 +26,11 @@ public class DesignController {
     private DockerHubServiceImpl dockerHubService;
 
 
-    @Autowired
+    @Resource
     private StarlingUserService userService;
 
-    @Autowired
-    private StarlingProjectDao projectDao;
+    @Resource
+    private StarlingProjectService projectService;
 
     /**
      * @Description Post request(with Body param)
@@ -108,10 +95,6 @@ public class DesignController {
         }
     }
 
-
-
-
-
      /** @Description Save a new user
      * @param user User to be added to the database, contains name and password
      * @return return User id and name, 403 if user already exists, return 200 if success
@@ -137,7 +120,8 @@ public class DesignController {
         try {
             return ResponseEntity.ok(userService.update(body, id));
         } catch (Exception e) {
-            return new ResponseEntity<>("Invalid Request body!", HttpStatus.FORBIDDEN);
+            String errorJson = getErrorJson(e.getMessage());
+            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
 
     }
@@ -172,11 +156,7 @@ public class DesignController {
      */
     @GetMapping("/database")
     public ResponseEntity<String> showDatabase() {
-        List<StarlingUser> users = userDao.findAll();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(users);
-        JSONArray ja = new JSONArray(users);
-        return new ResponseEntity<>(ja.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.showAll(), HttpStatus.OK);
     }
 
     /**
@@ -186,7 +166,7 @@ public class DesignController {
     @GetMapping("/initialize")
     public ResponseEntity<String> initializeDatabase() {
         userService.initialize();
-        projectDao.deleteAll();
+        projectService.initialize();
         return new ResponseEntity<>("Database has been initialized", HttpStatus.OK);
     }
 
@@ -196,14 +176,7 @@ public class DesignController {
      */
     @GetMapping("/projects")
     public ResponseEntity<String> getAllProjects() {
-        List<StarlingProject> projects = projectDao.findAll();
-        JSONArray ja = new JSONArray();
-        for (StarlingProject project : projects) {
-            JSONObject jsonObject = new JSONObject(project.getJson());
-            jsonObject.put("id", project.getId());
-            ja.put(jsonObject);
-        }
-        return new ResponseEntity<>(ja.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getAll(), HttpStatus.OK);
     }
 
     /**
@@ -214,11 +187,7 @@ public class DesignController {
     @PostMapping("/projects")
     public ResponseEntity<String> saveProject(@RequestBody String body) {
         try {
-            StarlingProject project = new StarlingProject(body);
-            projectDao.save(project);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", project.getId());
-            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(projectService.save(body), HttpStatus.OK);
         } catch (Exception e) {
             String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
@@ -233,17 +202,12 @@ public class DesignController {
      */
     @PutMapping("/projects/{id}")
     public ResponseEntity<String> updateProject(@RequestBody String body, @PathVariable String id) {
-        Optional<StarlingProject> optProject = projectDao.getById(id);
-        if (optProject.isEmpty()) {
-            String errorJson = getErrorJson("Project id does not exist!");
+        try {
+            return new ResponseEntity<>(projectService.update(body, id), HttpStatus.OK);
+        } catch (Exception e) {
+            String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
-        StarlingProject project = optProject.get();
-        project.setJson(body);
-        projectDao.save(project);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     /**
@@ -253,16 +217,12 @@ public class DesignController {
      */
     @DeleteMapping("/projects/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable String id) {
-        Optional<StarlingProject> optProject = projectDao.getById(id);
-        if (optProject.isEmpty()) {
-            String errorJson = getErrorJson("Project id does not exist!");
+        try {
+            return new ResponseEntity<>(projectService.delete(id), HttpStatus.OK);
+        } catch (Exception e) {
+            String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
-        StarlingProject project = optProject.get();
-        projectDao.deleteById(id);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     /**

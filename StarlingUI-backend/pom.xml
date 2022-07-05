@@ -62,16 +62,10 @@
             <artifactId>client-java</artifactId>
             <version>15.0.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.fabric8/kubernetes-client -->
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
             <version>6.0.0-RC1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20190722</version>
         </dependency>
     </dependencies>
     <build>
