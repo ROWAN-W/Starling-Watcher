@@ -1,6 +1,7 @@
 import React from 'react'
 import MonitorNode from './monitor-contianer/MonitorNode';
 
+
 export default function Monitor(props) {
 
     const nodes = () => props.type;

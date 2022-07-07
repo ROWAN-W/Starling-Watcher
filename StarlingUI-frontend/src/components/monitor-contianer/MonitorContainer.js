@@ -1,5 +1,12 @@
+import { useState,useEffect } from "react";
+import React from "react";
+import Popup from "./Popup";
 
-export default function MonitorContainer(){
+
+export default function MonitorContainer(props){
+    const [visible, setVisible] = useState(false);
+
+
 
     return(
         <>
@@ -8,10 +15,11 @@ export default function MonitorContainer(){
                 <div className="outer">
                     <h4>container name</h4>
                     <div className="menu">
-                        <button>Console</button>
+                        <button onClick={()=>setVisible(true)}>Console</button>
                         <button>Logs</button>
                         <button>Restart</button>
                     </div>
+                    <Popup visible={visible} setVisible={setVisible} id={props.id}></Popup>
                 </div>
             </div>
         </>
