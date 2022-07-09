@@ -47,7 +47,7 @@ public class monitorNodeServiceImpl implements NodeService{
             node.setNodeName(item.getMetadata().getName());
 
             //get pods
-            node.setPods(getPodsOfNode(node.getNodeName(),api));
+            node.setContainers(getContainersOfNode(node.getNodeName(),api));
 
             nodes.add(node);
             id++;
@@ -63,30 +63,27 @@ public class monitorNodeServiceImpl implements NodeService{
      * @return List<Pod>
      * @throws ApiException
      */
-    private List<monitorPod> getPodsOfNode (String nodeName, CoreV1Api api) throws ApiException{
-        int id=0;
-        ArrayList<monitorPod> monitorPods =new ArrayList<>();
+    private List<monitorContainer> getContainersOfNode (String nodeName, CoreV1Api api) throws ApiException{
+
+        ArrayList<monitorContainer> containers =new ArrayList<>();
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
             if(item.getSpec().getNodeName().equals(nodeName)){
-                //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
-                monitorPod monitorPod =new monitorPod();
-                //System.out.println(String.valueOf(id));
-                monitorPod.setId(String.valueOf(id));
-                //System.out.println(item.getMetadata().getName());
-                monitorPod.setPodName(item.getMetadata().getName());
-                //System.out.println(item.getMetadata().getNamespace());
-                monitorPod.setNamespace(item.getMetadata().getNamespace());
+
                 //get containers
-                monitorPod.setContainers(getContainersOfPod(item));
-                monitorPods.add(monitorPod);
-                id++;
+               containers.addAll(getContainersOfPod(item,item.getMetadata().getName(),item.getMetadata().getNamespace()));
+
+
             }
 
 
         }
-        return monitorPods;
+
+        for(int i=0;i<containers.size();i++){
+            containers.get(i).setId(String.valueOf(i));
+        }
+        return containers;
     }
 
 
@@ -97,13 +94,13 @@ public class monitorNodeServiceImpl implements NodeService{
      * @throws ApiException
      */
 
-    private List<monitorContainer> getContainersOfPod (V1Pod pod) throws ApiException{
+    private List<monitorContainer> getContainersOfPod (V1Pod pod, String PodName,String NameSpace) throws ApiException{
         ArrayList<monitorContainer> containers =new ArrayList<>();
-        int id=0;
+
         for(int i=0;i<pod.getStatus().getContainerStatuses().size();i++){
             monitorContainer container =new monitorContainer();
-            //System.out.println(String.valueOf(id));
-            container.setId(String.valueOf(id));
+            container.setNamespace(NameSpace);
+            container.setPodName(PodName);
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getName());
             container.setContainerName(pod.getStatus().getContainerStatuses().get(i).getName());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getContainerID());
@@ -122,7 +119,7 @@ public class monitorNodeServiceImpl implements NodeService{
                 container.setContainerState("null");
             }
             containers.add(container);
-            id++;
+
         }
 
         return containers;
