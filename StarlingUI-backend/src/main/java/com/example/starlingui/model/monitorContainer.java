@@ -10,6 +10,9 @@ public class monitorContainer {
     private String containerName;
     private String containerID;
 
+    private String podName;
+    private String namespace;
+
     // possible states: waiting, running, terminated
     private  String containerState;
 
@@ -33,5 +36,14 @@ public class monitorContainer {
 
     public void setContainerID(String containerID) {
         this.containerID = containerID;
+    }
+
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public void setPodName(String podName) {
+        this.podName = podName;
     }
 }

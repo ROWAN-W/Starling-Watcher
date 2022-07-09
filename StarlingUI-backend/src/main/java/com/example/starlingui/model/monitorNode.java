@@ -14,11 +14,11 @@ public class monitorNode extends domainNode{
     private String nodeName;
 
     //fields for monitor page
-    private List<monitorPod> Pods;
+    private List<monitorContainer> containers;
 
 
-    public void setPods(List<monitorPod> monitorPods) {
-        this.Pods = monitorPods;
+    public void setContainers(List<monitorContainer> containers) {
+        this.containers = containers;
     }
 
     public void setId(String id) {
