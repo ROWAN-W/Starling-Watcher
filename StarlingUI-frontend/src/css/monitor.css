@@ -4,20 +4,23 @@
 
 .node-container{
     display: grid;
-    gap: 50px;
-    height: 1000px;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
     background-color: #2196F3;
-    padding: 50px;
+    height: 600px;
+    max-height: 600px;
     overflow-y: auto;
+
 }
 
 .card{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid black;
-    border-radius: 15px;
-    max-height: 400px;
+    margin: 20px;
+    width: 420px;
+    height: 400px;
+    border-radius: 16px;
+
 }
 
 .card:hover {
@@ -26,6 +29,7 @@
 
 .card-container{
     padding: 2px 16px;
+    max-height: 292px;
     overflow-y: auto;
 }
 
@@ -39,7 +43,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    width: 365px;
+    height: 60px;
+    flex-grow: 0;
+    margin: 0 23px 0 0;
+    padding: 7px 0 6px 0;
+    border-radius: 8px;
+    background-color: rgba(199, 207, 214, 0.15);
 
 }
 
@@ -58,10 +68,49 @@
 .pole{
     background-color: green;
     height: 30px;
-    width: 5px;
+    width: 4px;
     border-radius: 5px 0 0 5px;
 }
 
+.container-info {
+    vertical-align: middle;
+}
+
+.info-name {
+    width: 95px;
+    height: 22px;
+    flex-grow: 0;
+    margin: 0;
+    font-family: Inter, serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.info-id {
+    width: 60px;
+    height: 11px;
+    flex-grow: 0;
+    margin: 0;
+    font-family: Inter, serif;
+    font-size: 9px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .close-btn{
     position: absolute;

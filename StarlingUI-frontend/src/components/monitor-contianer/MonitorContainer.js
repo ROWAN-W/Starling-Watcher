@@ -5,6 +5,7 @@ import Popup from "./Popup";
 
 export default function MonitorContainer(props){
     const [visible, setVisible] = useState(false);
+    console.log(props);
 
 
 
@@ -13,7 +14,11 @@ export default function MonitorContainer(props){
             <div className="k8s-container">
                 <div className="pole"></div>
                 <div className="outer">
-                    <h4>container name</h4>
+                    <div className="container-info">
+                        <p className="info-name">{props.containers[0].containerName}</p>
+                        <p className="info-id">{props.containers[0].containerID}</p>
+                    </div>
+
                     <div className="menu">
                         <button onClick={()=>setVisible(true)}>Console</button>
                         <button>Logs</button>
