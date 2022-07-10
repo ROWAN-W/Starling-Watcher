@@ -39,4 +39,7 @@ jobs:
     # now you can run kubectl to see the pods in the cluster
     - name: kubectl
       run: kubectl get pods -A
+    - name: Test with Maven
+      run: mvn compile test
+    
       
