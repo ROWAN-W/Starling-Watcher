@@ -7,6 +7,7 @@ import "xterm/css/xterm.css";
 
 
 export default function Popup(props) {
+    console.log(props);
     const fitAddon = new FitAddon();
     useEffect(() => {
         if (props.visible) {
@@ -20,7 +21,6 @@ export default function Popup(props) {
             terminal.loadAddon(fitAddon);
             terminal.open(document.getElementById(props.id));
             fitAddon.fit();
-            console.log('hello');
         }
     });
 

@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 export default function MonitorNode(props){
     const [containers ,setContainers] = useState(null);
     useEffect(() => {
-        setContainers(props.Pods);
+        setContainers(props.containers);
     }, []);
 
     return(
