@@ -1,7 +1,6 @@
 package com.example.starlingui.controller;
 
 import com.example.starlingui.service.ShellConnection;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -9,6 +8,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -41,7 +41,7 @@ public class StarlingShellSocketHandler extends TextWebSocketHandler {
     /**
      * 建立连接时触发
      */
-    public void afterConnectionEstablished(@NotNull WebSocketSession session) throws IOException {
+    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
         System.out.println(shellConnectionMap.size());
         //线程超过数量，则不会开启新shell
         if(shellConnectionMap.size()<ThreadPoolSize){
@@ -65,8 +65,11 @@ public class StarlingShellSocketHandler extends TextWebSocketHandler {
     /**
      * 关闭连接时触发
      */
-    public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus closeStatus) {
-        shellConnectionMap.remove(session);
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+        if(shellConnectionMap.containsKey(session)){
+            shellConnectionMap.get(session).exit();
+            shellConnectionMap.remove(session);
+        }
 
     }
 
@@ -74,7 +77,7 @@ public class StarlingShellSocketHandler extends TextWebSocketHandler {
      * 前端调用websocket.send时候，会调用该方法
      */
     @Override
-    public void handleTextMessage(@NotNull WebSocketSession session, @NotNull TextMessage message) throws Exception{
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
         if(shellConnectionMap.containsKey(session)){
             shellConnectionMap.get(session).getOutputStream().write(message.getPayload().getBytes());
         }
@@ -86,11 +89,14 @@ public class StarlingShellSocketHandler extends TextWebSocketHandler {
     /**
      * error时触发
      */
-    public void handleTransportError(WebSocketSession session, @NotNull Throwable exception) throws Exception{
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception{
         if(session.isOpen()){
             session.close();
         }
-        shellConnectionMap.remove(session);
+        if(shellConnectionMap.containsKey(session)){
+            shellConnectionMap.get(session).exit();
+            shellConnectionMap.remove(session);
+        }
 
     }
 

@@ -23,6 +23,8 @@ public class ShellConnection implements Runnable {
     //将command传入container shell里
     private OutputStream outputStream;
 
+    private InputStream inputStream;
+
     //k8s api，一个shell就是一个exec
     private final Exec exec;
 
@@ -36,7 +38,7 @@ public class ShellConnection implements Runnable {
 
     private final String rows;
 
-    private Process proc = null;
+    private Process proc;
 
 
     private Boolean tryBash = false;
@@ -86,7 +88,7 @@ public class ShellConnection implements Runnable {
             //获得shell的输入和输出
             outputStream = proc.getOutputStream();
             //用来读取K8s container shell里返回的信息
-            InputStream inputStream = proc.getInputStream();
+            inputStream = proc.getInputStream();
             //设置shell的大小
             String width = "COLUMNS=" + cols;
             String height = "LINES=" + rows;
@@ -94,8 +96,17 @@ public class ShellConnection implements Runnable {
             String cmdArgs = export + shellType + "\nclear\n";
             outputStream.write(cmdArgs.getBytes());
             //获取每个命令的执行结果输出在前端的终端
+        } catch (ApiException | IOException e) {
+            e.printStackTrace();
             try {
-                while (true) {
+                session.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        try {
+            while (true) {
                     byte[] data = new byte[1024];
                     if (inputStream.read(data) != -1) {
                         //将实际的shell的输出写入textMessage
@@ -110,22 +121,12 @@ public class ShellConnection implements Runnable {
                         //向前端发送结果
                         session.sendMessage(textMessage);
                     }
-                }
-            } catch (IOException e) {
-                System.out.println("Pipe closed");
-            } finally {
-                outputStream.write("exit\nexit\n".getBytes());
-                proc.destroy();
-                System.out.println("session closed... exit thread");
             }
-
-        } catch (ApiException | IOException e) {
-            e.printStackTrace();
-            try {
-                session.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+        } catch (IOException e) {
+            System.out.println("Pipe closed");
+        } finally {
+            exit();
+            System.out.println("session closed... exit thread");
         }
 
     }
@@ -137,7 +138,12 @@ public class ShellConnection implements Runnable {
         return textMessage.getPayload().trim().contains(failMessage);
     }
 
-
+    //退出 Process
+    public void exit() {
+        if (proc != null) {
+            this.proc.destroyForcibly();
+        }
+    }
 
     public OutputStream getOutputStream() {
         return outputStream;
