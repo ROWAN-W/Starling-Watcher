@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1B2522;
+  /*background-color: #1B2522;*/
+  background: transparent;
   padding: .5rem 1rem;
   min-width: 450px;
 }

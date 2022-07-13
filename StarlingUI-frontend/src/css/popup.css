@@ -181,7 +181,7 @@
 
   .popup-footer.normal {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   .popup-footer.normal.display {
@@ -353,7 +353,7 @@
   background-color: hsl(0, 0%, 95%);
   border-radius: 8px;
   width: 40vw;
-  min-width: 2;
+  min-width: 200px;
   min-height: 30vh;
   max-height: auto;
   position: relative;
