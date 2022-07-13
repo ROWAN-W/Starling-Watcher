@@ -8,11 +8,11 @@ export default function DroneInfo(props) {
 
     return (props.trigger) ?(
 
-        <td colSpan="4" width="200px">
-        <div className='drone-item'><strong>Roles:</strong> {props.drone.role}</div>
-        <div className='drone-item'><strong>Labels:</strong> {showLabels}</div>
-        <div className='drone-item'><strong>Annotations:</strong> {showAnnotations}</div>
-        <div className='drone-item'><strong>Creation Time:</strong> {props.drone.creationTime}</div>
+        <td className="drone-more-info" colSpan="4" width="200px">
+        <div className='drone-item'><span className='drone-item-title'>Architecture:</span> {props.drone.architecture}</div>
+        <div className='drone-item'><span className='drone-item-title'>Labels:</span> {showLabels}</div>
+        <div className='drone-item'><span className='drone-item-title'>Annotations:</span> {showAnnotations}</div>
+        <div className='drone-item'><span className='drone-item-title'>Creation Time:</span> {props.drone.creationTime.split('+')[0]}</div>
         </td>
       ): ""
 }

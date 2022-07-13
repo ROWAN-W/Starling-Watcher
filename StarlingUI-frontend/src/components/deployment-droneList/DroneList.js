@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Drone from './Drone'
+import sync from './sync-svgrepo-com.svg';
+import logo from '../load.gif';
 
 export default function DroneList(props) {
 
@@ -58,19 +60,29 @@ export default function DroneList(props) {
       
     return (props.trigger) ?(
     <>
-    <div className='drone-container'>
-    <div><span className='drone-container-title'>Available Devices</span><button onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again" : "Sync"}</button><button onClick={()=>props.setTrigger(false)}>Hide</button></div>
-    <div className='drone-update-time'>last sync: {props.updateTime}</div>
-    {props.waiting && <div>Please wait...</div>}
-    {props.error && <div>{ props.error }</div>}
+    <div className='drone-container items'>
+    <div className="items-head drone">
+        <p>Available Devices</p>
+        <hr/>
+    </div>
+    <button className='btn btn-small hide-drone btn-menu' onClick={()=>props.setTrigger(false)}>Hide</button>
+    <button className='btn btn-small sync-drone btn-menu' onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again": "Sync"}</button>
+    <div className='sync-time'>
+        <div className='drone-update-time drone'><img className="syncing" src={sync} alt="sync" title="sync" onClick={()=>{props.handleUpdateTime();}}/>last sync: {props.updateTime}</div>
+    </div>
+    
+    {props.waiting && <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+    {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{ props.error }</div>}
+    
+    <div className="table-wrapper">
     { (props.data ) &&
-    <table>
+    <table className="fl-table">
         <thead>
         <tr>
             <th onClick={()=>{sorting("nodeName");setOrderCol("nodeName")}}>Name {showIcon("nodeName")}</th>
             <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Hostname {showIcon("hostname")}</th>
             <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP Address {showIcon("ip")}</th>
-            <th onClick={()=>{sorting("architecture");setOrderCol("architecture")}}>Architecture {showIcon("architecture")}</th>
+            <th onClick={()=>{sorting("role");setOrderCol("role")}}>Role {showIcon("role")}</th>
         </tr>
         </thead>
         
@@ -80,6 +92,9 @@ export default function DroneList(props) {
         
     </table>}
     </div>
+    </div>
     </>
   ): ""
 }
+
+//<th onClick={()=>{sorting("architecture");setOrderCol("architecture")}}>Architecture {showIcon("architecture")}</th>

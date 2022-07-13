@@ -3,6 +3,7 @@ import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
+import logo from '../load.gif';
 
 export default function ImageList() {
 
@@ -61,7 +62,7 @@ export default function ImageList() {
   function showInstruction(){
     if(images.length!==0 && showSwitchButton){
       return(
-        <button onClick={()=>{
+        <button className='btn btn-small logout btn-menu' onClick={()=>{
           setUserSignIn(true); 
           setSwitchButton(false);
           setImages([]); 
@@ -100,14 +101,15 @@ export default function ImageList() {
 
   function show(){
     if(waiting){
-      return <div>Please wait...</div>
+      return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>
     }
     else{
       if(imageError && !userSignIn){
         return (
           <>
-            <div>{imageError}</div> 
-            <div><button onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}}>Try again</button></div>
+            <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{imageError}
+            <p onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}} 
+            className='docker-try-again'>Click here to try again</p></div>
           </>
         )
       }
@@ -124,6 +126,7 @@ export default function ImageList() {
             <>
             {showInstruction()}
             <SearchBox handleImageSearch={handleImageSearch}/>
+            <div className="items-body">
             {searchImage===''? 
             images.map(image=>{
                 return <Image key={image.id} {...image}></Image>
@@ -131,6 +134,7 @@ export default function ImageList() {
             searchResult.map(image=>{
                 return <Image key={image.id} {...image}></Image>
             })}
+            </div>
             </>
           )
         }
@@ -140,7 +144,11 @@ export default function ImageList() {
 
     return (
     <>
-      <div className='image-tag-container'>
+      <div className='image-tag-container items'>
+      <div className="items-head">
+      {userSignIn? <p>Docker Hub Sign in</p> : <p>Docker Hub Images</p>}
+      <hr/>
+      </div>
       {show()}
       </div>
     </>

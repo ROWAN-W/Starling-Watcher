@@ -1,14 +1,15 @@
 import React, { useState,useContext, useEffect } from 'react';
 import { ProjectContext } from '../App';
-import DeleteWarning from './DeleteWarning';
-import DeleteProject from './DeleteProject';
+import DeleteWarning from './delete/DeleteWarning';
+import DeleteProject from './delete/DeleteProject';
 import ProjectList from "./ProjectList";
 import ShareProject from './share/ShareProject';
 import Deploy from './deploy/Deploy';
 import Upload from './Upload';
-import SaveMessage from './SaveMessage';
+import SaveMessage from './save/SaveMessage';
 import DeployWarning from './deploy/DeployWarning';
 import CreateProject from './CreateProject';
+import SaveWarning from './save/SaveWarning';
 
 export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, error, waiting, minimize, setMinimize} ) {
 
@@ -25,6 +26,9 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     
     const [deployWarning, setDeployWarning] = useState(false);
     const [deployWarningMes, setDeployWarningMes] = useState('');
+
+    const [saveWarning, setSaveWarning] = useState(false);
+    const [saveWarningMes, setSaveWarningMes] = useState('');
 
     useEffect(()=>{
       if(minimize===false){
@@ -58,14 +62,12 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
 
         //checking before deploying
         if(drones===null||drones===undefined||drones.length===0){
-          console.log("cannot deploy without available devices!");
-          setDeployWarningMes("No available devices to deploy. Click \"Sync Again\" to sync available devices");
+          setDeployWarningMes("Click \"Sync Again\" to sync available devices");
           setDeployWarning(clickEvent);
           return;
         }
         if(selectedProject.name===''){
-          console.log("cannot deploy without project name!");
-          setDeployWarningMes("Please provide a project name.");
+          setDeployWarningMes("Please provide a project name");
           setDeployWarning(clickEvent);
           return;
         }else{
@@ -75,14 +77,12 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
                 !(code > 47 && code < 58) && // numeric (0-9)
                 !(code > 96 && code < 123)) { // lower alpha (a-z)
                 
-                console.log("contain only lowercase alphanumeric characters or '-'!");
                 setDeployWarningMes("Project name can only contain lowercase alphanumeric characters or '-'")
                 setDeployWarning(clickEvent);
                 return;
             }
           }
           if(selectedProject.name.charCodeAt(0)===45 || selectedProject.name.charCodeAt(selectedProject.name.length-1)===45){
-              console.log("start/end with an alphanumeric character");
               setDeployWarningMes("Project name can only start/end with an alphanumeric character")
               setDeployWarning(clickEvent);
               return;
@@ -91,13 +91,11 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
         let nameArray = [];
         for(let i=0;i<selectedProject.config.length;i++){
             if(selectedProject.config[i].containers.length===0){
-                console.log("cannot deploy without images!");
                 setDeployWarningMes("Please specify at least one image for Master and each Deployment.");
                 setDeployWarning(clickEvent);
                 return;
             }
             if(nameArray.includes(selectedProject.config[i].name)){
-                console.log("cannot deploy with duplicate node name!");
                 setDeployWarningMes("Please provide an unique name for Master and each Deployment.");
                 setDeployWarning(clickEvent);
                 return;
@@ -115,7 +113,35 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
 
     function handleProjectSave(clickEvent){
       if(selectedProject!==undefined){
-        setProjectSave(clickEvent);
+      const name = selectedProject.name;      
+      if(name===''){
+        console.log("cannot save project name!");
+        setSaveWarning(true);
+        setSaveWarningMes("Please provide a project name.")
+        return;
+      }
+      else{
+          for (let i = 0; i < name.length; i++) {
+              let code = name.charCodeAt(i);
+              if ((code !== 45) && // '-'
+                  !(code > 47 && code < 58) && // numeric (0-9)
+                  !(code > 96 && code < 123)) { // lower alpha (a-z)
+                  
+                  console.log("contain only lowercase alphanumeric characters or '-'!");
+                  //setResult("Project name can only contain lowercase alphanumeric characters or '-'")
+                  setSaveWarning(true);
+                  setSaveWarningMes("Project name can only contain lowercase alphanumeric characters or '-'")
+                  return;
+              }
+          }
+          if(name.charCodeAt(0)===45 || name.charCodeAt(name.length-1)===45){
+              console.log("start/end with an alphanumeric character");
+              setSaveWarning(true);
+              setSaveWarningMes("Project name can only start/end with an alphanumeric character")
+              return;
+          }
+          setProjectSave(clickEvent);
+      }
       }
     }
 
@@ -127,17 +153,24 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     
   return (
     <>
-    <button onClick={()=>handleProjectSelection(true)}>Select Project</button>
-    <button onClick={()=>handleProjectCreate(true)}>Create Project</button>
-    <button onClick={()=>handleProjectLoad(true)}>Load Project</button>
-    <button onClick={()=>handleProjectSave(true)}>Save</button>
-    <button onClick={()=>handleProjectDeploy(true)}>Deploy</button>
-    <button onClick={()=>handleProjectConfig(true)}>Share</button>
-    <button onClick={()=>handleProjectDelete(true)}>Delete</button>
+    <div className='menu'>
+    <button className='btn btn-menu' onClick={()=>handleProjectSelection(true)}>Select Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectCreate(true)}>Create Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectLoad(true)}>Load Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectSave(true)}>Save</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectDeploy(true)}>Deploy</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectConfig(true)}>Share</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete</button>
+    </div>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
     <CreateProject trigger={projectCreate} setTrigger={setProjectCreate}></CreateProject>
-    <SaveMessage trigger={projectSave} setTrigger={setProjectSave} selectedProject={selectedProject}></SaveMessage>
+    <SaveMessage trigger={projectSave} setTrigger={setProjectSave} 
+    selectedProject={selectedProject}
+    setSaveWarning={setSaveWarning}
+    setSaveWarningMes={setSaveWarningMes}
+    ></SaveMessage>
+    <SaveWarning trigger={saveWarning} setTrigger={setSaveWarning} message={saveWarningMes}></SaveWarning>
     <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject}></ShareProject>
     <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} setProjectDelete={setProjectDelete} selectedProject={selectedProject}></DeleteWarning>
     <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>

@@ -4,23 +4,37 @@ import { v4 as uuidv4 } from 'uuid';
 import Node from './Node';
 import Filter from './Filter';
 import SearchBox from './SearchBox';
+import search from './search-svgrepo-com.svg';
 
-export default function Project({currentUserID, selectedProject, droneListTrigger}) {
+export default function Project({currentUserID, selectedProject}) {
 
     const {handleProjectChange, signInPage} = useContext(ProjectContext);
 
     const [filterValue, setFilterValue] = useState('all');
     const [searchNode, setSearchNode] = useState('');
 
+    const [showSearch, setShowSearch] = useState(false);
+    const [clickAdd, setClickAdd] =useState(false);
+
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      setClickAdd(false);
     }
 
     useEffect(() => {
-      scrollToBottom()
-    }, [selectedProject?.config.length]);
+      if(clickAdd===true){
+        scrollToBottom();
+      }
+    }, [clickAdd]);
+
+    useEffect(() => {
+      setFilterValue('all');
+      setSearchNode('');
+      setClickAdd(false);
+      setShowSearch(false);
+    }, [selectedProject]);
 
 
   function handleChange(changes){
@@ -73,10 +87,10 @@ function handleNodeDuplicate(node){
     function showInstruction(){
       //test
       if(currentUserID===''){
-        return <div>Please <em onClick={()=>signInPage()}>sign in</em></div>
+        return <div className='items-head'><p className='instruct'>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em> or load a project</p></div>
       }
       else if(selectedProject===undefined){
-        return <div>Please select or create a project</div>
+        return <div className='items-head'><p className='instruct'>Please select or create a project</p></div>
       }
     }
 
@@ -108,13 +122,6 @@ function handleNodeDuplicate(node){
                   >
                   </Node>
                 )}
-              
-                {selectedProject===undefined? null: 
-                <div className='btn-add-node'><button onClick = {()=>{
-                  setFilterValue('all');
-                  setSearchNode('');
-                  handleNodeAdd();
-                  }}>Add Node</button></div>}
             </>
           )
         }
@@ -142,9 +149,6 @@ function handleNodeDuplicate(node){
                 handleNodeDuplicate={handleNodeDuplicate}
               >
               </Node>)}
-
-            {selectedProject===undefined? null: 
-            <div className='btn-add-node'><button onClick = {()=>{handleNodeAdd();setSearchNode('');}}>Add Node</button><div ref={messagesEndRef} /></div>}
           </>
         )
       }
@@ -154,20 +158,24 @@ function handleNodeDuplicate(node){
     function showProjectColumn(){
       if(selectedProject===undefined){
         return (
-          <div className='project'>
+          <div className='project items'>
            {showInstruction()}
           </div>
         )
       }else{
         return (
-          <div className='project'>
-            <div className='image__search-container'>
-              <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter>
-              <SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
+          <div className='project items'>
+            <img className="search-icon" src={search} alt="search" title="search/filter" onClick={()=>setShowSearch(prev=>!prev)}/>
+            <div className='node-search-filter'>
+            {showSearch &&<><SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
+              <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter></>}
             </div>
-          <div className={droneListTrigger? 'project-container-single': 'project-container'}>
+          <div className='project-container-single'>
            {showProjectDetail()}
           </div>
+          {selectedProject===undefined? null: 
+            <div className='btn-add-node'>
+              <button className='btn btn-menu btn-pill' onClick = {()=>{handleNodeAdd();setSearchNode('');setFilterValue('all');setClickAdd(true);}}>Add Design</button><div ref={messagesEndRef} /></div>}
           </div>
           )
       }

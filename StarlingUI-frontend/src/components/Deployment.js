@@ -7,6 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
 import DeployMini from "./deployment-menu/deploy/DeployMini";
+import arrow from './expand-svgrepo-com.svg';
 
 function Deployment({selectedProject}) {
 
@@ -39,15 +40,20 @@ function Deployment({selectedProject}) {
   
   function showProjectTitle(){
     if(selectedProject===undefined){
-      return <h1>Project Planning</h1>
+      return <h1 className="project-title plan">Project Planning</h1>
     }else{
-      return <div><form><input
-      className="project-title"
-      value={selectedProject.name}
-      required
-      placeholder = "Your Project Name"
-      maxLength = {63}
-      onChange={e=>handleChange({name: e.target.value})}></input></form></div>
+      return (
+      <div className="tooltip">
+        <input
+        className="project-title input"
+        value={selectedProject.name}
+        required
+        placeholder = "Your Project Name"
+        maxLength = {63}
+        onChange={e=>handleChange({name: e.target.value})}></input>
+        <span className="tooltiptext">Click to Rename</span>
+      </div>
+      )
     }
   }
 
@@ -55,7 +61,8 @@ function Deployment({selectedProject}) {
     //two columns
     if(droneListTrigger===false){
       return (
-        <div><button onClick={()=>setDroneListTrigger(true)}>Drones</button> </div>       
+        <div><img className="arrow" src={arrow} alt="show available devices" title="show available devices" onClick={()=>setDroneListTrigger(true)}/>
+        </div>       
       ) 
     //three columns //true
     }else{
@@ -77,7 +84,7 @@ function Deployment({selectedProject}) {
   
   return (
     <>
-    <div className="header">
+    <header className="header-menu">
     {showProjectTitle()}
     <div className="menu">
       <Menu 
@@ -85,16 +92,16 @@ function Deployment({selectedProject}) {
       drones={data} handleUpdateTime={handleUpdateTime} updateTime={updateTime} 
       error = {error} waiting = {waiting}
       minimize = {minimize} setMinimize={setMinimize}
-      ></Menu></div>
+      ></Menu>
     </div>
-    <div className="body">
-      
+    </header>
+    <main className="main-body">
         <DndProvider backend={HTML5Backend}>
         <ImageList></ImageList>
-        <Project currentUserID={currentUserID} selectedProject={selectedProject} droneListTrigger={droneListTrigger}></Project>
+        <Project currentUserID={currentUserID} selectedProject={selectedProject}></Project>
         </DndProvider>
         {showDroneList()}
-    </div>
+    </main>
     {selectedProject!==undefined && <DeployMini trigger={minimize} setTrigger={setMinimize}></DeployMini>}
     </>
   )

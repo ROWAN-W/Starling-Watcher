@@ -26,7 +26,6 @@ export default function DockerLogin(props) {
 
     return (props.trigger) ?(
         <div className='docker-expand'>
-                <h3>Docker Hub Sign in</h3>
                 <form onSubmit={handleSubmit}>
                     <label 
                         htmlFor='DockerUserName'>User Name or Email Address
@@ -52,7 +51,7 @@ export default function DockerLogin(props) {
                         >
                     </input>
                     <br></br>
-                    <button type="submit">Sign in</button>
+                    <button type="submit" className='btn btn-menu'>Sign in</button>
                 </form>
         </div>
       ): ""

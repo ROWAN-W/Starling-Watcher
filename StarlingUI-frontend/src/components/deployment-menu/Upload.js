@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import logo from '../load.gif';
 import axios from 'axios';
 
 export default function Upload(props) {
@@ -67,14 +68,22 @@ export default function Upload(props) {
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-                {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
-                <h3>Upload file & Deploy</h3>
-                <form method="post" action="#" id="#" onSubmit={handleSubmit}>
-                    <div className="form-group files">
-                        <input type="file" className="form-control" required onChange={e=>{setSelectedFile();checkMimeType(e)&&setSelectedFile(e.target.files[0]);}} onClick={()=>{setResult('');}}/>
+            <div className='popup-header'>
+                <span className='popup-title'>Upload file & Deploy</span>
+                {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
+            </div>
+                <form method="post" action="#" id="#" onSubmit={handleSubmit} className="form">
+                    {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+                    {!savePending && result!=='' && result!=='Success' && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{result}</div>}
+                    {result==='Success' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{result}</div>}
+                    
+                    <div className="files">
+                        <input type="file" required 
+                        onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}}/>
                     </div>
-                    <div>{result}</div> 
-                    <div><button type='submit'>Deploy</button></div> 
+                    <div className='popup-footer single'>
+                        {selectedFile && <button className='btn' type='submit'>Deploy</button>}
+                    </div> 
                 </form>
             </div>
         </div>

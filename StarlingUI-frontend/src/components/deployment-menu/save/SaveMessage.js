@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ProjectContext } from '../App';
+import { ProjectContext } from '../../App';
+import logo from '../../load.gif';
 
 export default function SaveMessage(props) {
 
     const {currentUserID} = useContext(ProjectContext);
 
-    const [result, setResult] = useState('Please wait...');
+    const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
     const [dateModified, setDateModified] = useState();
     const [lastModifiedBy,setLastModifiedBy] = useState();
     const [error, setError] = useState(null);
 
     useEffect(()=>{
-        if(props.trigger===true && checkBeforeSave()===true){
+        if(props.trigger===true){
             //data before saving
             console.log("data before saving");
             console.log(props.selectedProject.dateModified);
@@ -29,37 +30,6 @@ export default function SaveMessage(props) {
         * start with an alphanumeric character
         * end with an alphanumeric character
      */
-
-    function checkBeforeSave(){   
-        if(props.selectedProject===undefined || props.selectedProject===null){
-            return false;
-        }
-        const name = props.selectedProject.name;      
-        if(name===''){
-          console.log("cannot save project name!");
-          setResult("Please provide a project name.")
-          return false;
-        }
-        else{
-            for (let i = 0; i < name.length; i++) {
-                let code = name.charCodeAt(i);
-                if ((code !== 45) && // '-'
-                    !(code > 47 && code < 58) && // numeric (0-9)
-                    !(code > 96 && code < 123)) { // lower alpha (a-z)
-                    
-                    console.log("contain only lowercase alphanumeric characters or '-'!");
-                    setResult("Project name can only contain lowercase alphanumeric characters or '-'")
-                    return false;
-                }
-            }
-            if(name.charCodeAt(0)===45 || name.charCodeAt(name.length-1)===45){
-                console.log("start/end with an alphanumeric character");
-                setResult("Project name can only start/end with an alphanumeric character")
-                return false;
-            }
-            return true;
-        }
-    }
 
       function handleProjectSave(){
         if(props.selectedProject.saved===false){
@@ -119,19 +89,31 @@ export default function SaveMessage(props) {
         })
       }
 
+      function clearField(){
+        setResult('');
+        setIsPending(false);
+        setError(null);
+      }
+
     function message(){
         return(
             <>
-            {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{error? error: result}</p>
-            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
+            {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+            {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
+            {error && <h2 className='title-error'>Error!</h2>}
+            {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
+            <div className='content'>{error? error: result}</div>
+            {!savePending && 
+            <div className='popup-footer normal'>
+            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField()}}>OK</button>
+            </div>}   
             </>
         )
     }
     
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
+            <div className='popup'>
                 {message()}
             </div>
         </div>

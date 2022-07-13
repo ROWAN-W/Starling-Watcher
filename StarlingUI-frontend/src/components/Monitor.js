@@ -12,7 +12,7 @@ export default function Monitor() {
   
   useEffect(() => {
     //replace with Rowan's
-    const url = "http://localhost:8002/sampleDrone";
+    const url = "http://localhost:8080/monitor/nodes";
           
           fetch(url)
           .then(res => {

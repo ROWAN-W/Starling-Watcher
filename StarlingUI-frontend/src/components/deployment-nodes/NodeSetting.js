@@ -101,14 +101,16 @@ export default function NodeSetting(props) {
 
 return (props.trigger) ?(
     <div className='popup-projects'>
-        <div className='popup-projects-inner'>
-        <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
-            <h3>Advanced Settings</h3>
-            <h4>{warning}</h4>
-            <form onSubmit={saveChange}>
+        <div className='popup-projects-inner advanced-setting'>
+        <div className='popup-header'>
+            <span className='popup-title'>Advanced Settings</span>
+            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+        </div>
+            {warning!=='' && <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{warning}</div>}
+            <form onSubmit={saveChange} className="advanced-setting">
                 <div className='popup-major'>
-                <label 
-                    htmlFor='name'>Name
+                <div><label 
+                    htmlFor='name' className='popup-major-key major'>Name<span className='required'>*</span>
                 </label>
                 <input 
                     type='text' 
@@ -119,19 +121,20 @@ return (props.trigger) ?(
                     maxLength = {63}
                     onChange={e=>setName(e.target.value)}
                     >
-                </input>
-                <label 
-                    htmlFor='kind'>Kind
+                </input></div>
+                <div><label 
+                    htmlFor='kind' className='popup-major-key major'>Kind<span className='required'>*</span>
                 </label>
-                <select value={kind} onChange={e=>setKind(e.target.value)}>
+                <select className='dropdown-select' value={kind} onChange={e=>setKind(e.target.value)}>
                     <option value="master">master</option>
                     <option value="deployment">deployment</option>
-                </select>
+                </select></div>
                 </div>
-                <p></p>
-                <span>label:</span>
+
+                <div className='sub-title'><span>label</span></div>
+                <div className='popup-secondary'>
                 <label 
-                    htmlFor='app'>app
+                    htmlFor='app' className='popup-major-key'>app
                 </label>
                 <input 
                     type='text' 
@@ -143,7 +146,7 @@ return (props.trigger) ?(
                     >
                 </input>
                 <label 
-                    htmlFor='platform'>platform
+                    htmlFor='platform' className='popup-major-key'>platform
                 </label>
                 <input 
                     type='text' 
@@ -154,9 +157,11 @@ return (props.trigger) ?(
                     onChange={e=>setPlatform(e.target.value)}
                     >
                 </input>
-                <br></br>
-                <button type="submit">Done</button>
-                <button type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                </div>
+                <div className='popup-footer normal display'>
+                <button className='btn btn-primary' type="submit">Done</button>
+                <button className='btn btn-danger' type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                </div>
             </form>
         </div>
     </div>

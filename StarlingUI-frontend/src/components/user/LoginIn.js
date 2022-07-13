@@ -1,5 +1,6 @@
 import React,{useContext, useState} from 'react';
 import { ProjectContext } from '../App';
+import logo from '../load.gif';
 
 export default function LoginIn(props) {
 
@@ -39,7 +40,7 @@ export default function LoginIn(props) {
         fetch(url,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
-            throw Error('Login Failure. Error Details: '+"Invalid username or password!");
+            throw Error("Invalid username or password!");
           } 
           return res.json();
         })
@@ -66,9 +67,9 @@ export default function LoginIn(props) {
 
     function forgotPassword(){
         if(forgot){
-            return <p>Forgot password? Please contact administrator.</p>
+            return <p className='forgot'>Please contact administrator.</p>
         }else{
-            return <p>Forgot password?</p>
+            return <p className='forgot'>Forgot password?</p>
         }
     }
 
@@ -84,14 +85,16 @@ export default function LoginIn(props) {
     
   return (props.trigger) ?(
     <div className='popup-projects'>
-        <div className='popup-projects-inner'>
-        <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField();}}>&times;</button>
-            <h3>Sign in</h3>
-            {loginError && <h4>{loginError}</h4>}
-            {waiting && <h4>Please wait...</h4>}
-            <h4>{/*instruction*/}</h4>
-            <p onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
-                <form onSubmit={handleSubmit}>
+        <div className='popup-projects-inner user'>
+        <div className='popup-header'>
+            <span className='popup-title'>Sign in</span>
+            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();}}>&times;</button>
+        </div>
+                <form onSubmit={handleSubmit} className="form">
+                {loginError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{loginError}</div>}
+                {/*waiting && <h4>Please wait...</h4>*/}
+                {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+                <p className='link' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
                 <label 
                     htmlFor='userName'>User Name
                 </label>
@@ -115,8 +118,10 @@ export default function LoginIn(props) {
                     onChange={e=>setPassword(e.target.value)}
                     >
                 </input>
-                <div onClick={()=>setForgot(prev=>!prev)}>{forgotPassword()}</div>
-                <button type='submit'>Sign in</button>
+                <div className='popup-footer single'>
+                    <div className='link' onClick={()=>setForgot(prev=>!prev)}>{forgotPassword()}</div>
+                    <button className='btn' type='submit'>Sign in</button>
+                </div>
                 </form>
         </div>
     </div>

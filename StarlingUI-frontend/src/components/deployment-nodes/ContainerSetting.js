@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import NodeEnvEdit from './NodeEnvEdit';
 import { v4 as uuidv4 } from 'uuid';
 import NodePortEdit from './NodePortEdit';
+import add from './add-svgrepo-com.svg';
 
 export default function ContainerSetting(props) {
 
@@ -75,12 +76,15 @@ export default function ContainerSetting(props) {
 
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
-                <h3>Advanced Settings</h3>
-                <form onSubmit={saveChange}>
+            <div className='popup-projects-inner advanced-setting'>
+            <div className='popup-header'>
+                <span className='popup-title'>Advanced Settings</span>
+                <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+            </div>
+                <form onSubmit={saveChange} className="advanced-setting stack">
+                    <div className='popup-major stack'>
                     <label 
-                        htmlFor='command'>command
+                        htmlFor='command' className='popup-major-key major'>command
                     </label>
                     <input 
                         type='text' 
@@ -88,11 +92,11 @@ export default function ContainerSetting(props) {
                         id='command'
                         value={command}
                         onChange={e=>setCommand(e.target.value)}
+                        className="width-100"
                         >
                     </input>
-                    <br></br>
                     <label 
-                        htmlFor='command'>args
+                        htmlFor='command' className='popup-major-key major'>args
                     </label>
                     <input 
                         type='text' 
@@ -100,13 +104,15 @@ export default function ContainerSetting(props) {
                         id='args'
                         value={args}
                         onChange={e=>setArgs(e.target.value)}
+                        className="width-100"
                         >
                     </input>
-                    <p></p>
-                    <label>Env:</label>
+                    </div>
+                    <div className='sub-title grid'><label>Env</label>
+                    <img className="add" src={add} alt="add" title="Add Env Property" onClick={()=>handleEnvAdd()}/></div>
                     <div className='popup-pair-grid'>
-                    <div>Name</div>
-                    <div>Value</div>
+                    <div className='popup-major-key'>Name</div>
+                    <div className='popup-major-key'>Value</div>
                     <div></div>
                     {envs.map(variable=>
                     <NodeEnvEdit 
@@ -117,14 +123,13 @@ export default function ContainerSetting(props) {
                     ></NodeEnvEdit>
                     )}
                     </div>
-                    <div>
-                        <button type='button' onClick={()=>handleEnvAdd()}>Add Env</button>
-                    </div>
+
                     <p></p>
-                    <label>Port:</label>
+                    <div className='sub-title grid'><label>Port</label>
+                    <img className="add port" src={add} alt="add" title="Add Port Property" onClick={()=>handlePortAdd()}/></div>
                     <div className='popup-pair-grid'>
-                    <div>Port Number</div>
-                    <div>Protocol</div>
+                    <div className='popup-major-key'>Port Number</div>
+                    <div className='popup-major-key'>Protocol</div>
                     <div></div>
                     {ports.map(p=>
                     <NodePortEdit
@@ -135,12 +140,11 @@ export default function ContainerSetting(props) {
                     ></NodePortEdit>
                     )}
                     </div>
-                    <div>
-                        <button type='button' onClick={()=>handlePortAdd()}>Add Port</button>
+
+                    <div className='popup-footer normal display'>
+                    <button className='btn btn-primary' type='submit'>Done</button>
+                    <button className='btn btn-danger' type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                     </div>
-                    <br/>
-                    <button type='submit'>Done</button>
-                    <button type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </form>
             </div>
         </div>

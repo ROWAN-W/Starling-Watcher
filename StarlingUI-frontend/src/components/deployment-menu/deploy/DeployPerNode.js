@@ -43,11 +43,11 @@ export default function DeployPerNode({nodeToMap, completeNode, allDrones, handl
 
   return (
     <>
-    <div>{completeNode.name} ({completeNode.kind}):</div>
-    {mappedDrones?.map(drone=><div key={drone}><DroneItem  allDrones={allDrones} drone={drone} removeDrone={removeDrone}></DroneItem></div>)}
+    <div className='node-list'>{completeNode.name} ({completeNode.kind}):</div>
         <DroneItemSelection 
         addDrone={addDrone} 
         options={allDrones?.filter(x => !selectedDrones?.includes(x.nodeName))}></DroneItemSelection>
+    {mappedDrones?.map(drone=><div key={drone}><DroneItem  allDrones={allDrones} drone={drone} removeDrone={removeDrone}></DroneItem></div>)}
     </>
   )
 }
