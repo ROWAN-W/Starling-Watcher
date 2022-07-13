@@ -1,28 +1,53 @@
-import {Rnd} from "react-rnd";
-import {Terminal} from "xterm";
-import {FitAddon} from "xterm-addon-fit";
-import {useEffect} from "react";
+import { Rnd } from "react-rnd";
+import { Terminal } from "xterm";
+import { FitAddon } from "xterm-addon-fit";
+import { AttachAddon } from 'xterm-addon-attach';
+import { useEffect, useState } from "react";
 import ResizeObserver from "react-resize-observer";
 import "xterm/css/xterm.css";
 
 
 export default function Popup(props) {
-    console.log(props);
+    
     const fitAddon = new FitAddon();
+    const terminal = new Terminal({
+        convertEol: true,
+        fontFamily: `'Fira Mono', monospace`,
+        fontSize: 16,
+        fontWeight: 400,
+    });
+    let socket = null;
+    
     useEffect(() => {
         if (props.visible) {
-            const terminal = new Terminal({
-                convertEol: true,
-                fontFamily: `'Fira Mono', monospace`,
-                fontSize: 16,
-                fontWeight: 400,
-            });
-
             terminal.loadAddon(fitAddon);
             terminal.open(document.getElementById(props.id));
-            fitAddon.fit();
+            setTimeout(() => {
+                fitAddon.fit()
+            }, 60)
+
+            let url = 'ws://localhost:8080/container/shell';
+            url += '?name=' + props.pod
+                + '&namespace=' + props.namespace
+                + '&container=' + props.container
+                + '&cols=' + terminal.cols
+                + '&rows=' + terminal.rows;
+            console.log(url);
+            socket = new WebSocket(url);
+            const attachAddon = new AttachAddon(socket);
+            // Attach the socket to term
+            terminal.loadAddon(attachAddon);
+
         }
     });
+
+    const closeShell = () => {
+        socket.close();
+        terminal.dispose();
+        
+        props.setVisible(false);
+    }
+
 
 
     return (props.visible) ? (
@@ -37,11 +62,11 @@ export default function Popup(props) {
                 }}
             >
                 <div className='terminal-header'>
-                    <p>container-name</p>
-                    <button className='close-btn' onClick={() => props.setVisible(false)}>close</button>
+                    <p>{props.container+"terminal"}</p>
+                    <button className='close-btn' onClick={() => closeShell()}>close</button>
                 </div>
 
-                <div id={props.id} style={{height: "92%", width: "100%"}}></div>
+                <div id={props.id} style={{ height: "100%", width: "100%" }}></div>
                 <ResizeObserver
                     onResize={rect => {
                         fitAddon.fit();

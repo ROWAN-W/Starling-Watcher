@@ -121,6 +121,8 @@
     background-color: #2ea591;
     min-width: 600px;
     min-height: 400px;
+    max-width: 600px;
+    max-height: 400px;
     justify-items: center;
     align-items: center;
 }

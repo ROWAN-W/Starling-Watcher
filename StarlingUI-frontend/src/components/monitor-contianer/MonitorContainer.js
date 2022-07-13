@@ -7,7 +7,7 @@ export default function MonitorContainer(props){
     const [terminalVisible, setTerminalVisible] = useState(false);
     const [containerStatus, setContainerStatus] = useState("green");
     const [buttonAvailable,setButtonAvailable] = useState(false);
-    console.log(props);
+    const containerId = props.containerID.slice(9);
 
     useEffect(() => {
         switch (props.containerState) {
@@ -37,7 +37,7 @@ export default function MonitorContainer(props){
                 <div className="outer">
                     <div className="container-info">
                         <p className="info-name">{props.containerName}</p>
-                        <p className="info-id">{props.containerID}</p>
+                        <p className="info-id">{containerId}</p>
                     </div>
 
                     <div className="menu">
