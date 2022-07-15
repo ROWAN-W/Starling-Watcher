@@ -12,8 +12,9 @@ export default function MonitorNode(props){
     return(
         <>
             <div className="card">
-                <h2 className="title">{props.nodeName}</h2>
-                <hr />
+                <div className="title">
+                    <p>{props.nodeName}</p>
+                </div>
                 <div className="card-container">
                     {containers?.map(container=>{
                         return <MonitorContainer {...container}></MonitorContainer>

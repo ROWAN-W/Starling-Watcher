@@ -57,12 +57,14 @@ export default function Popup(props) {
                 default={{
                     x: 0,
                     y: 0,
-                    width: 600,
-                    height: 400,
+                    width: 400,
+                    height: 250,
                 }}
+                bounds="body"
+                enableResizing={false}
             >
                 <div className='terminal-header'>
-                    <p>{props.container+"terminal"}</p>
+                    <p>{props.container+" - terminal"}</p>
                     <button className='close-btn' onClick={() => closeShell()}>close</button>
                 </div>
 
