@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import NodeEnvEdit from './NodeEnvEdit';
 import { v4 as uuidv4 } from 'uuid';
 import NodePortEdit from './NodePortEdit';
-import add from './add-svgrepo-com.svg';
+import add from '../img/add-svgrepo-com.svg';
 
 export default function ContainerSetting(props) {
 

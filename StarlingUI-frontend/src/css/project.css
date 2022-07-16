@@ -1,12 +1,12 @@
 .project{
     padding: 1rem;
     padding-bottom: 0;
-    min-width: 300px;
-    max-width: 75vw;
+    /*min-width: 300px;
+    max-width: 75vw;*/
     height: 75vh;
     border-radius: 3px;
     overflow-y: auto;
-    overflow-x: auto;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -20,8 +20,7 @@
 .node__search{
     padding-left: .5rem;
     border-radius: 2px;
-    max-width: 15rem;
-
+    width: 15rem;
     font-size: .9rem; 
 }
 
@@ -36,7 +35,7 @@
     border: none;
     outline: none;
     margin-left: .5rem;
-
+    border-radius: 2px;
     font-size: .9rem;  
 }
 
@@ -59,10 +58,11 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     gap:1.75rem;
-    justify-content: center;
-    justify-items: center;
+    /*justify-items: center;*/
+    /*justify-items: stretch;
     align-items: stretch;
     align-content: stretch;
+    grid-auto-flow: column;*/
 }
 
 .btn-add-node{
@@ -79,6 +79,8 @@
 
 .items-head .instruct{
     padding-top: 0;
+    /*over the screen*/
+    width: 75vw;
 }
 
 .sign-in.instruct{

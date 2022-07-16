@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../load.gif';
+import logo from '../img/load.gif';
 import axios from 'axios';
 
 export default function Upload(props) {
@@ -69,7 +69,7 @@ export default function Upload(props) {
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
             <div className='popup-header'>
-                <span className='popup-title'>Upload file & Deploy</span>
+                <span className='popup-title'>Upload file (YAML/YML) & Deploy</span>
                 {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
             </div>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit} className="form">

@@ -2,7 +2,8 @@ import React, {useContext, useState, useEffect} from 'react';
 import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
 import axios from 'axios';
-import logo from '../../load.gif';
+import logo from '../../img/load.gif';
+import syncLogo from '../../img/sync-svgrepo-com-black.svg';
 
 export default function Deploy(props) {
 
@@ -121,7 +122,7 @@ export default function Deploy(props) {
         <div className='popup-projects'>
             <div className='popup-projects-inner'>                
                 <div className='popup-header'>
-                    <span className='popup-title'>Deploy Configuration to Devices</span>
+                    <span className='popup-title'>Deploy Configurations to Devices</span>
                     {!props.waiting && !deployWaiting && 
                     <div>
                     <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
@@ -134,7 +135,7 @@ export default function Deploy(props) {
 
                 {!props.waiting &&
                     <div className='sync-time'>
-                    {!deployWaiting && <button className='btn btn-small btn-pill' onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Devices</button>}
+                    {!deployWaiting && <img className="syncing" src={syncLogo} alt="sync" title="sync" onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}></img>}
                     <span>last sync: {props.updateTime}</span>
                     </div>
                 }

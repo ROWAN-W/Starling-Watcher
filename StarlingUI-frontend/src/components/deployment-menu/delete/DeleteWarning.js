@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { ProjectContext } from '../../App';
-import warning from '../warning-svgrepo-com.svg';
+import warning from '../../img/warning-svgrepo-com.svg';
 
 export default function DeleteWarning(props) {
 

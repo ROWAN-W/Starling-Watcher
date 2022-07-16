@@ -140,8 +140,8 @@ function App() {
     <Router>
     <ProjectContext.Provider value={projectContextValue}>
     <Navbar></Navbar>
-    { (userError || projectError ) && <div className="message">{ userError } {projectError}</div> }
-    { (userPending || projectPending ) && <div className="message">Loading...</div> }
+    { (userError || projectError ) && <div className="project-title">{userError? userError : projectError}</div> }
+    { (userPending || projectPending ) && <div className="project-title">Loading...</div> }
     { (users && projectsData ) && 
     <Switch>
       <Route exact path="/">

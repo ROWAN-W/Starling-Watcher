@@ -4,7 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 import Node from './Node';
 import Filter from './Filter';
 import SearchBox from './SearchBox';
-import search from './search-svgrepo-com.svg';
+import search from '../img/search-svgrepo-com.svg';
+
+import drone from '../img/drone-svgrepo-com.png';
+import master from '../img/oie_1662649z7V79w3N.png';
+import droneCircle from '../img/oie_151914634owYC2D.png';
+import masterCircle from '../img/oie_15192229OeBZ3dl4.png'
 
 export default function Project({currentUserID, selectedProject}) {
 
@@ -15,6 +20,10 @@ export default function Project({currentUserID, selectedProject}) {
 
     const [showSearch, setShowSearch] = useState(false);
     const [clickAdd, setClickAdd] =useState(false);
+
+    const options = [drone, master, droneCircle, masterCircle, null];
+    const [masterPic, setMasterPic] = useState(options[1]);
+    const [dronePic, setDronePic] = useState(options[0]);
 
     const messagesEndRef = useRef(null)
 
@@ -52,10 +61,10 @@ function handleNodeAdd(){
   const number = selectedProject.config.length+1;
   const newNode = {
       id: uuidv4(),
-      name: 'new-deployment-'+number,
+      name: 'deployment-'+number,
       kind: 'deployment',
       //can be empty
-      label: {app: '',platform: ''},
+      label: {app: selectedProject.name ,platform: ''},
       containers: []
   }
   const newMapping = {
@@ -109,6 +118,11 @@ function handleNodeDuplicate(node){
                   handleNodeChange={handleNodeChange}
                   handleNodeDelete={handleNodeDelete}
                   handleNodeDuplicate={handleNodeDuplicate}
+                  options={options}
+                  masterPic={masterPic}
+                  setMasterPic={setMasterPic}
+                  dronePic={dronePic}
+                  setDronePic={setDronePic}
                 >
                 </Node>):
                 filterResult.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
@@ -119,6 +133,11 @@ function handleNodeDuplicate(node){
                     handleNodeChange={handleNodeChange}
                     handleNodeDelete={handleNodeDelete}
                     handleNodeDuplicate={handleNodeDuplicate}
+                    options={options}
+                    masterPic={masterPic}
+                    setMasterPic={setMasterPic}
+                    dronePic={dronePic}
+                    setDronePic={setDronePic}
                   >
                   </Node>
                 )}
@@ -137,6 +156,11 @@ function handleNodeDuplicate(node){
               handleNodeChange={handleNodeChange}
               handleNodeDelete={handleNodeDelete}
               handleNodeDuplicate={handleNodeDuplicate}
+              options={options}
+              masterPic={masterPic}
+              setMasterPic={setMasterPic}
+              dronePic={dronePic}
+              setDronePic={setDronePic}
             >
             </Node>): 
             selectedProject.config.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
@@ -147,6 +171,11 @@ function handleNodeDuplicate(node){
                 handleNodeChange={handleNodeChange}
                 handleNodeDelete={handleNodeDelete}
                 handleNodeDuplicate={handleNodeDuplicate}
+                options={options}
+                masterPic={masterPic}
+                setMasterPic={setMasterPic}
+                dronePic={dronePic}
+                setDronePic={setDronePic}
               >
               </Node>)}
           </>

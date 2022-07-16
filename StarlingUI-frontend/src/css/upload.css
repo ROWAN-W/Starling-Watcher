@@ -30,7 +30,7 @@
     right: 0;
     height: 56px;
     content: "";
-    background-image: url(upload.png);
+    background-image: url(../components/img/upload.png);
     display: block;
     margin: 0 auto;
     background-size: 100%;
@@ -44,7 +44,7 @@
     width: 100%;
     right: 0;
     height: 57px;
-    content: " or drag it here. ";
+    content: " or drag it here.";
     display: block;
     margin: 0 auto;
     color: inherit;

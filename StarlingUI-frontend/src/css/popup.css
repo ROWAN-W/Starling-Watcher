@@ -99,10 +99,27 @@
   font-weight: bold;
 }
 
+.node-deploy{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 .node-list{
-  margin-top: 1.2rem;
-  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
   font-weight: bold;
+  padding-top: 1rem;
+}
+
+.dropdown-input.node-deploy{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: .9rem;
+  width: 12rem;
+}
+
+.dropdown-values.node-deploy{
+  font-size: .9rem;
 }
 
 .unsaved-list{
@@ -121,10 +138,6 @@
   font-weight: bold;
 }
 
-.node-list:first-of-type{
-  margin-top: .5rem;
-}
-
 .people{
   margin: .7rem;
   padding: .3rem;
@@ -133,9 +146,8 @@
 }
 
 .node-item{
-  padding: .3rem;
-  margin-top: .5rem;
-  margin: .2rem 0rem;
+  padding-left: 1rem;
+  margin: .3rem 0rem;
 }
 
 .people:hover{
@@ -399,9 +411,9 @@
 
 .sync-time{
   display: flex;
-  flex-direction: column;
+  /*flex-direction: column;*/
   margin-top: 1rem;
-  align-items: flex-end;
+  justify-content: flex-end;
   margin-bottom: .5rem;
 }
 

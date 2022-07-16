@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Drone from './Drone'
-import sync from './sync-svgrepo-com.svg';
-import logo from '../load.gif';
+import sync from '../img/sync-svgrepo-com.svg';
+import logo from '../img/load.gif';
 
 export default function DroneList(props) {
 
@@ -10,6 +10,8 @@ export default function DroneList(props) {
 
     useEffect(() => {
         const url = "http://localhost:8080/design/nodes";
+        //http://localhost:8080/design/nodes
+        //http://localhost:8002/sampleDrone
           
           fetch(url)
           .then(res => {
@@ -80,7 +82,7 @@ export default function DroneList(props) {
         <thead>
         <tr>
             <th onClick={()=>{sorting("nodeName");setOrderCol("nodeName")}}>Name {showIcon("nodeName")}</th>
-            <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Hostname {showIcon("hostname")}</th>
+            <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Host {showIcon("hostname")}</th>
             <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP Address {showIcon("ip")}</th>
             <th onClick={()=>{sorting("role");setOrderCol("role")}}>Role {showIcon("role")}</th>
         </tr>

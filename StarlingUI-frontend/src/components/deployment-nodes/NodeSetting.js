@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import UploadAndDisplayImage from './UploadAndDisplayImage';
 
 export default function NodeSetting(props) {
 
@@ -7,7 +8,15 @@ export default function NodeSetting(props) {
     const [app, setApp] = useState(props.node.label.app);
     const [platform, setPlatform] = useState(props.node.label.platform);
 
+    const [selectedImage, setSelectedImage] = useState(props.node.kind==='master'? props.masterPic: props.dronePic);
+
     const [warning, setWarning] = useState('');
+
+    useEffect(()=>{
+        if(props.trigger===true){
+            setWarning('');
+        }
+    },[name, kind, app, platform, selectedImage]);
 
     function clearField(){
         setName(props.node.name);
@@ -66,6 +75,12 @@ export default function NodeSetting(props) {
         setWarning('');
         handleChange({name:name, kind:kind, label: {app: app, platform: platform} });
         props.setTrigger(false);
+
+        if(kind==='master'){
+            props.setMasterPic(selectedImage);
+        }else{
+            props.setDronePic(selectedImage);
+        }
     }
     
     /**
@@ -158,6 +173,7 @@ return (props.trigger) ?(
                     >
                 </input>
                 </div>
+                <UploadAndDisplayImage options={props.options} selectedImage={selectedImage} setSelectedImage={setSelectedImage}></UploadAndDisplayImage>
                 <div className='popup-footer normal display'>
                 <button className='btn btn-primary' type="submit">Done</button>
                 <button className='btn btn-danger' type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>

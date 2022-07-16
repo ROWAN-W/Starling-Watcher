@@ -1,8 +1,8 @@
 .drone-container{
     margin-right: .5rem;
     padding: 10px;
-    min-width: 300px;
-    width: 30vw;
+    /*min-width: 300px;
+    width: 30vw;*/
     height: 75vh;
     border-radius: 3px;
     overflow-y: hidden;
@@ -59,7 +59,7 @@
 .drone-container .table-wrapper .fl-table th{
     color: #ffffff;
     background: black;
-    font-size: .85rem;
+    font-size: .9rem;
     border-bottom: 1px solid #f8f8f8;
 }
 
@@ -111,7 +111,7 @@
 .drone-item-title{
     padding-right: .5rem;
     font-weight: bold;
-    font-size: 1rem;
+
 }
 
 .drone-item-object{

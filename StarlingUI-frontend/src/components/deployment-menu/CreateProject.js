@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { ProjectContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
-import logo from '../load.gif';
+import logo from '../img/load.gif';
 
 export default function CreateProject(props) {
     
@@ -23,7 +23,7 @@ export default function CreateProject(props) {
 
         const newProject = {
         id: "",
-        name: 'new-project-'+number,
+        name: 'project-'+number,
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
         saved: true,
@@ -32,12 +32,12 @@ export default function CreateProject(props) {
         config:[
           {
             id:masterId,
-            name: 'new-design',
+            name: 'design',
             kind: 'master',
             //can be empty
             label: 
               {
-                app: '',
+                app: 'project-'+number,
                 platform: ''
               }
             ,

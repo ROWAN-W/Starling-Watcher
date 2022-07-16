@@ -48,9 +48,10 @@ export default function ProjectList(props) {
             <table className="fl-table">
             <thead>
             <tr>
+                <th onClick={()=>{sorting("id");setOrderCol("id")}}>ID{showIcon("id")}</th>
                 <th onClick={()=>{sorting("name");setOrderCol("name")}}>Project Name {showIcon("name")}</th>
                 <th onClick={()=>{sorting("dateModified");setOrderCol("dateModified")}}>Last Saved {showIcon("dateModified")}</th>
-                <th onClick={()=>{sorting("lastModifiedBy");setOrderCol("lastModifiedBy")}}>Last Saved by(ID) {showIcon("lastModifiedBy")}</th>
+                <th title="sort by ID" onClick={()=>{sorting("lastModifiedBy");setOrderCol("lastModifiedBy")}}>Last Saved by{showIcon("lastModifiedBy")}</th>
             </tr>
             </thead>
             <tbody>
@@ -59,6 +60,7 @@ export default function ProjectList(props) {
                     <tr 
                         key={project.id} 
                         onClick={()=>{handleProjectSelect(project.id); props.setTrigger(false)}}>
+                        <td title={project.id}>{project.id.slice(-4)}</td>
                         <td>{project.name}</td>
                         <td>{project.dateModified}</td>
                         <td>{userData.find(user=>user.id===project.lastModifiedBy).name}</td>

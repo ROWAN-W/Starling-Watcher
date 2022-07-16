@@ -1,6 +1,6 @@
 import React, { useState,useEffect, useContext } from 'react';
 import { ProjectContext } from '../../App';
-import logo from '../../load.gif';
+import logo from '../../img/load.gif';
 
 export default function DeleteProject(props) {
     

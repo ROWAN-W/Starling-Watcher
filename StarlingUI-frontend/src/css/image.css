@@ -1,8 +1,8 @@
 .image-tag-container{
     margin-left: .5rem;
     padding: 10px;
-    min-width: 280px;
-    max-width: 25vw;
+    /*min-width: 280px;
+    width: 25vw;*/
     height: 75vh;
     border-radius: 3px;
     overflow-y: auto;
@@ -53,12 +53,11 @@
 .image__search{
     font-size: .8rem;
     background-color: #f2f2f2;
-    border-radius: 10000000px;
     border: none;
     outline: none;
-    width: 50%;
+    width: 45%;
     padding: .3em .8em;
-
+    padding-left: .5rem;
 }
 
 .image__search:hover, .image__search:focus{
@@ -66,12 +65,30 @@
     border: none;
     outline: none;
     box-shadow: none;
-    font-size: .9rem;
 }
 
-.image__search-container{
-    margin-top: 1rem;
-    margin-bottom: .6rem;
+.image__sort{
+  background-color: black;
+  color: rgb(205, 205, 205);
+  border: none;
+  outline: none;
+  margin-left: .3rem;
+  border-radius: 2px;
+  font-size: .8rem;
+  height: 1.5rem;
+}
+
+.image__sort__span{
+  color: rgb(205, 205, 205);
+  margin-left: .5rem;
+}
+
+.node-search-filter.image{
+  display: flex;
+  align-items: baseline;
+  margin-top: .75rem;
+  margin-bottom: .5rem;
+  justify-content: flex-start;
 }
 
 .items {
@@ -124,7 +141,7 @@
   .items-body-content .image-date{
     font-size: .75rem;
     border-left: 2px solid hsl(200, 100%, 50%);
-    padding-left: .5rem;
+    padding-left: .3rem;
   }
 
   .items-body-content .image-name{

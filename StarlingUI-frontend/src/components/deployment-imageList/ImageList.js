@@ -3,7 +3,8 @@ import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
-import logo from '../load.gif';
+import logo from '../img/load.gif';
+import ImageSort from './ImageSort';
 
 export default function ImageList() {
 
@@ -20,6 +21,9 @@ export default function ImageList() {
 
   const [searchResult, setSearchResult] = useState([...images]);
   const [searchImage, setSearchImage] = useState('');
+
+  const [order, setOrder] = useState("DSC"); 
+  const [orderCol, setOrderCol] = useState("lastUpdated"); 
     
   useEffect(() => {
     if(waiting===true){
@@ -125,19 +129,44 @@ export default function ImageList() {
           return(
             <>
             {showInstruction()}
-            <SearchBox handleImageSearch={handleImageSearch}/>
-            <div className="items-body">
-            {searchImage===''? 
-            images.map(image=>{
-                return <Image key={image.id} {...image}></Image>
-            }):
-            searchResult.map(image=>{
+            <div className='node-search-filter image'>
+              <><SearchBox handleImageSearch={handleImageSearch}/>
+              <ImageSort setSortValue={setOrderCol} setOrder={setOrder}></ImageSort></>
+            </div>
+          
+            <div className="items-body">  
+            {showResult().map(image=>{
                 return <Image key={image.id} {...image}></Image>
             })}
             </div>
             </>
           )
         }
+      }
+    }
+  }
+
+  function showResult(){
+    if(searchImage===''){
+      if(order==="ASC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }
+    }
+    else{
+      if(order==="ASC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
       }
     }
   }

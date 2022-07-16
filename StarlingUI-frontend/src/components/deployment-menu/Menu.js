@@ -157,10 +157,10 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <button className='btn btn-menu' onClick={()=>handleProjectSelection(true)}>Select Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectCreate(true)}>Create Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectLoad(true)}>Load Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectSave(true)}>Save</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectDeploy(true)}>Deploy</button>
     <button className='btn btn-menu' onClick={()=>handleProjectConfig(true)}>Share</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete</button>
+    <button className='btn btn-menu btn-accent' onClick={()=>handleProjectDeploy(true)}>Deploy</button>
     </div>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
