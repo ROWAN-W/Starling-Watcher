@@ -15,7 +15,7 @@ export default function Upload(props) {
         }
         const fd = new FormData();
         fd.append('file',selectedFile);
-        axios.post("http://localhost:8000/upload",fd)
+        axios.post("http://localhost:8080/design/upload",fd)
         .then(res => { 
             if (!res.ok) { // error coming back from server
                 throw Error('Error Details: '+res.status);

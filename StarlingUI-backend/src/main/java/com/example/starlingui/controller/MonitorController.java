@@ -1,17 +1,18 @@
 package com.example.starlingui.controller;
 
 import com.example.starlingui.model.domainNode;
-import com.example.starlingui.service.designNodeServiceImpl;
+
 import com.example.starlingui.service.monitorNodeServiceImpl;
 import com.google.gson.Gson;
+import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.Configuration;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.util.Config;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,5 +48,24 @@ public class MonitorController {
         }
     }
 
+
+
+    @PostMapping("restart/{containerName}")
+    public ResponseEntity<String> restartContainer(){
+
+       try {
+           ApiClient client = Config.defaultClient();
+           Configuration.setDefaultApiClient(client);
+
+           CoreV1Api api = new CoreV1Api(client);
+
+
+       }catch (IOException ioException){
+
+       }
+
+
+        return  null;
+    }
 
 }
