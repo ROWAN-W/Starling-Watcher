@@ -11,6 +11,7 @@
 | Get | /design/database | show all information of users in database(test only) ||
 | Get | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
 | Get | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
+| Post | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/fail to deploy |
 
 
 ### Develop tools
