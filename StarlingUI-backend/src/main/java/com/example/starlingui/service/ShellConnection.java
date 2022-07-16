@@ -68,7 +68,14 @@ public class ShellConnection implements Runnable {
                     throw new RuntimeException(e);
                 }
             }
-        });
+        }
+        );
+        TextMessage textMessage = new TextMessage("container is not /bin/bash or /bin/sh");
+        try {
+            session.sendMessage(textMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void execShell(String shellType) throws IOException {
