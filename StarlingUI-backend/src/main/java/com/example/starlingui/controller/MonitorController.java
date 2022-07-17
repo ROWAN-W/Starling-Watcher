@@ -48,10 +48,15 @@ public class MonitorController {
         }
     }
 
+    /**
+     * @Description restart a certain pod in a certain namespace
+     * @param namespace
+     * @param podName
+     * @return ResponseEntity<String>
+     */
 
-
-    @PostMapping("restart/{containerName}")
-    public ResponseEntity<String> restartContainer(){
+    @PostMapping("restart/{namespace}/{podName}")
+    public ResponseEntity<String> restartPod(@PathVariable String namespace,@PathVariable String podName){
 
        try {
            ApiClient client = Config.defaultClient();
@@ -59,13 +64,21 @@ public class MonitorController {
 
            CoreV1Api api = new CoreV1Api(client);
 
+           api.deleteNamespacedPod(podName,namespace,null,null,null,null,null,null);
+           return ResponseEntity.ok("ok");
+       }catch (ApiException apiException){
 
+           return ResponseEntity
+                   .status(404)
+                   .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                   .body("Kubernetes API fail :" + apiException.getMessage());
        }catch (IOException ioException){
-
+           return ResponseEntity
+                   .status(404)
+                   .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                   .body("Kubernetes API fail :" + ioException.getMessage());
        }
 
-
-        return  null;
     }
 
 }
