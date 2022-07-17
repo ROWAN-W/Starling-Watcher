@@ -54,7 +54,6 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
         <dependency>
-<<<<<<< HEAD
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.30</version>
@@ -76,8 +75,6 @@
             <version>4.5.12</version>
         </dependency>
         <dependency>
-=======
->>>>>>> terminal
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
