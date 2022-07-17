@@ -14,5 +14,4 @@ public class K8sContainer {
 
     private String podName;
 
-
 }
