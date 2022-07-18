@@ -55,7 +55,7 @@ export default function Popup(props) {
     return (props.visible) ? (
         <>
             <Rnd
-                className='popup'
+                className='popup-monitor'
                 default={{
                     x: 0,
                     y: 0,
