@@ -27,7 +27,7 @@ public class DesignController {
 
 
     @Resource
-    private StarlingUserService userService;
+    private StarlingUserServiceImpl userService;
 
     @Resource
     private StarlingProjectService projectService;
@@ -133,21 +133,6 @@ public class DesignController {
     @GetMapping("/users")
     public ResponseEntity<String> allUsers() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
-    }
-
-    /**
-     * @Description User login process
-     * @param body User input name and password
-     * @return 200 if user name exists and password correct; else 403
-     */
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody String body) {
-        try {
-            return new ResponseEntity<>(userService.login(body), HttpStatus.OK);
-        } catch (Exception e) {
-            String errorJson = getErrorJson("Invalid username or password!");
-            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
-        }
     }
 
     /**
