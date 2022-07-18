@@ -55,7 +55,7 @@ public class MonitorController {
      * @return ResponseEntity<String>
      */
 
-    @PostMapping("restart/{namespace}/{podName}")
+    @DeleteMapping("restart/{namespace}/{podName}")
     public ResponseEntity<String> restartPod(@PathVariable String namespace,@PathVariable String podName){
 
        try {
