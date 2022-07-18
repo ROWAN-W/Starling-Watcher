@@ -2,9 +2,7 @@ import { Rnd } from "react-rnd";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import { AttachAddon } from 'xterm-addon-attach';
-import { useEffect, useState } from "react";
-import ResizeObserver from "react-resize-observer";
-import "xterm/css/xterm.css";
+import { useEffect } from "react";
 
 
 export default function Popup(props) {
@@ -12,9 +10,13 @@ export default function Popup(props) {
     const fitAddon = new FitAddon();
     const terminal = new Terminal({
         convertEol: true,
+        cursorBlink: true,
         fontFamily: `'Fira Mono', monospace`,
         fontSize: 16,
         fontWeight: 400,
+        theme: {
+            foreground: '#32e6b7',
+        }
     });
     let socket = null;
     
@@ -65,19 +67,14 @@ export default function Popup(props) {
             >
                 <div className='terminal-header'>
                     <p>{props.container+" - terminal"}</p>
-                    <button className='close-btn' onClick={() => closeShell()}>close</button>
+                    <button className='close-btn' onClick={() => closeShell()}>X</button>
                 </div>
 
-                <div id={props.id} style={{ height: "100%", width: "100%" }}></div>
-                <ResizeObserver
-                    onResize={rect => {
-                        fitAddon.fit();
-                        console.log("Resized. New bounds:", rect.width, "x", rect.height);
-                    }}
-                    onPosition={rect => {
-                        console.log("Moved. New position:", rect.left, "x", rect.top);
-                    }}
-                />
+                <div
+                    className="terminal"
+                    id={props.id}
+                    style={{ height: "92%", width: "100%" }}></div>
+
             </Rnd>
         </>
     ) : "";

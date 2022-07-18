@@ -13,7 +13,8 @@ export default function MonitorNode(props){
         <>
             <div className="card">
                 <div className="title">
-                    <p>{props.nodeName}</p>
+                    <image className="drone-image"></image>
+                    <span>{props.nodeName}</span>
                 </div>
                 <div className="card-container">
                     {containers?.map(container=>{

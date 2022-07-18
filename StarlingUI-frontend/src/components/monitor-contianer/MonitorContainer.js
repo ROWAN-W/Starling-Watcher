@@ -15,12 +15,13 @@ export default function MonitorContainer(props){
                 setContainerStatus("#32e6b7");
                 setButtonAvailable(false);
                 break;
+            case "null":
             case "terminated":
                 setContainerStatus("#dc5671");
                 setButtonAvailable(true);
                 break;
             case "waiting":
-                setContainerStatus("yellow");
+                setContainerStatus("#EEC908");
                 setButtonAvailable(true);
                 break;
         }
@@ -44,12 +45,13 @@ export default function MonitorContainer(props){
 
                         <button className="console-image"
                                 onClick={()=>setTerminalVisible(true)}
-                                disabled={buttonAvailable}>Console</button>
+                                disabled={buttonAvailable}></button>
                         <button className="container-logs"
-                                disabled={buttonAvailable}>Logs</button>
+                                disabled={buttonAvailable}></button>
 
                     </div>
-                    <button className="container-restart">Restart</button>
+                    <button className="container-restart"
+                            disabled={!buttonAvailable}>Restart</button>
                     <Popup
                         visible={terminalVisible}
                         setVisible={setTerminalVisible}

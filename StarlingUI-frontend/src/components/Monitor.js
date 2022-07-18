@@ -7,17 +7,12 @@ import axios from "axios";
 export default function Monitor() {
 
     const [data,setData] = useState(null);
+    const [status, setStatus] = useState(200);
 
     const getNodeStatus = () => {
         axios.get('http://localhost:8080/monitor/nodes')
             .then(function (response) {
-                if(response.status !== 200){
-                    return(
-                        <>
-                            <h1>{response.data}</h1>
-                        </>
-                    )
-                }
+                setStatus(response.status);
                 setData(response.data);
                 console.log(data);
             })
@@ -46,5 +41,5 @@ export default function Monitor() {
           </div>
         </div>
       </>
-  )
+  );
 }
