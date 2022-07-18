@@ -94,7 +94,7 @@
 .items {
     background: #333;
     box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
-    border-bottom: 6px solid hsl(200, 100%, 30%);
+    /*border-bottom: 6px solid hsl(200, 100%, 30%);*/
   }
   
   .items-head p{
