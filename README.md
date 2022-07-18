@@ -14,26 +14,13 @@
 | Post | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/fail to deploy |
 
 
-### Develop tools
-mongoDB install  [video tutorial](https://www.youtube.com/watch?v=Ph1Z97X6xno&t=448s)--- [mongoDB Community Server](https://www.mongodb.com/try/download/community)
-minikube install [minikube](https://minikube.sigs.k8s.io/docs/start/)
-postman install [postman](https://www.postman.com/downloads/)
-docker install [docker](https://www.docker.com/get-started/)
-`docker run -d -p 27017:27017 --name example-mongo mongo:latest`:run mongodb in localhost
 
-### IDEA devtools
-![alt setting](setting1.png)
-![alt setting](setting2.png)
-auto compile and run
 
 ### script:
-#### start 3 node
-`minikube start --nodes 3 -p multinode-demo`
-#### Halt the cluster:
-`minikube stop`
-#### Delete all of the minikube clusters:
-`minikube delete --all`
-#### start back end
-`./mvnw spring-boot:run`
-#### start front end
-Ready: image list. users db, projects db, drone 
+#### start minikube
+`minikube start `
+#### check that there's no deployment named 'nginx'
+`kubectl get deployments`
+#### upload sample.yaml to this API and check that a pod named 'nginx' is up
+`kubectl get deploymnets`
+
