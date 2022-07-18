@@ -3,6 +3,8 @@ import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
+import logo from '../img/load.gif';
+import ImageSort from './ImageSort';
 
 export default function ImageList() {
 
@@ -19,6 +21,9 @@ export default function ImageList() {
 
   const [searchResult, setSearchResult] = useState([...images]);
   const [searchImage, setSearchImage] = useState('');
+
+  const [order, setOrder] = useState("DSC"); 
+  const [orderCol, setOrderCol] = useState("lastUpdated"); 
     
   useEffect(() => {
     if(waiting===true){
@@ -61,7 +66,7 @@ export default function ImageList() {
   function showInstruction(){
     if(images.length!==0 && showSwitchButton){
       return(
-        <button onClick={()=>{
+        <button className='btn btn-small logout btn-menu' onClick={()=>{
           setUserSignIn(true); 
           setSwitchButton(false);
           setImages([]); 
@@ -84,6 +89,8 @@ export default function ImageList() {
             finalLogin={finalLogin}
             waiting={waiting}
             setWaiting={setWaiting}
+            defaultUserName={finalUserName}
+            defaultPassword={finalPassword}
             ></DockerLogin>
       </div>
     )
@@ -98,16 +105,21 @@ export default function ImageList() {
     }
   }
 
+  function tryAgain(){
+    setUserSignIn(true);
+  }
+
   function show(){
     if(waiting){
-      return <div>Please wait...</div>
+      return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>
     }
     else{
       if(imageError && !userSignIn){
         return (
           <>
-            <div>{imageError}</div> 
-            <div><button onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}}>Try again</button></div>
+            <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{imageError}
+            <p onClick={()=>tryAgain()} 
+            className='docker-try-again'>Click here to try again</p></div>
           </>
         )
       }
@@ -123,14 +135,16 @@ export default function ImageList() {
           return(
             <>
             {showInstruction()}
-            <SearchBox handleImageSearch={handleImageSearch}/>
-            {searchImage===''? 
-            images.map(image=>{
-                return <Image key={image.id} {...image}></Image>
-            }):
-            searchResult.map(image=>{
+            <div className='node-search-filter image'>
+              <><SearchBox handleImageSearch={handleImageSearch}/>
+              <ImageSort setSortValue={setOrderCol} setOrder={setOrder}></ImageSort></>
+            </div>
+          
+            <div className="items-body">  
+            {showResult().map(image=>{
                 return <Image key={image.id} {...image}></Image>
             })}
+            </div>
             </>
           )
         }
@@ -138,9 +152,38 @@ export default function ImageList() {
     }
   }
 
+  function showResult(){
+    if(searchImage===''){
+      if(order==="ASC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }
+    }
+    else{
+      if(order==="ASC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }
+    }
+  }
+
     return (
     <>
-      <div className='image-tag-container'>
+      <div className='image-tag-container items'>
+      <div className="items-head">
+      {userSignIn? <p>Docker Hub Sign in</p> : <p>Docker Hub Images</p>}
+      <hr/>
+      </div>
       {show()}
       </div>
     </>

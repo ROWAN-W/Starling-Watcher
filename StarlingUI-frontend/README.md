@@ -1,22 +1,11 @@
 # Integration Stage
 
-Ready: image list.
-
-Pending: User DB, Project DB, Drones, Deployment
-
-for user db test: npx json-server --watch data/user.json --port 8001
-
-for project db test: npx json-server --watch data/project.json --port 8000
-
-for drones test: npx json-server --watch data/drone.json --port 8002
-
-
-## developing
-
-Add new Env in advanced settings, add more info on drones (deploy)
+Ready: image list. user db. project db. drones, Deployment, Upload
 
 ## pending
 
-User features transition with ther server - server is not 100% ready 
-
 save data to local storage (browser) - implement it later
+
+## side note
+
+use http://localhost:8080/design/database to see the entire user db and project db

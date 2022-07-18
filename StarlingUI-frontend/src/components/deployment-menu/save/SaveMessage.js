@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ProjectContext } from '../App';
+import { ProjectContext } from '../../App';
+import logo from '../../img/load.gif';
 
 export default function SaveMessage(props) {
 
     const {currentUserID} = useContext(ProjectContext);
 
-    const [result, setResult] = useState('Please wait...');
+    const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
     const [dateModified, setDateModified] = useState();
     const [lastModifiedBy,setLastModifiedBy] = useState();
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
-        if(props.trigger===true && checkBeforeSave()===true){
+        if(props.trigger===true){
             //data before saving
             console.log("data before saving");
             console.log(props.selectedProject.dateModified);
@@ -22,29 +24,17 @@ export default function SaveMessage(props) {
         }
     },[props.trigger]);
 
-    function checkBeforeSave(){   
-        if(props.selectedProject===undefined || props.selectedProject===null){
-            return false;
-        }     
-        if(props.selectedProject.name===''){
-          console.log("cannot save project name!");
-          setResult("Please provide a project name.")
-          return false;
-        }
-        for(let i=0;i<props.selectedProject.config.length;i++){
-            if(props.selectedProject.config[i].name==''){
-                console.log("cannot save node name!");
-                setResult("Please provide a name for Master and each Deployment.")
-                return false;
-            }
-        }
-        return true;
-    }
+    /*
+        * contain at most 63 characters
+        * contain only lowercase alphanumeric characters or '-'
+        * start with an alphanumeric character
+        * end with an alphanumeric character
+     */
 
       function handleProjectSave(){
         if(props.selectedProject.saved===false){
           setIsPending(true);
-          const url = "http://localhost:8000/sampleProject"; //replace with Pench's
+          const url = "http://localhost:8080/design/projects"; 
           
           props.selectedProject.saved=true;
           let today = new Date();
@@ -72,27 +62,26 @@ export default function SaveMessage(props) {
         fetch(url+'/'+id,options)
         .then(res => {
         if (!res.ok) { // error coming back from server
-            setIsPending(false);
-            setResult('Error Details: '+res.status);
-
             //recover old data
             props.selectedProject.saved=false;
             props.selectedProject.dateModified = dateModified;
             props.selectedProject.lastModifiedBy = lastModifiedBy;        
-            return;
+            throw Error('Error Details: '+res.status);
         } 
         return res.json();
         })
         .then(data => {
             setIsPending(false);
+            setError(null);
             setResult("Your changes have been successfully saved"); //respond from Pench's server
             //setResult(data);
             console.log("put "+url);
+            console.log(data);
         })
         .catch(err => {
             setIsPending(false);
-            // auto catches network / connection error
-            setResult("Failed to connect to the server");
+            setError(err.message);
+            setResult('');
             //recover old data
             props.selectedProject.saved=false;
             props.selectedProject.dateModified = dateModified;
@@ -100,19 +89,31 @@ export default function SaveMessage(props) {
         })
       }
 
+      function clearField(){
+        setResult('');
+        setIsPending(false);
+        setError(null);
+      }
+
     function message(){
         return(
             <>
-            {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{result}</p>
-            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
+            {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+            {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
+            {error && <h2 className='title-error'>Error!</h2>}
+            {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
+            <div className='content'>{error? error: result}</div>
+            {!savePending && 
+            <div className='popup-footer normal'>
+            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField()}}>OK</button>
+            </div>}   
             </>
         )
     }
     
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
+            <div className='popup'>
                 {message()}
             </div>
         </div>

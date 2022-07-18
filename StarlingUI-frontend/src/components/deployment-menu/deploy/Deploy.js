@@ -1,6 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
 import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
+import axios from 'axios';
+import logo from '../../img/load.gif';
+import syncLogo from '../../img/sync-svgrepo-com-black.svg';
 
 export default function Deploy(props) {
 
@@ -12,16 +15,25 @@ export default function Deploy(props) {
 
     useEffect(()=>{
         if(props.trigger===true){
-            props.handleUpdateTime();
-            setSync(true);
-            removeAllMappings()
-            let arrayDroneId = [];
-            for(let i=0;i<props.selectedProject?.mapping.length;i++){
-            console.log(props.selectedProject.mapping[i].mappedDrones);
-            arrayDroneId = [...arrayDroneId,...props.selectedProject.mapping[i].mappedDrones];
+            //if want keep previous mappings
+            if(props.minimize!==null){
+                console.log('if want keep previous mappings')
+                let arrayDroneId = [];
+                for(let i=0;i<props.selectedProject?.mapping.length;i++){
+                console.log(props.selectedProject.mapping[i].mappedDrones);
+                arrayDroneId = [...arrayDroneId,...props.selectedProject.mapping[i].mappedDrones];
+                }
+                console.log(arrayDroneId);
+                setSelectedDrones(arrayDroneId);
             }
-            console.log(arrayDroneId);
-            setSelectedDrones(arrayDroneId);
+            //if want once sync, clear previous mappings
+            else{
+                console.log('clear previous mappings')
+                props.handleUpdateTime();
+                setSync(true);
+                removeAllMappings();
+                setDeployFeedback('');
+            }
         }
       },[props.trigger]);
     
@@ -59,33 +71,74 @@ export default function Deploy(props) {
             }
             setDeployWaiting(true);
             setDeployFeedback('Deploying...');
-            //faking server response
-            setTimeout(() => {
+            
+            const url = "http://localhost:8080/design/templating";
+            
+            axios.post(url, props.selectedProject)
+            .then(res => {
+                console.log(res.data);
                 setDeployWaiting(false);
-                setDeployFeedback('Success!');
-            }, "2000")
+                setDeployFeedback('Success! Please check out in the monitor page');
+            })
+            .catch(err => {
+                setDeployWaiting(false);
+                setDeployFeedback(err.message);
+            })
+            
             return true;
         }
         setDeployFeedback('Please specify at least one drone for each design/deployment');
         return false;
     }
 
+    function showFeedback(){
+        if(deployFeedback===''){
+            return;
+        }
+
+        if(deployFeedback==='Deploying...'){
+            return(
+                <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />{deployFeedback}</h4>
+            )
+        }
+        else if(deployFeedback==='Success! Please check out in the monitor page'){
+            return(
+                <div className="success-msg wordwrap"><i className="fa fa-check"></i>{deployFeedback}</div>
+            )
+        }
+        else if(deployFeedback==='Request failed with status code 400'){
+            return(
+                <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{deployFeedback}</div>
+            )
+        }
+        else{
+            return(
+                <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{deployFeedback}</div>
+            )
+        }
+    }
 
     return (props.trigger) ? (
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
-                {!props.waiting && !deployWaiting && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>&times;</button>}
-                <h3>Deploy Configuration to Drones</h3>
-                <h4>{deployFeedback}</h4>
+            <div className='popup-projects-inner'>                
+                <div className='popup-header'>
+                    <span className='popup-title'>Deploy Configurations to Devices</span>
+                    {!props.waiting && !deployWaiting && 
+                    <div>
+                    <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
+                    <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>&times;</button>
+                    </div>}
+                </div>
+                <div className='deploy'>
+                {props.error && <div className="error-msg deploy wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
+                {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+
                 {!props.waiting &&
-                    <>
-                    {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Drones</button></div>}
-                    <div className='drone-update-time'>last sync: {props.updateTime}</div>
-                    </>
+                    <div className='sync-time deploy'>
+                    {!deployWaiting && <img className="syncing" src={syncLogo} alt="sync" title="sync" onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}></img>}
+                    <span>last sync: {props.updateTime}</span>
+                    </div>
                 }
-                
-                {props.waiting && <div>Please wait...</div>}
-                {props.error && <div>No available drones</div>}
 
                 {props.selectedProject.mapping.map(node=>{
                     //for displaying node name
@@ -103,14 +156,16 @@ export default function Deploy(props) {
                         ></DeployPerNode>
                     ) 
                 })}
-                
+
+                {showFeedback()}
+                                
                 {!props.waiting && !deployWaiting && 
-                <>
-                <div>
-                <button onClick={()=>{finalCheck()}}>Deploy</button>
-                <button onClick={()=>{props.setTrigger(false);setDeployFeedback('')}}>Close</button>
+                <div className='popup-footer normal display'>
+                <button className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
+                <button className='btn btn-danger' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
                 </div>
-                </>}
+                }
+                </div>     
             </div>
         </div>
       ): ""

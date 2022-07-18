@@ -5,7 +5,7 @@ import MemberSelection from './MemberSelection';
 
 export default function ShareProject(props) {
 
-    const {users, currentUserID, handleProjectChange} = useContext(ProjectContext);
+    const {userData, currentUserID, handleProjectChange} = useContext(ProjectContext);
 
     const [existingMembers, setExistingMembers] = useState([]);
 
@@ -49,13 +49,21 @@ export default function ShareProject(props) {
         if(props.selectedProject.ownerID===currentUserID){
             return(
                 <>
-                <h3>Share {props.selectedProject.name}</h3>
-                <MemberSelection addMember={addMember} options={users.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
-                <p></p>
-                <div>People with access</div>
+                <div className='popup-header owner'>
+                    <span className='popup-title wordwrap wordbreak'>Share {props.selectedProject.name}</span>
+                    <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                </div>
+
+                <div className="share">
+                <MemberSelection addMember={addMember} options={userData.filter(x => !existingMembers?.includes(x.id))}></MemberSelection>
+                
+                <div className="people-list">People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
-                <div>
-                <button onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button><button onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                </div>
+                
+                <div className='popup-footer normal'>
+                    <button className='btn btn-primary' onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button>
+                    <button className='btn btn-danger' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </div>
                 </>
             )
@@ -63,11 +71,21 @@ export default function ShareProject(props) {
         else{
             return(
                 <>
-                <h3>Members of {props.selectedProject.name}</h3>
-                <p>Only project owner can add/delete members.</p>
+                <div className='popup-header'>
+                    <span className='popup-title wordwrap wordbreak'>Members of {props.selectedProject.name}</span>
+                    <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                </div>
+                
+                <div className="info-msg wordwrap">
+                <i className="fa fa-info-circle"></i>
+                Only project owner can add/delete members.
+                </div>
+
+                <div className="people-list">People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
-                <div>
-                <button onClick={()=>{props.setTrigger(false)}}>OK</button>
+
+                <div className='popup-footer normal'>
+                <button className='btn short' onClick={()=>{props.setTrigger(false)}}>OK</button>
                 </div>
                 </>
             )
@@ -77,7 +95,6 @@ export default function ShareProject(props) {
     return (props.trigger) ?(
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 {content()}
             </div>
         </div>

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import { ProjectContext } from '../App';
+import warning from '../img/warning-svgrepo-com.svg';
 
 export default function UnsavedWarning(props) {
     
@@ -7,15 +8,22 @@ export default function UnsavedWarning(props) {
 
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>props.setTrigger(false)}>&times;</button>
-                <h3>Unsaved Changes</h3>
-                <p>{props.unsavedProjectIDs.length} unsaved projects:
-                {props.unsavedProjectIDs.map(projectID=>
-                    <li key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
-                </p>
-                <p>Signing out will lose all unsaved changes.<br></br>Are you sure you want to sign out?</p>
-                <button onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
+            <div className='popup'>
+            <button className='close' onClick={()=>props.setTrigger(false)}>&times;</button>
+            <h2 className='title-error'><img className="warning" src={warning} alt="warning" />Unsaved Changes</h2>
+                
+                <div>
+                    <ul className='unsaved-list'>{props.unsavedProjectIDs.length} unsaved projects:</ul>
+                    {props.unsavedProjectIDs.map(projectID=>
+                    <li className='unsaved-item wordbreak wordwrap' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
+                </div>
+
+                <div className='content'>Signing out will lose all unsaved changes.</div>
+                
+                <div className='popup-footer normal'>
+                <button className="btn btn-danger" onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
+                <button className="btn btn-primary" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
+                </div>
             </div>
         </div>
       ): ""
