@@ -6,7 +6,7 @@ export default function SearchBox( {handleImageSearch} ) {
         <input 
             className='image__search'
             type="search"
-            placeholder='search' 
+            placeholder='search name' 
             onChange={(e)=>handleImageSearch(e.target.value)}></input>
     </>
   )

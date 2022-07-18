@@ -5,7 +5,6 @@
 @import 'dropdown.css';
 @import 'drone.css';
 @import 'navbar.css';
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 @import 'upload.css';
 @import 'message.css';
 
@@ -142,6 +141,10 @@ input:focus {
     white-space: -o-pre-wrap;   /* Opera 7 */    
     word-wrap: break-word;      /* IE */
   }
+
+.wordbreak{
+    word-break: break-all;
+}
 
 /*responsive*/
 @media (min-width: 580px) {

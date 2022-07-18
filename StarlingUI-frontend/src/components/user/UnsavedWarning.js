@@ -13,9 +13,9 @@ export default function UnsavedWarning(props) {
             <h2 className='title-error'><img className="warning" src={warning} alt="warning" />Unsaved Changes</h2>
                 
                 <div>
-                    <div className='unsaved-list'>{props.unsavedProjectIDs.length} unsaved projects:</div>
+                    <ul className='unsaved-list'>{props.unsavedProjectIDs.length} unsaved projects:</ul>
                     {props.unsavedProjectIDs.map(projectID=>
-                    <li className='unsaved-item' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
+                    <li className='unsaved-item wordbreak wordwrap' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
                 </div>
 
                 <div className='content'>Signing out will lose all unsaved changes.</div>

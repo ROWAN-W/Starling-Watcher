@@ -134,7 +134,7 @@ export default function Deploy(props) {
                 {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
 
                 {!props.waiting &&
-                    <div className='sync-time'>
+                    <div className='sync-time deploy'>
                     {!deployWaiting && <img className="syncing" src={syncLogo} alt="sync" title="sync" onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}></img>}
                     <span>last sync: {props.updateTime}</span>
                     </div>

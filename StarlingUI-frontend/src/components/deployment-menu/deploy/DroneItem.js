@@ -4,6 +4,6 @@ import React from 'react';
 export default function DroneItem({ allDrones, drone, removeDrone}) {
     
     return(
-        <div className='node-item'>{drone}<span className='dropdown-remove' onClick={() => removeDrone(drone)}>&times;</span></div>
+        <div className='node-item wordwrap wordbreak'>{drone}<span className='dropdown-remove' onClick={() => removeDrone(drone)}>&times;</span></div>
     )
 }

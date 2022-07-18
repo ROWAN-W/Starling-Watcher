@@ -89,6 +89,8 @@ export default function ImageList() {
             finalLogin={finalLogin}
             waiting={waiting}
             setWaiting={setWaiting}
+            defaultUserName={finalUserName}
+            defaultPassword={finalPassword}
             ></DockerLogin>
       </div>
     )
@@ -103,6 +105,10 @@ export default function ImageList() {
     }
   }
 
+  function tryAgain(){
+    setUserSignIn(true);
+  }
+
   function show(){
     if(waiting){
       return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>
@@ -112,7 +118,7 @@ export default function ImageList() {
         return (
           <>
             <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{imageError}
-            <p onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}} 
+            <p onClick={()=>tryAgain()} 
             className='docker-try-again'>Click here to try again</p></div>
           </>
         )

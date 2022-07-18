@@ -2,7 +2,7 @@ import React, { useState,useContext, useEffect } from 'react';
 import { ProjectContext } from '../App';
 import DeleteWarning from './delete/DeleteWarning';
 import DeleteProject from './delete/DeleteProject';
-import ProjectList from "./ProjectList";
+import ProjectList from "./select/ProjectList";
 import ShareProject from './share/ShareProject';
 import Deploy from './deploy/Deploy';
 import Upload from './Upload';
@@ -62,7 +62,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
 
         //checking before deploying
         if(drones===null||drones===undefined||drones.length===0){
-          setDeployWarningMes("Click \"Sync Again\" to sync available devices");
+          setDeployWarningMes("Click \"Sync\" to sync available devices");
           setDeployWarning(clickEvent);
           return;
         }

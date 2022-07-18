@@ -1,5 +1,7 @@
 import React,{useState, useEffect, useContext} from 'react';
-import { ProjectContext } from '../App';
+import { ProjectContext } from '../../App';
+import ProjectSearchBox from './ProjectSearchBox';
+import SearchType from './SearchType';
 
 export default function ProjectList(props) {
     
@@ -8,6 +10,9 @@ export default function ProjectList(props) {
     const [data, setData] = useState();
     const [order, setOrder] = useState("ASC"); 
     const [orderCol, setOrderCol] = useState(); 
+
+    const [searchType, setSearchType] = useState('name');
+    const [searchProject, setSearchProject] = useState('');
 
     useEffect(() => {
         if(props.trigger===true){
@@ -37,6 +42,15 @@ export default function ProjectList(props) {
         }
     }
 
+    function showResult(){
+        if(searchProject===''){
+            return data;
+        }
+        else{
+            return data.filter(i=>i[searchType].toLowerCase().includes(searchProject.toLowerCase())); 
+        }
+    }
+
     return (props.trigger) ? (
     <div className='popup-projects'>
         <div className='popup-projects-inner'>
@@ -45,7 +59,11 @@ export default function ProjectList(props) {
             <button className='popup-close-button' onClick={()=>{props.setTrigger(false);setOrderCol()}}>&times;</button>
         </div>
         <div className="table-wrapper">
-            <table className="fl-table">
+        <div className='project-list-search'>
+        <SearchType searchType={searchType} setSearchType={setSearchType}></SearchType>
+        <ProjectSearchBox setSearchProject={setSearchProject} searchProject={searchProject}></ProjectSearchBox>
+        </div>
+            <table className="fl-table wordwrap">
             <thead>
             <tr>
                 <th onClick={()=>{sorting("id");setOrderCol("id")}}>ID{showIcon("id")}</th>
@@ -55,7 +73,7 @@ export default function ProjectList(props) {
             </tr>
             </thead>
             <tbody>
-            {data?.map(project=>{
+            {showResult()?.map(project=>{
                 return(
                     <tr 
                         key={project.id} 
@@ -63,7 +81,7 @@ export default function ProjectList(props) {
                         <td title={project.id}>{project.id.slice(-4)}</td>
                         <td>{project.name}</td>
                         <td>{project.dateModified}</td>
-                        <td>{userData.find(user=>user.id===project.lastModifiedBy).name}</td>
+                        <td title={project.lastModifiedBy}>{userData.find(user=>user.id===project.lastModifiedBy).name}<span className='user-id'>(ID:{project.lastModifiedBy.slice(-2)})</span></td>
                     </tr>
                 ) 
             })}

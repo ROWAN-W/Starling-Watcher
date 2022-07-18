@@ -64,7 +64,7 @@ function Deployment({selectedProject}) {
     //two columns
     if(droneListTrigger===false){
       return (
-        <button class="openbtn" onClick={()=>setDroneListTrigger(true)}><span>☰ Device</span></button> 
+        <button className="openbtn" onClick={()=>setDroneListTrigger(true)}><span>☰ Device</span></button> 
       ) 
     //three columns //true
     }else{

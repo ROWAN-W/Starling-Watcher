@@ -50,7 +50,7 @@ export default function ShareProject(props) {
             return(
                 <>
                 <div className='popup-header owner'>
-                    <span className='popup-title'>Share {props.selectedProject.name}</span>
+                    <span className='popup-title wordwrap wordbreak'>Share {props.selectedProject.name}</span>
                     <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 </div>
 
@@ -72,7 +72,7 @@ export default function ShareProject(props) {
             return(
                 <>
                 <div className='popup-header'>
-                    <span className='popup-title'>Members of {props.selectedProject.name}</span>
+                    <span className='popup-title wordwrap wordbreak'>Members of {props.selectedProject.name}</span>
                     <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 </div>
                 

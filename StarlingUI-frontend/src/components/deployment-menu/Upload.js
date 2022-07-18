@@ -16,7 +16,7 @@ export default function Upload(props) {
         }
         const fd = new FormData();
         fd.append('file',selectedFile);
-        axios.post("http://localhost:8000/upload",fd, {
+        axios.post("http://localhost:8080/design/upload",fd, {
             headers: {
               "Content-Type": "multipart/form-data",
             }

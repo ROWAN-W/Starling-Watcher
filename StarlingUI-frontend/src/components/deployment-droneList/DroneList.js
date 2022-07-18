@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Drone from './Drone'
 import sync from '../img/sync-svgrepo-com.svg';
 import logo from '../img/load.gif';
+import SearchType from './SearchType';
+import DroneSearchBox from './DroneSearchBox';
 
 export default function DroneList(props) {
 
     const [order, setOrder] = useState("ASC"); 
-    const [orderCol, setOrderCol] = useState();    
+    const [orderCol, setOrderCol] = useState();  
+    
+    const [searchType, setSearchType] = useState('nodeName');
+    const [searchDrone, setSearchDrone] = useState('');
 
     useEffect(() => {
         const url = "http://localhost:8080/design/nodes";
@@ -59,6 +64,22 @@ export default function DroneList(props) {
             return <span className='drone-sort-icon'>↑↓</span>
         }
     }
+
+    function showResult(){
+        if(searchDrone===''){
+            return props.data;
+        }
+        else{
+            if(searchType!=='labels' && searchType!=='annotations'){
+                return props.data.filter(i=>i[searchType].toLowerCase().includes(searchDrone.toLowerCase())); 
+            }
+            else{
+                console.log(Object.values(props.data[0][searchType]));
+                return props.data.filter(i=>Object.values(i[searchType]).includes(searchDrone.toLowerCase())); 
+            }
+            
+        }
+    }
       
     return (props.trigger) ?(
     <>
@@ -68,7 +89,7 @@ export default function DroneList(props) {
         <hr/>
     </div>
     <button className='btn btn-small hide-drone btn-menu' onClick={()=>props.setTrigger(false)}>Hide</button>
-    <button className='btn btn-small sync-drone btn-menu' onClick={()=>{props.handleUpdateTime();}}>{props.error? "Sync Again": "Sync"}</button>
+    <button className='btn btn-small sync-drone btn-menu' onClick={()=>{props.handleUpdateTime();}}>Sync</button>
     <div className='sync-time'>
         <div className='drone-update-time drone'><img className="syncing" src={sync} alt="sync" title="sync" onClick={()=>{props.handleUpdateTime();}}/>last sync: {props.updateTime}</div>
     </div>
@@ -77,18 +98,22 @@ export default function DroneList(props) {
     {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{ props.error }</div>}
     
     <div className="table-wrapper">
+        {(props.data ) && <div className='drone-list-search'>
+            <SearchType searchType={searchType} setSearchType={setSearchType}></SearchType>
+            <DroneSearchBox setSearchDrone={setSearchDrone} searchDrone={searchDrone}></DroneSearchBox>
+        </div>}
     { (props.data ) &&
-    <table className="fl-table">
+    <table className="fl-table wordwrap wordbreak">
         <thead>
         <tr>
             <th onClick={()=>{sorting("nodeName");setOrderCol("nodeName")}}>Name {showIcon("nodeName")}</th>
             <th onClick={()=>{sorting("hostname");setOrderCol("hostname")}}>Host {showIcon("hostname")}</th>
-            <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP Address {showIcon("ip")}</th>
+            <th onClick={()=>{sorting("ip");setOrderCol("ip")}}>IP {showIcon("ip")}</th>
             <th onClick={()=>{sorting("role");setOrderCol("role")}}>Role {showIcon("role")}</th>
         </tr>
         </thead>
         
-        {props.data?.map(drone=>{
+        {showResult()?.map(drone=>{
             return <Drone key={drone.id} {...drone}></Drone> 
         })}
         

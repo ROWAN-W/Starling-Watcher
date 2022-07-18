@@ -11,7 +11,7 @@ export default function DeleteWarning(props) {
             console.log("it's owner");
             return(
                 <>
-                <h2 className='title-error'><img className="warning" src={warning} alt="warning" />Delete {props.selectedProject.name}?</h2>
+                <h2 className='title-error wordbreak wordwrap'><img className="warning" src={warning} alt="warning" />Delete {props.selectedProject.name}?</h2>
                 <div className='content'>This action cannot be undone!</div>
 
                 <div className='popup-footer normal'>

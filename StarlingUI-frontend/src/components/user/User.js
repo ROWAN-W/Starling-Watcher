@@ -27,7 +27,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
     }
 
     function handleUserManagement(){
-        if(userManagement==true){
+        if(userManagement===true){
             setUserManagement(false);
         }else{
             setUserManagement(true);
