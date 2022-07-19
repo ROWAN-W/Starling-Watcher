@@ -54,7 +54,6 @@ public class ContainerLogsConnection implements Runnable {
         PodLogs logs = new PodLogs();
         //Streams.copy(is, System.out);
 
-        boolean initValid = true;
         InputStream logContent = logs.streamNamespacedPodLog(namespace, podName, containerName);
 
         try {
@@ -63,12 +62,6 @@ public class ContainerLogsConnection implements Runnable {
                 if (logContent.read(data) != -1) {
                     //transform logContent into textMessage.
                     TextMessage textMessage = new TextMessage(data);
-                    //test if the shell is active or not, it's failed when both condition are true.
-                    if (initValid && isValidBash(textMessage)) {
-                        break;
-                    } else {
-                        initValid = false;
-                    }
                     //send Message to the frontend.
                     session.sendMessage(textMessage);
                 }
@@ -80,13 +73,5 @@ public class ContainerLogsConnection implements Runnable {
         }
     }
 
-
-    // logs connection test
-    private boolean isValidBash(TextMessage textMessage) {
-        //if the textMessage include the following message, it's not working.
-        String failMessage = "OCI runtime exec failed";
-        return textMessage.getPayload().trim().contains(failMessage);
-    }
-
-
 }
+
