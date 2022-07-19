@@ -129,17 +129,15 @@ export default function Deploy(props) {
                     <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>&times;</button>
                     </div>}
                 </div>
-                <div className='deploy'>
-                {props.error && <div className="error-msg deploy wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
-                {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-
                 {!props.waiting &&
-                    <div className='sync-time deploy'>
+                    <div className='sync-time'>
                     {!deployWaiting && <img className="syncing" src={syncLogo} alt="sync" title="sync" onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}></img>}
                     <span>last sync: {props.updateTime}</span>
                     </div>
                 }
-
+                <div className='deploy'>
+                {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
+                {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                 {props.selectedProject.mapping.map(node=>{
                     //for displaying node name
                     const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)
@@ -156,16 +154,16 @@ export default function Deploy(props) {
                         ></DeployPerNode>
                     ) 
                 })}
-
+                </div>
                 {showFeedback()}
                                 
                 {!props.waiting && !deployWaiting && 
-                <div className='popup-footer normal display'>
+                <div className='popup-footer normal deploy-display'>
                 <button className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
-                <button className='btn btn-danger' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
+                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
                 </div>
                 }
-                </div>     
+                     
             </div>
         </div>
       ): ""

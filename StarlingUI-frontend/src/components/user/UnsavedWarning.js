@@ -22,7 +22,7 @@ export default function UnsavedWarning(props) {
                 
                 <div className='popup-footer normal'>
                 <button className="btn btn-danger" onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
-                <button className="btn btn-primary" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
+                <button className="btn btn-cancel" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
                 </div>
             </div>
         </div>

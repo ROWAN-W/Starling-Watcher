@@ -15,18 +15,15 @@
     margin-top: 0;
     margin-bottom: 1rem;
     justify-content: flex-end;
+    padding-left: 1.5rem;
 }
 
 .node__search{
     padding-left: .5rem;
     border-radius: 2px;
+    max-width: 60%;
     width: 15rem;
     font-size: .9rem; 
-}
-
-.node__search:hover,
-.node__search:focus{
-    font-size: 1rem;
 }
 
 .node__filter{

@@ -27,7 +27,12 @@ export default function Upload(props) {
           })
         .catch(err => {
             setIsPending(false);
-            setResult(err.message);
+            if(err.message==="Request failed with status code 404"){
+                setResult("Invalid YAML file.");
+            }
+            else{
+                setResult(err.message);
+            }
         })
     }
 
@@ -58,7 +63,7 @@ export default function Upload(props) {
         const after = str.slice(index + 1);
         console.log(after); 
         if(after!=='yml' && after!=='yaml'){
-            setResult("Can only upload YAML file");
+            setResult("YAML file Only.");
             return false;
         }else{
             return true;

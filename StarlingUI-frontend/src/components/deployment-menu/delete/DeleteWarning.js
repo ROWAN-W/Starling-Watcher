@@ -16,7 +16,7 @@ export default function DeleteWarning(props) {
 
                 <div className='popup-footer normal'>
                 <button className="btn btn-danger" onClick={()=>{props.setTrigger(false);props.setProjectDelete(true)}}>Still Delete</button>
-                <button className="btn btn-primary" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
+                <button className="btn btn-cancel" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
                 </div>
                 </>
             )

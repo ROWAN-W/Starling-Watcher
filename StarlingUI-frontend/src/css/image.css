@@ -89,12 +89,13 @@
   margin-top: .75rem;
   margin-bottom: .5rem;
   justify-content: flex-start;
+  padding-left: 0;
+  padding-right: 1rem;
 }
 
 .items {
     background: #333;
     box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
-    /*border-bottom: 6px solid hsl(200, 100%, 30%);*/
   }
   
   .items-head p{

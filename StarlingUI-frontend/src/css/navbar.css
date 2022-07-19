@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /*background-color: #1B2522;*/
-  background: transparent;
-  padding: .5rem 1rem 0rem 1rem;
+  background-color: #1b2522;
+  /*background: transparent;*/
+  padding: .5rem 1rem .75rem 1rem;
   min-width: 420px;
 }
 
@@ -19,7 +19,7 @@
   text-decoration: none;
   margin-left: 1rem;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 /*added for being center*/
@@ -34,7 +34,7 @@
 }
 
 .nav-title {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   margin: 0;
   color: hsl(200, 100%, 80%);
 }
@@ -60,6 +60,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-left: 1.5px solid hsl(200, 100%, 50%) ;
+  /*border-left: 1.5px solid hsl(200, 100%, 50%) ;*/
 }
 

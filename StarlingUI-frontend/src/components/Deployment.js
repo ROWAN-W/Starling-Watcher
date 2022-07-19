@@ -8,6 +8,7 @@ import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
 import DeployMini from "./deployment-menu/deploy/DeployMini";
 import edit from './img/edit-svgrepo-com.svg';
+import expand from './img/left-arrow-svgrepo-com.svg';
 
 function Deployment({selectedProject}) {
 
@@ -64,7 +65,7 @@ function Deployment({selectedProject}) {
     //two columns
     if(droneListTrigger===false){
       return (
-        <button className="openbtn" onClick={()=>setDroneListTrigger(true)}><span>☰ Device</span></button> 
+        <button className="openbtn" onClick={()=>setDroneListTrigger(true)}><span><img className="expand-icon" src={expand} alt="expand" title="show devices"/>Device List</span></button> 
       ) 
     //three columns //true
     }else{

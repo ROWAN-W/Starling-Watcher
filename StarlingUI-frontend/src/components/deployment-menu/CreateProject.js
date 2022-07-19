@@ -102,7 +102,7 @@ export default function CreateProject(props) {
         <>
           {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
           {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
-          {error && <h2 className='title-error'>Error!</h2>}
+          {error && <h2 className='title-error'>Create Project Error</h2>}
           {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
           <div className='content'>{error? error: result}</div>
           {!savePending && 

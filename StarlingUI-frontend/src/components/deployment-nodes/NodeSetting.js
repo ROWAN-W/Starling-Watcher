@@ -122,7 +122,8 @@ return (props.trigger) ?(
             <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
         </div>
             {warning!=='' && <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{warning}</div>}
-            <form onSubmit={saveChange} className="advanced-setting">
+            <form onSubmit={saveChange} className="advanced-setting-form">
+                <div className="advanced-setting">
                 <div className='popup-major'>
                 <div><label 
                     htmlFor='name' className='popup-major-key major'>Name<span className='required'>*</span>
@@ -174,9 +175,10 @@ return (props.trigger) ?(
                 </input>
                 </div>
                 <UploadAndDisplayImage options={props.options} selectedImage={selectedImage} setSelectedImage={setSelectedImage}></UploadAndDisplayImage>
+                </div>
                 <div className='popup-footer normal display'>
                 <button className='btn btn-primary' type="submit">Done</button>
-                <button className='btn btn-danger' type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                <button className='btn btn-cancel' type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </div>
             </form>
         </div>

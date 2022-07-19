@@ -1,7 +1,7 @@
 .files input {
     display: flex;
     border: none;
-    outline: 2px dashed hsl(200, 100%, 50%);
+    outline: 2px dashed #777;
     outline-offset: -2px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;

@@ -63,7 +63,7 @@ export default function ShareProject(props) {
                 
                 <div className='popup-footer normal'>
                     <button className='btn btn-primary' onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button>
-                    <button className='btn btn-danger' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                    <button className='btn btn-cancel' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </div>
                 </>
             )

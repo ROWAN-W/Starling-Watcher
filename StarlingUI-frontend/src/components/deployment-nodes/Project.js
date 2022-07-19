@@ -21,9 +21,9 @@ export default function Project({currentUserID, selectedProject}) {
     const [showSearch, setShowSearch] = useState(false);
     const [clickAdd, setClickAdd] =useState(false);
 
-    const options = [drone, master, droneCircle, masterCircle, null];
-    const [masterPic, setMasterPic] = useState(options[1]);
-    const [dronePic, setDronePic] = useState(options[0]);
+    const options = [drone, master, droneCircle, masterCircle, 'None'];
+    const [masterPic, setMasterPic] = useState(options[4]);
+    const [dronePic, setDronePic] = useState(options[4]);
 
     const messagesEndRef = useRef(null)
 

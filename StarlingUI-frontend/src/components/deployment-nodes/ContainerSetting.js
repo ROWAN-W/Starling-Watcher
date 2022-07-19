@@ -81,7 +81,8 @@ export default function ContainerSetting(props) {
                 <span className='popup-title'>Advanced Settings</span>
                 <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
             </div>
-                <form onSubmit={saveChange} className="advanced-setting stack">
+                <form onSubmit={saveChange} className="advanced-setting-form">
+                    <div className="advanced-setting stack">
                     <div className='popup-major stack'>
                     <label 
                         htmlFor='command' className='popup-major-key major'>command
@@ -140,10 +141,10 @@ export default function ContainerSetting(props) {
                     ></NodePortEdit>
                     )}
                     </div>
-
+                    </div>
                     <div className='popup-footer normal display'>
                     <button className='btn btn-primary' type='submit'>Done</button>
-                    <button className='btn btn-danger' type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                    <button className='btn btn-cancel' type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                     </div>
                 </form>
             </div>

@@ -130,7 +130,7 @@ export default function ManageAccount(props) {
                     <p></p>
                     <div className='popup-footer normal'>
                     <button className='btn btn-primary' type='submit'>Save Change</button>
-                    <button className='btn btn-danger' type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                    <button className='btn btn-cancel' type='button' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                     </div>
                 </form>
             </div>
