@@ -63,6 +63,7 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
      */
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws IOException {
         session.close();
+        LogsConnectionMap.get(session).setRunningStatus(false);
         LogsConnectionMap.remove(session);
     }
 
@@ -74,6 +75,7 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
         if(session.isOpen()){
             session.close();
         }
+        LogsConnectionMap.get(session).setRunningStatus(false);
         LogsConnectionMap.remove(session);
 
     }
@@ -94,4 +96,5 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
         return queryPairs;
     }
 }
+
 
