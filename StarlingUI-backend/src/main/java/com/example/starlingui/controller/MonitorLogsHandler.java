@@ -62,6 +62,7 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
      * close and remove the connection of session
      */
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus){
+        session.close();
         LogsConnectionMap.remove(session);
     }
 
