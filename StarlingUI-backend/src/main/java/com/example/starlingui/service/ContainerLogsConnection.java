@@ -23,6 +23,8 @@ public class ContainerLogsConnection implements Runnable {
     // the container which we want to monitor its logs.
     private final K8sContainer container;
 
+    private boolean running = true;
+
 
     public ContainerLogsConnection(Map<String, String> paramMap, WebSocketSession session) {
         this.session = session;
@@ -57,7 +59,7 @@ public class ContainerLogsConnection implements Runnable {
         InputStream logContent = logs.streamNamespacedPodLog(namespace, podName, containerName);
 
         try {
-            while (true) {
+            while (running) {
                 byte[] data = new byte[1024];
                 if (logContent.read(data) != -1) {
                     //transform logContent into textMessage.
@@ -73,5 +75,12 @@ public class ContainerLogsConnection implements Runnable {
         }
     }
 
-}
+    public boolean getRunningStatus(){
+        return running;
+    }
 
+    public void setRunningStatus(boolean status){
+        running = status;
+    }
+
+}
