@@ -1,77 +1,97 @@
-package com.example.starlingui.service;
+package com.example.starlingui.controller;
 
-import com.example.starlingui.model.K8sContainer;
-import io.kubernetes.client.PodLogs;
-import io.kubernetes.client.openapi.ApiClient;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.Configuration;
-import io.kubernetes.client.util.Config;
+import com.example.starlingui.service.ContainerLogsConnection;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-
+import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-public class ContainerLogsConnection implements Runnable {
-
-
-    // the class which socket use to communicate with the frontend.
-    private final WebSocketSession session;
-
-    // the container which we want to monitor its logs.
-    private final K8sContainer container;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
-    public ContainerLogsConnection(Map<String, String> paramMap, WebSocketSession session) {
-        this.session = session;
-        this.container = new K8sContainer();
-        container.setContainerName(paramMap.get("container"));
-        container.setNamespace(paramMap.get("namespace"));
-        container.setPodName(paramMap.get("name"));
-    }
+@Component
+public class MonitorLogsHandler extends TextWebSocketHandler {
+
+    // The size limitation of the tread pool is 100.
+    private static final int ThreadPoolSize = 100;
+
+    // Create a pool of threads that can be cached and used to execute threads.
+    private static final ExecutorService threadPoolExecutor = Executors.newCachedThreadPool();
+
+    // ConcurrentHashMap is a HashMap specifically designed to store threads.
+    // every socket has its own unique session.
+    private static final ConcurrentHashMap<WebSocketSession, ContainerLogsConnection> LogsConnectionMap = new ConcurrentHashMap<>();
+
+    public MonitorLogsHandler(){}
 
 
-
-    @Override
-    public void run() {
-        try {
-            LogsConnection();
-        } catch (IOException | ApiException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public void LogsConnection() throws IOException, ApiException, InterruptedException {
-        String podName = container.getPodName();
-        String namespace = container.getNamespace();
-        String containerName = container.getContainerName();
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
-
-        PodLogs logs = new PodLogs();
-        //Streams.copy(is, System.out);
-
-        InputStream logContent = logs.streamNamespacedPodLog(namespace, podName, containerName);
-
-        try {
-            while (true) {
-                byte[] data = new byte[1024];
-                if (logContent.read(data) != -1) {
-                    //transform logContent into textMessage.
-                    TextMessage textMessage = new TextMessage(data);
-                    //send Message to the frontend.
-                    session.sendMessage(textMessage);
-                }
+    /**
+     * Establish the connection
+     */
+    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
+        //System.out.println(shellConnectionMap.size());
+        //whether the thread number larger than pool size or not
+        if(LogsConnectionMap.size() < ThreadPoolSize){
+            //if it's a new session then build a new thread
+            if(!LogsConnectionMap.containsKey(session)){
+                ContainerLogsConnection LogsConnection = new ContainerLogsConnection(getParam(session.getUri()),session);
+                //put the new thread into the HashMap
+                LogsConnectionMap.put(session,LogsConnection);
+                //execute the threads
+                threadPoolExecutor.submit(LogsConnection);
             }
-        } catch (IOException e) {
-            System.out.println("Pipe closed");
-        } finally {
-            System.out.println("session closed... exit thread");
+        }else {
+            //if the pool has been full then send a message to the frontend.
+            TextMessage textMessage = new TextMessage("thread pool is full".getBytes());
+            session.sendMessage(textMessage);
         }
+
+
     }
 
+    /**
+     * close and remove the connection of session
+     */
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws IOException {
+        session.close();
+        LogsConnectionMap.remove(session);
+    }
+
+
+    /**
+     * error handler
+     */
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception{
+        if(session.isOpen()){
+            session.close();
+        }
+        LogsConnectionMap.remove(session);
+
+    }
+
+    public boolean supportsPartialMessages() {
+        return false;
+    }
+
+    //get variables from socket uri
+    private Map<String, String> getParam(URI uri) {
+        Map<String, String> queryPairs = new LinkedHashMap<>();
+        String query = uri.getQuery();
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+            int idx = pair.indexOf("=");
+            queryPairs.put(URLDecoder.decode(pair.substring(0, idx), StandardCharsets.UTF_8), URLDecoder.decode(pair.substring(idx + 1), StandardCharsets.UTF_8));
+        }
+        return queryPairs;
+    }
 }
 
