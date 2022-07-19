@@ -2,12 +2,12 @@ import { Rnd } from "react-rnd";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import { AttachAddon } from 'xterm-addon-attach';
-import { useEffect } from "react";
+import {useState,useEffect} from "react";
 
 
 export default function Popup(props) {
-    
-    const fitAddon = new FitAddon();
+    const [state, setState] = useState(false);
+
     const terminal = new Terminal({
         convertEol: true,
         cursorBlink: true,
@@ -19,14 +19,15 @@ export default function Popup(props) {
         }
     });
     let socket = null;
-    
+
+
+
     useEffect(() => {
-        if (props.visible) {
-            terminal.loadAddon(fitAddon);
+        if (props.terminalVisible&&state === false) {
+
             terminal.open(document.getElementById(props.id));
-            setTimeout(() => {
-                fitAddon.fit()
-            }, 60)
+            setState(true);
+
 
             let url = 'ws://localhost:8080/container/shell';
             url += '?name=' + props.pod
@@ -35,30 +36,36 @@ export default function Popup(props) {
                 + '&cols=' + terminal.cols
                 + '&rows=' + terminal.rows;
             console.log(url);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             socket = new WebSocket(url);
             const attachAddon = new AttachAddon(socket);
             // Attach the socket to term
             terminal.loadAddon(attachAddon);
-
+            const fitAddon = new FitAddon();
+            terminal.loadAddon(fitAddon);
+            fitAddon.fit();
+            console.log("2");
         }
-    });
+    }, [props]);
 
     const closeShell = () => {
-        socket.close();
-        terminal.dispose();
-        
+        if(socket !== null){
+            socket.close();
+            terminal.dispose();
+        }
         props.setVisible(false);
+        setState(false);
     }
 
 
 
-    return (props.visible) ? (
+    return (props.terminalVisible) ? (
         <>
             <Rnd
                 className='popup-monitor'
                 default={{
                     x: 0,
-                    y: 0,
+                    y: -150,
                     width: 400,
                     height: 250,
                 }}

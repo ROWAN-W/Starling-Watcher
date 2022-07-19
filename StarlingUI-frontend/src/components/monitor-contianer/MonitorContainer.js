@@ -1,15 +1,22 @@
 import { useState,useEffect } from "react";
 import React from "react";
 import Popup from "./Popup";
+import Logs from "./Logs";
 
 
 export default function MonitorContainer(props){
     const [terminalVisible, setTerminalVisible] = useState(false);
     const [containerStatus, setContainerStatus] = useState("#32e6b7");
     const [buttonAvailable,setButtonAvailable] = useState(false);
-    const containerId = props.containerID.slice(9);
+    const [logsVisible, setLogsVisible] = useState(false);
+    let containerId = null;
+    if(props.containerID !== null){
+        containerId = props.containerID.slice(9);
+    }
+
 
     useEffect(() => {
+        // eslint-disable-next-line default-case
         switch (props.containerState) {
             case "running":
                 setContainerStatus("#32e6b7");
@@ -47,18 +54,27 @@ export default function MonitorContainer(props){
                                 onClick={()=>setTerminalVisible(true)}
                                 disabled={buttonAvailable}></button>
                         <button className="container-logs"
+                                onClick={()=>setLogsVisible(true)}
                                 disabled={buttonAvailable}></button>
 
                     </div>
                     <button className="container-restart"
                             disabled={!buttonAvailable}>Restart</button>
+
                     <Popup
-                        visible={terminalVisible}
+                        terminalVisible={terminalVisible}
                         setVisible={setTerminalVisible}
-                        id={props.containerName+props.namespace}
+                        id={props.containerName+props.namespace+"terminal"}
                         pod={props.podName}
                         namespace={props.namespace}
                         container={props.containerName}></Popup>
+                    <Logs
+                        LogsVisible={logsVisible}
+                        setVisible={setLogsVisible}
+                        id={props.containerName+props.namespace+"logs"}
+                        pod={props.podName}
+                        namespace={props.namespace}
+                        container={props.containerName}></Logs>
                 </div>
             </div>
         </>
