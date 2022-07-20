@@ -24,7 +24,7 @@ body {
     font-family: Cambria;
     color: #1B2522;
     /*background: #1B2522;*/
-    background-color: #1b2522;
+    /*background-color: #444;*/
     background-image: linear-gradient(180deg, #1b2522 0%, #1b2522 3%, #777777 25%, #1b2522 100%);
 
     overflow-y: auto;
