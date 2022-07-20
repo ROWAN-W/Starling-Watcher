@@ -1,13 +1,6 @@
 # Integration Stage
 
-Ready: image list. user db. project db. drones
-
-Pending: Upload File, Deployment
-
-
-## developing
-
-CSS learning (OMG)
+Ready: image list. user db. project db. drones, Deployment, Upload
 
 ## pending
 

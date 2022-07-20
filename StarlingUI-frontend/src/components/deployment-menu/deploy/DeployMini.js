@@ -4,10 +4,11 @@ export default function DeployMini(props) {
 
     return (props.trigger) ? (
         <div className="minimize">
-            <p className="minimize-title">Deploy Configuration to Drones
-            <button onClick={()=>{props.setTrigger(false);}}>Max</button>
-            <button onClick={()=>{props.setTrigger(null);}}>&times;</button>
-            </p>
+            <div className="minimize-title" onClick={()=>{props.setTrigger(false);}}>Deploy Configuration</div>
+            <div>
+            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);}}>☐</button>
+            <button className="popup-close-button" onClick={()=>{props.setTrigger(null);}}>&times;</button>
+            </div>
         </div>
       ): ""
 }

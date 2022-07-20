@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { ProjectContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
+import logo from '../img/load.gif';
 
 export default function CreateProject(props) {
     
     const {projects, currentUserID, setProjects, handleProjectSelect} = useContext(ProjectContext);
 
-    const [result, setResult] = useState('Please wait...');
+    const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,7 +23,7 @@ export default function CreateProject(props) {
 
         const newProject = {
         id: "",
-        name: 'New Project['+number+']',
+        name: 'project-'+number,
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
         saved: true,
@@ -31,12 +32,13 @@ export default function CreateProject(props) {
         config:[
           {
             id:masterId,
-            name: 'new design',
+            name: 'design',
             kind: 'master',
+            //can be empty
             label: 
               {
-                app: 'starling',
-                platform: 'pixhawk'
+                app: 'project-'+number,
+                platform: ''
               }
             ,
             containers:[]    
@@ -89,21 +91,34 @@ export default function CreateProject(props) {
         })
       }
 
+      function clearField(){
+        setResult('');
+        setIsPending(false);
+        setError(null);
+      }
+
     function message(){
         return(
-            <>
-            {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{error? error: result}</p>
-            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
-            </>
+        <>
+          {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+          {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
+          {error && <h2 className='title-error'>Create Project Error</h2>}
+          {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
+          <div className='content'>{error? error: result}</div>
+          {!savePending && 
+          <div className='popup-footer normal'>
+            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField()}}>OK</button>
+          </div>}
+        </>
         )
     }
     
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
+            <div className='popup'>
                 {message()}
             </div>
         </div>
       ): ""
 }
+//
