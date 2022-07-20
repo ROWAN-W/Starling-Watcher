@@ -20,8 +20,6 @@ export default function Popup(props) {
     });
     let socket = null;
 
-
-
     useEffect(() => {
         if (props.terminalVisible&&state === false) {
 

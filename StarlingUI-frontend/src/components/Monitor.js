@@ -51,7 +51,7 @@ export default function Monitor() {
           </div>
           <div className="node-container">
               {data?.map(node=>{
-                  return <MonitorNode {...node}></MonitorNode>
+                  return <MonitorNode getNodes={getNodeStatus} {...node}></MonitorNode>
               })}
           </div>
         </div>

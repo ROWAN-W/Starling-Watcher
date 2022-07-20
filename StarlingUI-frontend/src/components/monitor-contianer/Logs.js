@@ -21,7 +21,6 @@ export default function Logs(props) {
     });
     let socket = null;
 
-
     useEffect(() => {
         if (props.LogsVisible&&state===false) {
 

@@ -105,17 +105,26 @@
     box-shadow: 0 8px 16px 0 #32e6b7;
 }
 
-.console-menu {
+.button-list {
+    height: 40px;
+    width: 200px;
+    align-items: center;
+    margin-right: 10px;
+    display: flex;
+    justify-content: right;
+}
 
+.container-menu {
     align-items:center;
     justify-content: center;
+
 }
 
 
 .console-image {
     padding: 0;
-    width: 55px;
-    height: 60px;
+    width: 50px;
+    height: 40px;
     background: url("monitorImage/console_active.png") no-repeat center;
     border-style: none;
     background-size: 80%;
@@ -132,8 +141,8 @@
 
 .container-logs {
     padding: 0;
-    width: 55px;
-    height: 60px;
+    width: 50px;
+    height: 40px;
     background: url("monitorImage/logs_active.png") no-repeat center;
     border-style: none;
     background-size: 55%;
@@ -149,13 +158,14 @@
 }
 
 .container-restart {
+    margin-left: 10px;
+    top: 5px;
     background-color: transparent;
     color: #dc5671;
     justify-content: center;
     border: 2px solid #dc5671;
-    margin-right: 10px;
     border-radius:16px;
-    width: 70px;
+    width: 65px;
 }
 
 .container-restart:hover {

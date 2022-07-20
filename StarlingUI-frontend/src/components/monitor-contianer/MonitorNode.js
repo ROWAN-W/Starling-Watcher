@@ -7,7 +7,7 @@ export default function MonitorNode(props){
     const [containers ,setContainers] = useState(null);
     useEffect(() => {
         setContainers(props.containers);
-    }, []);
+    }, [props]);
 
     return(
         <>
@@ -18,7 +18,9 @@ export default function MonitorNode(props){
                 </div>
                 <div className="card-container">
                     {containers?.map(container=>{
-                        return <MonitorContainer {...container}></MonitorContainer>
+                        return <MonitorContainer
+                            getNodes={props.getNodes}
+                            {...container}></MonitorContainer>
                     })}
                 </div>
             </div>
