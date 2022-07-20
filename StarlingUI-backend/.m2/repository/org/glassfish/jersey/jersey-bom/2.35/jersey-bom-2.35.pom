@@ -89,52 +89,52 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-jetty-http</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-jetty-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-grizzly2-http</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-grizzly2-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-grizzly2-servlet</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-grizzly2-servlet</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-jetty-servlet</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-jetty-servlet</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-jdk-http</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-jdk-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-netty-http</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-netty-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-servlet</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet-core</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-servlet-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-simple-http</artifactId>
+                <groupId>org.glassfish.jersey.domainContainers</groupId>
+                <artifactId>jersey-domainContainer-simple-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.containers.glassfish</groupId>
+                <groupId>org.glassfish.jersey.domainContainers.glassfish</groupId>
                 <artifactId>jersey-gf-ejb</artifactId>
                 <version>${project.version}</version>
             </dependency>

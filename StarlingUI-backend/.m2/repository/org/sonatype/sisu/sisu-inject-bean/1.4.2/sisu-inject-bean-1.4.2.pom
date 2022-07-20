@@ -35,7 +35,7 @@
     </dependency>
     <dependency>
       <groupId>org.sonatype.sisu.inject</groupId>
-      <artifactId>guice-bean-containers</artifactId>
+      <artifactId>guice-bean-domainContainers</artifactId>
       <optional>true</optional>
     </dependency>
   </dependencies>
@@ -52,7 +52,7 @@
               org.sonatype.inject
             </Bundle-SymbolicName>
             <Bundle-Activator>
-              org.sonatype.guice.bean.containers.Activator
+              org.sonatype.guice.bean.domainContainers.Activator
             </Bundle-Activator>
             <DynamicImport-Package>
               org.slf4j,junit.framework
@@ -105,7 +105,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.sonatype.guice.bean.containers.Main</mainClass>
+              <mainClass>org.sonatype.guice.bean.domainContainers.Main</mainClass>
             </manifest>
           </archive>
         </configuration>

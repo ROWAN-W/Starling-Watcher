@@ -8,7 +8,7 @@
     <version>3.3.2</version>
   </parent>
 
-  <artifactId>plexus-containers</artifactId>
+  <artifactId>plexus-domainContainers</artifactId>
   <version>1.6</version>
   <packaging>pom</packaging>
 
@@ -21,14 +21,14 @@
     <module>plexus-component-annotations</module>
     <module>plexus-component-metadata</module>
     <module>plexus-component-javadoc</module>
-    <module>plexus-container-default</module>
+    <module>plexus-domainContainer-default</module>
   </modules>
 
   <scm>
-    <connection>scm:git:git@github.com:sonatype/plexus-containers.git</connection>
-    <developerConnection>scm:git:git@github.com:sonatype/plexus-containers.git</developerConnection>
-    <url>https://github.com/sonatype/plexus-containers</url>
-    <tag>plexus-containers-1.6</tag>
+    <connection>scm:git:git@github.com:sonatype/plexus-domainContainers.git</connection>
+    <developerConnection>scm:git:git@github.com:sonatype/plexus-domainContainers.git</developerConnection>
+    <url>https://github.com/sonatype/plexus-domainContainers</url>
+    <tag>plexus-domainContainers-1.6</tag>
   </scm>
 
   <properties>
@@ -42,7 +42,7 @@
     <dependencies>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-container-default</artifactId>
+        <artifactId>plexus-domainContainer-default</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

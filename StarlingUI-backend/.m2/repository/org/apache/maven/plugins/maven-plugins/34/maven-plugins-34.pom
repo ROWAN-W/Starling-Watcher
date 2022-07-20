@@ -180,7 +180,7 @@ under the License.
                   <excludes>
                     <exclude>org.codehaus.plexus:plexus-component-api</exclude>
                   </excludes>
-                  <message>The new containers are not supported. You probably added a dependency that is missing the exclusions.</message>
+                  <message>The new domainContainers are not supported. You probably added a dependency that is missing the exclusions.</message>
                 </bannedDependencies>
               </rules>
               <fail>true</fail>

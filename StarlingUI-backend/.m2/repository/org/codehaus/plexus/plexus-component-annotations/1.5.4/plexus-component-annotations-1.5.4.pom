@@ -6,7 +6,7 @@
 
   <parent>
     <groupId>org.codehaus.plexus</groupId>
-    <artifactId>plexus-containers</artifactId>
+    <artifactId>plexus-domainContainers</artifactId>
     <version>1.5.4</version>
   </parent>
 
