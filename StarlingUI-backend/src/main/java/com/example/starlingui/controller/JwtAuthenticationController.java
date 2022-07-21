@@ -37,6 +37,11 @@ public class JwtAuthenticationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * @Description User login logic
+     * @param body User name and password
+     * @return User id, name, access token and refresh token
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody String body) {
         try {
@@ -51,15 +56,19 @@ public class JwtAuthenticationController {
             String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
             jsonObject.put("id", user.getId());
             jsonObject.remove("password");
+            jsonObject.put("accessToken", accessToken);
+            jsonObject.put("refreshToken", refreshToken);
             return ResponseEntity.status(HttpStatus.OK)
-                    .header("accessToken", accessToken)
-                    .header("refreshToken", refreshToken)
                     .body(jsonObject.toString());
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
+    /**
+     * @Description Use valid refresh token to get new access token
+     * @return new access token and old refresh token
+     */
     @GetMapping("/refresh")
     public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -68,10 +77,11 @@ public class JwtAuthenticationController {
             UserDetails userDetails = starlingUserService.loadUserByUsername(username);
             String accessToken = jwtTokenUtil.generateAccessToken(userDetails);
             String refreshToken = authorizationHeader.substring("Bearer ".length());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("accessToken", accessToken);
+            jsonObject.put("refreshToken", refreshToken);
             return ResponseEntity.status(HttpStatus.OK)
-                    .header("accessToken", accessToken)
-                    .header("refreshToken", refreshToken)
-                    .body(null);
+                    .body(jsonObject.toString());
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
