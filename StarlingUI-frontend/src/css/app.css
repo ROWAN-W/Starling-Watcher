@@ -6,8 +6,11 @@
 @import 'drone.css';
 @import 'navbar.css';
 @import 'upload.css';
+@import "monitor.css";
+@import "terminal.css";
 @import 'message.css';
 @import 'monitor.css';
+
 
 * {
     box-sizing: border-box;

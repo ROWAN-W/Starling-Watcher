@@ -20,7 +20,7 @@
     .monitor-syn{
         position: absolute;
         right: 0;
-        top: 2rem;   
+        top: 2rem;
     }
 }
 
@@ -64,7 +64,7 @@
     .monitor-syn{
         position: absolute;
         right: 0;
-        top: 2.5rem; 
+        top: 2.5rem;
     }
     .drone-update-time.drone.monitor{
         font-size: .9rem;
@@ -78,11 +78,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 20px;
-    background-image: linear-gradient(158deg, #4e4e4e 11%, #333 25%, #1a1a1a 31%, #1a1a1a 61%, #262626 86%, #4e4e4e 110%);
     height: 600px;
     max-height: 600px;
     overflow-y: auto;
-
 }
 
 
@@ -96,45 +94,78 @@
 
 }
 
+.drone-image {
+    vertical-align:middle;
+    width: 40px;
+    height: 40px;
+    background: url("monitorImage/drone.png") no-repeat center;
+    background-size: 100%;
+}
 .card:hover {
     box-shadow: 0 8px 16px 0 #32e6b7;
 }
 
+.button-list {
+    height: 40px;
+    width: 200px;
+    align-items: center;
+    margin-right: 10px;
+    display: flex;
+    justify-content: right;
+}
+
+.container-menu {
+    align-items:center;
+    justify-content: center;
+
+}
+
 
 .console-image {
-    width: 60px;
-    height: 30px;
-    background: url("./Console/icon/terminal@3x.png") no-repeat top;
+    padding: 0;
+    width: 50px;
+    height: 40px;
+    background: url("monitorImage/console_active.png") no-repeat center;
     border-style: none;
-    background-size: 40%;
-    font-size: 12px;
-    color: #32e6b7;
-    margin-top: 5px;
-    line-height:70px;
-    text-align: center;
+    background-size: 80%;
+}
 
+.console-image:hover {
+    background-size: 85%;
+}
+
+.console-image:disabled {
+    background: url("monitorImage/console_inactive.png") no-repeat center;
+    background-size: 80%;
 }
 
 .container-logs {
-    width: 60px;
-    height: 30px;
-    background: url("./logs/icon/content/report@3x.png") no-repeat top;
+    padding: 0;
+    width: 50px;
+    height: 40px;
+    background: url("monitorImage/logs_active.png") no-repeat center;
     border-style: none;
-    background-size: 50%;
-    font-size: 12px;
-    color: #32e6b7;
-    line-height:75px;
-    text-align: center;
+    background-size: 55%;
+}
+
+.container-logs:hover{
+    background-size: 60%;
+}
+
+.container-logs:disabled {
+    background: url("monitorImage/logs_inactive.png") no-repeat center;
+    background-size: 55%;
 }
 
 .container-restart {
+    margin-left: 10px;
+    top: 5px;
     background-color: transparent;
     color: #dc5671;
     justify-content: center;
     border: 2px solid #dc5671;
-    margin-right: 10px;
     border-radius:16px;
-    width: 70px;
+    width: 65px;
 }
 
 .container-restart:hover {
@@ -166,14 +197,16 @@
 }
 
 .title{
-    padding: 20px;
+    padding: 15px;
     margin: 0;
     border-radius: 16px 16px 0 0;
     background-color: #4e4e4e;
-
+    display: flex;
+    align-items:center;
+    justify-content: center;
 }
 
-.title p{
+.title span{
     margin: 0;
     font-size: 24px;
     font-weight: 500;
@@ -273,17 +306,30 @@
     position: absolute;
     top: 16px;
     right: 16px;
+    background: transparent;
+    color: #fff;
+    font-size: 20px;
+    border-color: transparent;
 }
 
-/*change name by yulin, sorry*/
+.close-btn:hover{
+    color: #dc5671;
+}
+
 .popup-monitor{
-    background-color: #2ea591;
+    background-image: linear-gradient(137deg, #4e4e4e -16%, #333 9%, #1a1a1a 32%, #1a1a1a 62%, #262626 87%, #4e4e4e 112%);
     min-width: 600px;
     min-height: 400px;
-    max-width: 600px;
-    max-height: 400px;
     justify-items: center;
     align-items: center;
 }
+
+
+.terminal-header {
+    margin: 10px;
+}
+
+
+
 
 

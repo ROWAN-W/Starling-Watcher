@@ -2,29 +2,30 @@ import { Rnd } from "react-rnd";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import { AttachAddon } from 'xterm-addon-attach';
-import { useEffect, useState } from "react";
-import ResizeObserver from "react-resize-observer";
-import "xterm/css/xterm.css";
+import {useState,useEffect} from "react";
 
 
 export default function Popup(props) {
-    
-    const fitAddon = new FitAddon();
+    const [state, setState] = useState(false);
+
     const terminal = new Terminal({
         convertEol: true,
+        cursorBlink: true,
         fontFamily: `'Fira Mono', monospace`,
         fontSize: 16,
         fontWeight: 400,
+        theme: {
+            foreground: '#32e6b7',
+        }
     });
     let socket = null;
-    
+
     useEffect(() => {
-        if (props.visible) {
-            terminal.loadAddon(fitAddon);
+        if (props.terminalVisible&&state === false) {
+
             terminal.open(document.getElementById(props.id));
-            setTimeout(() => {
-                fitAddon.fit()
-            }, 60)
+            setState(true);
+
 
             let url = 'ws://localhost:8080/container/shell';
             url += '?name=' + props.pod
@@ -33,30 +34,36 @@ export default function Popup(props) {
                 + '&cols=' + terminal.cols
                 + '&rows=' + terminal.rows;
             console.log(url);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             socket = new WebSocket(url);
             const attachAddon = new AttachAddon(socket);
             // Attach the socket to term
             terminal.loadAddon(attachAddon);
-
+            const fitAddon = new FitAddon();
+            terminal.loadAddon(fitAddon);
+            fitAddon.fit();
+            console.log("2");
         }
-    });
+    }, [props]);
 
     const closeShell = () => {
-        socket.close();
-        terminal.dispose();
-        
+        if(socket !== null){
+            socket.close();
+            terminal.dispose();
+        }
         props.setVisible(false);
+        setState(false);
     }
 
-//change class name by yulin
 
-    return (props.visible) ? (
+
+    return (props.terminalVisible) ? (
         <>
             <Rnd
                 className='popup-monitor'
                 default={{
                     x: 0,
-                    y: 0,
+                    y: -150,
                     width: 400,
                     height: 250,
                 }}
@@ -65,19 +72,14 @@ export default function Popup(props) {
             >
                 <div className='terminal-header'>
                     <p>{props.container+" - terminal"}</p>
-                    <button className='close-btn' onClick={() => closeShell()}>close</button>
+                    <button className='close-btn' onClick={() => closeShell()}>X</button>
                 </div>
 
-                <div id={props.id} style={{ height: "100%", width: "100%" }}></div>
-                <ResizeObserver
-                    onResize={rect => {
-                        fitAddon.fit();
-                        console.log("Resized. New bounds:", rect.width, "x", rect.height);
-                    }}
-                    onPosition={rect => {
-                        console.log("Moved. New position:", rect.left, "x", rect.top);
-                    }}
-                />
+                <div
+                    className="terminal"
+                    id={props.id}
+                    style={{ height: "92%", width: "100%" }}></div>
+
             </Rnd>
         </>
     ) : "";
