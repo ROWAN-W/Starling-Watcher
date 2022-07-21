@@ -137,6 +137,7 @@ public class TemplatingServiceImp implements TemplatingService {
         //set default HostNetwork and ShareProcessNamespace;
         pod.build().setHostNetwork(true);
         pod.build().setShareProcessNamespace(true);
+        pod.build().setRestartPolicy("Always");
         //set Toleration & Volumes
         pod.withTolerations(getToleration(kind));
         if(!kind.equalsIgnoreCase("master")) {

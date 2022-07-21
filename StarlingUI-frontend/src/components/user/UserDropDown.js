@@ -4,11 +4,9 @@ import React from 'react';
 export default function UserDropDown(props) {
 
 return (props.trigger) ? (
-    <div className='user-dropdown'>
-        <div className='user-dropdown-inner'>
-            <button className='user-dropdown-item' onClick={()=>{props.handleAccountManagement(true); props.setTrigger(false)}}>Manage My Account</button>
-            <button className='user-dropdown-item' onClick={()=>{props.handleUserSignOut();props.setTrigger(false);}}>Sign out</button>
-        </div>
-    </div>
+    <ul className='user-dropdown'>
+        <li onClick={()=>{props.handleAccountManagement(true); props.setTrigger(false)}}><a href="#">Manage My Account</a></li>
+        <li onClick={()=>{props.handleUserSignOut();props.setTrigger(false);}}><a href="#">Sign out</a></li>
+    </ul>
   ): ""
 }

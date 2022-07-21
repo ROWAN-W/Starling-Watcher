@@ -1,60 +1,90 @@
 .project{
-    border: 2px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 100%;
-    min-width: 50%;
-    max-height: 400px;
+    padding: 1rem;
+    padding-bottom: 0;
+    /*min-width: 300px;
+    max-width: 75vw;*/
+    height: 75vh;
+    border-radius: 3px;
     overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
 }
 
-.project-container{
-    display: grid;
-    grid-template-columns: repeat(2,auto);
-    row-gap:5px;
-    column-gap: 40px;
-    /*justify-content: flex-start;*/
+.node-search-filter{
+    display: flex;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+    padding-left: 1.5rem;
+}
 
-    white-space: nowrap;
-    
+.node__search{
+    padding-left: .5rem;
+    border-radius: 2px;
+    max-width: 60%;
+    width: 15rem;
+    font-size: .9rem; 
+}
+
+.node__filter{
+    background-color: rgb(205, 205, 205);
+    color: #333;
+    border: none;
+    outline: none;
+    margin-left: .5rem;
+    border-radius: 2px;
+    font-size: .9rem;  
+}
+
+.search-icon{
+    width: 15px;
+    position: absolute;
+    top: .5rem;
+}
+
+.search-icon:hover{
+    cursor: pointer;
+    width: 17px;
+    padding: .1rem;
+    background: #777;
 }
 
 .project-container-single{
+    padding-left: 1rem;
+    padding-right: 1rem;
     display: grid;
-    grid-template-columns: auto;
-    row-gap:40px;
-    column-gap: 40px;
-    /*justify-content: flex-start;*/
-
-    white-space: nowrap;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap:1.75rem;
+    /*justify-items: center;*/
+    /*justify-items: stretch;
+    align-items: stretch;
+    align-content: stretch;
+    grid-auto-flow: column;*/
 }
 
 .btn-add-node{
     display: flex;
-    align-items: center;
     justify-content: center;
+    background: #333;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.project-title{
-    border: none;
-    background-color: transparent;
-    resize: none;
-    outline: none;
-    display: block;
-    font-size: 1.5em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
+.btn-add-node .btn.btn-menu{
+    background: black;
 }
 
-.drone-container-title{
-    font-size: 1.17em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
-    font-weight: bold;
+.items-head .instruct{
+    padding-top: 0;
+    /*over the screen*/
+    width: 75vw;
 }
 
+.sign-in.instruct{
+    text-decoration: underline;
+}
+
+.sign-in.instruct:hover,
+.sign-in.instruct:focus{
+    cursor: pointer;
+}
