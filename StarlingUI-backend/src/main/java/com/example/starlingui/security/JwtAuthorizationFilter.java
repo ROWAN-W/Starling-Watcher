@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -12,6 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -24,11 +28,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/login") || request.getServletPath().equals("/refresh") ||
-        request.getServletPath().equals("/design/initialize") || request.getServletPath().equals("/design/database") ||
-        request.getServletPath().equals("/monitor/*")) {
-            filterChain.doFilter(request, response);
-        } else {
+//        if (request.getServletPath().equals("/login") || request.getServletPath().equals("/refresh") ||
+//        request.getServletPath().equals("/design/initialize") || request.getServletPath().equals("/design/database") ||
+//        request.getServletPath().equals("/monitor/*")) {
+//            filterChain.doFilter(request, response);
+//        } else {
             try {
                 String authorizationHeader = request.getHeader(AUTHORIZATION);
                 Authentication authentication = jwtTokenUtil.verifyAccessToken(authorizationHeader);
@@ -38,6 +42,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 response.sendError(FORBIDDEN.value(), e.getMessage());
             }
-        }
+//        }
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        Set<String> skipUrls = new HashSet<>(Arrays.asList("/design/initialize",  "/login", "/refresh", "/monitor/*", "/design/database"));
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        return skipUrls.stream().anyMatch(path -> pathMatcher.match(path, request.getServletPath()));
     }
 }
