@@ -2,7 +2,6 @@ package com.example.starlingui.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -18,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
@@ -35,13 +34,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            response.sendError(FORBIDDEN.value(), e.getMessage());
+            response.sendError(UNAUTHORIZED.value(), e.getMessage());
         }
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        Set<String> skipUrls = new HashSet<>(Arrays.asList("/design/initialize",  "/login", "/refresh", "/monitor/*", "/design/database"));
+        Set<String> skipUrls = new HashSet<>(Arrays.asList("/design/initialize",  "/login",
+                "/refresh", "/monitor/*", "/design/database", "/register"));
         AntPathMatcher pathMatcher = new AntPathMatcher();
         return skipUrls.stream().anyMatch(path -> pathMatcher.match(path, request.getServletPath()));
     }

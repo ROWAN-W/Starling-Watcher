@@ -95,20 +95,6 @@ public class DesignController {
         }
     }
 
-     /** @Description Save a new user
-     * @param user User to be added to the database, contains name and password
-     * @return return User id and name, 403 if user already exists, return 200 if success
-     */
-    @PostMapping("/users")
-    public ResponseEntity<String> saveUser(@RequestBody StarlingUser user) {
-        try {
-            return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
-        } catch (Exception e) {
-            String errorJson = getErrorJson("Duplicate user name!");
-            return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
-        }
-    }
-
     /**
      * @Description Update the password of user
      * @param body Contains old password and new password

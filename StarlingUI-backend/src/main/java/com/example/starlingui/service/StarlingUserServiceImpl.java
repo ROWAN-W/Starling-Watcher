@@ -3,11 +3,10 @@ package com.example.starlingui.service;
 import com.example.starlingui.Dao.StarlingUserDao;
 import com.example.starlingui.model.Role;
 import com.example.starlingui.model.StarlingUser;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 @Service
@@ -71,16 +69,10 @@ public class StarlingUserServiceImpl implements StarlingService<StarlingUser>, U
         return jsonObject.toString();
     }
 
-    public String save(StarlingUser user) throws Exception {
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
+    public void save(StarlingUser user) throws DuplicateKeyException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(new Role("ROLE_USER"));
         userDao.save(user);
-        JsonObject userJson = (JsonObject) gson.toJsonTree(user);
-        userJson.remove("password");
-        userJson.remove("roles");
-        return gson.toJson(userJson);
     }
 
     public String showAll() {
@@ -96,7 +88,6 @@ public class StarlingUserServiceImpl implements StarlingService<StarlingUser>, U
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         StarlingUser user = getUserByName(username);
-//        return User.withUsername(user.getName()).password(user.getPassword()).build();
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         Collection<Role> roles = user.getRoles();
         for (Role role : roles) {
