@@ -3,6 +3,9 @@ package com.example.starlingui.controller;
 import com.example.starlingui.model.K8sContainer;
 import com.example.starlingui.model.domainNode;
 
+import com.example.starlingui.model.monitorNode;
+import com.example.starlingui.service.designNodeServiceImpl;
+
 import com.example.starlingui.service.monitorNodeServiceImpl;
 import com.google.gson.Gson;
 import io.kubernetes.client.PodLogs;
