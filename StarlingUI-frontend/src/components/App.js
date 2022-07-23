@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Deployment from "./Deployment";
 import Monitor from "./Monitor";
 import useFetch from "./useFetch";
+import ContainerTerminal from "./monitor-contianer/ContainerTerminal";
+import ContainerLogs from "./monitor-contianer/ContainerLogs";
 
 const LOCAL_STORAGE_KEY_USER = 'Starling.user';
 const LOCAL_STORAGE_KEY = 'Starling.user.projects';
@@ -45,6 +47,8 @@ function App() {
   const { error: projectError, isPending: projectPending , data:projectsData } = useFetch('http://localhost:8080/design/projects',[currentUserID],null)
   
   const [images, setImages] = useState([]);
+
+  const [navVisible,setNavVisible] = useState(true);
 
   /*useEffect(()=>{
     console.log("run when current user changes and store to storage");
@@ -139,7 +143,7 @@ function App() {
   return (
     <Router>
     <ProjectContext.Provider value={projectContextValue}>
-    <Navbar></Navbar>
+    <Navbar visible={navVisible}></Navbar>
     { (userError || projectError ) && <div className="project-title">{userError? userError : projectError}</div> }
     { (userPending || projectPending ) && <div className="project-title">Loading...</div> }
     { (users && projectsData ) && 
@@ -149,6 +153,12 @@ function App() {
       </Route>
       <Route path="/monitor">
         <Monitor></Monitor>
+      </Route>
+      <Route path="/terminal/:name/:namespace/:container">
+        <ContainerTerminal setVisible={setNavVisible}></ContainerTerminal>
+      </Route>
+      <Route path="/logs/:name/:namespace/:container">
+        <ContainerLogs setVisible={setNavVisible}></ContainerLogs>
       </Route>
     </Switch>
     }

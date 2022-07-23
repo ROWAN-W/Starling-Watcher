@@ -68,7 +68,15 @@ export default function MonitorContainer(props) {
 
     }, [props]);
 
-
+    const openTerminal = ()=>{
+        const w=window.open('about:blank');
+        let url = '/terminal';
+        url += '/' + props.podName
+            + '/' + props.namespace
+            + '/' + props.containerName
+        console.log(url);
+        w.location.href=url;
+    }
 
 
 
@@ -82,7 +90,6 @@ export default function MonitorContainer(props) {
 
                     <div className="container-info">
                         <p className="info-name">{props.containerName}</p>
-                        <p className="info-id">{props.containerID}</p>
                     </div>
 
 
@@ -90,7 +97,7 @@ export default function MonitorContainer(props) {
                         <div className="button-list">
                             <div className="container-menu">
                                 <button className="console-image"
-                                        onClick={() => setTerminalVisible(true)}
+                                        onClick={() => openTerminal()}
                                         disabled={buttonAvailable}></button>
                                 <button className="container-logs"
                                         onClick={() => setLogsVisible(true)}
