@@ -12,6 +12,8 @@
                         "id":"0",
                         "containerName":"echoserver",
                         "containerState":"running"
+                        
+                        
                     }
                 ]
             },
@@ -26,11 +28,11 @@
                         "id":"0",
                         "containerName":"nginx",
                         "containerState":"running"
-                        
                     }
+                        
+                    
                 ]
-            },
-            
+            }
         ],
         
         "id":"0",

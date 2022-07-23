@@ -63,7 +63,7 @@ public class monitorNodeServiceImpl implements NodeService{
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
-            if(item.getSpec().getNodeName().equals(nodeName)){
+            if(item.getSpec().getNodeName().equals(nodeName)&&!item.getMetadata().getNamespace().equals("kube-system")){
                 //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
                 monitorPod monitorPod =new monitorPod();
                 //System.out.println(String.valueOf(id));
