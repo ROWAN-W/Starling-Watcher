@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import User from "./user/User";
 import '../css/app.css';
 import Navbar from "./Navbar";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -126,6 +125,8 @@ function App() {
     projects,
     userData,
     images,
+    userSignIn,
+    setUserSignIn,
     setImages,
     setProjects,
     signInPage,
@@ -138,12 +139,9 @@ function App() {
   return (
     <Router>
     <ProjectContext.Provider value={projectContextValue}>
-    <div className="top-bar">
     <Navbar></Navbar>
-    { (users && projectsData ) && <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>}
-    </div>
-    { (userError || projectError ) && <div className="message">{ userError } {projectError}</div> }
-    { (userPending || projectPending ) && <div className="message">Loading...</div> }
+    { (userError || projectError ) && <div className="project-title">{userError? userError : projectError}</div> }
+    { (userPending || projectPending ) && <div className="project-title">Loading...</div> }
     { (users && projectsData ) && 
     <Switch>
       <Route exact path="/">

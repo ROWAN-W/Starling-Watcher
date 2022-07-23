@@ -7,6 +7,7 @@ import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
 import com.example.starlingui.service.designNodeServiceImpl;
 import com.example.starlingui.service.TemplatingServiceImp;
+import com.example.starlingui.service.uploadYMLServiceImpl;
 import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
@@ -19,10 +20,14 @@ import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.util.List;
 
 import java.util.Objects;
@@ -88,6 +93,63 @@ public class DesignController {
                     .body("Kubernetes API fail :" + ioException.getMessage());
         }
     }
+
+
+    /**
+     * @Description upload and deploy Yaml file
+     * @param file (MultipartFile)
+     * @return ResponseEntity<String>
+     */
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadYAML (@RequestParam("file") MultipartFile file) {
+        uploadYMLServiceImpl upload =new uploadYMLServiceImpl();
+        if (!file.isEmpty()) {
+
+            try {
+
+                byte[] bytes = file.getBytes();
+                File newFile=new File("temdir"+File.separator+file.getOriginalFilename());
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
+                stream.write(bytes);
+                stream.close();
+          
+               if(upload.validateYML(newFile)){
+                    if(upload.deployYML(newFile)){
+                        newFile.deleteOnExit();
+                    return ResponseEntity.ok("ok");}
+                    else{
+                        return ResponseEntity
+                                .status(404)
+                                .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                                .body("fail to deploy yaml file");
+                    }
+                }
+                else{
+                    return ResponseEntity
+                            .status(404)
+                            .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                            .body("invalid Yaml file");
+                }
+
+            } catch (IOException ioException) {
+                return ResponseEntity
+                        .status(404)
+                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                        .body(ioException.getMessage());
+            }
+
+
+        } else {
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Empty File");
+        }
+
+    }
+
+
 
     /** @Description Post request(with Body param)
      * @param designs Pod designs from user (name,config,mapping)
