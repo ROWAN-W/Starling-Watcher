@@ -1,10 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext} from 'react'
 import { ProjectContext } from '../App';
 import LoginIn from './LoginIn';
 import UserDropDown from './UserDropDown';
 import CreateAccount from './CreateAccount';
 import ManageAccount from './ManageAccount';
 import UnsavedWarning from './UnsavedWarning';
+import account_icon from '../img/account-svgrepo-com.svg';
 
 export default function User( {currentUser, userSignIn, setUserSignIn} ) {
 
@@ -26,7 +27,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
     }
 
     function handleUserManagement(){
-        if(userManagement==true){
+        if(userManagement===true){
             setUserManagement(false);
         }else{
             setUserManagement(true);
@@ -69,7 +70,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
         if(currentUser===undefined){
             return(
                 <>
-                <span onClick={()=>handleUserSignIn(true)}>Sign_in</span>
+                <span className='btn btn-nav' onClick={()=>handleUserSignIn(true)}>Sign in</span>
                 <LoginIn trigger={userSignIn} setTrigger={setUserSignIn} handleCreateNewAccount={handleCreateNewAccount}></LoginIn>
                 <CreateAccount trigger={createNewAccount} setTrigger={setCreateNewAccount}></CreateAccount>
                 </>
@@ -77,13 +78,11 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
         }else{
             return (
                 <>
-                <div onClick={()=>{handleUserManagement(); handleUserSignIn(false); }}>
-                    <button className="material-symbols-outlined">account_circle</button>
-                    <span>{currentUser.name}</span>
-                    <UserDropDown trigger={userManagement} setTrigger={setUserManagement} 
+                <span className='btn btn-nav' onClick={()=>{handleUserManagement(); handleUserSignIn(false)}}>
+                    <img className='account-icon' src={account_icon} alt="Account Icon"></img>{currentUser.name}</span>
+                <UserDropDown trigger={userManagement} setTrigger={setUserManagement} 
                     handleAccountManagement={handleAccountManagement}
-                    handleUserSignOut={handleUserSignOut}></UserDropDown>
-                </div>
+                    handleUserSignOut={handleUserSignOut}></UserDropDown>       
                 <ManageAccount trigger={accountManagement} setTrigger={setAccountManagement} currentUser={currentUser}></ManageAccount>
                 <UnsavedWarning trigger={unsavedWarning} setTrigger={setUnsavedWarning} unsavedProjectIDs={unsavedProjectIDs}></UnsavedWarning>
                 </>
@@ -92,6 +91,6 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
     }
   
 return (
-    <div className='user-tag'>{showUser()}</div>
+    <>{showUser()}</>
   )
 }

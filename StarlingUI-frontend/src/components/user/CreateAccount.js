@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { ProjectContext } from '../App';
+import logo from '../img/load.gif';
 
 export default function CreateAccount(props) {
 
@@ -44,7 +45,7 @@ export default function CreateAccount(props) {
         fetch(url,options)
         .then(res => {
           if (!res.ok) { // error coming back from server
-            throw Error('Create Account Failure. Error Details: '+"Duplicate user name!");
+            throw Error("Duplicate user name!");
           } 
           return res.json();
         })
@@ -57,9 +58,9 @@ export default function CreateAccount(props) {
           setInstruction("Success!");
           
           setTimeout(() => {
-            handleUserAdd(data.id,data.name);
             clearField();
             props.setTrigger(false);
+            handleUserAdd(data.id,data.name);
           }, 2000)
         })
         .catch(err => {
@@ -80,13 +81,17 @@ export default function CreateAccount(props) {
 
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
-            <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
-                <h3>Create Account</h3>
-                {createUserError && <h4>{createUserError}</h4>}
-                {waiting && <h4>Please wait...</h4>}
-                <h4>{instruction}</h4>
-                    <form onSubmit={handleSubmit}>
+            <div className='popup-projects-inner user'>
+            <div className='popup-header'>
+                <span className='popup-title'>Create Account</span>
+                <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+            </div>
+                    <form onSubmit={handleSubmit} className="form">
+                    {createUserError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{createUserError}</div>}
+                    {/*waiting && <h4>Please wait...</h4>*/}
+                    {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+                    {instruction!=='' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{instruction}</div>}
+                    <p></p>
                     <label 
                         htmlFor='userName'>User Name
                     </label>
@@ -123,7 +128,9 @@ export default function CreateAccount(props) {
                         >
                     </input>
                     <p></p>
-                    <button>Sign up</button>
+                    <div className='popup-footer single'>
+                    <button className='btn'>Sign up</button>
+                    </div>
                     </form>
             </div>
         </div>

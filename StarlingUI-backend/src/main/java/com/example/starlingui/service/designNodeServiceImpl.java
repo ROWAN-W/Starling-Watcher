@@ -33,7 +33,7 @@ public class designNodeServiceImpl implements NodeService {
         ApiClient client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
 
-        CoreV1Api api = new CoreV1Api();
+        CoreV1Api api = new CoreV1Api(client);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;

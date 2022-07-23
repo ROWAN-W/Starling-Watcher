@@ -1,6 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
 import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
+import axios from 'axios';
+import logo from '../../img/load.gif';
+import syncLogo from '../../img/sync-svgrepo-com-black.svg';
 
 export default function Deploy(props) {
 
@@ -9,7 +12,6 @@ export default function Deploy(props) {
     const [deployFeedback, setDeployFeedback] = useState('');
     const [sync, setSync] = useState(false);
     const [deployWaiting, setDeployWaiting] = useState(false);
-    
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -69,36 +71,73 @@ export default function Deploy(props) {
             }
             setDeployWaiting(true);
             setDeployFeedback('Deploying...');
-            //faking server response
-            setTimeout(() => {
+            
+            const url = "http://localhost:8080/design/templating";
+            
+            axios.post(url, props.selectedProject)
+            .then(res => {
+                console.log(res.data);
                 setDeployWaiting(false);
-                setDeployFeedback('Success!');
-            }, "2000")
+                setDeployFeedback('Success! Please check out in the monitor page');
+            })
+            .catch(err => {
+                setDeployWaiting(false);
+                setDeployFeedback(err.message);
+            })
+            
             return true;
         }
         setDeployFeedback('Please specify at least one drone for each design/deployment');
         return false;
     }
 
+    function showFeedback(){
+        if(deployFeedback===''){
+            return;
+        }
+
+        if(deployFeedback==='Deploying...'){
+            return(
+                <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />{deployFeedback}</h4>
+            )
+        }
+        else if(deployFeedback==='Success! Please check out in the monitor page'){
+            return(
+                <div className="success-msg wordwrap"><i className="fa fa-check"></i>{deployFeedback}</div>
+            )
+        }
+        else if(deployFeedback==='Request failed with status code 400'){
+            return(
+                <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{deployFeedback}</div>
+            )
+        }
+        else{
+            return(
+                <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{deployFeedback}</div>
+            )
+        }
+    }
+
     return (props.trigger) ? (
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
-                {!props.waiting && !deployWaiting && 
-                <>
-                <button className='popup-close-btn' onClick={()=>{props.setMinimize(null);props.setTrigger(false);
-                }}>&times;</button>
-                <button className='popup-hide-btn' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>Min</button>
-                </>}
-                <h3>Deploy Configuration to Drones</h3>
+            <div className='popup-projects-inner'>                
+                <div className='popup-header'>
+                    <span className='popup-title'>Deploy Configurations to Devices</span>
+                    {!props.waiting && !deployWaiting && 
+                    <div>
+                    <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
+                    <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>&times;</button>
+                    </div>}
+                </div>
                 {!props.waiting &&
-                    <>
-                    {!deployWaiting && <div className='drone-update-time'><button onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}>Sync Available Devices</button></div>}
-                    <div className='drone-update-time'>last sync: {props.updateTime}</div>
-                    </>
-                }             
-                {props.waiting && <div>Please wait...</div>}
-                {props.error && <div>No available devices</div>}
-
+                    <div className='sync-time'>
+                    {!deployWaiting && <img className="syncing" src={syncLogo} alt="sync" title="sync" onClick={()=>{setDeployFeedback('');props.handleUpdateTime();setSync(true);removeAllMappings()}}></img>}
+                    <span>last sync: {props.updateTime}</span>
+                    </div>
+                }
+                <div className='deploy'>
+                {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
+                {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                 {props.selectedProject.mapping.map(node=>{
                     //for displaying node name
                     const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)
@@ -115,14 +154,16 @@ export default function Deploy(props) {
                         ></DeployPerNode>
                     ) 
                 })}
-                <h4>{deployFeedback}</h4>
-                {!props.waiting && !deployWaiting && 
-                <div>
-                <button onClick={()=>{finalCheck()}}>Deploy</button>
-                <button onClick={()=>{props.setMinimize(null);props.setTrigger(false);
-                }}>Close</button>
                 </div>
-                }     
+                {showFeedback()}
+                                
+                {!props.waiting && !deployWaiting && 
+                <div className='popup-footer normal deploy-display'>
+                <button className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
+                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
+                </div>
+                }
+                     
             </div>
         </div>
       ): ""
