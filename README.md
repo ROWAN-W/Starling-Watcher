@@ -9,9 +9,7 @@
 | Get | /design/users | get id and name of all users || 
 | Get | /design/initialize | delete all users in database and insert three sample users(test only) ||
 | Get | /design/database | show all information of users in database(test only) ||
-| Get | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
-| Get | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
-
+| Get | /design/available-nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
 
 ### Develop tools
 mongoDB install  [video tutorial](https://www.youtube.com/watch?v=Ph1Z97X6xno&t=448s)--- [mongoDB Community Server](https://www.mongodb.com/try/download/community)
