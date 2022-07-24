@@ -1,17 +1,13 @@
 import {useState, useEffect} from "react";
 import React from "react";
-import Popup from "./Popup";
-import Logs from "./Logs";
 import {BarLoader} from 'react-spinners';
 import axios from "axios";
 
 
 
 export default function MonitorContainer(props) {
-    const [terminalVisible, setTerminalVisible] = useState(false);
     const [containerStatus, setContainerStatus] = useState("#32e6b7");
     const [buttonAvailable, setButtonAvailable] = useState(false);
-    const [logsVisible, setLogsVisible] = useState(false);
     const [reboot, setReboot] = useState(false);
 
     const override = `
@@ -20,8 +16,6 @@ export default function MonitorContainer(props) {
     `;
     function change(){
         setReboot((prevState)=>!reboot);
-        setTerminalVisible(false);
-        setLogsVisible(false);
         let url = 'http://localhost:8080/monitor/restart/';
         url += props.namespace + '/' + props.podName;
         axios.delete(url)
@@ -78,6 +72,15 @@ export default function MonitorContainer(props) {
         w.location.href=url;
     }
 
+    const openLogs = ()=>{
+        const w=window.open('about:blank');
+        let url = '/logs';
+        url += '/' + props.podName
+            + '/' + props.namespace
+            + '/' + props.containerName
+        console.log(url);
+        w.location.href=url;
+    }
 
 
     return (
@@ -100,33 +103,14 @@ export default function MonitorContainer(props) {
                                         onClick={() => openTerminal()}
                                         disabled={buttonAvailable}></button>
                                 <button className="container-logs"
-                                        onClick={() => setLogsVisible(true)}
+                                        onClick={() => openLogs()}
                                         disabled={buttonAvailable}></button>
 
                             </div>
                             <button className="container-restart"
                                     onClick={change}>Restart</button>
                         </div>
-
-
-
                     }
-
-
-                    <Popup
-                        terminalVisible={terminalVisible}
-                        setVisible={setTerminalVisible}
-                        id={props.containerName + props.namespace + "terminal"}
-                        pod={props.podName}
-                        namespace={props.namespace}
-                        container={props.containerName}></Popup>
-                    <Logs
-                        LogsVisible={logsVisible}
-                        setVisible={setLogsVisible}
-                        id={props.containerName + props.namespace + "logs"}
-                        pod={props.podName}
-                        namespace={props.namespace}
-                        container={props.containerName}></Logs>
                 </div>
             </div>
         </>
