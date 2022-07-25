@@ -58,8 +58,8 @@ jobs:
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
-        username: oshia
-        password: Oshia850315@010928
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
