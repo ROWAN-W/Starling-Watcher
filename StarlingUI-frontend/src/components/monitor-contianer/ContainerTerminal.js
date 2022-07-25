@@ -7,14 +7,14 @@ import {useEffect} from "react";
 let socket;
 let cols;
 let rows;
-
+const fitAddon = new FitAddon();
 export default function ContainerTerminal(){
 
 
     const { name,namespace,container } = useParams();
     //console.log(name,namespace,container);
 
-    const fitAddon = new FitAddon();
+
 
 
     useEffect(() => {

@@ -6,10 +6,13 @@
 @import 'drone.css';
 @import 'navbar.css';
 @import 'upload.css';
-@import "monitor.css";
+@import "monitor/monitor.css";
 @import "terminal.css";
 @import 'message.css';
-@import 'monitor.css';
+@import 'monitor/monitor.css';
+@import "monitor/monitorNode.css";
+@import "monitor/monitorPod.css";
+@import "monitor/monitorContainer.css";
 
 
 * {

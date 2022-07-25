@@ -174,7 +174,7 @@ function App() {
             <Route path="/terminal/:name/:namespace/:container">
                 <ContainerTerminal></ContainerTerminal>
             </Route>
-            <Route path="/logs">
+            <Route path="/logs/:name/:namespace/:container">
                 <ContainerLogs></ContainerLogs>
             </Route>
         </Router>

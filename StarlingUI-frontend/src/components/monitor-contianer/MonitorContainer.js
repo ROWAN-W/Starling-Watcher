@@ -8,34 +8,17 @@ import axios from "axios";
 export default function MonitorContainer(props) {
     const [containerStatus, setContainerStatus] = useState("#32e6b7");
     const [buttonAvailable, setButtonAvailable] = useState(false);
-    const [reboot, setReboot] = useState(false);
 
     const override = `
         display: block;
         margin: 0 auto;
     `;
-    function change(){
-        setReboot((prevState)=>!reboot);
-        let url = 'http://localhost:8080/monitor/restart/';
-        url += props.namespace + '/' + props.podName;
-        axios.delete(url)
-            .then(function (response){
-                console.log(response);
-            })
-            .catch(function (error){
-                console.log(error);
-            });
 
-        setTimeout(()=>{
-            props.getNodes();
-            setReboot(false);
-        },3000);
-    }
 
 
 
     const style = {
-        loading: reboot,
+        loading: props.reboot,
         size: 30,
         width:250,
         css:override,
@@ -96,19 +79,14 @@ export default function MonitorContainer(props) {
                     </div>
 
 
-                    {reboot?<BarLoader {...style} />:
+                    {props.reboot?<BarLoader {...style} />:
                         <div className="button-list">
-                            <div className="container-menu">
                                 <button className="console-image"
                                         onClick={() => openTerminal()}
                                         disabled={buttonAvailable}></button>
                                 <button className="container-logs"
                                         onClick={() => openLogs()}
                                         disabled={buttonAvailable}></button>
-
-                            </div>
-                            <button className="container-restart"
-                                    onClick={change}>Restart</button>
                         </div>
                     }
                 </div>
