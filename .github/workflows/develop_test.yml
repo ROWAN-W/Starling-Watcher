@@ -8,8 +8,6 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
-  issue_comment:
-    types: [created, deleted]
     
 
 jobs:
@@ -19,6 +17,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - run: |
+        for commit in $(git rev-list ${{origin/main}}); do
+            git checkout $commit
+            echo "run test"
+        done
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
