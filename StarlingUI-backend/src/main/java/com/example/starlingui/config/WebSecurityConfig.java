@@ -36,7 +36,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
-                .csrf().disable().cors().disable().authorizeHttpRequests()
+                .csrf().disable().authorizeHttpRequests()
                 .antMatchers("/design/initialize",  "/login", "/refresh",
                         "/monitor/*", "/design/database", "/register").permitAll()
                 .anyRequest().authenticated();
