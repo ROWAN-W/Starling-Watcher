@@ -1,12 +1,13 @@
 import MonitorContainer from "./MonitorContainer";
 import React, {useEffect, useState} from "react";
+import MonitorPod from "./MonitorPod";
 
 
 
 export default function MonitorNode(props){
-    const [containers ,setContainers] = useState(null);
+    const [pods ,setPods] = useState(null);
     useEffect(() => {
-        setContainers(props.containers);
+        setPods(props.pods);
     }, [props]);
 
     return(
@@ -17,10 +18,10 @@ export default function MonitorNode(props){
                     <span>{props.nodeName}</span>
                 </div>
                 <div className="card-container">
-                    {containers?.map(container=>{
-                        return <MonitorContainer
+                    {pods?.map(pod=>{
+                        return <MonitorPod
                             getNodes={props.getNodes}
-                            {...container}></MonitorContainer>
+                            {...pod}></MonitorPod>
                     })}
                 </div>
             </div>

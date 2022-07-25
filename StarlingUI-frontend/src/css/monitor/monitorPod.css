@@ -1,0 +1,35 @@
+.pod {
+    margin-bottom: 20px;
+}
+
+.pod-info {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+
+}
+
+.pod-name {
+    margin-left: 10px;
+    width: 150px;
+    color: #C3C0C0;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.container-restart {
+    margin-right: 40px;
+    background-color: transparent;
+    color: #dc5671;
+    justify-content: center;
+    border: 2px solid #dc5671;
+    border-radius:8px;
+    width: 65px;
+}
+
+.container-restart:hover {
+    background-color: #dc5671;
+    color: white;
+}

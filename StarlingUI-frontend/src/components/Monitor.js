@@ -26,7 +26,6 @@ export default function Monitor() {
             .catch(function (error) {
                 setError(error);
                 setWaiting(false);
-                setData();
                 console.log(error);
                 setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
             });
@@ -35,6 +34,10 @@ export default function Monitor() {
 
     useEffect(() => {
         getNodeStatus();
+        const interval=setInterval(
+            ()=>{ getNodeStatus();},30000
+        )
+        return ()=>clearInterval(interval)
     }, []);
 
 
@@ -42,7 +45,6 @@ export default function Monitor() {
       <>
         <div className="monitor">
           <div className="node-container-title">
-              <h1 className="drone-status-title">Drone Status</h1>
               <div className='monitor-syn'>
                 {waiting && <div className='drone-update-time drone monitor'><img className="loading monitor" src={logo} alt="loading..." />Please wait...</div>}
                 {error && <div className='drone-update-time drone monitor error'><img className="syncing monitor" src={sync} alt="sync" title="sync" onClick={()=>getNodeStatus()}/>Failed to sync.</div>}
