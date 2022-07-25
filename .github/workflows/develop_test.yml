@@ -10,8 +10,6 @@ on:
     branches: [ "develop" ]
   workflow_run:
     branches: [ "develop" ]
-  commit_comment:
-    branches: [ "develop" ]
     
 
 jobs:
