@@ -60,3 +60,4 @@ jobs:
       with:
         push: true
         tags: oshia/test:version1
+        
