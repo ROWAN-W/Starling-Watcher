@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 import React from "react";
 import {BarLoader} from 'react-spinners';
-import axios from "axios";
 
 
 
@@ -13,9 +12,6 @@ export default function MonitorContainer(props) {
         display: block;
         margin: 0 auto;
     `;
-
-
-
 
     const style = {
         loading: props.reboot,

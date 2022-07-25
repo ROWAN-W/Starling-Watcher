@@ -65,7 +65,7 @@
     height: 40px;
     width: 200px;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 20px;
     display: flex;
     justify-content: right;
 }
@@ -84,6 +84,7 @@
     background: url("../monitorImage/console_active.png") no-repeat center;
     border-style: none;
     background-size: 80%;
+    margin-right: 15px;
 }
 
 .console-image:hover {

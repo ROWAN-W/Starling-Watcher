@@ -26,7 +26,6 @@ export default function Monitor() {
             .catch(function (error) {
                 setError(error);
                 setWaiting(false);
-                setData();
                 console.log(error);
                 setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
             });
@@ -35,6 +34,10 @@ export default function Monitor() {
 
     useEffect(() => {
         getNodeStatus();
+        const interval=setInterval(
+            ()=>{ getNodeStatus();},30000
+        )
+        return ()=>clearInterval(interval)
     }, []);
 
 
