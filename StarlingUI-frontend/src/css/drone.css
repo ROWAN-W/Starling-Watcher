@@ -93,17 +93,15 @@
 }
 
 .drone-container .table-wrapper .fl-table tr{
-    background: hsl(200, 100%, 10%);
+    /*background: hsl(200, 100%, 10%);*/
+    background: #333;
     color: #f2f2f2;
     font-size: 1rem;
 }
 
-.drone-container .table-wrapper .fl-table tr:hover{
-    background: hsl(200, 100%, 15%);
-}
-
 .drone-more-info{
-    background: hsl(200, 100%, 20%);
+    /*background: hsl(200, 100%, 15%);*/
+    background: #333;
 }
 
 .drone-more-info:hover,

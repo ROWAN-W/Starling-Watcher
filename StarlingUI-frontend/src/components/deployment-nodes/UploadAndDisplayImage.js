@@ -14,11 +14,9 @@ export default function UploadAndDisplayImage({options, selectedImage, setSelect
         )}
         <div>
             <select className='dropdown-select picture-select' value={selectedImage} onChange={e=>{setSelectedImage(e.target.value)}}>
-                <option value={options[0]} >Simple-Drone</option>
-                <option value={options[1]} >Simple-Computer</option>
-                <option value={options[2]} >Circle-Drone</option>
-                <option value={options[3]} >Circle-Computer</option>
-                <option value={options[4]} >None</option>
+                <option value={options[0]} >Circle-Drone</option>
+                <option value={options[1]} >Circle-Computer</option>
+                <option value={options[2]} >None</option>
             </select></div>
         </div>
       </>

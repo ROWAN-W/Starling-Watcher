@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class monitorContainer {
     private String id;
     private String containerName;
-    private String containerID;
+    //private String containerID;
 
     private String podName;
     private String namespace;
@@ -34,9 +34,11 @@ public class monitorContainer {
         return id;
     }
 
-    public void setContainerID(String containerID) {
+   /* public void setContainerID(String containerID) {
         this.containerID = containerID;
     }
+
+    */
 
 
     public void setNamespace(String namespace) {

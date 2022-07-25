@@ -112,7 +112,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     function showPicture(kind){
         //const options = [drone, master, null];        
         if(masterPic!=='None' && dronePic!=='None'){
-            const sizeSetting = ["drone-icon", "computer-icon","circle-drone-icon", "circle-computer-icon"];
+            const sizeSetting = ["circle-drone-icon", "circle-computer-icon"];
             if(kind==='master'){
                 const sizeSettingIndex = options.findIndex(element=>element===masterPic);
                 return(
@@ -162,7 +162,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         
         <div className='drone-icon-container' onClick={()=>setSetting(true)}>{showPicture(node.kind)}</div>
         
-        <div className={masterPic==='None'||dronePic==='None'? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop} style={{background: isOver? "hsl(200, 100%, 40%)": "hsl(200, 100%, 20%)"}}>
+        <div className={masterPic==='None'||dronePic==='None'? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop} style={{background: isOver? "#444": "#1a1a1a"}}>
             <div className='node-image-tag-number'>
                 <p className='image-number'>Number of images: {node.containers.length}</p>
                 <button className='btn btn-small btn-menu btn-pill' onClick={()=>handleImageAllDelete()}>Clear All</button>

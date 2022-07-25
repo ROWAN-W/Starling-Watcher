@@ -28,7 +28,7 @@
   margin: 0 .5rem 0 .5rem;  
 }
 
-.nav-list a:hover {
+.nav-list.click {
   color: #CCC;
   padding-bottom: .2rem;
   border-bottom: 1.5px solid  hsl(200, 100%, 80%);

@@ -1,18 +1,12 @@
 package com.example.starlingui.service;
 
-
-import com.example.starlingui.model.domainNode;
-import com.example.starlingui.model.monitorContainer;
-import com.example.starlingui.model.monitorPod;
-import com.example.starlingui.model.monitorNode;
+import com.example.starlingui.model.*;
+import io.fabric8.kubernetes.api.model.Pod;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
-import io.kubernetes.client.openapi.models.V1Node;
-import io.kubernetes.client.openapi.models.V1NodeList;
-import io.kubernetes.client.openapi.models.V1Pod;
-import io.kubernetes.client.openapi.models.V1PodList;
+import io.kubernetes.client.openapi.models.*;
 import io.kubernetes.client.util.Config;
 
 import java.io.IOException;
@@ -45,9 +39,9 @@ public class monitorNodeServiceImpl implements NodeService{
             node.setId(String.valueOf(id));
             //System.out.println(item.getMetadata().getName());
             node.setNodeName(item.getMetadata().getName());
-
+            node.setHostname(item.getStatus().getAddresses().get(1).getAddress());
             //get pods
-            node.setContainers(getContainersOfNode(node.getNodeName(),api));
+            node.setPods(getPodsOfNode(node.getNodeName(),api));
 
             nodes.add(node);
             id++;
@@ -63,27 +57,30 @@ public class monitorNodeServiceImpl implements NodeService{
      * @return List<Pod>
      * @throws ApiException
      */
-    private List<monitorContainer> getContainersOfNode (String nodeName, CoreV1Api api) throws ApiException{
-
-        ArrayList<monitorContainer> containers =new ArrayList<>();
+    private List<monitorPod> getPodsOfNode (String nodeName, CoreV1Api api) throws ApiException{
+        int id=0;
+        ArrayList<monitorPod> monitorPods =new ArrayList<>();
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
-            if(item.getSpec().getNodeName().equals(nodeName)){
-
+            if(item.getSpec().getNodeName().equals(nodeName)&&!item.getMetadata().getNamespace().equals("kube-system")){
+                //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
+                monitorPod monitorPod =new monitorPod();
+                //System.out.println(String.valueOf(id));
+                monitorPod.setId(String.valueOf(id));
+                //System.out.println(item.getMetadata().getName());
+                monitorPod.setPodName(item.getMetadata().getName());
+                //System.out.println(item.getMetadata().getNamespace());
+                monitorPod.setNamespace(item.getMetadata().getNamespace());
                 //get containers
-               containers.addAll(getContainersOfPod(item,item.getMetadata().getName(),item.getMetadata().getNamespace()));
-
-
+                monitorPod.setContainers(getContainersOfPod(item));
+                monitorPods.add(monitorPod);
+                id++;
             }
 
 
         }
-
-        for(int i=0;i<containers.size();i++){
-            containers.get(i).setId(String.valueOf(i));
-        }
-        return containers;
+        return monitorPods;
     }
 
 
@@ -94,35 +91,36 @@ public class monitorNodeServiceImpl implements NodeService{
      * @throws ApiException
      */
 
-    private List<monitorContainer> getContainersOfPod (V1Pod pod, String PodName,String NameSpace) throws ApiException{
-        ArrayList<monitorContainer> containers =new ArrayList<>();
+    private List<monitorContainer> getContainersOfPod (V1Pod pod) throws ApiException{
+        ArrayList<monitorContainer> monitorContainers =new ArrayList<>();
+        int id=0;
 
-        for(int i=0;i<pod.getStatus().getContainerStatuses().size();i++){
-            monitorContainer container =new monitorContainer();
-            container.setNamespace(NameSpace);
-            container.setPodName(PodName);
+        for(V1ContainerStatus containerStatus: pod.getStatus().getContainerStatuses()){
+            monitorContainer monitorContainer =new monitorContainer();
+            //System.out.println(String.valueOf(id));
+            monitorContainer.setId(String.valueOf(id));
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getName());
-            container.setContainerName(pod.getStatus().getContainerStatuses().get(i).getName());
+            monitorContainer.setContainerName(containerStatus.getName());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getContainerID());
-            container.setContainerID(pod.getStatus().getContainerStatuses().get(i).getContainerID());
+           // domainContainer.setId(pod.getStatus().getContainerStatuses().get(i).getContainerID());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated());
-            if(pod.getStatus().getContainerStatuses().get(i).getState().getRunning()!=null){
-                container.setContainerState("running");
+            if(containerStatus.getState().getRunning()!=null){
+                monitorContainer.setContainerState("running");
             }
-            else if(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated()!=null){
-                container.setContainerState("terminated");
+            else if(containerStatus.getState().getTerminated()!=null){
+                monitorContainer.setContainerState("terminated");
             }
-            else if(pod.getStatus().getContainerStatuses().get(i).getState().getWaiting()!=null){
-                container.setContainerState("waiting");
+            else if(containerStatus.getState().getWaiting()!=null){
+                monitorContainer.setContainerState("waiting");
             }
             else{
-                container.setContainerState("null");
+                monitorContainer.setContainerState("null");
             }
-            containers.add(container);
-
+            monitorContainers.add(monitorContainer);
+            id++;
         }
 
-        return containers;
+        return monitorContainers;
     }
 
 
