@@ -8,7 +8,7 @@ export default function Drone(props) {
     return (
         <>
         <tbody>
-        <tr title="more info" onClick={()=>setShowInfo(prev=>!prev)} style={{background: showInfo? "hsl(200, 100%, 15%)": "hsl(200, 100%, 10%)"}}>
+        <tr title="more info" onClick={()=>setShowInfo(prev=>!prev)} style={{background: showInfo? "#333": "rgba(12, 10, 11, 0.8)"}}>
             <td>{props.nodeName}</td>
             <td>{props.hostname}</td>
             <td>{props.ip}</td>

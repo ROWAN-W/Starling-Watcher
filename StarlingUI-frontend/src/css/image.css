@@ -94,7 +94,8 @@
 }
 
 .items {
-    background: #333;
+    /*background: #333;*/
+    background: rgba(77, 77, 77, .5);
     box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
   }
   
@@ -120,9 +121,10 @@
   .items-body-content {
     align-items: center;
     border-radius:5px;
-    background: hsl(200, 100%, 10%);
+    /*background: hsl(200, 100%, 10%);*/
+    background: #333;
     color: #f2f2f2;
-    padding: 1.2rem .75rem;
+    padding: 1rem .75rem;
     
     display: grid;
     grid-template-columns: 10fr 1fr;

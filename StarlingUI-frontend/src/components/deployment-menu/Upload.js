@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Upload(props) {
 
-    
+    const [namespace, setNamespace] = useState('');
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
@@ -15,6 +15,7 @@ export default function Upload(props) {
             return;
         }
         const fd = new FormData();
+        fd.append('namespace',namespace);
         fd.append('file',selectedFile);
         axios.post("http://localhost:8080/design/upload",fd, {
             headers: {
@@ -28,7 +29,7 @@ export default function Upload(props) {
         .catch(err => {
             setIsPending(false);
             if(err.message==="Request failed with status code 404"){
-                setResult("Invalid YAML file.");
+                setResult("Invalid YAML file/ Fail to deploy.");
             }
             else{
                 setResult(err.message);
@@ -43,9 +44,11 @@ export default function Upload(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsPending(true);
-        setResult('Please wait...');
-        handleFileUpload();
+        if(namespaceCheck(namespace)){
+            setIsPending(true);
+            setResult('Please wait...');
+            handleFileUpload();
+        }
     }
 
 
@@ -70,6 +73,28 @@ export default function Upload(props) {
         }
     }
 
+    function namespaceCheck(value){
+        if(value!==''){
+            for (let i = 0; i < value.length; i++) {
+            let code = value.charCodeAt(i);
+            if ((code !== 45) && // '-'
+                !(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+                
+                console.log("contain only lowercase alphanumeric characters or '-'");
+                setResult("Namespace can only contain '-' or lowercase alphanumeric characters")
+                return false;
+                }
+            }
+            if(value.charCodeAt(0)===45 || value.charCodeAt(value.length-1)===45){
+                console.log("start/end with an alphanumeric character");
+                setResult("Namespace can only start/end with an alphanumeric character")
+                return false;
+            }
+        }
+        return true;
+    }
+
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
@@ -77,15 +102,34 @@ export default function Upload(props) {
                 <span className='popup-title'>Upload file (YAML/YML) & Deploy</span>
                 {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
             </div>
-                <form method="post" action="#" id="#" onSubmit={handleSubmit} className="form">
+                <form method="post" action="#" id="#" onSubmit={handleSubmit} className="advanced-setting-form">
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                     {!savePending && result!=='' && result!=='Success' && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{result}</div>}
                     {result==='Success' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{result}</div>}
-                    
-                    <div className="files">
-                        <input type="file" required 
-                        onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}}/>
+                    <div className='popup-major stack'>
+                    <label 
+                        htmlFor='namespace' className='popup-major-key major'>Namespace<span className='required'>*</span>
+                    </label>
+                    <input 
+                        type='text' 
+                        name='namespace' 
+                        id='namespace'
+                        value={namespace}
+                        required
+                        maxLength = {63}
+                        onChange={e=>setNamespace(e.target.value)}
+                        className="width-100"
+                        >
+                    </input>
                     </div>
+                    <div className='popup-major stack'>                    
+                    <label 
+                        htmlFor='file' className='popup-major-key major'>YAML/YML<span className='required'>*</span>
+                    </label>
+                    <input type="file" required 
+                        onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}} className="width-100"/>
+                    </div>
+                    <br></br>
                     <div className='popup-footer single'>
                         {selectedFile && <button className='btn' type='submit'>Deploy</button>}
                     </div> 
