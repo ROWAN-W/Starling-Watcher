@@ -38,7 +38,7 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
      * Establish the connection
      */
     public void afterConnectionEstablished(WebSocketSession session) throws IOException {
-        //System.out.println(shellConnectionMap.size());
+        System.out.println(LogsConnectionMap.size());
         //whether the thread number larger than pool size or not
         if(LogsConnectionMap.size() < ThreadPoolSize){
             //if it's a new session then build a new thread
@@ -62,13 +62,20 @@ public class MonitorLogsHandler extends TextWebSocketHandler {
      * close and remove the connection of session
      */
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws IOException {
-        session.close();
         if(LogsConnectionMap.containsKey(session)) {
             LogsConnectionMap.get(session).setRunningStatus(false);
             LogsConnectionMap.remove(session);
         }
+        threadPoolExecutor.shutdown();
+        System.out.println("logs close");
     }
 
+
+    @Override
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
+
+
+    }
 
     /**
      * error handler

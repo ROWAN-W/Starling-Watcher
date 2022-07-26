@@ -6,6 +6,7 @@ import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.util.Config;
+import io.kubernetes.client.util.Streams;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ContainerLogsConnection implements Runnable {
 
@@ -68,6 +70,7 @@ public class ContainerLogsConnection implements Runnable {
                     session.sendMessage(textMessage);
                 }
             }
+            logContent.close();
         } catch (IOException e) {
             System.out.println("Pipe closed");
         } finally {
