@@ -1,5 +1,6 @@
 package com.example.starlingui;
 
+import com.example.starlingui.exceptions.StarlingException;
 import com.example.starlingui.model.User;
 import com.google.gson.Gson;
 
@@ -25,8 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +35,7 @@ import java.io.*;
 
 
 
-import com.example.starlingui.service.uploadYMLServiceImpl;
+import com.example.starlingui.service.uploadYAMLServiceImpl;
 
 
 @RunWith(SpringRunner.class)
@@ -98,7 +98,7 @@ public class DesignControllerTest {
     public void testController() throws Exception {
         ResultMatcher ok = MockMvcResultMatchers.status().isOk();
 
-        String fileName = "sample.yaml";
+        String fileName = "k8.ros_monitor.amd64.yaml";
         File file = new File( "Yaml"+File.separator+fileName);
 
         Resource fileResource = new ClassPathResource("Yaml"+File.separator+fileName);
@@ -114,7 +114,7 @@ public class DesignControllerTest {
         // deployed sample.yaml
         MvcResult andReturn = mockMvc.perform(MockMvcRequestBuilders
                         .multipart("http://localhost:8080/design/upload")
-                        .file(firstFile))
+                        .file(firstFile).param("namespace", "default"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -122,7 +122,7 @@ public class DesignControllerTest {
         //test that sample.yaml is already deployed
         MvcResult andReturnFalse = mockMvc.perform(MockMvcRequestBuilders
                 .multipart("http://localhost:8080/design/upload")
-           .file(firstFile))
+           .file(firstFile).param("namespace", "default"))
             .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andReturn();
@@ -136,16 +136,24 @@ public class DesignControllerTest {
 
     @Test public void testYamlValidator(){
 
-      uploadYMLServiceImpl upload=new uploadYMLServiceImpl();
+      uploadYAMLServiceImpl upload=new uploadYAMLServiceImpl();
 
 
       // test valid yaml file
       File file=new File( "Yaml" +File.separator+"sample.yaml");
-      assertTrue(upload.validateYML(file));
+      try{upload.validateYAML(file);}catch (Exception e){
+          fail("Should not have thrown any exception");
+      }
 
       // test invalid yaml file
         File invalidFile=new File( "Yaml" +File.separator+"invalidSample.yaml");
-        assertTrue(!upload.validateYML(invalidFile));
+        StarlingException thrown = assertThrows(
+                StarlingException.class,
+                () -> upload.validateYAML(invalidFile),
+                "Expected validateYAML() to throw, but it didn't"
+        );
+
+        assertTrue(thrown.getMessage().contains("Stuff"));
 
     }
 /*
