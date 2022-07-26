@@ -1,5 +1,6 @@
 package com.example.starlingui.controller;
 
+import com.example.starlingui.exceptions.StarlingException;
 import com.example.starlingui.model.Design;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.domainNode;
@@ -7,7 +8,7 @@ import com.example.starlingui.model.User;
 import com.example.starlingui.service.DockerHubServiceImpl;
 import com.example.starlingui.service.designNodeServiceImpl;
 import com.example.starlingui.service.TemplatingServiceImp;
-import com.example.starlingui.service.uploadYMLServiceImpl;
+import com.example.starlingui.service.uploadYAMLServiceImpl;
 import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
@@ -28,6 +29,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Part;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Objects;
@@ -95,6 +97,24 @@ public class DesignController {
     }
 
 
+    // function to delete subdirectories and files
+    private void deleteDirectory(File file)
+    {
+        // store all the paths of files and folders present
+        // inside directory
+        for (File subfile : file.listFiles()) {
+
+            // recursively call function to empty subfolder
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+
+            // delete files and empty subfolders
+            subfile.delete();
+        }
+    }
+
+
     /**
      * @Description upload and deploy Yaml file
      * @param file (MultipartFile)
@@ -102,51 +122,26 @@ public class DesignController {
      */
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadYAML (@RequestParam("file") MultipartFile file) {
-        uploadYMLServiceImpl upload =new uploadYMLServiceImpl();
-        if (!file.isEmpty()) {
+    public ResponseEntity<String> uploadYAML (@RequestParam("file") MultipartFile file, @RequestParam("namespace") String namespace) {
 
-            try {
+        File temDir=new File("temdir");
+        //clear temdir at start
+        deleteDirectory(temDir);
+        temDir.mkdir();
+        uploadYAMLServiceImpl upload =new uploadYAMLServiceImpl();
+        File parts=new File("temDir"+File.separator+file.getOriginalFilename().stripTrailing()+"Parts");
+        parts.mkdir();
 
-                byte[] bytes = file.getBytes();
-                File newFile=new File("temdir"+File.separator+file.getOriginalFilename());
-                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
-                stream.write(bytes);
-                stream.close();
-          
-               if(upload.validateYML(newFile)){
-                    if(upload.deployYML(newFile)){
-                        newFile.deleteOnExit();
-                    return ResponseEntity.ok("ok");}
-                    else{
-                        return ResponseEntity
-                                .status(404)
-                                .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                                .body("fail to deploy yaml file");
-                    }
-                }
-                else{
-                    return ResponseEntity
-                            .status(404)
-                            .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                            .body("invalid Yaml file");
-                }
-
-            } catch (IOException ioException) {
-                return ResponseEntity
-                        .status(404)
-                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                        .body(ioException.getMessage());
-            }
-
-
-        } else {
+        try{
+           upload.processYAML(file,namespace);
+        }catch (StarlingException starlingException){
             return ResponseEntity
                     .status(404)
                     .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("Empty File");
+                    .body(starlingException.getMessage());
         }
 
+        return ResponseEntity.ok("deployed");
     }
 
 
