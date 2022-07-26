@@ -150,25 +150,21 @@ function App() {
     return (
         <Router>
             <ProjectContext.Provider value={projectContextValue}>
-
-                {(userError || projectError) &&
-                    <div className="project-title">{userError ? userError : projectError}</div>}
-                {(userPending || projectPending) && <div className="project-title">Loading...</div>}
-                {(users && projectsData) &&
                     <Switch>
                         <Route exact path="/">
                             <Navbar></Navbar>
+                            {(userError || projectError) &&
+                            <div className="project-title">{userError ? userError : projectError}</div>}
+                            {(userPending || projectPending) && <div className="project-title">Loading...</div>}
+                            {(users && projectsData) &&
                             <Deployment
-                                selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>
+                                selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>}
                         </Route>
                         <Route path="/monitor">
                             <Navbar></Navbar>
                             <Monitor></Monitor>
                         </Route>
-
-
                     </Switch>
-                }
             </ProjectContext.Provider>
 
             <Route path="/terminal/:name/:namespace/:container">
