@@ -15,12 +15,13 @@ export default function ContainerLogs(){
 
     useEffect(() => {
         cols=parseInt(document.body.clientWidth /9)
-        rows=parseInt(document.body.clientHeight / 20)
+        rows=parseInt(document.body.clientHeight / 18)
         const logs = new Terminal({
             convertEol: true,
             cursorBlink: true,
             rows:rows,
             cols:cols,
+            fontSize: 18,
             fontFamily: `'Fira Mono', monospace`,
             theme: {
                 foreground: '#FFF',
