@@ -84,8 +84,7 @@ public class ShellConnection implements Runnable {
         String namespace = container.getNamespace();
         String containerName = container.getContainerName();
 
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
+
 
         boolean tty = true;
         boolean initValid = true;

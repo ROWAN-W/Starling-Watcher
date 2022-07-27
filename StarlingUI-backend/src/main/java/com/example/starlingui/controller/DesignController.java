@@ -129,7 +129,7 @@ public class DesignController {
         deleteDirectory(temDir);
         temDir.mkdir();
         uploadYAMLServiceImpl upload =new uploadYAMLServiceImpl();
-        File parts=new File("temDir"+File.separator+file.getOriginalFilename().stripTrailing()+"Parts");
+        File parts=new File("temdir"+File.separator+"Parts");
         parts.mkdir();
 
         try{

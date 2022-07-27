@@ -10,13 +10,25 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.fabric8.kubernetes.client.KubernetesClientException;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.yaml.snakeyaml.Yaml;
+
+
+
+import java.io.File;
+import org.springframework.util.ResourceUtils;
+import io.fabric8.kubernetes.api.model.metrics.v1beta1.NodeMetrics;
+import io.fabric8.kubernetes.api.model.metrics.v1beta1.NodeMetricsList;
+import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClient;
 
 public class uploadYAMLServiceImpl implements uploadYAMLService {
 
@@ -28,7 +40,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
         String firstLine = buffReader.readLine();
         String newline = System.getProperty("line.separator");
         int id=0;
-        File singleFile=new File("temdir"+File.separator+file.getName().stripTrailing()+ "Parts"+File.separator+"part"+String.valueOf(id)+".yaml");
+        File singleFile=new File("temdir"+File.separator+"Parts"+File.separator+"part"+String.valueOf(id)+".yaml");
         while(firstLine!=null){
             if(!firstLine.contains("---"))  {
                 FileWriter writer=new FileWriter(singleFile,true);
@@ -40,7 +52,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
             else{
                 files.add(singleFile);
                 id++;
-                singleFile=new File("temdir"+File.separator+file.getName().stripTrailing()+"Parts"+File.separator+"part"+String.valueOf(id)+".yaml");
+                singleFile=new File("temdir"+File.separator+"Parts"+File.separator+"part"+String.valueOf(id)+".yaml");
             }
             firstLine=buffReader.readLine();
         }
@@ -121,10 +133,21 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
                 // Apply it to Kubernetes Cluster
 
  */
-        try (KubernetesClient k8s = new KubernetesClientBuilder().build()) {
+
+
+
+        try {
+            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+            Config config = Config.fromKubeconfig(kubeConfigContents);
+
+
+            KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
+
             k8s.load(new FileInputStream(file)).inNamespace(namespace).create();
                 //k8s.apps().deployments().inNamespace(namespace).create(deploy);
-            }
+            }catch (IOException ioException){
+            throw new StarlingException("file processing error");
+        }
         catch(KubernetesClientException kubernetesClientException){
             throw new StarlingException("Kubernetes Client Exception");
         }

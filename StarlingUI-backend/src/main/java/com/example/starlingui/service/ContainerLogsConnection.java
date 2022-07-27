@@ -52,8 +52,7 @@ public class ContainerLogsConnection implements Runnable {
         String podName = container.getPodName();
         String namespace = container.getNamespace();
         String containerName = container.getContainerName();
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
+
 
         PodLogs logs = new PodLogs();
         //Streams.copy(is, System.out);

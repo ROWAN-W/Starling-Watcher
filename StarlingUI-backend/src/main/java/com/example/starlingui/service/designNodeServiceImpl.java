@@ -3,6 +3,7 @@ package com.example.starlingui.service;
 import com.example.starlingui.model.designNode;
 import com.example.starlingui.model.domainNode;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.kubernetes.client.openapi.ApiClient;
@@ -30,10 +31,19 @@ public class designNodeServiceImpl implements NodeService {
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
 
-        CoreV1Api api = new CoreV1Api(client);
+
+//        ApiClient client = Config.defaultClient();
+//        Configuration.setDefaultApiClient(client);
+
+        ApiClient kubeApiClient = null;
+        try {
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CoreV1Api api = new CoreV1Api(kubeApiClient);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;

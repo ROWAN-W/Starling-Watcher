@@ -23,10 +23,14 @@ public class monitorNodeServiceImpl implements NodeService{
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
+        ApiClient kubeApiClient = null;
+        try {
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        CoreV1Api api = new CoreV1Api(client);
+        CoreV1Api api = new CoreV1Api(kubeApiClient);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;
