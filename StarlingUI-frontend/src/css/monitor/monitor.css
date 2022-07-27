@@ -68,39 +68,16 @@
     }
 }
 
+/*modified by yulin*/
 .node-container{
+    margin-top: 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 20px;
-    height: 600px;
-    max-height: 600px;
+    grid-template-columns: repeat(auto-fill, minmax(410px, auto));
+    gap:1rem;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    height: 85vh;
     overflow-y: auto;
-    margin-right: 20px;
-    margin-left: 20px;
-}
-
-@media (max-width: 920px){
-    .node-container {
-            display: grid;
-            grid-template-columns: 1fr ;
-            grid-gap: 20px;
-            height: 600px;
-            max-height: 600px;
-            overflow-y: auto;
-            margin-right: 20px;
-            margin-left: 20px;
-        }
-}
-
-@media (max-width: 1440px) {
-    .node-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 20px;
-        height: 600px;
-        max-height: 600px;
-        overflow-y: auto;
-        margin-right: 20px;
-        margin-left: 20px;
-    }
+    overflow-x: hidden;
 }

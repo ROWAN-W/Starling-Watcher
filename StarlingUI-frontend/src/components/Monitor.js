@@ -44,13 +44,6 @@ export default function Monitor() {
   return (
       <>
         <div className="monitor">
-          <div className="node-container-title">
-              <div className='monitor-syn'>
-                {waiting && <div className='drone-update-time drone monitor'><img className="loading monitor" src={logo} alt="loading..." />Please wait...</div>}
-                {error && <div className='drone-update-time drone monitor error'><img className="syncing monitor" src={sync} alt="sync" title="sync" onClick={()=>getNodeStatus()}/>Failed to sync.</div>}
-                {data && <div className='drone-update-time drone monitor'><img className="syncing monitor" src={sync} alt="sync" title="sync" onClick={()=>getNodeStatus()}/>last sync: {updateTime}</div>}
-              </div>
-          </div>
           <div className="node-container">
               {data?.map(node=>{
                   return <MonitorNode getNodes={getNodeStatus} {...node}></MonitorNode>
