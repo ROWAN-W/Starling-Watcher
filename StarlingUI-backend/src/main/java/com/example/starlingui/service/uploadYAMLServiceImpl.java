@@ -137,7 +137,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
 
         try {
-            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
             Config config = Config.fromKubeconfig(kubeConfigContents);
 
 

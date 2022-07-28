@@ -38,7 +38,7 @@ public class designNodeServiceImpl implements NodeService {
 
         ApiClient kubeApiClient = null;
         try {
-            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
         } catch (IOException e) {
             e.printStackTrace();
         }
