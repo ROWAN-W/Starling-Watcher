@@ -23,14 +23,17 @@ public class monitorNodeServiceImpl implements NodeService{
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
-        ApiClient kubeApiClient = null;
+       /* ApiClient kubeApiClient = null;
         try {
-            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        CoreV1Api api = new CoreV1Api(kubeApiClient);
+        */
+        ApiClient client = Config.fromCluster();
+        Configuration.setDefaultApiClient(client);
+        CoreV1Api api = new CoreV1Api(client);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;
@@ -40,7 +43,7 @@ public class monitorNodeServiceImpl implements NodeService{
 
             monitorNode node =new monitorNode();
             //System.out.println(id);
-            node.setId(String.valueOf(id));
+            node.setId(id);
             //System.out.println(item.getMetadata().getName());
             node.setNodeName(item.getMetadata().getName());
             node.setHostname(item.getStatus().getAddresses().get(1).getAddress());

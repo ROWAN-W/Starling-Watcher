@@ -15,7 +15,7 @@ import java.util.Map;
 @Data
 public class domainNode {
 
-    private String id;
+    private int id;
     private String nodeName;
     private String hostname;
 
@@ -23,13 +23,13 @@ public class domainNode {
 
 
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
