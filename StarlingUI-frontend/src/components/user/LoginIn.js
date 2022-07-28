@@ -1,8 +1,13 @@
 import React,{useContext, useState} from 'react';
+import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../img/load.gif';
+import { useCookies } from "react-cookie";
+const LOGIN_URL = 'http://localhost:8080/login';
 
 export default function LoginIn(props) {
+
+    const [cookies, setCookie] = useCookies(["refreshToken"]);
 
     const {handleCurrentUser} = useContext(ProjectContext);
 
@@ -12,57 +17,44 @@ export default function LoginIn(props) {
     const [loginError, setError] = useState(null);
     const [waiting, setWaiting] = useState(false);
 
-    //const [instruction, setInstruction] = useState('');
     const [forgot, setForgot] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        checkValid();
-    }
 
-    function checkValid(){
         setError(null);
         setWaiting(true);
-        const url = "http://localhost:8080/design/login";
-        
-        const options = {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({
-            name: userName,
-            password: password,
-        }),
-        };
-        
-        fetch(url,options)
-        .then(res => {
-          if (!res.ok) { // error coming back from server
-            throw Error("Invalid username or password!");
-          } 
-          return res.json();
-        })
-        .then(data => {
-          console.log("valid account");
-          console.log(data);
-          setWaiting(false);
-          setError(null);
-          console.log("fetch "+url);
-          //setInstruction("Success!");
-          
-          //setTimeout(() => {
-            handleCurrentUser(data.id);
-            clearField();
-            props.setTrigger(false);
-          //}, 2000)
-        })
-        .catch(err => {
-          // auto catches network / connection error
-          setWaiting(false);
-          setError(err.message);
-        })        
+
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ name: userName, password: password }),
+                {
+                    headers: { 
+                        'Content-Type': 'application/json' ,
+                    },
+                }, 
+            );
+            const accessToken = response?.data.accessToken;
+            const refreshToken = response?.data.refreshToken;
+            axios.defaults.headers.common = {'Authorization': `Bearer ${accessToken}`};
+            setCookie("refreshToken", refreshToken, {path: '/'});
+            console.log(accessToken);
+            console.log(refreshToken);
+                handleCurrentUser(response.data.id);
+                setWaiting(false);
+                setError(null);
+                clearField();
+                props.setTrigger(false);
+        } catch (err) {
+            console.log(err.message);
+            setWaiting(false);
+            if(err.response.status===401){
+                setError("Invalid username or password");
+            }
+            else{
+                setError(err.message);
+            }
+        }
     }
 
     function forgotPassword(){
@@ -79,7 +71,6 @@ export default function LoginIn(props) {
         setForgot(false);
         setError(null);
         setWaiting(false);
-        //setInstruction('');
     }
 
     
@@ -92,7 +83,6 @@ export default function LoginIn(props) {
         </div>
                 <form onSubmit={handleSubmit} className="form">
                 {loginError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{loginError}</div>}
-                {/*waiting && <h4>Please wait...</h4>*/}
                 {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                 <p className='link' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
                 <label 

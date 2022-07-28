@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import logo from '../img/load.gif';
 import axios from 'axios';
+import { ProjectContext } from '../App';
+const UPLOAD_URL = 'http://localhost:8080/design/upload';
 
 export default function Upload(props) {
 
-    
+    const {handleCurrentUser} = useContext(ProjectContext);
+
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
+    const [reLogin, setReLogin] = useState(false);
 
     function handleFileUpload(){
         if(selectedFile===null || selectedFile===undefined){
@@ -16,7 +20,7 @@ export default function Upload(props) {
         }
         const fd = new FormData();
         fd.append('file',selectedFile);
-        axios.post("http://localhost:8080/design/upload",fd, {
+        axios.post(UPLOAD_URL,fd, {
             headers: {
               "Content-Type": "multipart/form-data",
             }
@@ -27,8 +31,12 @@ export default function Upload(props) {
           })
         .catch(err => {
             setIsPending(false);
-            if(err.message==="Request failed with status code 404"){
-                setResult("Invalid YAML file.");
+            if(err.response.status===404){
+                setResult("Invalid YAML file/ Fail to deploy");
+            }
+            else if(err.response.status===401){
+                setResult("Authentication is required. Please sign in again.");
+                setReLogin(true);
             }
             else{
                 setResult(err.message);
@@ -70,12 +78,19 @@ export default function Upload(props) {
         }
     }
 
+    function authenticateAgain(){
+        if(reLogin){
+          handleCurrentUser(undefined);
+          setReLogin(false);
+        }
+    }
+
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
             <div className='popup-header'>
                 <span className='popup-title'>Upload file (YAML/YML) & Deploy</span>
-                {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
+                {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
             </div>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit} className="form">
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}

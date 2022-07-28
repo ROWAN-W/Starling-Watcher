@@ -4,14 +4,16 @@ import { ProjectContext } from '../../App';
 import axios from 'axios';
 import logo from '../../img/load.gif';
 import syncLogo from '../../img/sync-svgrepo-com-black.svg';
+const DEPLOY_URL = 'http://localhost:8080/design/templating';
 
 export default function Deploy(props) {
 
-    const {handleProjectChange} = useContext(ProjectContext);
+    const {handleProjectChange,handleCurrentUser} = useContext(ProjectContext);
     const [selectedDrones, setSelectedDrones] = useState([]);
     const [deployFeedback, setDeployFeedback] = useState('');
     const [sync, setSync] = useState(false);
     const [deployWaiting, setDeployWaiting] = useState(false);
+    const [reLogin, setReLogin] = useState(false);
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -71,10 +73,8 @@ export default function Deploy(props) {
             }
             setDeployWaiting(true);
             setDeployFeedback('Deploying...');
-            
-            const url = "http://localhost:8080/design/templating";
-            
-            axios.post(url, props.selectedProject)
+
+            axios.post(DEPLOY_URL, props.selectedProject)
             .then(res => {
                 console.log(res.data);
                 setDeployWaiting(false);
@@ -82,9 +82,18 @@ export default function Deploy(props) {
             })
             .catch(err => {
                 setDeployWaiting(false);
-                setDeployFeedback(err.message);
+                if(err.response.status===401){
+                    setDeployFeedback("Authentication is required. Please sign in again.");
+                    setReLogin(true);
+                }
+                else if(err.response.status===400){
+                    setDeployFeedback("Fail to deploy");
+                }
+                else{
+                    setDeployFeedback(err.message);
+                }
             })
-            
+
             return true;
         }
         setDeployFeedback('Please specify at least one drone for each design/deployment');
@@ -106,7 +115,7 @@ export default function Deploy(props) {
                 <div className="success-msg wordwrap"><i className="fa fa-check"></i>{deployFeedback}</div>
             )
         }
-        else if(deployFeedback==='Request failed with status code 400'){
+        else if(deployFeedback==='Authentication is required. Please sign in again.'||deployFeedback==='Fail to deploy'){
             return(
                 <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{deployFeedback}</div>
             )
@@ -118,6 +127,13 @@ export default function Deploy(props) {
         }
     }
 
+    function authenticateAgain(){
+        if(reLogin){
+          handleCurrentUser(undefined);
+          setReLogin(false);
+        }
+    }
+
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>                
@@ -126,7 +142,7 @@ export default function Deploy(props) {
                     {!props.waiting && !deployWaiting && 
                     <div>
                     <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
-                    <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>&times;</button>
+                    <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);authenticateAgain()}}>&times;</button>
                     </div>}
                 </div>
                 {!props.waiting &&
@@ -160,7 +176,7 @@ export default function Deploy(props) {
                 {!props.waiting && !deployWaiting && 
                 <div className='popup-footer normal deploy-display'>
                 <button className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
-                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
+                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false);authenticateAgain()}}>Cancel</button>
                 </div>
                 }
                      

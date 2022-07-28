@@ -12,8 +12,8 @@ const Navbar = () => {
       <ul className="nav-list">
         <li><Link to="/">Deployment</Link></li>
         <li><Link to="/monitor">Monitor</Link></li>
-        <li>{ userData && <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>}</li>
       </ul>
+      <div><User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User></div>
     </nav>
   );
 }

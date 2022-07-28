@@ -149,7 +149,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
     }
     
-    
+    //style={{background: isOver? "hsl(200, 100%, 40%)": "hsl(200, 100%, 20%)"}}
     
       return (
     <div>
@@ -162,7 +162,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         
         <div className='drone-icon-container' onClick={()=>setSetting(true)}>{showPicture(node.kind)}</div>
         
-        <div className={masterPic==='None'||dronePic==='None'? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop} style={{background: isOver? "hsl(200, 100%, 40%)": "hsl(200, 100%, 20%)"}}>
+        <div className={masterPic==='None'||dronePic==='None'? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop}>
             <div className='node-image-tag-number'>
                 <p className='image-number'>Number of images: {node.containers.length}</p>
                 <button className='btn btn-small btn-menu btn-pill' onClick={()=>handleImageAllDelete()}>Clear All</button>

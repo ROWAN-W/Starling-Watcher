@@ -81,7 +81,7 @@ export default function ProjectList(props) {
                         <td title={project.id}>{project.id.slice(-4)}</td>
                         <td>{project.name}</td>
                         <td>{project.dateModified}</td>
-                        <td title={project.lastModifiedBy}>{userData.find(user=>user.id===project.lastModifiedBy).name}<span className='user-id'>(ID:{project.lastModifiedBy.slice(-2)})</span></td>
+                        <td title={project.lastModifiedBy}>{userData.find(user=>user.id===project.lastModifiedBy)?.name}<span className='user-id'>(ID:{project.lastModifiedBy.slice(-2)})</span></td>
                     </tr>
                 ) 
             })}

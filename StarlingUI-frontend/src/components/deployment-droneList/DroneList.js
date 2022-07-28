@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import Drone from './Drone'
+import React, { useState, useEffect, useContext } from 'react'
+import axios from "axios";
+import { ProjectContext } from '../App';
+import Drone from './Drone';
 import sync from '../img/sync-svgrepo-com.svg';
 import logo from '../img/load.gif';
 import SearchType from './SearchType';
 import DroneSearchBox from './DroneSearchBox';
+const DRONE_URL = 'http://localhost:8080/design/nodes';
+//http://localhost:8080/design/nodes
+//http://localhost:8002/sampleDrone
 
 export default function DroneList(props) {
+
+    const {handleCurrentUser} = useContext(ProjectContext);
 
     const [order, setOrder] = useState("ASC"); 
     const [orderCol, setOrderCol] = useState();  
@@ -14,31 +21,29 @@ export default function DroneList(props) {
     const [searchDrone, setSearchDrone] = useState('');
 
     useEffect(() => {
-        const url = "http://localhost:8080/design/nodes";
-        //http://localhost:8080/design/nodes
-        //http://localhost:8002/sampleDrone
-          
-          fetch(url)
-          .then(res => {
-            if (!res.ok) { // error coming back from server
-                throw Error('Error Details: '+res.status);
-            } 
-            return res.json();
-          })
-          .then(data => {
-            props.setWaiting(false);
-            //only for testing
-            props.setData(data);
-            props.setError(null);
-            console.log("fetch "+url);
-          })
-          .catch(err => {
-            // auto catches network / connection error
-            props.setData();
-            props.setWaiting(false);
-            props.setError(err.message);
-          })
-        
+        console.log("authenticated");
+        (async () => {
+            try {
+                const {data} = await axios.get(DRONE_URL);
+                props.setWaiting(false);
+                props.setData(data);
+                props.setError(null);
+                console.log("fetch "+DRONE_URL)
+            } catch (err) {
+                props.setData();
+                props.setWaiting(false);
+                if(err.response.status===401){
+                    props.setError("Authentication is required. Please sign in again.");
+                    setTimeout(() => {
+                        handleCurrentUser(undefined);
+                    }, "1000") 
+                }
+                else{
+                    props.setError(err.message);
+                }
+                console.log(err.message);
+            }
+        })();
       },[props.updateClick])
 
     function sorting(col){
