@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>StarlingUI</artifactId>
+    <artifactId>starling</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>StarlingUI</name>
-    <description>StarlingUI</description>
+    <name>starling</name>
+    <description>starling</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -113,6 +113,14 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
