@@ -7,7 +7,7 @@ import axios from "axios";
 export default function Monitor() {
 
     const [data, setData] = useState(null);
-    const [state, setstate] = useState();
+    const [state, setstate] = useState(200);
 
     const getNodeStatus = () => {
         axios.get('http://localhost:8080/monitor/nodes')

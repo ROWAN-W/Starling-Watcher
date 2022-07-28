@@ -46,11 +46,10 @@ export default function ContainerLogs(){
             fitAddon.fit()
         window.onresize = function (){
             fitAddon.fit()
+            logs.scrollToBottom()
         }
 
-        socket.onerror(function(){
-            logs.write("connect shell failed");
-        });
+    
 
     }, []);
 
