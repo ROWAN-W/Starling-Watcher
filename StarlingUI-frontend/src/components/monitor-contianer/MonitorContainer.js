@@ -71,7 +71,7 @@ export default function MonitorContainer(props) {
 
 
                     <div className="container-info">
-                        <p className="info-name">{props.containerName}</p>
+                        <p className="info-name" title={props.containerName}>{props.containerName}</p>
                     </div>
 
 

@@ -75,6 +75,10 @@ export default function ContainerTerminal(){
 
         }
         window.addEventListener("resize", debounce(resize,1000))
+
+        socket.onerror(function(){
+            terminal.write("connect shell failed");
+        });
     },[]);
 
 

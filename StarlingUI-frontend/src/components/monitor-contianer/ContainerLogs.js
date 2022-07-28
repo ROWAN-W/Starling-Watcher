@@ -48,6 +48,10 @@ export default function ContainerLogs(){
             fitAddon.fit()
         }
 
+        socket.onerror(function(){
+            logs.write("connect shell failed");
+        });
+
     }, []);
 
 
