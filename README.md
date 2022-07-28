@@ -17,8 +17,8 @@
 | DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
 | GET | /design/projects | get all projects in the database | - |
 | POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
-| PUT | /projects/{id} | update a project | 403: can not find the project by given id |
-| DELETE | /projects/{id} | delete a project | 403: can not find the project by given id |
+| PUT | /design/projects/{id} | update a project | 403: can not find the project by given id or updated project style is not valid |
+| DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
 
 
 
