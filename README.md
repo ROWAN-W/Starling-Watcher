@@ -15,7 +15,10 @@
 | Post | /register | add a new user | 403: username already exist in database |
 | Get | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
 | DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
-
+| GET | /design/projects | get all projects in the database | - |
+| POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
+| PUT | /projects/{id} | update a project | 403: can not find the project by given id |
+| DELETE | /projects/{id} | delete a project | 403: can not find the project by given id |
 
 
 
