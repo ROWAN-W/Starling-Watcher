@@ -46,7 +46,10 @@ export default function ContainerLogs(){
             fitAddon.fit()
         window.onresize = function (){
             fitAddon.fit()
+            logs.scrollToBottom()
         }
+
+    
 
     }, []);
 

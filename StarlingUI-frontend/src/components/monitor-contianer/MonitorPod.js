@@ -7,6 +7,7 @@ import axios from "axios";
 export default function MonitorPod(props){
     const [containers ,setContainers] = useState(null);
     const [reboot, setReboot] = useState(false);
+    const [state, setstate] = useState();
 
     useEffect(() => {
         setContainers(props.containers);
@@ -18,22 +19,33 @@ export default function MonitorPod(props){
         url += props.namespace + '/' + props.podName;
         axios.delete(url)
             .then(function (response){
+                setstate(response.status);
                 console.log(response);
             })
             .catch(function (error){
+                setstate(error.response.data.status);
                 console.log(error);
             });
+
+        if(state !== 200){
+            alert("Restart Pod Failed !")
+        }
+
 
         setTimeout(()=>{
             props.getNodes();
             setReboot(false);
         },3000);
     }
+
+    
+
+
     return(
         <>
             <div className="pod">
                 <div className="pod-info">
-                    <h3 className="pod-name">{props.podName}</h3>
+                    <h3 className="pod-name" title={props.podName}>{props.podName}</h3>
                     <button className="container-restart"
                             onClick={change}>Restart</button>
                 </div>

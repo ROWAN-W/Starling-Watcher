@@ -1,55 +1,72 @@
 import React from 'react'
 import MonitorNode from './monitor-contianer/MonitorNode';
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import sync from '../components/img/sync-svgrepo-com.svg';
-import logo from '../components/img/load.gif';
+
 
 export default function Monitor() {
 
-    const [data,setData] = useState(null);
-    //added by Yulin, for sync time
-    const [updateTime, setUpdateTime] = useState();
-    //added by Yulin, for waiting transition / error result
-    const [waiting, setWaiting] = useState(true);
-    const [error, setError] = useState(null);
+    const [data, setData] = useState(null);
+    const [state, setstate] = useState(200);
 
     const getNodeStatus = () => {
         axios.get('http://localhost:8080/monitor/nodes')
             .then(function (response) {
                 setData(response.data);
-                setWaiting(false);
-                setError(null);
-                console.log(data);
-                setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
+                setstate(response.status);
+                console.log(state);
+
             })
             .catch(function (error) {
-                setError(error);
-                setWaiting(false);
+                setstate(error.response.data.status);
                 console.log(error);
-                setUpdateTime(new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString());
+                console.log(error.response.data.status);
+
             });
 
     }
 
     useEffect(() => {
         getNodeStatus();
-        const interval=setInterval(
-            ()=>{ getNodeStatus();},30000
+        const interval = setInterval(
+            () => { getNodeStatus(); }, 30000
         )
-        return ()=>clearInterval(interval)
+        return () => clearInterval(interval)
     }, []);
 
 
-  return (
-      <>
-        <div className="monitor">
-          <div className="node-container">
-              {data?.map(node=>{
-                  return <MonitorNode getNodes={getNodeStatus} {...node}></MonitorNode>
-              })}
-          </div>
-        </div>
-      </>
-  );
+    function showData() {
+        if (state === 200) {
+            return (
+                <div className="node-container">
+                    {data?.map(node => {
+                        return <MonitorNode getNodes={getNodeStatus} {...node}></MonitorNode>
+                    })}
+                </div>
+            )
+        } else if (state === 500) {
+            return (
+                <>
+                    
+                    <h1 className='monitor-error'>No cluster found !!!</h1>
+                    
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <h1 className='monitor-error'>Fetch failed,Resending request...</h1>
+                    <p className='error-message'>error: {data}</p>
+                </>
+            )
+        }
+    }
+
+    return (
+        <>
+            <div className="monitor">
+                {showData()}
+            </div>
+        </>
+    );
 }

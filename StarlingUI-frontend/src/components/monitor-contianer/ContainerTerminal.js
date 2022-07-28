@@ -67,14 +67,17 @@ export default function ContainerTerminal(){
         function resize() {
             if(socket !== null){
                 fitAddon.fit();
+                terminal.scrollToBottom()
                 cols=parseInt(document.body.clientWidth /9)
-                rows=parseInt(document.body.clientHeight / 20)
+                rows=parseInt(document.body.clientHeight / 18)
                 socket.send("stty cols " + cols + " rows "+ rows + " ");
                 console.log("stty cols " + cols + " rows "+ rows + " ");
             }
 
         }
         window.addEventListener("resize", debounce(resize,1000))
+
+        
     },[]);
 
 
