@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import com.example.starlingui.model.StarlingUser;
 import org.json.JSONObject;
 
 
@@ -30,7 +29,7 @@ public class DesignController {
     private StarlingUserServiceImpl userService;
 
     @Resource
-    private StarlingProjectService projectService;
+    private StarlingProjectServiceImpl projectService;
 
     /**
      * @Description Post request(with Body param)
@@ -151,9 +150,9 @@ public class DesignController {
     }
 
     /**
-     * @Description Add a new project to database
+     * @Description Save a new project in database
      * @param body Project data
-     * @return id and 200
+     * @return id and 200 if success; 403 if project style invalid
      */
     @PostMapping("/projects")
     public ResponseEntity<String> saveProject(@RequestBody String body) {

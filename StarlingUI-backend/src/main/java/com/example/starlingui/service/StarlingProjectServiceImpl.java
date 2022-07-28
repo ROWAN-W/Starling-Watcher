@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StarlingProjectService implements StarlingService<StarlingProject> {
+public class StarlingProjectServiceImpl implements StarlingService<StarlingProject> {
 
     @Autowired
     private StarlingProjectDao projectDao;
@@ -44,7 +44,6 @@ public class StarlingProjectService implements StarlingService<StarlingProject> 
         return jsonObject.toString();
     }
 
-    @Override
     public String update(String body, String id) throws Exception {
         if (!validProjectBody(body)) {
             throw new Exception("Invalid Project Style!");
@@ -147,7 +146,6 @@ public class StarlingProjectService implements StarlingService<StarlingProject> 
      */
     private boolean validContainerJson(JSONObject jsonObject) {
         return jsonObject.has("id") && jsonObject.has("name") && jsonObject.has("command") &&
-                jsonObject.has("args") && jsonObject.has("env") && jsonObject.has("env2") &&
-                jsonObject.has("port");
+                jsonObject.has("args") && jsonObject.has("env") && jsonObject.has("port");
     }
 }

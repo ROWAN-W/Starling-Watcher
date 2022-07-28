@@ -37,8 +37,8 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable().authorizeHttpRequests()
-                .antMatchers("/design/initialize",  "/login", "/refresh",
-                        "/monitor/*", "/design/database", "/register").permitAll()
+                .antMatchers("/design/initialize",  "/login", "/refresh", "/blacklist", "/tokens",
+                        "/monitor/*", "/design/database", "/register", "/design/images").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -57,7 +57,6 @@ public class WebSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList(AUTHORIZATION, CONTENT_TYPE));
