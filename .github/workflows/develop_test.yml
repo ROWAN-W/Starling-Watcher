@@ -60,9 +60,19 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
+    - name: Build and push frontend
       uses: docker/build-push-action@v3
       with:
+        context: StarlingUI-frontend
+        run: chmod +x /usr/local/bin/docker-entrypoint.sh
         push: true
-        tags: oshia/test:version1
+        tags: oshia/starling-frontend
+        
+    - name: Build and push backend
+      uses: docker/build-push-action@v3
+      with:
+        context: StarlingUI-backend
+        run: chmod +x /usr/local/bin/entry.sh
+        push: true
+        tags: oshia/starling-backend
         
