@@ -2,7 +2,6 @@ package com.example.starlingui.controller;
 
 import com.example.starlingui.model.StarlingUser;
 import com.example.starlingui.security.JwtTokenUtil;
-import com.example.starlingui.service.StarlingDenyTokenServiceImpl;
 import com.example.starlingui.service.StarlingUserServiceImpl;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,6 @@ public class JwtAuthenticationController {
 
     @Autowired
     private StarlingUserServiceImpl starlingUserService;
-
-    @Autowired
-    private StarlingDenyTokenServiceImpl denyTokenService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -105,18 +101,4 @@ public class JwtAuthenticationController {
         }
     }
 
-    @PostMapping("/blacklist")
-    public ResponseEntity<String> logout(@RequestBody String body) {
-        try {
-            denyTokenService.save(body);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Invalid request body!", HttpStatus.FORBIDDEN);
-        }
-    }
-
-    @GetMapping("/tokens")
-    public ResponseEntity<String> tokens() {
-        return new ResponseEntity<>(denyTokenService.getAll(), HttpStatus.OK);
-    }
 }

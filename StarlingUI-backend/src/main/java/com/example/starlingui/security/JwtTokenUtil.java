@@ -4,9 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.starlingui.Dao.DenyTokenDao;
-import com.example.starlingui.model.DenyToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,9 +23,6 @@ public class JwtTokenUtil {
     private final Algorithm algorithm;
     private final int accessAvailableTime;
     private final int refreshAvailableTime;
-
-    @Autowired
-    private DenyTokenDao tokenDao;
 
     public JwtTokenUtil() {
         algorithm = Algorithm.HMAC256("Starling".getBytes());
@@ -88,9 +82,6 @@ public class JwtTokenUtil {
             throw new BadCredentialsException("Invalid Authorization Token!");
         }
         token = token.substring("Bearer ".length());
-        if (tokenDao.accessTokenExists(token) || tokenDao.refreshTokenExists(token)) {
-            throw new Exception("Token is invalid!");
-        }
         JWTVerifier verifier = JWT.require(algorithm).build();
         return verifier.verify(token);
     }
