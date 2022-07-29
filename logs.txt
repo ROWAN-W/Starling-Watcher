@@ -1,0 +1,18 @@
+install:
+docker,java,nodejs,git,npm
+git clone:
+Murmuration, Summerproject
+install:
+Starling
+
+Run:
+starling start kind
+docker run -d -p 27017:27017 --name test-mongo mongo:latest
+./mvnw spring-boot:run (in backend)
+(npm install react-script -save)(in frontend)
+npm start(in frontend)
+
+https://stackoverflow.com/questions/67708080/how-to-override-default-kubernetes-config-file-using-java-io-fabric8-kubernetes
+
+https://stackoverflow.com/questions/43370090/error-reading-service-account-token-from-var-run-secrets-kubernetes-io-servic
+

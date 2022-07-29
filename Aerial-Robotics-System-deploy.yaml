@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: starling-aerial-robotics-system 
+spec:
+  selector:
+    matchLabels:
+      app: starling-aerial-robotics-system 
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: starling-aerial-robotics-system 
+    spec:
+      containers:
+        - name: spring-boot-backend
+          image: oshia/starling-backend:latest
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 8080
+        - name: react-frontend
+          image: oshia/starling-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000           
+        - name:  mongodb
+          image: mongo
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 27017
+            
+      volumes:
+      - name: database-backup
+        hostPath:
+          path: /etc/starling/database-backup
+          type: File

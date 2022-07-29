@@ -43,6 +43,7 @@ public class ShellConnection implements Runnable {
 
     private Boolean tryBash = false;
 
+    private Boolean running = true;
 
     public ShellConnection(Map<String, String> paramMap, WebSocketSession session) {
         this.session = session;
@@ -83,8 +84,7 @@ public class ShellConnection implements Runnable {
         String namespace = container.getNamespace();
         String containerName = container.getContainerName();
 
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
+
 
         boolean tty = true;
         boolean initValid = true;
@@ -113,7 +113,7 @@ public class ShellConnection implements Runnable {
         }
 
         try {
-            while (true) {
+            while (running) {
                     byte[] data = new byte[1024];
                     if (inputStream.read(data) != -1) {
                         //将实际的shell的输出写入textMessage
@@ -146,14 +146,20 @@ public class ShellConnection implements Runnable {
     }
 
     //退出 Process
-    public void exit() {
+    public void exit() throws IOException {
         if (proc != null) {
-            this.proc.destroyForcibly();
+            proc.destroy();
+            inputStream.close();
+            outputStream.close();
         }
     }
 
     public OutputStream getOutputStream() {
         return outputStream;
+    }
+
+    public void setRunning(){
+        running = false;
     }
 
 }

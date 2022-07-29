@@ -1,0 +1,42 @@
+[
+    {
+        "pods":
+        [
+            {
+                "id":"0",
+                "podName":"hello-node-6b89d599b9-776rz",
+                "namespace":"default",
+                "containers":
+                [
+                    {
+                        "id":"0",
+                        "containerName":"echoserver",
+                        "containerState":"running"
+                        
+                        
+                    }
+                ]
+            },
+            
+            {
+                "id":"1",
+                "podName":"nginx-77c58f65f9-zhn54",
+                "namespace":"default",
+                "containers":
+                [
+                    {
+                        "id":"0",
+                        "containerName":"nginx",
+                        "containerState":"running"
+                    }
+                        
+                    
+                ]
+            }
+        ],
+        
+        "id":"0",
+        "nodeName":"minikube",
+        "hostname":"minikube"
+    }
+]

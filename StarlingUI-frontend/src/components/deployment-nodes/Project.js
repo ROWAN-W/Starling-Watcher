@@ -6,8 +6,6 @@ import Filter from './Filter';
 import SearchBox from './SearchBox';
 import search from '../img/search-svgrepo-com.svg';
 
-import drone from '../img/drone-svgrepo-com.png';
-import master from '../img/oie_1662649z7V79w3N.png';
 import droneCircle from '../img/oie_151914634owYC2D.png';
 import masterCircle from '../img/oie_15192229OeBZ3dl4.png'
 
@@ -21,9 +19,9 @@ export default function Project({currentUserID, selectedProject}) {
     const [showSearch, setShowSearch] = useState(false);
     const [clickAdd, setClickAdd] =useState(false);
 
-    const options = [drone, master, droneCircle, masterCircle, 'None'];
-    const [masterPic, setMasterPic] = useState(options[4]);
-    const [dronePic, setDronePic] = useState(options[4]);
+    const options = [droneCircle, masterCircle, 'None'];
+    const [masterPic, setMasterPic] = useState(options[2]);
+    const [dronePic, setDronePic] = useState(options[2]);
 
     const messagesEndRef = useRef(null)
 

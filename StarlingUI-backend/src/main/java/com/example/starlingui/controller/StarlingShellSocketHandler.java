@@ -67,6 +67,7 @@ public class StarlingShellSocketHandler extends TextWebSocketHandler {
      */
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         if(shellConnectionMap.containsKey(session)){
+            shellConnectionMap.get(session).setRunning();
             shellConnectionMap.get(session).exit();
             shellConnectionMap.remove(session);
         }

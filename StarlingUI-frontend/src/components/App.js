@@ -1,16 +1,19 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import { useCookies } from "react-cookie";
 import { getCookie } from 'react-use-cookie'
 import '../css/app.css';
 import Navbar from "./Navbar";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Deployment from "./Deployment";
 import Monitor from "./Monitor";
+import ContainerTerminal from "./monitor-contianer/ContainerTerminal";
+import ContainerLogs from "./monitor-contianer/ContainerLogs";
 import RecoverMessage from "./RecoverMessage";
 import axios from "axios";
 const PROJECT_URL = 'http://localhost:8080/design/projects';
 const USER_URL = 'http://localhost:8080/design/users';
 const REFRESH_URL = 'http://localhost:8080/refresh';
+
 
 const LOCAL_STORAGE_KEY = 'Starling.user.projects';
 
@@ -193,7 +196,7 @@ function App() {
         }
     }
     setUnsavedProjectIDs(unsavedArray);
-}
+  }
 
   const projectContextValue = {
     currentUserID,
@@ -214,26 +217,33 @@ function App() {
   } 
   
   return (
-    <Router>
-    <ProjectContext.Provider value={projectContextValue}>
-    <Navbar></Navbar>
-    <Switch>
-      <Route exact path="/">
-      { (error) && <div className="project-title">{error}</div> }
-      { currentUserID!=='' && (isPending) && <div className="project-title">Loading...</div> }
-      { (userData || projectsData ) &&
-        <Deployment 
-        selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>}
-        {(userData || projectsData ) && unsavedProjectIDs.length!==0 && <RecoverMessage trigger={recoverMessage} setTrigger={setRecoverMessage} unsavedProjectIDs={unsavedProjectIDs}></RecoverMessage>}  
-      </Route>
-      <Route path="/monitor">
-        <Monitor></Monitor>
-      </Route>
-    </Switch>
-    
-    </ProjectContext.Provider>
-    </Router>
-  )
+        <Router>
+            <ProjectContext.Provider value={projectContextValue}>
+                    <Switch>
+                        <Route exact path="/">
+                            <Navbar></Navbar>
+                            { (error) && <div className="project-title">{error}</div> }
+                            { currentUserID!=='' && (isPending) && <div className="project-title">Loading...</div> }
+                            { (userData || projectsData ) &&
+                            <Deployment 
+                              selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>}
+                            {(userData || projectsData ) && unsavedProjectIDs.length!==0 && <RecoverMessage trigger={recoverMessage} setTrigger={setRecoverMessage} unsavedProjectIDs={unsavedProjectIDs}></RecoverMessage>}  
+                        </Route>
+                        <Route path="/monitor">
+                            <Navbar></Navbar>
+                            <Monitor></Monitor>
+                        </Route>
+                    </Switch>
+            </ProjectContext.Provider>
+
+            <Route path="/terminal/:name/:namespace/:container">
+                <ContainerTerminal></ContainerTerminal>
+            </Route>
+            <Route path="/logs/:name/:namespace/:container">
+                <ContainerLogs></ContainerLogs>
+            </Route>
+        </Router>
+    )
 }
 
 export default App;

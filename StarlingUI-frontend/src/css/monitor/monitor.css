@@ -1,0 +1,91 @@
+.node-container-title{
+    height: 45px;
+    align-items: center;
+    /*added by yulin*/
+    position: relative;
+}
+
+
+
+
+/*added by yulin*/
+/*responsive*/
+@media (min-width: 750px) {
+    .monitor-syn{
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+}
+
+/*added by yulin*/
+.drone-update-time.drone.monitor{
+    font-size: 1rem;
+    display: flex;
+    align-items: flex-end;
+}
+
+/*added by yulin*/
+.drone-update-time.drone.monitor.error{
+    border-radius: 3px 3px 3px 3px;
+    background-color: #D8000C;
+    padding: 2px;
+}
+
+/*added by yulin*/
+.syncing.monitor{
+    width: 25px;
+}
+
+/*added by yulin*/
+.syncing.monitor:hover,
+.syncing.monitor:focus{
+    cursor: pointer;
+    padding: .15rem;
+    background: #333;
+}
+
+/*added by yulin*/
+.loading.monitor{
+    width: 25px;
+    margin-right: 0.5rem;
+
+}
+
+/*added by yulin*/
+/*responsive*/
+@media (max-width: 750px) {
+    .monitor-syn{
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+    .drone-update-time.drone.monitor{
+        font-size: .9rem;
+    }
+    .syncing.monitor{
+        width: 20px;
+    }
+}
+
+/*modified by yulin*/
+.node-container{
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(410px, auto));
+    gap:5rem;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.monitor-error{
+    color: red;
+}
+
+.error-message{
+    color: white;
+}

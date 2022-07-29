@@ -1,23 +1,27 @@
 import MonitorContainer from "./MonitorContainer";
 import React, {useEffect, useState} from "react";
+import MonitorPod from "./MonitorPod";
 
 
 
 export default function MonitorNode(props){
-    const [containers ,setContainers] = useState(null);
+    const [pods ,setPods] = useState(null);
     useEffect(() => {
-        setContainers(props.containers);
-    }, []);
+        setPods(props.pods);
+    }, [props]);
 
     return(
         <>
             <div className="card">
                 <div className="title">
-                    <p>{props.nodeName}</p>
+                    <image className="drone-image"></image>
+                    <span>{props.nodeName}</span>
                 </div>
                 <div className="card-container">
-                    {containers?.map(container=>{
-                        return <MonitorContainer {...container}></MonitorContainer>
+                    {pods?.map(pod=>{
+                        return <MonitorPod
+                            getNodes={props.getNodes}
+                            {...pod}></MonitorPod>
                     })}
                 </div>
             </div>

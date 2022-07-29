@@ -93,6 +93,7 @@
 }
 
 .drone-container .table-wrapper .fl-table tr{
+    /*background: hsl(200, 100%, 10%);*/
     background: #333;
     color: #f2f2f2;
     font-size: 1rem;
@@ -103,7 +104,7 @@
 }
 
 .drone-more-info{
-    background-image: linear-gradient(140deg, #4e4e4e -16%, #333 9%, #1a1a1a 32%, #1a1a1a 62%, #262626 87%, #4e4e4e 112%);
+    background: #333;
 }
 
 .drone-more-info:hover,
