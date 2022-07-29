@@ -9,7 +9,7 @@ export default function CreateAccount(props) {
 
     const [cookies, setCookie] = useCookies(["refreshToken"]);
     
-    const {handleUserAdd} = useContext(ProjectContext);
+    const {handleUserAdd, setRememberMe} = useContext(ProjectContext);
 
     const [newUserName, setNewUserName] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -122,6 +122,7 @@ export default function CreateAccount(props) {
                         onChange={e=>setNewPasswordAgain(e.target.value)}
                         >
                     </input>
+                    <div className='rememberMe-option' title="Not recommended on public or shared computers"><input type="checkbox" className='rememberMe' onChange={()=>{setRememberMe(prev=>!prev)}} defaultChecked={true}/> <label htmlFor="rememberMe">Remember me</label></div>
                     <p></p>
                     <div className='popup-footer single'>
                     <button className='btn'>Sign up</button>

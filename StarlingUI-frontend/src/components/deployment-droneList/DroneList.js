@@ -38,6 +38,9 @@ export default function DroneList(props) {
                         handleCurrentUser(undefined);
                     }, "1000") 
                 }
+                else if(err.response.status===404){
+                    props.setError("Fail to sync available devices."); 
+                }
                 else{
                     props.setError(err.message);
                 }

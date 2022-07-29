@@ -37,6 +37,8 @@ function App() {
   
   const [userSignIn, setUserSignIn] = useState(false);
 
+  const [rememberMe, setRememberMe] = useState(true);
+
   const [userData, setUserData] = useState(null);
   const [projectsData, setProjectData] = useState(null);
   const [isPending, setIsPending] = useState(true);
@@ -49,7 +51,8 @@ function App() {
 
   useEffect(()=>{
     const refreshToken = getCookie('refreshToken');
-    if(refreshToken!==''){
+    const user = getCookie('user');
+    if(refreshToken!=='' && user!==''){ //remember me
         console.log("auto sign in check with "+refreshToken);
         (async () => {
           try {
@@ -128,13 +131,15 @@ function App() {
   },[currentUserID]);
 
   useEffect(()=>{
-    console.log("store project in local storage");
-    //local storage can only store string
-    localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
+    if(rememberMe){
+      console.log("store project in local storage");
+      //local storage can only store string
+      localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(projects));
+    }
   },[projects]);
 
   function signInPage(){
-    if(currentUserID==='' && getCookie('refreshToken')===''){
+    if(currentUserID==='' && getCookie('user')===''){
       console.log("sign in page");
       setUserSignIn(true);
     }
@@ -166,7 +171,9 @@ function App() {
     }else{
       console.log("user sign in!");
       setCurrentUserID(id);
-      setCookie("user", id, { path: '/' });
+      if(rememberMe){
+        setCookie("user", id, { path: '/' });
+      }
     }
   }
 
@@ -178,12 +185,14 @@ function App() {
   }
 
   function checkUnsavedProjects(){
+    let unsavedArray=[];
     for(let i=0;i<projects.length;i++){
         if(projects[i].memberIDs.includes(currentUserID) && projects[i].saved===false){
-          console.log("unsaved project");
-          setUnsavedProjectIDs([...unsavedProjectIDs, projects[i].id]);
+          console.log("unsaved project: "+projects[i].id);
+          unsavedArray = [...unsavedArray, projects[i].id];
         }
     }
+    setUnsavedProjectIDs(unsavedArray);
 }
 
   const projectContextValue = {
@@ -193,6 +202,7 @@ function App() {
     images,
     userSignIn,
     setUserSignIn,
+    setRememberMe,
     setUserData,
     setImages,
     setProjects,
@@ -207,20 +217,20 @@ function App() {
     <Router>
     <ProjectContext.Provider value={projectContextValue}>
     <Navbar></Navbar>
-    { (error) && <div className="project-title">{error}</div> }
-    { currentUserID!=='' && (isPending) && <div className="project-title">Loading...</div> }
-    { (userData || projectsData ) &&
     <Switch>
       <Route exact path="/">
+      { (error) && <div className="project-title">{error}</div> }
+      { currentUserID!=='' && (isPending) && <div className="project-title">Loading...</div> }
+      { (userData || projectsData ) &&
         <Deployment 
-        selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>
-        {unsavedProjectIDs.length!==0 && <RecoverMessage trigger={recoverMessage} setTrigger={setRecoverMessage} unsavedProjectIDs={unsavedProjectIDs}></RecoverMessage>}
+        selectedProject={projects?.find(project => project.id === selectedProjectID)}></Deployment>}
+        {(userData || projectsData ) && unsavedProjectIDs.length!==0 && <RecoverMessage trigger={recoverMessage} setTrigger={setRecoverMessage} unsavedProjectIDs={unsavedProjectIDs}></RecoverMessage>}  
       </Route>
       <Route path="/monitor">
         <Monitor></Monitor>
       </Route>
     </Switch>
-    }
+    
     </ProjectContext.Provider>
     </Router>
   )

@@ -269,19 +269,7 @@
 }
 
 .popup-projects-inner.user p{
-    font-size: 1rem;
     color: hsl(200, 100%, 40%);
-}
-
-.link{
-    cursor: pointer;
-}
-
-.popup-projects-inner.user .forgot{
-    font-size: .9rem;
-    text-align: right;
-    position: relative;
-    bottom: 20px;
 }
 
 .title-error{
@@ -639,3 +627,45 @@
   font-size: .75rem;
   color: red;
 }
+
+input.rememberMe{
+  width: auto;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.25rem;
+}
+
+.rememberMe:focus, .rememberMe:hover{
+  border-color: none;
+  box-shadow: none;
+}
+
+.rememberMe-option{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rememberMe-option label{
+  font-size: 0.9rem;
+}
+
+.forgot-container{
+  display: flex;
+  justify-content: right;
+}
+
+p.forgot{
+  font-size: .9rem;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+p.forgot:hover{
+  cursor: pointer;
+}
+
+.link:hover{
+  cursor: pointer;
+}
+

@@ -11,7 +11,7 @@ export default function RecoverMessage(props) {
             <h2 className='title-success wordbreak wordwrap'>Recover Unsaved Changes</h2>
             
                 <div className='content'>
-                    <ul className='unsaved-list'>Please save below unsaved projects soon:</ul>
+                    <ul className='unsaved-list'>Please save below projects soon:</ul>
                     {props.unsavedProjectIDs.map(projectID=>
                     <li className='unsaved-item wordbreak wordwrap' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
                 </div>

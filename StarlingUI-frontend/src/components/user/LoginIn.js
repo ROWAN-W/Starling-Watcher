@@ -9,7 +9,7 @@ export default function LoginIn(props) {
 
     const [cookies, setCookie] = useCookies(["refreshToken"]);
 
-    const {handleCurrentUser} = useContext(ProjectContext);
+    const {handleCurrentUser,setRememberMe} =useContext(ProjectContext);
 
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -59,9 +59,9 @@ export default function LoginIn(props) {
 
     function forgotPassword(){
         if(forgot){
-            return <p className='forgot'>Please contact administrator.</p>
+            return <div className='forgot-container'><p onClick={()=>setForgot(prev=>!prev)} className='forgot'>Please contact administrator</p></div>
         }else{
-            return <p className='forgot'>Forgot password?</p>
+            return <div className='forgot-container'><p onClick={()=>setForgot(prev=>!prev)} className='forgot'>Forgot password?</p></div>
         }
     }
 
@@ -108,8 +108,10 @@ export default function LoginIn(props) {
                     onChange={e=>setPassword(e.target.value)}
                     >
                 </input>
+                {forgotPassword()}
+                <div className='rememberMe-option' title="Not recommended on public or shared computers"><input type="checkbox" className='rememberMe' onChange={()=>{setRememberMe(prev=>!prev)}} defaultChecked={true}/> <label htmlFor="rememberMe">Remember me</label></div>
+                <p></p>
                 <div className='popup-footer single'>
-                    <div className='link' onClick={()=>setForgot(prev=>!prev)}>{forgotPassword()}</div>
                     <button className='btn' type='submit'>Sign in</button>
                 </div>
                 </form>

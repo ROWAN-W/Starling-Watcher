@@ -45,6 +45,9 @@ export default function ImageList() {
           fetch(IMAGE_URL,options)
           .then(res => {
             if (!res.ok) { // error coming back from server
+              if(res.status===401){
+                throw Error("Invalid username or password");
+              }
               throw Error('Login Failure. Error Details: '+res.status);
             } 
             return res.json();
@@ -90,8 +93,6 @@ export default function ImageList() {
             finalLogin={finalLogin}
             waiting={waiting}
             setWaiting={setWaiting}
-            defaultUserName={finalUserName}
-            defaultPassword={finalPassword}
             ></DockerLogin>
       </div>
     )
@@ -107,6 +108,8 @@ export default function ImageList() {
   }
 
   function tryAgain(){
+    setFinalUserName('');
+    setFinalPassword('');
     setUserSignIn(true);
   }
 
