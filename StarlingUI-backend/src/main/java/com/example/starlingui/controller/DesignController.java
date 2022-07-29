@@ -1,19 +1,30 @@
 package com.example.starlingui.controller;
 
+import com.example.starlingui.exceptions.StarlingException;
 import com.example.starlingui.model.Design;
 import com.example.starlingui.model.Image;
 import com.example.starlingui.model.domainNode;
 import com.example.starlingui.model.User;
 import com.example.starlingui.service.*;
+import com.example.starlingui.service.DockerHubServiceImpl;
+import com.example.starlingui.service.designNodeServiceImpl;
+import com.example.starlingui.service.TemplatingServiceImp;
+import com.example.starlingui.service.uploadYAMLServiceImpl;
 import com.google.gson.Gson;
 import io.kubernetes.client.openapi.ApiException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -75,6 +86,56 @@ public class DesignController {
                     .body("Kubernetes API fail :" + ioException.getMessage());
         }
     }
+
+
+    // function to delete subdirectories and files
+    private void deleteDirectory(File file)
+    {
+        // store all the paths of files and folders present
+        // inside directory
+        for (File subfile : file.listFiles()) {
+
+            // recursively call function to empty subfolder
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+
+            // delete files and empty subfolders
+            subfile.delete();
+        }
+    }
+
+
+    /**
+     * @Description upload and deploy Yaml file
+     * @param file (MultipartFile)
+     * @return ResponseEntity<String>
+     */
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadYAML (@RequestParam("file") MultipartFile file, @RequestParam("namespace") String namespace) {
+
+        File temDir=new File("temdir");
+        //clear temdir at start
+        deleteDirectory(temDir);
+        temDir.mkdir();
+        uploadYAMLServiceImpl upload =new uploadYAMLServiceImpl();
+        File parts=new File("temdir"+File.separator+"Parts");
+        parts.mkdir();
+
+        try{
+           upload.processYAML(file,namespace);
+        }catch (StarlingException starlingException){
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body(starlingException.getMessage());
+        }
+
+        return ResponseEntity.ok("deployed");
+    }
+
+
 
     /** @Description Post request(with Body param)
      * @param designs Pod designs from user (name,config,mapping)

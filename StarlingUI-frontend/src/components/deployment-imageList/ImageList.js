@@ -1,8 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
+import axios from "axios";
 import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
+import logo from '../img/load.gif';
+import ImageSort from './ImageSort';
+const IMAGE_URL = 'http://localhost:8080/design/images';
 
 export default function ImageList() {
 
@@ -19,41 +23,46 @@ export default function ImageList() {
 
   const [searchResult, setSearchResult] = useState([...images]);
   const [searchImage, setSearchImage] = useState('');
+
+  const [order, setOrder] = useState("DSC"); 
+  const [orderCol, setOrderCol] = useState("lastUpdated"); 
     
   useEffect(() => {
     if(waiting===true){
-      const url = "http://localhost:8080/design/images";
-        
-      const options = {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({
-            username: finalUserName,
-            password: finalPassword,
-        }),
-        };
-        
-        fetch(url,options)
-        .then(res => {
-          if (!res.ok) { // error coming back from server
-            throw Error('Login Failure. Error Details: '+res.status);
-          } 
-          return res.json();
-        })
-        .then(data => {
-          setWaiting(false);
-          setImages(data);
-          setError(null);
-          console.log("fetch "+url);
-        })
-        .catch(err => {
-          // auto catches network / connection error
-          setWaiting(false);
-          setError(err.message);
-        })
+      //use fetch() to avoid triggering axios interceptor
+        const options = {
+          method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json;charset=UTF-8",
+          },
+          body: JSON.stringify({
+              username: finalUserName,
+              password: finalPassword,
+          }),
+          };
+          
+          fetch(IMAGE_URL,options)
+          .then(res => {
+            if (!res.ok) { // error coming back from server
+              if(res.status===401){
+                throw Error("Invalid username or password");
+              }
+              throw Error('Login Failure. Error Details: '+res.status);
+            } 
+            return res.json();
+          })
+          .then(data => {
+            setWaiting(false);
+            setImages(data);
+            setError(null);
+            console.log("fetch "+IMAGE_URL);
+          })
+          .catch(err => {
+            // auto catches network / connection error
+            setWaiting(false);
+            setError(err.message);
+          }) 
     }  
     },[finalUserName,finalPassword])
 
@@ -61,7 +70,7 @@ export default function ImageList() {
   function showInstruction(){
     if(images.length!==0 && showSwitchButton){
       return(
-        <button onClick={()=>{
+        <button className='btn btn-small logout btn-menu' onClick={()=>{
           setUserSignIn(true); 
           setSwitchButton(false);
           setImages([]); 
@@ -98,16 +107,23 @@ export default function ImageList() {
     }
   }
 
+  function tryAgain(){
+    setFinalUserName('');
+    setFinalPassword('');
+    setUserSignIn(true);
+  }
+
   function show(){
     if(waiting){
-      return <div>Please wait...</div>
+      return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>
     }
     else{
       if(imageError && !userSignIn){
         return (
           <>
-            <div>{imageError}</div> 
-            <div><button onClick={()=>{setUserSignIn(true);setFinalUserName('');setFinalPassword('')}}>Try again</button></div>
+            <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{imageError}
+            <p onClick={()=>tryAgain()} 
+            className='docker-try-again'>Click here to try again</p></div>
           </>
         )
       }
@@ -123,14 +139,16 @@ export default function ImageList() {
           return(
             <>
             {showInstruction()}
-            <SearchBox handleImageSearch={handleImageSearch}/>
-            {searchImage===''? 
-            images.map(image=>{
-                return <Image key={image.id} {...image}></Image>
-            }):
-            searchResult.map(image=>{
+            <div className='node-search-filter image'>
+              <><SearchBox handleImageSearch={handleImageSearch}/>
+              <ImageSort setSortValue={setOrderCol} setOrder={setOrder}></ImageSort></>
+            </div>
+          
+            <div className="items-body">  
+            {showResult().map(image=>{
                 return <Image key={image.id} {...image}></Image>
             })}
+            </div>
             </>
           )
         }
@@ -138,9 +156,38 @@ export default function ImageList() {
     }
   }
 
+  function showResult(){
+    if(searchImage===''){
+      if(order==="ASC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...images].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }
+    }
+    else{
+      if(order==="ASC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() > b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }else if(order==="DSC"){
+        const sorted = [...searchResult].sort((a,b)=>
+        a[orderCol].toLowerCase() < b[orderCol].toLowerCase() ? 1: -1);
+        return sorted;
+      }
+    }
+  }
+
     return (
     <>
-      <div className='image-tag-container'>
+      <div className='image-tag-container items'>
+      <div className="items-head">
+      {userSignIn? <p>Docker Hub Sign in</p> : <p>Docker Hub Images</p>}
+      <hr/>
+      </div>
       {show()}
       </div>
     </>

@@ -1,14 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react';
+import axios from "axios";
 import { ProjectContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
+import logo from '../img/load.gif';
+const PROJECT_URL = 'http://localhost:8080/design/projects';
 
 export default function CreateProject(props) {
     
-    const {projects, currentUserID, setProjects, handleProjectSelect} = useContext(ProjectContext);
+    const {projects, currentUserID, setProjects, handleProjectSelect,handleCurrentUser} = useContext(ProjectContext);
 
-    const [result, setResult] = useState('Please wait...');
+    const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
+    const [reLogin, setReLogin] = useState(false);
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -22,7 +26,7 @@ export default function CreateProject(props) {
 
         const newProject = {
         id: "",
-        name: 'New Project['+number+']',
+        name: 'project-'+number,
         dateModified: new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(),
         lastModifiedBy: currentUserID,
         saved: true,
@@ -31,12 +35,13 @@ export default function CreateProject(props) {
         config:[
           {
             id:masterId,
-            name: 'new design',
+            name: 'design',
             kind: 'master',
+            //can be empty
             label: 
               {
-                app: 'starling',
-                platform: 'pixhawk'
+                app: 'project-'+number,
+                platform: ''
               }
             ,
             containers:[]    
@@ -51,59 +56,82 @@ export default function CreateProject(props) {
       }
         console.log("add project in create project!");
         setIsPending(true);
-        postToServer('http://localhost:8080/design/projects',newProject);
+        postToServer(newProject);
         }
       
-      function postToServer(url,project){
-        const options = {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            body: JSON.stringify(project),
-        };
-        
-        fetch(url,options)
-        .then(res => {
-        if (!res.ok) { // error coming back from server
-            throw Error('Error Details: '+res.status);
-        } 
-        return res.json();
+      function postToServer(project){
+
+        axios
+        .post(PROJECT_URL, 
+          JSON.stringify(project),
+              {
+                  headers: { 
+                      'Content-Type': 'application/json' ,
+                  },
+              }, 
+        )
+        .then((data) => {
+          setIsPending(false);
+          setError(null);
+          setResult("Your project has been successfully created and saved");
+          console.log("post "+PROJECT_URL);
+          console.log(data.data.id);
+          project.id = data.data.id; //id from db {"id": "62c04445cda4856fc0226778"}
+          setProjects([...projects,project]);
+          handleProjectSelect(data.data.id); 
         })
-        .then(data => { //id
-            setIsPending(false);
-            setError(null);
-            setResult("Your project has been successfully created and saved"); //respond from Pench's server
-            //setResult(data);
-            console.log("post "+url);
-            console.log(data);
-            project.id = data.id; //id from db {"id": "62c04445cda4856fc0226778"}
-            setProjects([...projects,project]);
-            handleProjectSelect(data.id); 
-        })
-        .catch(err => { // auto catches network / connection error
-            setIsPending(false);
-            setError(err.message);
-            setResult('');
-        })
+        .catch((err) => {
+          console.log(err.message);
+          setIsPending(false);
+          setResult('');
+          if(err.response.status===401){
+              setError("Authentication is required. Please sign in again.");
+              setReLogin(true);
+          }
+          else if(err.response.status===403){
+            setError("Invalid project structure. Please try again.");
+          }
+          else{
+              setError(err.message);
+          }
+        });
+      }
+
+      function clearField(){
+        setResult('');
+        setIsPending(false);
+        setError(null);
+      }
+
+      function authenticateAgain(){
+        if(reLogin){
+          handleCurrentUser(undefined);
+          setReLogin(false);
+        }
       }
 
     function message(){
         return(
-            <>
-            {!savePending && <button className='popup-close-btn' onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>&times;</button>}
-            <p>{error? error: result}</p>
-            {!savePending && <button onClick={()=>{props.setTrigger(false);setResult('Please wait...')}}>OK</button>}
-            </>
+        <>
+          {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+          {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
+          {error && <h2 className='title-error'>Create Project Error</h2>}
+          {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
+          <div className='content'>{error? error: result}</div>
+          {!savePending && 
+          <div className='popup-footer normal'>
+            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>OK</button>
+          </div>}
+        </>
         )
     }
     
     return (props.trigger) ?(
         <div className='popup-projects'>
-            <div className='popup-projects-inner'>
+            <div className='popup'>
                 {message()}
             </div>
         </div>
       ): ""
 }
+//

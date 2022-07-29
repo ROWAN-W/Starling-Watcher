@@ -1,0 +1,37 @@
+[
+    {
+        "id":"0",
+        "nodeName":"minikube",
+        //role: master, worker
+        "role":"master",
+        "ip":"192.168.49.2",
+        "hostname":"minikube",
+        "architecture":"amd64",
+        "creationTime":"2022-06-14T12:52:12Z",
+        
+        "labels":
+        {
+            "Starling.dev":"vehicle",
+            "beta.kubernetes.io/arch":"amd64",
+            "beta.kubernetes.io/os":"linux",
+            "kubernetes.io/arch":"amd64",
+            "kubernetes.io/hostname":"minikube",
+            "kubernetes.io/os":"linux",
+            "minikube.k8s.io/commit":"362d5fdc0a3dbee389b3d3f1034e8023e72bd3a7",
+            "minikube.k8s.io/name":"minikube",
+            "minikube.k8s.io/primary":"true",
+            "minikube.k8s.io/updated_at":"2022_06_26T18_49_02_0700",
+            "minikube.k8s.io/version":"v1.25.2",
+            "node-role.kubernetes.io/control-plane":"",
+            "node-role.kubernetes.io/master":"",
+            "node.kubernetes.io/exclude-from-external-load-balancers":""
+        },
+        
+        "annotations":
+        {
+            "kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl":"0",
+            "volumes.kubernetes.io/controller-managed-attach-detach":"true"
+        }
+    }
+]

@@ -10,33 +10,13 @@ import java.util.List;
 @Data
 public class monitorNode extends domainNode{
 
-    private String id;
-    private String nodeName;
 
     //fields for monitor page
-    private List<monitorPod> Pods;
+    private List<monitorPod> pods;
 
 
-    public void setPods(List<monitorPod> monitorPods) {
-        this.Pods = monitorPods;
+    public void setPods(List<monitorPod> Pods) {
+        this.pods = Pods;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
-
-    public String getId() {
-        return id;
-    }
-    public String getNodeName() {
-        return nodeName;
-    }
-
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
-    }
-
 
 }

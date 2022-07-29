@@ -6,17 +6,13 @@ export default function DockerLogin(props) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    function checkValid(){
+    const handleSubmit = (e) => {
+        e.preventDefault();
         console.log("try to login dock hub");
         props.finalLogin(userName,password);
         clearField();
         props.setSwitchButton(true);
         props.setTrigger(false);
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        checkValid();
     }
 
     function clearField(){
@@ -26,7 +22,6 @@ export default function DockerLogin(props) {
 
     return (props.trigger) ?(
         <div className='docker-expand'>
-                <h3>Docker Hub Sign in</h3>
                 <form onSubmit={handleSubmit}>
                     <label 
                         htmlFor='DockerUserName'>User Name or Email Address
@@ -36,6 +31,7 @@ export default function DockerLogin(props) {
                         name='DockerUserName' 
                         id='DockerUserName'
                         required
+                        value={userName}
                         onChange={e=>setUserName(e.target.value)}
                         >
                     </input>
@@ -48,11 +44,12 @@ export default function DockerLogin(props) {
                         name='DockerPassword' 
                         id='DockerPassword'
                         required
+                        value={password}
                         onChange={e=>setPassword(e.target.value)}
                         >
                     </input>
                     <br></br>
-                    <button type="submit">Sign in</button>
+                    <button type="submit" className='btn btn-menu'>Sign in</button>
                 </form>
         </div>
       ): ""

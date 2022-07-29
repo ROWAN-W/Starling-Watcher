@@ -1,18 +1,12 @@
 package com.example.starlingui.service;
 
-
-import com.example.starlingui.model.domainNode;
-import com.example.starlingui.model.monitorContainer;
-import com.example.starlingui.model.monitorPod;
-import com.example.starlingui.model.monitorNode;
+import com.example.starlingui.model.*;
+import io.fabric8.kubernetes.api.model.Pod;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
-import io.kubernetes.client.openapi.models.V1Node;
-import io.kubernetes.client.openapi.models.V1NodeList;
-import io.kubernetes.client.openapi.models.V1Pod;
-import io.kubernetes.client.openapi.models.V1PodList;
+import io.kubernetes.client.openapi.models.*;
 import io.kubernetes.client.util.Config;
 
 import java.io.IOException;
@@ -29,10 +23,17 @@ public class monitorNodeServiceImpl implements NodeService{
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
+       /* ApiClient kubeApiClient = null;
+        try {
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        CoreV1Api api = new CoreV1Api();
+        */
+        ApiClient client = Config.fromCluster();
+        Configuration.setDefaultApiClient(client);
+        CoreV1Api api = new CoreV1Api(client);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;
@@ -42,10 +43,10 @@ public class monitorNodeServiceImpl implements NodeService{
 
             monitorNode node =new monitorNode();
             //System.out.println(id);
-            node.setId(String.valueOf(id));
+            node.setId(id);
             //System.out.println(item.getMetadata().getName());
             node.setNodeName(item.getMetadata().getName());
-
+            node.setHostname(item.getStatus().getAddresses().get(1).getAddress());
             //get pods
             node.setPods(getPodsOfNode(node.getNodeName(),api));
 
@@ -69,7 +70,7 @@ public class monitorNodeServiceImpl implements NodeService{
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
-            if(item.getSpec().getNodeName().equals(nodeName)){
+            if(item.getSpec().getNodeName().equals(nodeName)&&!item.getMetadata().getNamespace().equals("kube-system")){
                 //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
                 monitorPod monitorPod =new monitorPod();
                 //System.out.println(String.valueOf(id));
@@ -98,34 +99,35 @@ public class monitorNodeServiceImpl implements NodeService{
      */
 
     private List<monitorContainer> getContainersOfPod (V1Pod pod) throws ApiException{
-        ArrayList<monitorContainer> containers =new ArrayList<>();
+        ArrayList<monitorContainer> monitorContainers =new ArrayList<>();
         int id=0;
-        for(int i=0;i<pod.getStatus().getContainerStatuses().size();i++){
-            monitorContainer container =new monitorContainer();
+
+        for(V1ContainerStatus containerStatus: pod.getStatus().getContainerStatuses()){
+            monitorContainer monitorContainer =new monitorContainer();
             //System.out.println(String.valueOf(id));
-            container.setId(String.valueOf(id));
+            monitorContainer.setId(String.valueOf(id));
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getName());
-            container.setContainerName(pod.getStatus().getContainerStatuses().get(i).getName());
+            monitorContainer.setContainerName(containerStatus.getName());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getContainerID());
-            container.setContainerID(pod.getStatus().getContainerStatuses().get(i).getContainerID());
+           // domainContainer.setId(pod.getStatus().getContainerStatuses().get(i).getContainerID());
             //System.out.println(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated());
-            if(pod.getStatus().getContainerStatuses().get(i).getState().getRunning()!=null){
-                container.setContainerState("running");
+            if(containerStatus.getState().getRunning()!=null){
+                monitorContainer.setContainerState("running");
             }
-            else if(pod.getStatus().getContainerStatuses().get(i).getState().getTerminated()!=null){
-                container.setContainerState("terminated");
+            else if(containerStatus.getState().getTerminated()!=null){
+                monitorContainer.setContainerState("terminated");
             }
-            else if(pod.getStatus().getContainerStatuses().get(i).getState().getWaiting()!=null){
-                container.setContainerState("waiting");
+            else if(containerStatus.getState().getWaiting()!=null){
+                monitorContainer.setContainerState("waiting");
             }
             else{
-                container.setContainerState("null");
+                monitorContainer.setContainerState("null");
             }
-            containers.add(container);
+            monitorContainers.add(monitorContainer);
             id++;
         }
 
-        return containers;
+        return monitorContainers;
     }
 
 
