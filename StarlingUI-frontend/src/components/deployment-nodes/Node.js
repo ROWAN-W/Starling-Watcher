@@ -149,7 +149,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
     }
     
-    
+    //style={{background: isOver? "hsl(200, 100%, 40%)": "hsl(200, 100%, 20%)"}}
     
       return (
     <div>

@@ -1,10 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
+import axios from "axios";
 import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
 import logo from '../img/load.gif';
 import ImageSort from './ImageSort';
+const IMAGE_URL = 'http://localhost:8080/design/images';
 
 export default function ImageList() {
 
@@ -27,38 +29,40 @@ export default function ImageList() {
     
   useEffect(() => {
     if(waiting===true){
-      const url = "http://localhost:8080/design/images";
-        
-      const options = {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({
-            username: finalUserName,
-            password: finalPassword,
-        }),
-        };
-        
-        fetch(url,options)
-        .then(res => {
-          if (!res.ok) { // error coming back from server
-            throw Error('Login Failure. Error Details: '+res.status);
-          } 
-          return res.json();
-        })
-        .then(data => {
-          setWaiting(false);
-          setImages(data);
-          setError(null);
-          console.log("fetch "+url);
-        })
-        .catch(err => {
-          // auto catches network / connection error
-          setWaiting(false);
-          setError(err.message);
-        })
+      //use fetch() to avoid triggering axios interceptor
+        const options = {
+          method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json;charset=UTF-8",
+          },
+          body: JSON.stringify({
+              username: finalUserName,
+              password: finalPassword,
+          }),
+          };
+          
+          fetch(IMAGE_URL,options)
+          .then(res => {
+            if (!res.ok) { // error coming back from server
+              if(res.status===401){
+                throw Error("Invalid username or password");
+              }
+              throw Error('Login Failure. Error Details: '+res.status);
+            } 
+            return res.json();
+          })
+          .then(data => {
+            setWaiting(false);
+            setImages(data);
+            setError(null);
+            console.log("fetch "+IMAGE_URL);
+          })
+          .catch(err => {
+            // auto catches network / connection error
+            setWaiting(false);
+            setError(err.message);
+          }) 
     }  
     },[finalUserName,finalPassword])
 
@@ -89,8 +93,6 @@ export default function ImageList() {
             finalLogin={finalLogin}
             waiting={waiting}
             setWaiting={setWaiting}
-            defaultUserName={finalUserName}
-            defaultPassword={finalPassword}
             ></DockerLogin>
       </div>
     )
@@ -106,6 +108,8 @@ export default function ImageList() {
   }
 
   function tryAgain(){
+    setFinalUserName('');
+    setFinalPassword('');
     setUserSignIn(true);
   }
 
