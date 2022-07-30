@@ -12,10 +12,10 @@ const Navbar = () => {
     <nav className="nav">
       <h1 className="nav-title">Starling</h1>
       <ul className="nav-list">
-        <li onClick={()=>{setSelectedPage('Deployment')}} className={selectedPage==='Deployment'? "nav-list click": null}><Link to="/">Deployment</Link></li>
+        <li onClick={()=>{setSelectedPage('Deployment')}} className={selectedPage==='Deployment'? "nav-list click": null}><Link to="/">Design</Link></li>
         <li onClick={()=>{setSelectedPage('Monitor')}} className={selectedPage==='Monitor'? "nav-list click": null}><Link to="/monitor">Monitor</Link></li>
       </ul>
-      <div>{ userData && <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>}</div>
+      <div><User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User></div>
     </nav>
   );
 }

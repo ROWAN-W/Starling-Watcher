@@ -102,6 +102,7 @@ export default function Upload(props) {
             }
         }
         return true;
+    }
 
     function authenticateAgain(){
         if(reLogin){
