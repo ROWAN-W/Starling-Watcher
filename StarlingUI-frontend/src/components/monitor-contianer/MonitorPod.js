@@ -55,6 +55,7 @@ export default function MonitorPod(props){
                             reboot={reboot}
                             namespace={props.namespace}
                             podName={props.podName}
+                            key={container.id}
                             {...container}></MonitorContainer>
                     })}
                 </div>

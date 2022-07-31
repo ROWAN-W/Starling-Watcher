@@ -40,7 +40,7 @@ export default function Monitor() {
             return (
                 <div className="node-container">
                     {data?.map(node => {
-                        return <MonitorNode getNodes={getNodeStatus} {...node}></MonitorNode>
+                        return <MonitorNode getNodes={getNodeStatus} key={node.id} {...node}></MonitorNode>
                     })}
                 </div>
             )
