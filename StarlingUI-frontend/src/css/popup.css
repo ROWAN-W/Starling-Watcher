@@ -60,7 +60,7 @@
 .popup-close-button {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: bold;
     margin: 0;
     padding: 0;
@@ -122,12 +122,10 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: .9rem;
   padding: .3rem;
-  background: hsla(0, 0%, 100%,0.5);
-
 }
 
 .dropdown-values.node-deploy{
-  font-size: .9rem;
+  font-size: 1rem;
 }
 
 .unsaved-list{
@@ -140,6 +138,7 @@
 .unsaved-item{
   list-style: inside;
   padding-left: 1rem;
+  margin-bottom: .5rem;
 }
 
 .unsaved-item:hover{
@@ -213,7 +212,7 @@
   }
 
   .popup-footer.normal.display {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
   
   .popup-footer.normal .btn-primary, .popup-footer.normal .btn-danger {
@@ -429,10 +428,9 @@
   outline: none;
   border: none;
   position: absolute;
-  top: 15px;
-  right: 10px;
+  right: 20px;
   transition: all 200ms;
-  font-size: 30px;
+  font-size: 1.75rem;
   font-weight: bold;
   text-decoration: none;
 }
@@ -445,7 +443,7 @@
   color: #333;
   font-size: 1.1rem;
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   overflow-y: auto;
 }
 
@@ -628,23 +626,28 @@
   color: red;
 }
 
-input.rememberMe{
-  width: auto;
+input.rememberMe, input.hideAlert{
+  width: 1.5rem;
   padding: 0;
   margin: 0;
   margin-right: 0.25rem;
 }
 
-.rememberMe:focus, .rememberMe:hover{
+.rememberMe:focus, .rememberMe:hover,
+.hideAlert:focus, .hideAlert:hover{
   border-color: none;
   box-shadow: none;
 }
 
-.rememberMe-option{
+.rememberMe-option, .hideAlert-option{
   display: flex;
   justify-content: flex-start;
 }
 
+.hideAlert-option{
+  margin-top: 1rem;
+  font-size: 1rem;
+}
 .rememberMe-option label{
   font-size: 0.9rem;
 }
@@ -654,6 +657,13 @@ input.rememberMe{
   justify-content: right;
 }
 
+.create-user-container{
+  display: flex;
+  justify-content: left;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 p.forgot{
   font-size: .9rem;
   margin: 0;
@@ -661,10 +671,60 @@ p.forgot{
   display: inline-block;
 }
 
-p.forgot:hover{
+p.create-user{
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+p.forgot:hover, p.create-user{
   cursor: pointer;
 }
 
 .link:hover{
   cursor: pointer;
+}
+
+.key-hint{
+  margin-bottom: .5rem;
+  color: #555;
+  font-size: 1rem;
+}
+
+.key-hint.popup-inner{
+  margin-top: .5rem;
+}
+
+.key-hint.advanced-setting{
+  margin: 0;
+  padding: 0;
+  margin-bottom: .5rem;
+  font-size: .9rem;
+
+}
+
+.key-hint.available-drones{
+  display: flex;
+  justify-content: right;
+  margin-top: .5rem;
+  color: #fffffe;
+  font-size: .95rem;
+}
+
+.btn.btn-danger:focus{
+  outline: 2px solid crimson;
+}
+
+.btn.btn-primary:focus{
+  outline: 2px solid hsl(200, 100%, 60%);
+}
+
+.btn.btn-cancel:focus{
+  outline: 2px solid hsl(200, 100%, 40%);
+}
+
+.add-port-env-btn{
+  margin-left: .5rem;
+  font-size: 1rem;
 }

@@ -23,6 +23,8 @@ function App() {
 
   const [cookies, setCookie, removeCookie] = useCookies();
 
+  const [selectedPage, setSelectedPage] = useState('Deployment');
+
   const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
 
   const [selectedProjectID, setSelectedProjectID] = useState();
@@ -51,6 +53,8 @@ function App() {
 
   const [unsavedProjectIDs, setUnsavedProjectIDs] = useState([]);
   const [recoverMessage, setRecoverMessage] = useState(true);
+
+  const [fontSize, setFontSize] = useState(0);
 
   useEffect(()=>{
     const refreshToken = getCookie('refreshToken');
@@ -204,7 +208,10 @@ function App() {
     userData,
     images,
     userSignIn,
+    selectedPage,
+    fontSize, setFontSize,
     setUserSignIn,
+    setSelectedPage,
     setRememberMe,
     setUserData,
     setImages,
@@ -213,7 +220,7 @@ function App() {
     handleProjectSelect,
     handleCurrentUser,
     handleUserAdd,
-    handleProjectChange
+    handleProjectChange,
   } 
   
   return (

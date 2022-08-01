@@ -21,19 +21,19 @@ export default function DroneList(props) {
     const [searchDrone, setSearchDrone] = useState('');
 
     useEffect(() => {
-        console.log("authenticated");
+        console.log("fetch available devices");
         (async () => {
             try {
                 const {data} = await axios.get(DRONE_URL);
                 props.setWaiting(false);
                 props.setData(data);
                 props.setError(null);
-                console.log("fetch "+DRONE_URL)
+                console.log("fetch "+DRONE_URL);
             } catch (err) {
                 props.setData();
                 props.setWaiting(false);
                 if(err.response.status===401){
-                    props.setError("Authentication is required. Please sign in again.");
+                    props.setError("Authentication is required. Please sign in again and click \'sync\'.");
                     setTimeout(() => {
                         handleCurrentUser(undefined);
                     }, "1000") 
@@ -47,6 +47,7 @@ export default function DroneList(props) {
                 console.log(err.message);
             }
         })();
+    
       },[props.updateClick])
 
     function sorting(col){
@@ -127,6 +128,7 @@ export default function DroneList(props) {
         
     </table>}
     </div>
+    <div className='key-hint available-drones'>Click table head to sort, row to expand</div>
     </div>
     </>
   ): ""

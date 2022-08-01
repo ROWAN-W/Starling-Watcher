@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState,useEffect} from 'react';
 import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../img/load.gif';
@@ -18,6 +18,34 @@ export default function ManageAccount(props) {
     const [instruction, setInstruction] = useState('');
 
     const [reLogin, setReLogin] = useState(false);
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+
+      let textInput = null;
+        useEffect(()=>{
+            if(props.trigger===true){
+                textInput.focus();
+            }
+        },[props.trigger])
+
+    
+    function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            closeWindow();
+        }
+    }
+
+    function closeWindow(){
+        authenticateAgain();clearField();props.setTrigger(false);
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -93,9 +121,10 @@ export default function ManageAccount(props) {
             <div className='popup-projects-inner user'>
             <div className='popup-header'>
                 <span className='popup-title'>Change Password</span>
-                <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>
+                <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
             </div>
                 <form onSubmit={handleSubmit} className="form">
+                <div className='key-hint advanced-setting'>(Press Enter to save content, ESC to leave)</div>
                 {userChangeError && 
                 <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{userChangeError}</div>}
                 {/*waiting && <h4>Please wait...</h4>*/}
@@ -112,6 +141,7 @@ export default function ManageAccount(props) {
                         value={oldPassword}
                         required
                         onChange={e=>setOldPassword(e.target.value)}
+                        ref={(button) => { textInput = button; }}
                         >
                     </input>
                     <label 
@@ -142,7 +172,7 @@ export default function ManageAccount(props) {
                     <p></p>
                     <div className='popup-footer normal'>
                     <button className='btn btn-primary' type='submit'>Save Change</button>
-                    <button className='btn btn-cancel' type='button' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>Cancel</button>
+                    <button className='btn btn-cancel' type='button' onClick={()=>{closeWindow()}}>Cancel</button>
                     </div>
                 </form>
             </div>

@@ -20,8 +20,24 @@ export default function CreateProject(props) {
         }
     },[props.trigger]);
 
+    useEffect(()=>{
+      //key friendly
+      window.addEventListener('keydown', keyOperation);
+          
+      return () => { 
+        window.removeEventListener('keydown', keyOperation);
+      };
+    },[]);
+  
+    function keyOperation(e){
+      if(e.key==='Escape'||e.code==='Escape'){
+        closeWindow();
+      }
+    }
+
     function handleProjectAdd(){  
         const masterId = uuidv4();
+        const deploymentId = uuidv4();
         const number = projects.length+1;
 
         const newProject = {
@@ -46,10 +62,27 @@ export default function CreateProject(props) {
             ,
             containers:[]    
           },
+          {
+            id:deploymentId,
+            name: 'deployment',
+            kind: 'deployment',
+            //can be empty
+            label: 
+              {
+                app: 'project-'+number,
+                platform: ''
+              }
+            ,
+            containers:[]    
+          }
         ],
         mapping:[
           {
             nodeID: masterId,
+            mappedDrones: []
+          },
+          {
+            nodeID: deploymentId,
             mappedDrones: []
           }
         ]
@@ -73,12 +106,16 @@ export default function CreateProject(props) {
         .then((data) => {
           setIsPending(false);
           setError(null);
-          setResult("Your project has been successfully created and saved");
+          setResult("Successfully created and saved");
           console.log("post "+PROJECT_URL);
           console.log(data.data.id);
           project.id = data.data.id; //id from db {"id": "62c04445cda4856fc0226778"}
           setProjects([...projects,project]);
-          handleProjectSelect(data.data.id); 
+          handleProjectSelect(data.data.id);
+          //close automatically
+          setTimeout(() => {
+            closeWindow();
+          }, 1000)
         })
         .catch((err) => {
           console.log(err.message);
@@ -110,17 +147,27 @@ export default function CreateProject(props) {
         }
       }
 
+      function closeWindow(){
+        if(!savePending){
+          authenticateAgain();
+          clearField();
+          props.setTrigger(false);
+        }
+      }
+
     function message(){
         return(
         <>
           {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-          {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
+          {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
           {error && <h2 className='title-error'>Create Project Error</h2>}
-          {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
-          <div className='content'>{error? error: result}</div>
+          {!error && result!=='' && <h2 className='title-success'>Create Success!</h2>}
+          <div className='content'>{error? error: ''}</div>
+          {error && <div className='key-hint'>(Press ESC to leave)</div>}
           {!savePending && 
           <div className='popup-footer normal'>
-            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>OK</button>
+            <button className='btn short' 
+            onClick={()=>{closeWindow()}}>OK</button>
           </div>}
         </>
         )

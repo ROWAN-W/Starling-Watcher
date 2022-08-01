@@ -19,6 +19,21 @@ export default function DeleteProject(props) {
         }
     },[props.trigger]);
 
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+    
+      function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+          closeWindow();
+        }
+      }
+
     function handleProjectDelete(){
         if(props.selectedProject!==null){
             setIsPending(true);
@@ -39,6 +54,10 @@ export default function DeleteProject(props) {
             console.log(data);
             setProjects(projects.filter(project=>project.id!==id));
             handleProjectSelect(undefined);
+            //close automatically
+            setTimeout(() => {
+                closeWindow();
+            }, 1000)
         })
         .catch((err) => {
             console.log(err.message);
@@ -73,18 +92,25 @@ export default function DeleteProject(props) {
         }
       }
 
+      function closeWindow(){
+        if(!savePending){
+          authenticateAgain();clearField();props.setTrigger(false);
+        }
+      }
+
 
     function message(){
         return(
             <>
             {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-            {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
+            {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
             {error && <h2 className='title-error'>Delete Project Error</h2>}
-            {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
-            <div className='content'>{error? error: result}</div>
+            {!error && result!=='' && <h2 className='title-success'>Delete Success!</h2>}
+            <div className='content'>{error? error: ''}</div>
+            {error && <div className='key-hint'>(Press ESC to leave)</div>}
             {!savePending && 
             <div className='popup-footer normal'>
-                <button className='btn short' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>OK</button>
+                <button className='btn short' onClick={()=>{closeWindow()}}>OK</button>
             </div>}
             
             

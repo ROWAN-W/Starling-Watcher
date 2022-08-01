@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import Node from './Node';
 import Filter from './Filter';
 import SearchBox from './SearchBox';
-import search from '../img/search-svgrepo-com.svg';
 
 import droneCircle from '../img/oie_151914634owYC2D.png';
 import masterCircle from '../img/oie_15192229OeBZ3dl4.png'
@@ -16,7 +15,6 @@ export default function Project({currentUserID, selectedProject}) {
     const [filterValue, setFilterValue] = useState('all');
     const [searchNode, setSearchNode] = useState('');
 
-    const [showSearch, setShowSearch] = useState(false);
     const [clickAdd, setClickAdd] =useState(false);
 
     const options = [droneCircle, masterCircle, 'None'];
@@ -40,7 +38,6 @@ export default function Project({currentUserID, selectedProject}) {
       setFilterValue('all');
       setSearchNode('');
       setClickAdd(false);
-      setShowSearch(false);
     }, [selectedProject]);
 
 
@@ -192,10 +189,9 @@ function handleNodeDuplicate(node){
       }else{
         return (
           <div className='project items'>
-            <img className="search-icon" src={search} alt="search" title="search/filter" onClick={()=>setShowSearch(prev=>!prev)}/>
             <div className='node-search-filter'>
-            {showSearch &&<><SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
-              <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter></>}
+              <SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
+              <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter>
             </div>
           <div className='project-container-single'>
            {showProjectDetail()}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import logo from '../img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
@@ -13,6 +13,32 @@ export default function Upload(props) {
     const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
     const [reLogin, setReLogin] = useState(false);
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    },[props.trigger])
+    
+    function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            closeWindow();
+        }
+    }
+
+    function closeWindow(){
+        authenticateAgain();clearField();props.setTrigger(false);
+    }
 
     function handleFileUpload(){
         if(selectedFile===null || selectedFile===undefined){
@@ -49,6 +75,7 @@ export default function Upload(props) {
     function clearField(){
         setSelectedFile();
         setResult('');
+        setNamespace('');
     }
 
     const handleSubmit = (e) => {
@@ -116,7 +143,7 @@ export default function Upload(props) {
             <div className='popup-projects-inner'>
             <div className='popup-header'>
                 <span className='popup-title'>Upload file (YAML/YML) & Deploy</span>
-                {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
+                {!savePending && <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>}
             </div>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit} className="advanced-setting-form">
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
@@ -133,8 +160,9 @@ export default function Upload(props) {
                         value={namespace}
                         required
                         maxLength = {63}
-                        onChange={e=>setNamespace(e.target.value)}
+                        onChange={e=>{setNamespace(e.target.value);setResult('');}}
                         className="width-100"
+                        ref={(button) => { textInput = button; }}
                         >
                     </input>
                     </div>
@@ -145,9 +173,9 @@ export default function Upload(props) {
                     <input type="file" required 
                         onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}} className="width-100"/>
                     </div>
-                    <br></br>
+                    <div className='key-hint popup-inner'>(Press Enter to upload, ESC to leave)</div>
                     <div className='popup-footer single'>
-                        {selectedFile && <button className='btn' type='submit'>Deploy</button>}
+                        <button className='btn' type='submit'>Deploy</button>
                     </div> 
                 </form>
             </div>

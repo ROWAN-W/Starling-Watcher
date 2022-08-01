@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import NodeEnvEdit from './NodeEnvEdit';
 import { v4 as uuidv4 } from 'uuid';
 import NodePortEdit from './NodePortEdit';
-import add from '../img/add-svgrepo-com.svg';
 
 export default function ContainerSetting(props) {
 
@@ -10,6 +9,13 @@ export default function ContainerSetting(props) {
     const [args, setArgs] = useState(props.container.args);    
     const [envs, setEnvs] = useState([...props.container.env]);
     const [ports, setPorts] = useState([...props.container.port]);
+
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    },[props.trigger])
 
     function clearField(){
         setCommand(props.container.command);
@@ -22,11 +28,6 @@ export default function ContainerSetting(props) {
     function handleChange(changes){
         props.handleContainerChange(props.container.id, {...props.container, ...changes})
     }
-
-    /*function saveChange(){
-        handleChange({command:command,args: args, env: envs, port: ports});
-        props.setTrigger(false);
-    }*/
 
     const saveChange = (e) => {
         e.preventDefault();
@@ -79,10 +80,11 @@ export default function ContainerSetting(props) {
             <div className='popup-projects-inner advanced-setting'>
             <div className='popup-header'>
                 <span className='popup-title'>Advanced Settings</span>
-                <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                <button type="button" className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
             </div>
                 <form onSubmit={saveChange} className="advanced-setting-form">
                     <div className="advanced-setting stack">
+                    <div className='key-hint advanced-setting'>(Press Tab to select, Enter to save content)</div>
                     <div className='popup-major stack'>
                     <label 
                         htmlFor='command' className='popup-major-key major'>command
@@ -94,6 +96,7 @@ export default function ContainerSetting(props) {
                         value={command}
                         onChange={e=>setCommand(e.target.value)}
                         className="width-100"
+                        ref={(button) => { textInput = button; }}
                         >
                     </input>
                     <label 
@@ -110,7 +113,7 @@ export default function ContainerSetting(props) {
                     </input>
                     </div>
                     <div className='sub-title grid'><label>Env</label>
-                    <img className="add" src={add} alt="add" title="Add Env Property" onClick={()=>handleEnvAdd()}/></div>
+                    <button type="button" className="add-port-env-btn" onClick={()=>handleEnvAdd()}>+</button></div>
                     <div className='popup-pair-grid'>
                     <div className='popup-major-key'>Name</div>
                     <div className='popup-major-key'>Value</div>
@@ -127,7 +130,7 @@ export default function ContainerSetting(props) {
 
                     <p></p>
                     <div className='sub-title grid'><label>Port</label>
-                    <img className="add port" src={add} alt="add" title="Add Port Property" onClick={()=>handlePortAdd()}/></div>
+                    <button type="button" className="add-port-env-btn" onClick={()=>handlePortAdd()}>+</button></div>
                     <div className='popup-pair-grid'>
                     <div className='popup-major-key'>Port Number</div>
                     <div className='popup-major-key'>Protocol</div>
