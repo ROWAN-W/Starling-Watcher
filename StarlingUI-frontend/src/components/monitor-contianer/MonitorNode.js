@@ -1,7 +1,6 @@
-import MonitorContainer from "./MonitorContainer";
 import React, {useEffect, useState} from "react";
 import MonitorPod from "./MonitorPod";
-
+import drone from "../../css/monitorImage/drone.png";
 
 
 export default function MonitorNode(props){
@@ -14,7 +13,7 @@ export default function MonitorNode(props){
         <>
             <div className="card">
                 <div className="title">
-                    <image className="drone-image"></image>
+                    <img className="drone-image" src={drone} alt=""/>
                     <span>{props.nodeName}</span>
                 </div>
                 <div className="card-container">
