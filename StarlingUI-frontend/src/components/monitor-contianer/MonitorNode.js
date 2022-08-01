@@ -21,6 +21,7 @@ export default function MonitorNode(props){
                     {pods?.map(pod=>{
                         return <MonitorPod
                             getNodes={props.getNodes}
+                            key={pod.id}
                             {...pod}></MonitorPod>
                     })}
                 </div>
