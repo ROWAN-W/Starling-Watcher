@@ -1,9 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { ProjectContext } from './App';
 
 export default function RecoverMessage(props) {
     
     const {projects, handleProjectSelect} = useContext(ProjectContext);
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+    
+      function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            props.setTrigger(false);
+        }
+      }
 
     function message(){
         return(
@@ -15,7 +30,7 @@ export default function RecoverMessage(props) {
                     {props.unsavedProjectIDs.map(projectID=>
                     <li className='unsaved-item wordbreak wordwrap' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
                 </div>
-
+            <div className='key-hint'>(Press ESC to leave)</div>
             <div className='popup-footer normal'>
             <button className='btn short' onClick={()=>{props.setTrigger(false);}}>OK</button>
             </div>

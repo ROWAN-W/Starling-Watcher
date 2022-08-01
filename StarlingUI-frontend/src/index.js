@@ -7,7 +7,9 @@ import './interceptors/axios';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
-    <App />
+  <CookiesProvider>
+  <App />
+  </CookiesProvider>
   //</React.StrictMode>
 );
 

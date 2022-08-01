@@ -24,6 +24,7 @@ export default function NodeEnvEdit( {variable, handleEnvChange, handleEnvDelete
         <button 
         onClick = {()=>handleEnvDelete(variable.id)}
         className='popup-pair-grid-btn'
+        type="button"
         >&times;</button>
         </>
       )

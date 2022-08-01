@@ -28,6 +28,7 @@ function Deployment({selectedProject}) {
   const [minimize, setMinimize] = useState(null); //save
 
   function handleUpdateTime(){
+    console.log("update available devices");
     setWaiting(true);
     setError(null);
     setData(); //clear data

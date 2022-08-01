@@ -24,6 +24,7 @@ export default function NodePortEdit( {port, handlePortChange, handlePortDelete}
         <button 
         onClick = {()=>handlePortDelete(port.id)}
         className='popup-pair-grid-btn'
+        type="button"
         >&times;</button>
         </>
       )

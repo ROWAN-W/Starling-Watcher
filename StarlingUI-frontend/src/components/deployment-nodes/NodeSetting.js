@@ -18,6 +18,17 @@ export default function NodeSetting(props) {
         }
     },[name, kind, app, platform, selectedImage]);
 
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    },[props.trigger])
+
+    function closeWindow(){
+        props.setTrigger(false);clearField();
+    }
+
     function clearField(){
         setName(props.node.name);
         setKind(props.node.kind);
@@ -119,11 +130,12 @@ return (props.trigger) ?(
         <div className='popup-projects-inner advanced-setting'>
         <div className='popup-header'>
             <span className='popup-title'>Advanced Settings</span>
-            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+            <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
         </div>
             {warning!=='' && <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{warning}</div>}
             <form onSubmit={saveChange} className="advanced-setting-form">
                 <div className="advanced-setting">
+                <div className='key-hint advanced-setting'>(Press Tab to select, Enter to save content)</div>
                 <div className='popup-major'>
                 <div><label 
                     htmlFor='name' className='popup-major-key major'>Name<span className='required'>*</span>
@@ -136,6 +148,7 @@ return (props.trigger) ?(
                     required
                     maxLength = {63}
                     onChange={e=>setName(e.target.value)}
+                    ref={(button) => { textInput = button; }}
                     >
                 </input></div>
                 <div><label 
@@ -178,7 +191,7 @@ return (props.trigger) ?(
                 </div>
                 <div className='popup-footer normal display'>
                 <button className='btn btn-primary' type="submit">Done</button>
-                <button className='btn btn-cancel' type="button" onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
+                <button className='btn btn-cancel' type="button" onClick={()=>{closeWindow()}}>Cancel</button>
                 </div>
             </form>
         </div>

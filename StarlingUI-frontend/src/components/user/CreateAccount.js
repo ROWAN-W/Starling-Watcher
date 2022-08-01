@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../img/load.gif';
@@ -19,6 +19,32 @@ export default function CreateAccount(props) {
     const [waiting, setWaiting] = useState(false);
 
     const [instruction, setInstruction] = useState('');
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+
+      let textInput = null;
+        useEffect(()=>{
+            if(props.trigger===true){
+                textInput.focus();
+            }
+        },[props.trigger])
+    
+    function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            closeWindow();
+        }
+    }
+
+    function closeWindow(){
+        props.setTrigger(false);clearField()
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,9 +105,10 @@ export default function CreateAccount(props) {
             <div className='popup-projects-inner user'>
             <div className='popup-header'>
                 <span className='popup-title'>Create Account</span>
-                <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
+                <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
             </div>
                     <form onSubmit={handleSubmit} className="form">
+                    <div className='key-hint advanced-setting'>(Press Enter to save content, ESC to leave)</div>
                     {createUserError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{createUserError}</div>}
                     {/*waiting && <h4>Please wait...</h4>*/}
                     {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
@@ -96,6 +123,7 @@ export default function CreateAccount(props) {
                         id='userName'
                         required
                         onChange={e=>setNewUserName(e.target.value)}
+                        ref={(button) => { textInput = button; }}
                         >
                     </input>
                     <br></br>

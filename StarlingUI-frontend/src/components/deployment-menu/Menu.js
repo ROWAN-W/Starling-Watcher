@@ -24,6 +24,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     const [deleteWarning, setDeleteWarning] = useState(false);
     const [projectDelete, setProjectDelete] = useState(false);
     
+    const [hideWarning, setHideWarning] = useState(false);
     const [deployWarning, setDeployWarning] = useState(false);
     const [deployWarningMes, setDeployWarningMes] = useState('');
 
@@ -156,11 +157,11 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     <div className='menu'>
     <button className='btn btn-menu' onClick={()=>handleProjectSelection(true)}>Select Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectCreate(true)}>Create Project</button>
+    <button className='btn btn-menu btn-accent' onClick={()=>handleProjectDeploy(true)}>Deploy Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectLoad(true)}>Load Project</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete Project</button>
     <button className='btn btn-menu' onClick={()=>handleProjectSave(true)}>Save</button>
     <button className='btn btn-menu' onClick={()=>handleProjectConfig(true)}>Share</button>
-    <button className='btn btn-menu btn-accent' onClick={()=>handleProjectDeploy(true)}>Deploy</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete</button>
     </div>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>
@@ -172,7 +173,7 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
     ></SaveMessage>
     <SaveWarning trigger={saveWarning} setTrigger={setSaveWarning} message={saveWarningMes}></SaveWarning>
     <ShareProject trigger={projectConfig} setTrigger={setProjectConfig} selectedProject={selectedProject}></ShareProject>
-    <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} setProjectDelete={setProjectDelete} selectedProject={selectedProject}></DeleteWarning>
+    <DeleteWarning trigger={deleteWarning} setTrigger={setDeleteWarning} setProjectDelete={setProjectDelete} selectedProject={selectedProject} hideWarning={hideWarning} setHideWarning={setHideWarning}></DeleteWarning>
     <DeleteProject trigger={projectDelete} setTrigger={setProjectDelete} selectedProject={selectedProject}></DeleteProject>
     <Deploy trigger={projectDeploy} setTrigger={setProjectDeploy} 
     selectedProject={selectedProject} 

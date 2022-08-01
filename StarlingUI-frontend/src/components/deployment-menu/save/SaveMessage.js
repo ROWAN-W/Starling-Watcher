@@ -16,6 +16,15 @@ export default function SaveMessage(props) {
     const [reLogin, setReLogin] = useState(false);
 
     useEffect(()=>{
+      //key friendly
+      window.addEventListener('keydown', keyOperation);
+          
+      return () => { 
+        window.removeEventListener('keydown', keyOperation);
+      };
+    },[]);
+    
+    useEffect(()=>{
         if(props.trigger===true){
             //data before saving
             console.log("data before saving");
@@ -26,6 +35,13 @@ export default function SaveMessage(props) {
             handleProjectSave();
         }
     },[props.trigger]);
+
+    function keyOperation(e){
+      if(e.key==='Escape'||e.code==='Escape'){
+          closeWindow();
+      }
+    }
+    
 
     /*
         * contain at most 63 characters
@@ -48,6 +64,10 @@ export default function SaveMessage(props) {
         else{
           console.log("already saved");
           setResult("The project is already saved");
+          //close automatically
+          setTimeout(() => {
+            closeWindow();
+          }, 1000)
         }
     }
     
@@ -65,9 +85,13 @@ export default function SaveMessage(props) {
         .then((data) => {
             setIsPending(false);
             setError(null);
-            setResult("Your changes have been successfully saved"); 
+            setResult("Successfully saved"); 
             console.log("put "+PROJECT_URL+'/'+id);
             console.log(data);
+            //close automatically
+              setTimeout(() => {
+                closeWindow();
+              }, 1000)
         })
         .catch((err) => {
             console.log(err.message);
@@ -107,17 +131,24 @@ export default function SaveMessage(props) {
         }
       }
 
+      function closeWindow(){
+        if(!savePending){
+          authenticateAgain();clearField();props.setTrigger(false);
+        }
+      }
+
     function message(){
         return(
             <>
             {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-            {!savePending && <button className='close' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>&times;</button>}
+            {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
             {error && <h2 className='title-error'>Save Project Error</h2>}
-            {!error && result!=='' && <h2 className='title-success'>Success!</h2>}
-            <div className='content'>{error? error: result}</div>
+            {!error && result!=='' && <h2 className='title-success'>Save Success!</h2>}
+            <div className='content'>{error? error: ''}</div>
+            {error && <div className='key-hint'>(Press ESC to leave)</div>}
             {!savePending && 
             <div className='popup-footer normal'>
-            <button className='btn short' onClick={()=>{props.setTrigger(false);clearField();authenticateAgain()}}>OK</button>
+            <button className='btn short' onClick={()=>{closeWindow()}}>OK</button>
             </div>}   
             </>
         )

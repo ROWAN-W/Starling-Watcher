@@ -1,4 +1,4 @@
-import React,{useContext, useState} from 'react';
+import React,{useContext, useState,useEffect} from 'react';
 import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../img/load.gif';
@@ -18,6 +18,32 @@ export default function LoginIn(props) {
     const [waiting, setWaiting] = useState(false);
 
     const [forgot, setForgot] = useState(false);
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    },[props.trigger])
+    
+    function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            closeWindow();
+        }
+    }
+
+    function closeWindow(){
+        props.setTrigger(false);clearField();
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,12 +105,13 @@ export default function LoginIn(props) {
         <div className='popup-projects-inner user'>
         <div className='popup-header'>
             <span className='popup-title'>Sign in</span>
-            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();}}>&times;</button>
+            <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
         </div>
                 <form onSubmit={handleSubmit} className="form">
+                <div className='key-hint advanced-setting'>(Press Enter to submit, ESC to leave)</div>
                 {loginError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{loginError}</div>}
                 {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-                <p className='link' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
+                <div className='create-user-container'><p className='create-user' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p></div>
                 <label 
                     htmlFor='userName'>User Name
                 </label>
@@ -94,6 +121,7 @@ export default function LoginIn(props) {
                     id='userName'
                     required
                     onChange={e=>setUserName(e.target.value)}
+                    ref={(button) => { textInput = button; }}
                     >
                 </input>
                 <br></br>

@@ -1,10 +1,32 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect} from 'react';
 import { ProjectContext } from '../App';
 import warning from '../img/warning-svgrepo-com.svg';
 
 export default function UnsavedWarning(props) {
     
     const {projects, handleCurrentUser, handleProjectSelect} = useContext(ProjectContext);
+    
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    })
+
+    useEffect(()=>{
+        //key friendly
+        window.addEventListener('keydown', keyOperation);
+            
+        return () => { 
+          window.removeEventListener('keydown', keyOperation);
+        };
+      },[]);
+
+    function keyOperation(e){
+        if(e.key==='Escape'||e.code==='Escape'){
+            props.setTrigger(false);
+        }
+    }
 
     return (props.trigger) ?(
         <div className='popup-projects'>
@@ -19,9 +41,9 @@ export default function UnsavedWarning(props) {
                 </div>
 
                 <div className='content'>Signing out will lose all unsaved changes.</div>
-                
+                <div className='key-hint'>(Press ENTER to sign out, ESC to cancel)</div>
                 <div className='popup-footer normal'>
-                <button className="btn btn-danger" onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
+                <button ref={(button) => { textInput = button; }} className="btn btn-danger" onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
                 <button className="btn btn-cancel" onClick={()=>{props.setTrigger(false);}}>Cancel</button>
                 </div>
             </div>
