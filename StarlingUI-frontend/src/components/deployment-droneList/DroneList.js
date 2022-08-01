@@ -22,7 +22,8 @@ export default function DroneList(props) {
 
     useEffect(() => {
         console.log("fetch available devices");
-        (async () => {
+
+        /*(async () => {
             try {
                 const {data} = await axios.get(DRONE_URL);
                 props.setWaiting(false);
@@ -46,7 +47,39 @@ export default function DroneList(props) {
                 }
                 console.log(err.message);
             }
-        })();
+        })();*/
+
+        //temporary for 401 error from /design/nodes
+        const options = {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+            },
+            };
+            
+            fetch(DRONE_URL,options)
+            .then(res => {
+              if (!res.ok) { // error coming back from server
+                if(res.status===404){
+                  throw Error("Fail to sync available devices.");
+                }
+                throw Error('Fetch Failure. Error Details: '+res.status);
+              } 
+              return res.json();
+            })
+            .then(data => {
+                props.setWaiting(false);
+                props.setData(data);
+                props.setError(null);
+                console.log("fetch "+DRONE_URL);
+            })
+            .catch(err => {
+              // auto catches network / connection error
+              props.setData();
+              props.setWaiting(false);
+              props.setError(err.message);
+            }) 
     
       },[props.updateClick])
 
