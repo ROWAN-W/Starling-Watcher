@@ -131,21 +131,24 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
                         .load(new FileInputStream(file))
                         .get();
                 // Apply it to Kubernetes Cluster
-
+k8s.apps().deployments().inNamespace(namespace).create(deploy);
  */
 
 
 
         try {
-            //String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
-           // Config config = Config.fromKubeconfig(kubeConfigContent);
-           // KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
+        /*
+ //configure a client from a YAML file
+ String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
+Config config = Config.fromKubeconfig(kubeConfigContent);
+KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
+  */
 
-            KubernetesClient k8s =new DefaultKubernetesClient();
+            //default client
+            KubernetesClient client = new KubernetesClientBuilder().build();
+            client.load(new FileInputStream(file)).inNamespace(namespace).create();
 
-            k8s.load(new FileInputStream(file)).inNamespace(namespace).create();
-                //k8s.apps().deployments().inNamespace(namespace).create(deploy);
-            }catch (IOException ioException){
+        }catch (IOException ioException){
             throw new StarlingException("file processing error");
         }
         catch(KubernetesClientException kubernetesClientException){
