@@ -38,7 +38,7 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable().authorizeHttpRequests()
-                .antMatchers("/design/initialize",  "/login", "/refresh", "/blacklist", "/tokens",
+                .antMatchers("/design/initialize",  "/login", "/refresh", "/tokens",
                         "/monitor/*", "/design/database", "/register", "/design/images").permitAll()
                 .anyRequest().authenticated()
                 .and()
