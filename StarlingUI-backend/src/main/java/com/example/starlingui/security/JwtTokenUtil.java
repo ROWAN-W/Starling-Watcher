@@ -27,7 +27,7 @@ public class JwtTokenUtil {
     public JwtTokenUtil() {
         algorithm = Algorithm.HMAC256("Starling".getBytes());
         accessAvailableTime = 15 * 60 * 1000;
-        refreshAvailableTime = 30 * 60 * 1000;
+        refreshAvailableTime = 24 * 60 * 60 * 1000;
     }
 
     public String generateAccessToken(UserDetails userDetails) {

