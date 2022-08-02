@@ -9,32 +9,6 @@ export default function ShareProject(props) {
 
     const [existingMembers, setExistingMembers] = useState([]);
 
-    let textInput = null;
-    useEffect(()=>{
-        if(props.trigger===true){
-            textInput.focus();
-        }
-    })
-
-    useEffect(()=>{
-        //key friendly
-        window.addEventListener('keydown', keyOperation);
-            
-        return () => { 
-          window.removeEventListener('keydown', keyOperation);
-        };
-      },[]);
-    
-    function keyOperation(e){
-        if(e.key==='Escape'||e.code==='Escape'){
-            closeWindow();
-        }
-    }
-
-    function closeWindow(){
-        props.setTrigger(false);clearField();
-    }
-
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -58,7 +32,7 @@ export default function ShareProject(props) {
     }
 
     function clearField(){
-        setExistingMembers(props.selectedProject?.memberIDs);
+        setExistingMembers(props.selectedProject.memberIDs);
     }
         
     function removeMember(id){
@@ -77,7 +51,7 @@ export default function ShareProject(props) {
                 <>
                 <div className='popup-header owner'>
                     <span className='popup-title wordwrap wordbreak'>Share {props.selectedProject.name}</span>
-                    <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+                    <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 </div>
 
                 <div className="share">
@@ -86,10 +60,10 @@ export default function ShareProject(props) {
                 <div className="people-list">People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
                 </div>
-                <div className='key-hint popup-inner'>(Press Enter to save content, ESC to leave)</div>
+                
                 <div className='popup-footer normal'>
-                    <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button>
-                    <button className='btn btn-cancel' onClick={()=>{closeWindow()}}>Cancel</button>
+                    <button className='btn btn-primary' onClick={()=>{saveChange();props.setTrigger(false)}}>Done</button>
+                    <button className='btn btn-cancel' onClick={()=>{props.setTrigger(false);clearField()}}>Cancel</button>
                 </div>
                 </>
             )
@@ -99,7 +73,7 @@ export default function ShareProject(props) {
                 <>
                 <div className='popup-header'>
                     <span className='popup-title wordwrap wordbreak'>Members of {props.selectedProject.name}</span>
-                    <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+                    <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
                 </div>
                 
                 <div className="info-msg wordwrap">
@@ -109,7 +83,7 @@ export default function ShareProject(props) {
 
                 <div className="people-list">People with access</div>
                 {existingMembers?.map(member=><div key={member}><Member owner={props.selectedProject.ownerID} member={member} removeMember={removeMember}></Member></div>)}
-                <div className='key-hint popup-inner'>(Press ESC to leave)</div>
+
                 <div className='popup-footer normal'>
                 <button className='btn short' onClick={()=>{props.setTrigger(false)}}>OK</button>
                 </div>

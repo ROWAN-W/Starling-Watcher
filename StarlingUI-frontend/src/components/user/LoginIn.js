@@ -1,15 +1,10 @@
-import React,{useContext, useState,useEffect} from 'react';
-import axios from "axios";
+import React,{useContext, useState} from 'react';
 import { ProjectContext } from '../App';
 import logo from '../img/load.gif';
-import { useCookies } from "react-cookie";
-const LOGIN_URL = 'http://localhost:8080/login';
 
 export default function LoginIn(props) {
 
-    const [cookies, setCookie] = useCookies(["refreshToken"]);
-
-    const {handleCurrentUser,setRememberMe} =useContext(ProjectContext);
+    const {handleCurrentUser} = useContext(ProjectContext);
 
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -17,77 +12,64 @@ export default function LoginIn(props) {
     const [loginError, setError] = useState(null);
     const [waiting, setWaiting] = useState(false);
 
+    //const [instruction, setInstruction] = useState('');
     const [forgot, setForgot] = useState(false);
 
-    useEffect(()=>{
-        //key friendly
-        window.addEventListener('keydown', keyOperation);
-            
-        return () => { 
-          window.removeEventListener('keydown', keyOperation);
-        };
-      },[]);
-
-    let textInput = null;
-    useEffect(()=>{
-        if(props.trigger===true){
-            textInput.focus();
-        }
-    },[props.trigger])
-    
-    function keyOperation(e){
-        if(e.key==='Escape'||e.code==='Escape'){
-            closeWindow();
-        }
-    }
-
-    function closeWindow(){
-        props.setTrigger(false);clearField();
-    }
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+        checkValid();
+    }
 
+    function checkValid(){
         setError(null);
         setWaiting(true);
-
-        try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ name: userName, password: password }),
-                {
-                    headers: { 
-                        'Content-Type': 'application/json' ,
-                    },
-                }, 
-            );
-            const accessToken = response?.data.accessToken;
-            const refreshToken = response?.data.refreshToken;
-            axios.defaults.headers.common = {'Authorization': `Bearer ${accessToken}`};
-            setCookie("refreshToken", refreshToken, {path: '/'});
-            console.log(accessToken);
-            console.log(refreshToken);
-                handleCurrentUser(response.data.id);
-                setWaiting(false);
-                setError(null);
-                clearField();
-                props.setTrigger(false);
-        } catch (err) {
-            console.log(err.message);
-            setWaiting(false);
-            if(err.response.status===401){
-                setError("Invalid username or password");
-            }
-            else{
-                setError(err.message);
-            }
-        }
+        const url = "http://localhost:8080/design/login";
+        
+        const options = {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify({
+            name: userName,
+            password: password,
+        }),
+        };
+        
+        fetch(url,options)
+        .then(res => {
+          if (!res.ok) { // error coming back from server
+            throw Error("Invalid username or password!");
+          } 
+          return res.json();
+        })
+        .then(data => {
+          console.log("valid account");
+          console.log(data);
+          setWaiting(false);
+          setError(null);
+          console.log("fetch "+url);
+          //setInstruction("Success!");
+          
+          //setTimeout(() => {
+            handleCurrentUser(data.id);
+            clearField();
+            props.setTrigger(false);
+          //}, 2000)
+        })
+        .catch(err => {
+          // auto catches network / connection error
+          setWaiting(false);
+          setError(err.message);
+        })        
     }
 
     function forgotPassword(){
         if(forgot){
-            return <div className='forgot-container'><p onClick={()=>setForgot(prev=>!prev)} className='forgot'>Please contact administrator</p></div>
+            return <p className='forgot'>Please contact administrator.</p>
         }else{
-            return <div className='forgot-container'><p onClick={()=>setForgot(prev=>!prev)} className='forgot'>Forgot password?</p></div>
+            return <p className='forgot'>Forgot password?</p>
         }
     }
 
@@ -97,6 +79,7 @@ export default function LoginIn(props) {
         setForgot(false);
         setError(null);
         setWaiting(false);
+        //setInstruction('');
     }
 
     
@@ -105,13 +88,13 @@ export default function LoginIn(props) {
         <div className='popup-projects-inner user'>
         <div className='popup-header'>
             <span className='popup-title'>Sign in</span>
-            <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField();}}>&times;</button>
         </div>
                 <form onSubmit={handleSubmit} className="form">
-                <div className='key-hint advanced-setting'>(Press Enter to submit, ESC to leave)</div>
                 {loginError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{loginError}</div>}
+                {/*waiting && <h4>Please wait...</h4>*/}
                 {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-                <div className='create-user-container'><p className='create-user' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p></div>
+                <p className='link' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p>
                 <label 
                     htmlFor='userName'>User Name
                 </label>
@@ -121,7 +104,6 @@ export default function LoginIn(props) {
                     id='userName'
                     required
                     onChange={e=>setUserName(e.target.value)}
-                    ref={(button) => { textInput = button; }}
                     >
                 </input>
                 <br></br>
@@ -136,10 +118,8 @@ export default function LoginIn(props) {
                     onChange={e=>setPassword(e.target.value)}
                     >
                 </input>
-                {forgotPassword()}
-                <div className='rememberMe-option' title="Not recommended on public or shared computers"><input type="checkbox" className='rememberMe' onChange={()=>{setRememberMe(prev=>!prev)}} defaultChecked={true}/> <label htmlFor="rememberMe">Remember me</label></div>
-                <p></p>
                 <div className='popup-footer single'>
+                    <div className='link' onClick={()=>setForgot(prev=>!prev)}>{forgotPassword()}</div>
                     <button className='btn' type='submit'>Sign in</button>
                 </div>
                 </form>

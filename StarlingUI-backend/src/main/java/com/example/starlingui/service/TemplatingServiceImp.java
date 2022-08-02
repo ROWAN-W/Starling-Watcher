@@ -150,7 +150,6 @@ public class TemplatingServiceImp implements TemplatingService {
     }
 
 
-
     /**
      * @Description Build the spec of the Container by user's design then append to the pod
      * @param containersArray,pod List of Containers and a PodSpecBuilder
@@ -163,7 +162,10 @@ public class TemplatingServiceImp implements TemplatingService {
             pod.addNewContainer().endContainer();
             Containers ANodeDesign = containersArray.get(i);
             String image = ANodeDesign.getName();
-            String containerName = createContainerName(image);
+            String[] imageSplit = image.toLowerCase().split(":");
+            //extract the image name before ":" and replace the possible symbol in image name to "-".
+            //to meet the naming requirement in kubernetes
+            String containerName = imageSplit[0].replaceAll("[_/+.^:,]", "-");
             String command = ANodeDesign.getCommand();
             String args = ANodeDesign.getArgs();
             List<Env> envArray = ANodeDesign.getEnv();
@@ -184,23 +186,6 @@ public class TemplatingServiceImp implements TemplatingService {
         return pod;
     }
 
-
-    /**
-     * @Description Create a container name by extracting and recombining the image name.
-     * @param image A string of image name
-     * @return String
-     */
-    public String createContainerName(String image){
-        String[] imageSplit = image.toLowerCase().split(":");
-        //extract the image name before ":" and replace the possible symbol in image name to "-".
-        //to meet the naming requirement in kubernetes
-        String containerName = imageSplit[0].replaceAll("[_/+.^:,]", "-");
-        if(imageSplit.length >= 2){
-            containerName += "-" + imageSplit[1].replaceAll("[_/+^:,]", "-");
-        }
-        return containerName;
-    }
-    
 
     /**
      * @Description Build the content of the Env by user's design then append to the ContainerBuilder

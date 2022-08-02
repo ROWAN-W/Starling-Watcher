@@ -4,7 +4,7 @@ import DroneInfo from './DroneInfo'
 export default function Drone(props) {
     
     const [showInfo,setShowInfo] = useState(false);
-//style={{background: showInfo? "hsl(200, 100%, 15%)": "hsl(200, 100%, 10%)"}}
+
     return (
         <>
         <tbody>

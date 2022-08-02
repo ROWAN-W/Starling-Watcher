@@ -7,7 +7,6 @@
   /*border-bottom: 0.5px solid #777;*/
   padding: .5rem 1rem .75rem 1rem;
   min-width: 420px;
-  position: relative;
 }
 
 .nav-list {
@@ -62,7 +61,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  list-style: none;
   /*border-left: 1.5px solid hsl(200, 100%, 50%) ;*/
 }
 
@@ -76,29 +74,4 @@
   color: #CCC;
 }
 
-.font-changer-user{
-  display: flex;
-}
 
-.font-changer{
-  display: flex;
-  position: absolute;
-  right: 8.5rem;
-  top: .6rem;
-}
-
-.font-changer-small{
-  width: 75%;
-  border: 1px solid #f1f1f1;
-  border-radius: .2rem;
-}
-
-.font-changer-big{
-  width: 75%;
-  border: 1px solid #f1f1f1;
-  border-radius: .2rem;
-}
-
-.font-changer-big:hover, .font-changer-small:hover{
-  cursor: pointer;
-}

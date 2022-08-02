@@ -103,6 +103,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
             Map<String, Object> obj = yaml.load(inputStream);
         }catch (Exception e){
+            System.out.println("INvalid Yaml"+e.getMessage());
             throw new StarlingException("Invalid Yaml File");
         }
 
@@ -110,48 +111,24 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
     @Override
     public void deployYAML(File file, String namespace) throws StarlingException,FileNotFoundException {
-/*
-        FileReader reader=new FileReader(file);
-        BufferedReader bufferedReader=new BufferedReader(reader);
-        Yaml yaml = new Yaml();
-        InputStream inputStream = new FileInputStream(file);
-        Map<String, Object> obj = yaml.load(inputStream);
-
-       switch (obj.get("kind").toString()){
-           case "DaemonSet":
-               DaemonSet daemonSet=k8s.apps().daemonSets().load(new FileInputStream(file)).get();
-               k8s.apps().daemonSets().inNamespace(namespace).create(daemonSet);
-       }
-   DaemonSet daemonSet=k8s.apps().daemonSets().load(new FileInputStream(file)).get();
-                k8s.apps().daemonSets().inNamespace(namespace).create(daemonSet);
-            }else {
-                // Load Deployment YAML Manifest into Java object
-
-                Deployment deploy = k8s.apps().deployments()
-                        .load(new FileInputStream(file))
-                        .get();
-                // Apply it to Kubernetes Cluster
-k8s.apps().deployments().inNamespace(namespace).create(deploy);
- */
 
 
 
         try {
-        /*
- //configure a client from a YAML file
- String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
-Config config = Config.fromKubeconfig(kubeConfigContent);
-KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
-  */
+            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+            Config config = Config.fromKubeconfig(kubeConfigContents);
+            KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
 
-            //default client
-            KubernetesClient client = new KubernetesClientBuilder().build();
-            client.load(new FileInputStream(file)).inNamespace(namespace).create();
+           // KubernetesClient k8s =new DefaultKubernetesClient();
 
-        }catch (IOException ioException){
+            k8s.load(new FileInputStream(file)).inNamespace(namespace).create();
+                //k8s.apps().deployments().inNamespace(namespace).create(deploy);
+            }catch (IOException ioException){
+            System.out.println("file process"+ioException.getMessage());
             throw new StarlingException("file processing error");
         }
         catch(KubernetesClientException kubernetesClientException){
+            System.out.println("kuernetes client"+kubernetesClientException.getMessage());
             throw new StarlingException("Kubernetes Client Exception");
         }
 

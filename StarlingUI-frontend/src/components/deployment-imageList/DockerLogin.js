@@ -3,16 +3,20 @@ import React, {useState} from 'react'
 export default function DockerLogin(props) {
 
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState(props.defaultUserName);
+    const [password, setPassword] = useState(props.defaultPassword);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    function checkValid(){
         console.log("try to login dock hub");
         props.finalLogin(userName,password);
         clearField();
         props.setSwitchButton(true);
         props.setTrigger(false);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        checkValid();
     }
 
     function clearField(){

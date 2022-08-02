@@ -1,44 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import logo from '../img/load.gif';
 import axios from 'axios';
-import { ProjectContext } from '../App';
-const UPLOAD_URL = 'http://localhost:8080/design/upload';
 
 export default function Upload(props) {
 
     const [namespace, setNamespace] = useState('');
-    const {handleCurrentUser} = useContext(ProjectContext);
-
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
     const [savePending, setIsPending] = useState(false);
-    const [reLogin, setReLogin] = useState(false);
-
-    useEffect(()=>{
-        //key friendly
-        window.addEventListener('keydown', keyOperation);
-            
-        return () => { 
-          window.removeEventListener('keydown', keyOperation);
-        };
-      },[]);
-
-    let textInput = null;
-    useEffect(()=>{
-        if(props.trigger===true){
-            textInput.focus();
-        }
-    },[props.trigger])
-    
-    function keyOperation(e){
-        if(e.key==='Escape'||e.code==='Escape'){
-            closeWindow();
-        }
-    }
-
-    function closeWindow(){
-        authenticateAgain();clearField();props.setTrigger(false);
-    }
 
     function handleFileUpload(){
         if(selectedFile===null || selectedFile===undefined){
@@ -48,7 +17,7 @@ export default function Upload(props) {
         const fd = new FormData();
         fd.append('namespace',namespace);
         fd.append('file',selectedFile);
-        axios.post(UPLOAD_URL,fd, {
+        axios.post("http://localhost:8080/design/upload",fd, {
             headers: {
               "Content-Type": "multipart/form-data",
             }
@@ -59,12 +28,8 @@ export default function Upload(props) {
           })
         .catch(err => {
             setIsPending(false);
-            if(err.response.status===404){
-                setResult("Invalid YAML file/ Fail to deploy");
-            }
-            else if(err.response.status===401){
-                setResult("Authentication is required. Please sign in again.");
-                setReLogin(true);
+            if(err.message==="Request failed with status code 404"){
+                setResult("Invalid YAML file/ Fail to deploy.");
             }
             else{
                 setResult(err.message);
@@ -75,7 +40,6 @@ export default function Upload(props) {
     function clearField(){
         setSelectedFile();
         setResult('');
-        setNamespace('');
     }
 
     const handleSubmit = (e) => {
@@ -131,19 +95,12 @@ export default function Upload(props) {
         return true;
     }
 
-    function authenticateAgain(){
-        if(reLogin){
-          handleCurrentUser(undefined);
-          setReLogin(false);
-        }
-    }
-
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>
             <div className='popup-header'>
                 <span className='popup-title'>Upload file (YAML/YML) & Deploy</span>
-                {!savePending && <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>}
+                {!savePending && <button className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>}
             </div>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit} className="advanced-setting-form">
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
@@ -160,9 +117,8 @@ export default function Upload(props) {
                         value={namespace}
                         required
                         maxLength = {63}
-                        onChange={e=>{setNamespace(e.target.value);setResult('');}}
+                        onChange={e=>setNamespace(e.target.value)}
                         className="width-100"
-                        ref={(button) => { textInput = button; }}
                         >
                     </input>
                     </div>
@@ -173,9 +129,9 @@ export default function Upload(props) {
                     <input type="file" required 
                         onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}} className="width-100"/>
                     </div>
-                    <div className='key-hint popup-inner'>(Press Enter to upload, ESC to leave)</div>
+                    <br></br>
                     <div className='popup-footer single'>
-                        <button className='btn' type='submit'>Deploy</button>
+                        {selectedFile && <button className='btn' type='submit'>Deploy</button>}
                     </div> 
                 </form>
             </div>

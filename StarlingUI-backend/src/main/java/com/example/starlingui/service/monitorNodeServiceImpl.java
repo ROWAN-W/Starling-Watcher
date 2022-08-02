@@ -23,28 +23,18 @@ public class monitorNodeServiceImpl implements NodeService{
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
-        // default config for an out-of-cluster client
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
-
-/*
-  // configure k8s client from within the cluster
-       ApiClient client = Config.fromCluster();
-     Configuration.setDefaultApiClient(client);
-
- */
-/*      // configure k8s client from a YAML file
-        ApiClient kubeApiClient = null;
+       ApiClient kubeApiClient = null;
         try {
-            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
- */
-        CoreV1Api api = new CoreV1Api(client);
+        //ApiClient client = Config.fromCluster();
+        //Configuration.setDefaultApiClient(client);
 
+        CoreV1Api api = new CoreV1Api(kubeApiClient);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;
@@ -81,7 +71,7 @@ public class monitorNodeServiceImpl implements NodeService{
         V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
         for(V1Pod item:list.getItems()){
 
-            if(item.getSpec().getNodeName()!=null&&item.getSpec().getNodeName().equals(nodeName)&&!item.getMetadata().getNamespace().equals("kube-system")){
+            if(item.getSpec().getNodeName().equals(nodeName)&&!item.getMetadata().getNamespace().equals("kube-system")){
                 //System.out.println(item.getStatus().getNominatedNodeName()+" "+nodeName);
                 monitorPod monitorPod =new monitorPod();
                 //System.out.println(String.valueOf(id));

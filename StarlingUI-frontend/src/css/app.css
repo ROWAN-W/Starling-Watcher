@@ -243,7 +243,8 @@ input:focus {
         width: 15px;
         margin-top: .5rem;
         margin-bottom: .5rem;
-    }    
+    }
+    
   }
 
 @media (max-width: 950px) {
@@ -383,7 +384,7 @@ input:focus {
 }
 
 .btn.btn-small {
-    font-size: .8rem;
+    font-size: .75rem;
 }
 
 .btn.btn-large{
@@ -421,12 +422,6 @@ input:focus {
 
   /*hide the scroll bar*/
   body::-webkit-scrollbar{
-    width: 0px;
-    height: 0px;
-  }
-
-/*hide the scroll bar*/
-.drone-container::-webkit-scrollbar{
     width: 0px;
     height: 0px;
   }

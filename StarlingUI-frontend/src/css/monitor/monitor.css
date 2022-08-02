@@ -73,7 +73,7 @@
     margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(410px, auto));
-    gap:3rem;
+    gap:5rem;
     justify-content: center;
     justify-items: center;
     align-items: center;

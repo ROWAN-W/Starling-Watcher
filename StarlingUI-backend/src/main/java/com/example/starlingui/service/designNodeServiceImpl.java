@@ -32,28 +32,20 @@ public class designNodeServiceImpl implements NodeService {
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
 
-        // default config for an out-of-cluster client
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
 
-/*
-  // configure k8s client from within the cluster
-       ApiClient client = Config.fromCluster();
-     Configuration.setDefaultApiClient(client);
+       //ApiClient client = Config.fromCluster();
+    // Configuration.setDefaultApiClient(client);
 
- */
-/*      // configure k8s client from a YAML file
         ApiClient kubeApiClient = null;
         try {
-            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
+            kubeApiClient = Config.fromConfig("/home/flying/.kube/config");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
- */
-        CoreV1Api api = new CoreV1Api(client);
 
+        CoreV1Api api = new CoreV1Api(kubeApiClient);
 
         ArrayList<domainNode> nodes =new ArrayList<>();
         int id=0;

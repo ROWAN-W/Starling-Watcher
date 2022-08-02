@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="266e1fdc-c46f-4417-a40b-e8f7f8eb1695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/model/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/NodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/StarlingUiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/StarlingUiApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/controller/DesignController.java" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/controller/DesignController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aerial-Robotics-System-deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Aerial-Robotics-System-deploy.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/designNodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/designNodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/monitorNodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/monitorNodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/uploadYAMLServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/StarlingUI-backend/src/main/java/com/example/starlingui/service/uploadYAMLServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,10 +31,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/flying/Documents/SummerProject",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -44,6 +54,7 @@
       <updated>1655163667867</updated>
       <workItem from="1655163675459" duration="40000" />
       <workItem from="1656420951659" duration="154000" />
+      <workItem from="1659025908099" duration="128000" />
     </task>
     <servers />
   </component>

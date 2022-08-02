@@ -20,6 +20,7 @@
 
 .node__search{
     padding-left: .5rem;
+    border-radius: 2px;
     max-width: 60%;
     width: 15rem;
     font-size: .9rem; 
@@ -31,7 +32,7 @@
     border: none;
     outline: none;
     margin-left: .5rem;
-    border-radius: .2em;
+    border-radius: 2px;
     font-size: .9rem;  
 }
 

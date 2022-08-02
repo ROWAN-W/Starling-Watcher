@@ -6,22 +6,17 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
-    margin-bottom: 15px;
 
 }
 
 .pod-name {
     margin-left: 10px;
-    font-size: 15px;
-    width: 250px;
-    margin: 5px;
+    width: 150px;
     color: #C3C0C0;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    white-space: nowrap;
 }
 
 .container-restart {

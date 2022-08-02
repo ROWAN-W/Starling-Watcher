@@ -1,48 +1,17 @@
 import React, {useContext, useState, useEffect} from 'react';
 import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
-import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import logo from '../../img/load.gif';
 import syncLogo from '../../img/sync-svgrepo-com-black.svg';
-const DEPLOY_URL = 'http://localhost:8080/design/templating';
 
 export default function Deploy(props) {
 
-    const history = useHistory()
-
-    const {handleProjectChange,handleCurrentUser,setSelectedPage} = useContext(ProjectContext);
+    const {handleProjectChange} = useContext(ProjectContext);
     const [selectedDrones, setSelectedDrones] = useState([]);
     const [deployFeedback, setDeployFeedback] = useState('');
     const [sync, setSync] = useState(false);
     const [deployWaiting, setDeployWaiting] = useState(false);
-    const [reLogin, setReLogin] = useState(false);
-
-    let textInput = null;
-    useEffect(()=>{
-        if(props.trigger===true){
-            textInput?.focus();
-        }
-    })
-    
-    useEffect(()=>{
-        //key friendly
-        window.addEventListener('keydown', keyOperation);
-            
-        return () => { 
-          window.removeEventListener('keydown', keyOperation);
-        };
-      },[]);
-    
-    function keyOperation(e){
-        if(e.key==='Escape'||e.code==='Escape'){
-            closeWindow();
-        }
-    }
-
-    function closeWindow(){
-        authenticateAgain();props.setMinimize(null);props.setTrigger(false);
-    }
 
     useEffect(()=>{
         if(props.trigger===true){
@@ -102,8 +71,10 @@ export default function Deploy(props) {
             }
             setDeployWaiting(true);
             setDeployFeedback('Deploying...');
-
-            axios.post(DEPLOY_URL, props.selectedProject)
+            
+            const url = "http://localhost:8080/design/templating";
+            
+            axios.post(url, props.selectedProject)
             .then(res => {
                 console.log(res.data);
                 setDeployWaiting(false);
@@ -111,32 +82,9 @@ export default function Deploy(props) {
             })
             .catch(err => {
                 setDeployWaiting(false);
-                if(err.response.status===401){
-                    setDeployFeedback("Authentication is required. Please sign in again.");
-                    setReLogin(true);
-                }
-                else if(err.response.status===400){
-                    setDeployFeedback("Fail to deploy");
-                }
-                else{
-                    setDeployFeedback(err.message);
-                }
+                setDeployFeedback(err.message);
             })
-
-            //only for testing transition
-            /*const r = Math.floor(Math.random() * 10) + 1;
-            if(r%2===0){
-                setTimeout(() => {
-                    setDeployWaiting(false);
-                    setDeployFeedback('Success! Please check out in the monitor page');
-                }, 1000)
-            }else{
-                setTimeout(() => {
-                    setDeployWaiting(false);
-                    setDeployFeedback("Fail to deploy");
-                }, 1000)
-            }*/
-
+            
             return true;
         }
         setDeployFeedback('Please specify at least one drone for each design/deployment');
@@ -158,7 +106,7 @@ export default function Deploy(props) {
                 <div className="success-msg wordwrap"><i className="fa fa-check"></i>{deployFeedback}</div>
             )
         }
-        else if(deployFeedback==='Authentication is required. Please sign in again.'||deployFeedback==='Fail to deploy'){
+        else if(deployFeedback==='Request failed with status code 400'){
             return(
                 <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{deployFeedback}</div>
             )
@@ -170,38 +118,6 @@ export default function Deploy(props) {
         }
     }
 
-    function authenticateAgain(){
-        if(reLogin){
-          handleCurrentUser(undefined);
-          setReLogin(false);
-        }
-    }
-
-    function showButton(){
-        if(deployFeedback==='Success! Please check out in the monitor page'){
-            return (
-                <>
-                <div className='key-hint popup-inner'>(Press Enter to monitor, ESC to leave)</div>
-                <div className='popup-footer normal deploy-display'>
-                <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={() => {history.push('/monitor');setSelectedPage("Monitor")}}>Go to Monitor</button>
-                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false)}}>Close</button>
-                </div>
-                </>
-            )
-        }else{
-            if(!props.waiting && !deployWaiting){
-                return(
-                    <>
-                    <div className='key-hint popup-inner'>(Press Enter to deploy, ESC to leave)</div>
-                    <div className='popup-footer normal deploy-display'>
-                    <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
-                    <button className='btn btn-cancel' onClick={()=>{closeWindow()}}>Cancel</button>
-                    </div></>
-                )
-            }
-        }
-    }
-
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>                
@@ -210,7 +126,7 @@ export default function Deploy(props) {
                     {!props.waiting && !deployWaiting && 
                     <div>
                     <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
-                    <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+                    <button className='popup-close-button' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>&times;</button>
                     </div>}
                 </div>
                 {!props.waiting &&
@@ -222,7 +138,7 @@ export default function Deploy(props) {
                 <div className='deploy'>
                 {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
                 {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-                {props.selectedProject?.mapping.map(node=>{
+                {props.selectedProject.mapping.map(node=>{
                     //for displaying node name
                     const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)
                     return(
@@ -239,8 +155,15 @@ export default function Deploy(props) {
                     ) 
                 })}
                 </div>
-                {showFeedback()}         
-                {showButton()}
+                {showFeedback()}
+                                
+                {!props.waiting && !deployWaiting && 
+                <div className='popup-footer normal deploy-display'>
+                <button className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
+                <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false);}}>Close</button>
+                </div>
+                }
+                     
             </div>
         </div>
       ): ""

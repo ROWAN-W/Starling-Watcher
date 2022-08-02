@@ -20,25 +20,6 @@ export default function ProjectList(props) {
         }
     },[props.trigger])
 
-    useEffect(()=>{
-        //key friendly
-        window.addEventListener('keydown', keyOperation);
-            
-        return () => { 
-          window.removeEventListener('keydown', keyOperation);
-        };
-      },[]);
-    
-    function keyOperation(e){
-        if(e.key==='Escape'||e.code==='Escape'){
-            closeWindow();
-        }
-    }
-
-    function closeWindow(){
-        props.setTrigger(false);setOrderCol();
-      }
-
     function sorting(col){
         if(order==="ASC"){
             console.log("ASC");
@@ -75,7 +56,7 @@ export default function ProjectList(props) {
         <div className='popup-projects-inner'>
         <div className='popup-header table'>
             <span className='popup-title'>Your Project List</span>
-            <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+            <button className='popup-close-button' onClick={()=>{props.setTrigger(false);setOrderCol()}}>&times;</button>
         </div>
         <div className="table-wrapper">
         <div className='project-list-search'>
@@ -96,18 +77,17 @@ export default function ProjectList(props) {
                 return(
                     <tr 
                         key={project.id} 
-                        onClick={()=>{handleProjectSelect(project.id); closeWindow()}}>
+                        onClick={()=>{handleProjectSelect(project.id); props.setTrigger(false)}}>
                         <td title={project.id}>{project.id.slice(-4)}</td>
                         <td>{project.name}</td>
                         <td>{project.dateModified}</td>
-                        <td title={project.lastModifiedBy}>{userData.find(user=>user.id===project.lastModifiedBy)?.name}<span className='user-id'>(ID:{project.lastModifiedBy.slice(-2)})</span></td>
+                        <td title={project.lastModifiedBy}>{userData.find(user=>user.id===project.lastModifiedBy).name}<span className='user-id'>(ID:{project.lastModifiedBy.slice(-2)})</span></td>
                     </tr>
                 ) 
             })}
             </tbody>
             </table>
         </div>
-        <div className='key-hint popup-inner'>(Click table head to sort, press ESC to leave)</div>
         </div>
     </div>
   ): ""
