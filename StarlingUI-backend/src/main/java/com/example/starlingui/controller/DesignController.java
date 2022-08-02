@@ -169,7 +169,6 @@ public class DesignController {
             String errorJson = getErrorJson(e.getMessage());
             return new ResponseEntity<>(errorJson, HttpStatus.FORBIDDEN);
         }
-
     }
 
     /**
