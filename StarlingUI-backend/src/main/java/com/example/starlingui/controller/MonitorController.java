@@ -13,6 +13,9 @@ import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1Namespace;
+import io.kubernetes.client.openapi.models.V1NamespaceList;
+import io.kubernetes.client.openapi.models.V1ServiceList;
 import io.kubernetes.client.util.Config;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -88,5 +92,39 @@ public class MonitorController {
       
     }
 
+    @GetMapping("/namespace")
+    public ResponseEntity<String> getNameSpace(){
+        try {
+            ApiClient client = Config.defaultClient();
+            Configuration.setDefaultApiClient(client);
+            CoreV1Api api = new CoreV1Api();
+            V1NamespaceList namespaceList = api.listNamespace(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    Integer.MAX_VALUE,
+                    null);
+            List<String> list = namespaceList
+                    .getItems()
+                    .stream()
+                    .map(v1Namespace -> v1Namespace.getMetadata().getName())
+                    .collect(Collectors.toList());
+
+            Gson gson = new Gson();
+            String json = gson.toJson(list);
+            return ResponseEntity.ok(json);
+
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Kubernetes API fail :" + e.getMessage());
+        }
+    }
 
 }
