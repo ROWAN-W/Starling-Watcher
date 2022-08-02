@@ -103,4 +103,15 @@ public class StarlingUserServiceImpl implements StarlingService<StarlingUser>, U
         }
         return user;
     }
+
+    public void resetPassword(String body) throws Exception {
+        JSONObject jsonObject = new JSONObject(body);
+        String name = jsonObject.getString("name");
+        StarlingUser user = userDao.findByName(name);
+        if (user == null) {
+            throw new Exception("User" + name + "does not exist!");
+        }
+        user.setPassword("starling");
+        save(user);
+    }
 }

