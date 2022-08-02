@@ -8,9 +8,9 @@ import SearchBox from './SearchBox';
 import droneCircle from '../img/oie_151914634owYC2D.png';
 import masterCircle from '../img/oie_15192229OeBZ3dl4.png'
 
-export default function Project({currentUserID, selectedProject}) {
+export default function Project({selectedProject}) {
 
-    const {handleProjectChange, signInPage} = useContext(ProjectContext);
+    const {handleProjectChange, signInPage, currentUserID, userData} = useContext(ProjectContext);
 
     const [filterValue, setFilterValue] = useState('all');
     const [searchNode, setSearchNode] = useState('');
@@ -91,10 +91,13 @@ function handleNodeDuplicate(node){
     function showInstruction(){
       //test
       if(currentUserID===''){
-        return <div className='items-head'><p className='instruct'>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em> or load a project</p></div>
+        return <div className='items-head'><p className='instruct'>Welcome!<br/>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em>.</p></div>
       }
       else if(selectedProject===undefined){
-        return <div className='items-head'><p className='instruct'>Please select or create a project</p></div>
+        return <div className='items-head'><p className='instruct'>
+          Hello {userData?.find(user=>user.id===currentUserID).name}!<br/>
+          Please <u>select</u> or <u>create</u> a project.</p>
+          </div>
       }
     }
 

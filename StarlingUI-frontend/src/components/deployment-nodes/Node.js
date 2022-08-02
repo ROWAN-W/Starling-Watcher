@@ -148,6 +148,14 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
 
         }
     }
+
+    function showHint(){
+        if(node.containers?.length===0){
+            return(
+                <div className="drag-hint"><em>Drag left-side images to here</em></div>
+            )
+        }
+    }
     
     //style={{background: isOver? "hsl(200, 100%, 40%)": "hsl(200, 100%, 20%)"}}
     
@@ -167,6 +175,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
                 <p className='image-number'>Number of images: {node.containers.length}</p>
                 <button className='btn btn-small btn-menu btn-pill' onClick={()=>handleImageAllDelete()}>Clear All</button>
             </div>
+            {showHint()}
             {node.containers.map(image=>
                 <Container key={image.id} image={image} handleImageDelete={handleImageDelete} handleContainerChange={handleContainerChange}></Container>
             )}

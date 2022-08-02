@@ -1,55 +1,48 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 
 export default function DockerLogin(props) {
 
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [repoName, setRepoName] = useState('');
+
+    let textInput = null;
+    useEffect(()=>{
+        if(props.trigger===true){
+            textInput.focus();
+        }
+    },[props.trigger])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("try to login dock hub");
-        props.finalLogin(userName,password);
-        clearField();
-        props.setSwitchButton(true);
+        props.setError(null);
+        props.setWaiting(true);
+        props.setFinalRepoName(repoName);
+        
+        setRepoName('');
         props.setTrigger(false);
-    }
-
-    function clearField(){
-        setUserName('');
-        setPassword('');
     }
 
     return (props.trigger) ?(
         <div className='docker-expand'>
                 <form onSubmit={handleSubmit}>
                     <label 
-                        htmlFor='DockerUserName'>User Name or Email Address
+                        htmlFor='DockerRepoName'>Repository Name
                     </label>
                     <input 
                         type='text' 
-                        name='DockerUserName' 
-                        id='DockerUserName'
+                        name='DockerRepoName' 
+                        id='DockerRepoName'
                         required
-                        value={userName}
-                        onChange={e=>setUserName(e.target.value)}
+                        value={repoName}
+                        onChange={e=>setRepoName(e.target.value)}
+                        style={{fontSize: ".9rem"}}
+                        ref={(button) => { textInput = button; }}
                         >
                     </input>
+                    <div className='key-hint docker-hint'>default repo: charaznablegundam</div>
                     <br></br>
-                    <label 
-                        htmlFor='DockerPassword'>Password
-                    </label>
-                    <input 
-                        type='password' 
-                        name='DockerPassword' 
-                        id='DockerPassword'
-                        required
-                        value={password}
-                        onChange={e=>setPassword(e.target.value)}
-                        >
-                    </input>
-                    <br></br>
-                    <button type="submit" className='btn btn-menu'>Sign in</button>
+                    <button type="submit" className='btn btn-menu btn-small'>Connect</button>
+                    <button type="button" className='btn btn-menu btn-small' onClick={()=>{setRepoName('');props.setTrigger(false);}}>Cancel</button>
                 </form>
         </div>
       ): ""

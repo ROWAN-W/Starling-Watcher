@@ -128,7 +128,7 @@
     padding: 1rem .75rem;
     
     display: grid;
-    grid-template-columns: 10fr 1fr;
+    grid-template-columns: 4fr 1fr;
     font-size: 1rem;
     grid-gap: 10px;
     box-shadow: 0 0 1px 0 hsl(0, 0%, 70%);
@@ -181,4 +181,9 @@
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
+}
+
+.docker-hint{
+  color: #ffeeee;
+  margin-top: .5rem;
 }

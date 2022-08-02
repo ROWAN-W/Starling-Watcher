@@ -4,12 +4,12 @@ export default function UploadAndDisplayImage({options, selectedImage, setSelect
 
     return (
       <>
-      <div className='sub-title'><span>Picture Select</span></div>
+      <div className='sub-title'><span>Picture Select (Optional)</span></div>
         <div className='popup-secondary picture-select'>
-        {selectedImage==="None" && <label className="info-msg wordwrap"><i className="fa fa-info-circle"></i>Either 'None' on master or deployment will remove all the pictures. <strong>Specify both to display the pictures</strong>.</label>}
+        <label className="info-msg wordwrap"><i className="fa fa-info-circle"></i>Either 'None' on master or deployment will remove all the pictures. <strong>Specify both to display the pictures</strong>.</label>
         {selectedImage!=="None" && (
           <div>
-          <img className="picture-select" alt="picture" width={"250px"} src={selectedImage}/> 
+          <img className="picture-select" alt="picture" width={"180px"} src={selectedImage}/> 
           </div>
         )}
         <div>
