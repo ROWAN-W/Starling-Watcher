@@ -185,7 +185,7 @@ input:focus {
     background-color: transparent;
     border: 1.5px solid #f1f1f1;
     color: white;
-    font-size: .9rem;
+    font-size: 1rem;
     margin-right: .7rem;
     padding: .5em .75em;
 }

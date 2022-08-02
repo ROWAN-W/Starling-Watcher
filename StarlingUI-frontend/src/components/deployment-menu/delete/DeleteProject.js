@@ -57,7 +57,7 @@ export default function DeleteProject(props) {
             //close automatically
             setTimeout(() => {
                 closeWindow();
-            }, 1000)
+            }, 1300)
         })
         .catch((err) => {
             console.log(err.message);
@@ -105,7 +105,7 @@ export default function DeleteProject(props) {
             {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
             {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
             {error && <h2 className='title-error'>Delete Project Error</h2>}
-            {!error && result!=='' && <h2 className='title-success'>Delete Success!</h2>}
+            {!error && result!=='' && <h2 className='title-success'>Delete in the database!</h2>}
             <div className='content'>{error? error: ''}</div>
             {error && <div className='key-hint'>(Press ESC to leave)</div>}
             {!savePending && 

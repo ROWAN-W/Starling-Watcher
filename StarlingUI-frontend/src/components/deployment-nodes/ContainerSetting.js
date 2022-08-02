@@ -79,12 +79,12 @@ export default function ContainerSetting(props) {
         <div className='popup-projects'>
             <div className='popup-projects-inner advanced-setting'>
             <div className='popup-header'>
-                <span className='popup-title'>Advanced Settings</span>
+                <span className='popup-title'>Advanced Settings (Optional)</span>
                 <button type="button" className='popup-close-button' onClick={()=>{props.setTrigger(false);clearField()}}>&times;</button>
             </div>
                 <form onSubmit={saveChange} className="advanced-setting-form">
                     <div className="advanced-setting stack">
-                    <div className='key-hint advanced-setting'>(Press Tab to select, Enter to save content)</div>
+                    <div className='key-hint advanced-setting'>(Press Tab/Shift+Tab to select, Enter to save content)</div>
                     <div className='popup-major stack'>
                     <label 
                         htmlFor='command' className='popup-major-key major'>command

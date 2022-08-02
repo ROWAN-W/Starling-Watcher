@@ -100,7 +100,7 @@ function Deployment({selectedProject}) {
     <main className="main-body">
         <DndProvider backend={HTML5Backend}>
         <ImageList></ImageList>
-        <Project currentUserID={currentUserID} selectedProject={selectedProject}></Project>
+        <Project selectedProject={selectedProject}></Project>
         </DndProvider>
         {showDroneList()}
     </main>

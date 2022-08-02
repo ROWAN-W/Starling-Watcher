@@ -13,13 +13,11 @@ export default function ImageList() {
   const { images, setImages} = useContext(ProjectContext);
 
   const [userSignIn, setUserSignIn] = useState(false); //login window
-  const [showSwitchButton, setSwitchButton] = useState(true); //switch button
 
-  const [finalUserName, setFinalUserName] = useState("charaznablegundam");
-  const [finalPassword, setFinalPassword] = useState("362514hao");
+  const [finalRepoName, setFinalRepoName] = useState("charaznablegundam");
 
-    const [imageError, setError] = useState(null);
-    const [waiting, setWaiting] = useState(true);
+  const [imageError, setError] = useState(null);
+  const [waiting, setWaiting] = useState(true);
 
   const [searchResult, setSearchResult] = useState([...images]);
   const [searchImage, setSearchImage] = useState('');
@@ -28,7 +26,6 @@ export default function ImageList() {
   const [orderCol, setOrderCol] = useState("lastUpdated"); 
     
   useEffect(() => {
-    if(waiting===true){
       //use fetch() to avoid triggering axios interceptor
         const options = {
           method: "POST",
@@ -37,8 +34,8 @@ export default function ImageList() {
               "Content-Type": "application/json;charset=UTF-8",
           },
           body: JSON.stringify({
-              username: finalUserName,
-              password: finalPassword,
+              username: finalRepoName,
+              password: "362514hao",
           }),
           };
           
@@ -46,9 +43,9 @@ export default function ImageList() {
           .then(res => {
             if (!res.ok) { // error coming back from server
               if(res.status===401){
-                throw Error("Invalid username or password");
+                throw Error("Fail to connect to the repository");
               }
-              throw Error('Login Failure. Error Details: '+res.status);
+              throw Error('Error Details: '+res.status);
             } 
             return res.json();
           })
@@ -61,38 +58,30 @@ export default function ImageList() {
           .catch(err => {
             // auto catches network / connection error
             setWaiting(false);
+            setImages([]);
             setError(err.message);
           }) 
-    }  
-    },[finalUserName,finalPassword])
+    },[waiting])
 
 
   function showInstruction(){
-    if(images.length!==0 && showSwitchButton){
+    if(!waiting){
       return(
         <button className='btn btn-small logout btn-menu' onClick={()=>{
           setUserSignIn(true); 
-          setSwitchButton(false);
-          setImages([]); 
-          setFinalUserName(''); setFinalPassword('')}}>Log out</button>
+          }}>Change <br/>Repo</button>
       )    
     }
-  }
-
-  function finalLogin(username, password){
-    setFinalUserName(username);
-    setFinalPassword(password);
-    setWaiting(true);
   }
 
   function loginWindow(trigger){
     return(
       <div>
             <DockerLogin trigger={trigger} setTrigger={setUserSignIn} 
-            setSwitchButton={setSwitchButton} 
-            finalLogin={finalLogin}
-            waiting={waiting}
+            setFinalRepoName={setFinalRepoName}
+            setError={setError}
             setWaiting={setWaiting}
+            setImages={setImages}
             ></DockerLogin>
       </div>
     )
@@ -108,8 +97,7 @@ export default function ImageList() {
   }
 
   function tryAgain(){
-    setFinalUserName('');
-    setFinalPassword('');
+    setFinalRepoName('');
     setUserSignIn(true);
   }
 
@@ -185,7 +173,7 @@ export default function ImageList() {
     <>
       <div className='image-tag-container items'>
       <div className="items-head">
-      {userSignIn? <p>Docker Hub Sign in</p> : <p>Docker Hub Images</p>}
+      <p>Docker Hub Images</p>
       <hr/>
       </div>
       {show()}

@@ -5,7 +5,7 @@
   background-color: #1b2522;
   /*background: transparent;*/
   /*border-bottom: 0.5px solid #777;*/
-  padding: .5rem 1rem .75rem 1rem;
+  padding: .5rem 1rem .5rem 1rem;
   min-width: 420px;
   position: relative;
 }
@@ -33,6 +33,22 @@
   color: #CCC;
   padding-bottom: .2rem;
   border-bottom: 1.5px solid  hsl(200, 100%, 80%);
+}
+
+.starling-with-logo{
+  display: flex;
+  align-items: flex-end;
+}
+
+.starling-with-logo:hover{
+  cursor: pointer;
+}
+
+.bird-icon{
+  width: 40px;
+  margin-right: 2px;
+  
+
 }
 
 .nav-title {

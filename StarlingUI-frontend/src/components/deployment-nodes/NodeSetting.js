@@ -135,7 +135,7 @@ return (props.trigger) ?(
             {warning!=='' && <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{warning}</div>}
             <form onSubmit={saveChange} className="advanced-setting-form">
                 <div className="advanced-setting">
-                <div className='key-hint advanced-setting'>(Press Tab to select, Enter to save content)</div>
+                <div className='key-hint advanced-setting'>(Press Tab/Shift+Tab to select, Enter to save content)</div>
                 <div className='popup-major'>
                 <div><label 
                     htmlFor='name' className='popup-major-key major'>Name<span className='required'>*</span>
@@ -160,7 +160,7 @@ return (props.trigger) ?(
                 </select></div>
                 </div>
 
-                <div className='sub-title'><span>label</span></div>
+                <div className='sub-title'><span>label (Optional)</span></div>
                 <div className='popup-secondary'>
                 <label 
                     htmlFor='app' className='popup-major-key'>app
