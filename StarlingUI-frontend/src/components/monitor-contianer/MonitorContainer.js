@@ -27,11 +27,13 @@ export default function MonitorContainer(props) {
             case "running":
                 setContainerStatus("#32e6b7");
                 setButtonAvailable(false);
+                
                 break;
             case "null":
             case "terminated":
                 setContainerStatus("#dc5671");
                 setButtonAvailable(true);
+                
                 break;
             case "waiting":
                 setContainerStatus("#EEC908");
@@ -66,7 +68,7 @@ export default function MonitorContainer(props) {
         <>
             <div className="k8s-container">
                 <div className="pole"
-                     style={{backgroundColor: containerStatus}}></div>
+                    style={{backgroundColor: containerStatus}}></div>
                 <div className="outer">
 
 
