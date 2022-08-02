@@ -35,6 +35,8 @@ public class DesignController {
     @Resource
     private DockerHubServiceImpl dockerHubService;
 
+    @Resource
+    private DockerRepositoryImpl dockerRepository;
 
     @Resource
     private StarlingUserServiceImpl userService;
@@ -60,6 +62,20 @@ public class DesignController {
         }
     }
 
+    @GetMapping("/image/{repository}")
+    public ResponseEntity<String> getImage(@PathVariable String repository){
+        try{
+            List<Image> images = dockerRepository.getImageList(repository);
+            if(images.isEmpty()){
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+            Gson gson = new Gson();
+            String json = gson.toJson(images);
+            return ResponseEntity.ok(json);
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 
     /**
      * @Description Get request (available nodes)
