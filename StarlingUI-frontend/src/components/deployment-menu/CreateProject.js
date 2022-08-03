@@ -159,12 +159,12 @@ export default function CreateProject(props) {
         return(
         <>
           {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-          {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
+          {error && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
           {error && <h2 className='title-error'>Create Project Error</h2>}
           {!error && result!=='' && <h2 className='title-success'>Create in the database!</h2>}
           <div className='content'>{error? error: ''}</div>
           {error && <div className='key-hint'>(Press ESC to leave)</div>}
-          {!savePending && 
+          {error && 
           <div className='popup-footer normal'>
             <button className='btn short' 
             onClick={()=>{closeWindow()}}>OK</button>
