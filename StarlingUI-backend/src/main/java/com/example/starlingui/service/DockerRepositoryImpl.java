@@ -44,7 +44,7 @@ public class DockerRepositoryImpl implements ImageService{
 
     @Override
     public List<Image> getImageTag(String imageName){
-        String url = repositoryUrl+repository+"/"+imageName+"/"+"tags";
+        String url = repositoryUrl+"/"+repository+"/"+imageName+"/"+"tags";
         JsonArray images = getRequest(url);
         if(images.isEmpty()){
             return null;
