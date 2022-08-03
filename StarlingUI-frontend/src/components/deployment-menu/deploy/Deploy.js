@@ -181,7 +181,7 @@ export default function Deploy(props) {
         if(deployFeedback==='Success! Please check out in the monitor page'){
             return (
                 <>
-                <div className='key-hint popup-inner'>(Press Enter to monitor, ESC to leave)</div>
+                <div className='key-hint popup-inner'>(Press Enter to monitor, ESC to leave. Click '-' to minimize. )</div>
                 <div className='popup-footer normal deploy-display'>
                 <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={() => {history.push('/monitor');setSelectedPage("Monitor")}}>Go to Monitor</button>
                 <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false)}}>Close</button>
@@ -192,7 +192,7 @@ export default function Deploy(props) {
             if(!props.waiting && !deployWaiting){
                 return(
                     <>
-                    <div className='key-hint popup-inner'>(Press Enter to deploy, ESC to leave)</div>
+                    <div className='key-hint popup-inner'>(Press Enter to deploy, ESC to leave. Click '-' to minimize.)</div>
                     <div className='popup-footer normal deploy-display'>
                     <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={()=>{finalCheck()}}>Deploy</button>
                     <button className='btn btn-cancel' onClick={()=>{closeWindow()}}>Cancel</button>
