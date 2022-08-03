@@ -127,7 +127,7 @@ export default function DroneList(props) {
     <>
     <div className='drone-container items'>
     <div className="items-head drone">
-        <p>Available Devices</p>
+        <p>Available Devices {props.data? '('+props.data.length+')': null}</p>
         <hr/>
     </div>
     <button className='btn btn-small hide-drone btn-menu' onClick={()=>props.setTrigger(false)}>Hide</button>
