@@ -32,7 +32,7 @@ const Navbar = () => {
         <li className={selectedPage==='/monitor'? "nav-list click": null}><Link to="/monitor"><span onClick={()=>{setSelectedPage('/monitor')}}>Monitor</span></Link></li>
         <li><a onClick={() => openInNewTab('https://www.notion.so/Help-Centre-4092371e72e745eca6c56f236babc998')}>FAQ</a></li>
       </ul>
-      {selectedPage==='Deployment' && <div className="font-changer"><FontSizeChanger
+      <div className="font-changer"><FontSizeChanger
         targets={['html']}
         options={{
           stepSize: 1,
@@ -52,7 +52,7 @@ const Navbar = () => {
           },
           buttonsMargin: 10
         }}
-      /></div>}
+      /></div>
         <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>
     </nav>
   );
