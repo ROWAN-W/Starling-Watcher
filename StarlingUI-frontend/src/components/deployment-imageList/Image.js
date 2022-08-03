@@ -6,7 +6,7 @@ export default function Image(props) {
     
     const [{isDragging},drag] = useDrag(()=>({
         type: "image",
-        item: {id: props.id},
+        item: {id: props.id, name: props.name},
         collect: (monitor) =>({
             isDragging:!!monitor.isDragging(),
         })

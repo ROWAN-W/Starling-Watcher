@@ -192,6 +192,7 @@ function handleNodeDuplicate(node){
       }else{
         return (
           <div className='project items'>
+            <div className='total-node-number'>Total: {selectedProject.config?.length}</div>
             <div className='node-search-filter'>
               <SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
               <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter>

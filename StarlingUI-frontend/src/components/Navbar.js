@@ -17,10 +17,10 @@ const Navbar = () => {
   };
 
   function goHome(){
-    if(selectedPage==='Deployment'){
+    if(selectedPage==='/'){
       window.location.reload(false)
     }else{
-      setSelectedPage('Deployment');history.push('/')
+      setSelectedPage('/');history.push('/')
     }
   }
 
@@ -28,8 +28,8 @@ const Navbar = () => {
     <nav className="nav">
       <div className="starling-with-logo" title="Home" onClick={()=>{goHome()}}><img className="bird-icon" src={bird} alt="starling logo" /><h1 className="nav-title" >Starling</h1></div>
       <ul className="nav-list">
-        <li className={selectedPage==='Deployment'? "nav-list click": null}><Link to="/"><span onClick={()=>{setSelectedPage('Deployment')}}>Design</span></Link></li>
-        <li className={selectedPage==='Monitor'? "nav-list click": null}><Link to="/monitor"><span onClick={()=>{setSelectedPage('Monitor')}}>Monitor</span></Link></li>
+        <li className={selectedPage==='/'? "nav-list click": null}><Link to="/"><span onClick={()=>{setSelectedPage('/')}}>Design</span></Link></li>
+        <li className={selectedPage==='/monitor'? "nav-list click": null}><Link to="/monitor"><span onClick={()=>{setSelectedPage('/monitor')}}>Monitor</span></Link></li>
         <li><a onClick={() => openInNewTab('https://www.notion.so/Help-Centre-4092371e72e745eca6c56f236babc998')}>FAQ</a></li>
       </ul>
       {selectedPage==='Deployment' && <div className="font-changer"><FontSizeChanger

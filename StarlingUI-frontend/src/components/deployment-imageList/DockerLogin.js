@@ -39,7 +39,7 @@ export default function DockerLogin(props) {
                         ref={(button) => { textInput = button; }}
                         >
                     </input>
-                    <div className='key-hint docker-hint'>default repo: charaznablegundam</div>
+                    <div className='key-hint docker-hint'>default repo: uobflightlabstarling</div>
                     <br></br>
                     <button type="submit" className='btn btn-menu btn-small'>Connect</button>
                     <button type="button" className='btn btn-menu btn-small' onClick={()=>{setRepoName('');props.setTrigger(false);}}>Cancel</button>

@@ -19,7 +19,7 @@
 .sync-drone{
     position: absolute;
     top: .5rem;
-    right: 3.25rem;
+    right: 3.75rem;
 }
 
 .syncing{
@@ -71,7 +71,7 @@
 .drone-container .table-wrapper{
     margin-top: 0;
     /*height: 55vh;*/
-    height: 77%;
+    height: 76%;
     overflow-y: auto;
     overflow-x: auto;
     border: none;
