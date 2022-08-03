@@ -2,19 +2,33 @@ import React from 'react'
 import MonitorNode from './monitor-contianer/MonitorNode';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 
 export default function Monitor() {
 
     const [data, setData] = useState(null);
     const [state, setstate] = useState(200);
+    const [namespace, setNamespace] = useState('');
+    const [open, setOpen] = useState(false);
 
     const getNodeStatus = () => {
         axios.get('http://localhost:8080/monitor/nodes')
             .then(function (response) {
                 setData(response.data);
                 setstate(response.status);
-                console.log(state);
+                console.log(response.data);
 
             })
             .catch(function (error) {
@@ -34,22 +48,86 @@ export default function Monitor() {
         return () => clearInterval(interval)
     }, []);
 
+    const handleChange = (event) => {
+        setNamespace(event.target.value);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
 
     function showData() {
         if (state === 200) {
             return (
-                <div className="node-container">
-                    {data?.map(node => {
-                        return <MonitorNode getNodes={getNodeStatus} key={node.id} {...node}></MonitorNode>
-                    })}
+                <div>
+
+                    <div className='delete'>
+                        <IconButton 
+                        aria-label="delete" 
+                        size="large" 
+                        onClick={handleOpen}
+                        style={{
+                            color: "grey",
+                            
+                        }}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </div>
+
+                    <div className="node-container">
+
+                        {data?.map(node => {
+                            return <MonitorNode getNodes={getNodeStatus} key={node.id} {...node}></MonitorNode>
+                        })}
+                    </div>
+                    <Dialog 
+                    disableEscapeKeyDown 
+                    open={open} 
+                    onClose={handleClose}
+                    >
+                        <DialogTitle>Delete Project</DialogTitle>
+                        <DialogContent>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Project</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={namespace}
+                                    onChange={handleChange}
+                                    label="namespace"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button 
+                            onClick={handleClose}
+                            style={{
+                                color: "grey"
+                                
+                            }}>Cancel</Button>
+                            <Button onClick={handleClose}>Ok</Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             )
         } else if (state === 500) {
             return (
                 <>
-                    
+
                     <h1 className='monitor-error'>No cluster found !!!</h1>
-                    
+
                 </>
             )
         } else {
