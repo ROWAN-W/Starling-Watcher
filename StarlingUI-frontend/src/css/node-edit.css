@@ -11,6 +11,7 @@
     /*node max width
     max-width:25rem;
     min-width: 20rem;*/
+    max-width:35rem;
     position: relative;
     height: 100%;
     margin: auto;
@@ -157,7 +158,7 @@
     margin: 1rem 1.5rem;
     /*background: hsl(200, 100%, 20%);*/
     background:  #1a1a1a ;
-    height: 15rem;
+    height: 18rem;
     /*max-height: 11rem;*/
     overflow-y: auto;
     padding: .75rem;
@@ -167,7 +168,7 @@
 
 .node-image-tag-container.no-picture{
     margin-top: .5rem;
-    height: 19rem;
+    height: 22rem;
 }
 
 .items-body-content.node-image {

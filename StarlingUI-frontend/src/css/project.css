@@ -3,7 +3,7 @@
     padding-bottom: 0;
     /*min-width: 300px;
     max-width: 75vw;*/
-    height: 75vh;
+    height: 77vh;
     border-radius: 3px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -52,7 +52,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     gap:1.75rem;
     /*justify-items: center;*/
     /*justify-items: stretch;
@@ -75,8 +75,8 @@
 
 .items-head .instruct{
     padding-top: 0;
-    /*over the screen*/
-    width: 75vw;
+    /*over the screen
+    width: 75vw;*/
     line-height: 175%;
 }
 

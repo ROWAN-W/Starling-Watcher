@@ -6,20 +6,32 @@ import { ProjectContext } from './App';
 import User from "./user/User";
 import bigger from './img/font-increase-svgrepo-com.png';
 import smaller from './img/font-decrease-svgrepo-com.png';
-import bird from './img/bird.png';
+import bird from './img/raven-svgrepo-com.svg';
 
 const Navbar = () => {
   const history = useHistory()
   const {userSignIn, setUserSignIn, userData, currentUserID, selectedPage, setSelectedPage} = useContext(ProjectContext);
 
+  const openInNewTab = url => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  function goHome(){
+    if(selectedPage==='Deployment'){
+      window.location.reload(false)
+    }else{
+      setSelectedPage('Deployment');history.push('/')
+    }
+  }
+
   return (
     <nav className="nav">
-      <div className="starling-with-logo" title="go to Home" onClick={()=>{setSelectedPage('Deployment');history.push('/')}}><img className="bird-icon" src={bird} alt="starling logo" /><h1 className="nav-title" >Starling</h1></div>
+      <div className="starling-with-logo" title="Home" onClick={()=>{goHome()}}><img className="bird-icon" src={bird} alt="starling logo" /><h1 className="nav-title" >Starling</h1></div>
       <ul className="nav-list">
         <li className={selectedPage==='Deployment'? "nav-list click": null}><Link to="/"><span onClick={()=>{setSelectedPage('Deployment')}}>Design</span></Link></li>
         <li className={selectedPage==='Monitor'? "nav-list click": null}><Link to="/monitor"><span onClick={()=>{setSelectedPage('Monitor')}}>Monitor</span></Link></li>
+        <li><a onClick={() => openInNewTab('https://www.notion.so/Help-Centre-4092371e72e745eca6c56f236babc998')}>FAQ</a></li>
       </ul>
-      <div className="font-changer-user">
       {selectedPage==='Deployment' && <div className="font-changer"><FontSizeChanger
         targets={['html']}
         options={{
@@ -38,11 +50,10 @@ const Navbar = () => {
             color: 'white',
             WebkitBorderRadius: '.2rem',
           },
-          buttonsMargin: 5
+          buttonsMargin: 10
         }}
       /></div>}
         <User userSignIn={userSignIn} setUserSignIn={setUserSignIn} currentUser={userData?.find(user => user.id === currentUserID)}></User>
-      </div>
     </nav>
   );
 }

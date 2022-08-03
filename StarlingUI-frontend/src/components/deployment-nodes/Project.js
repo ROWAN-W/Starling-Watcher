@@ -96,7 +96,7 @@ function handleNodeDuplicate(node){
       else if(selectedProject===undefined){
         return <div className='items-head'><p className='instruct'>
           Hello {userData?.find(user=>user.id===currentUserID).name}!<br/>
-          Please <u>select</u> or <u>create</u> a project.</p>
+          Please <em>select</em> or <em>create</em> a project.</p>
           </div>
       }
     }

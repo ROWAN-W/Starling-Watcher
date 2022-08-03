@@ -3,6 +3,7 @@ import logo from '../img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
 const UPLOAD_URL = 'http://localhost:8080/design/upload';
+const instruct = "Namespace can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'-\'.";
 
 export default function Upload(props) {
 
@@ -149,9 +150,10 @@ export default function Upload(props) {
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                     {!savePending && result!=='' && result!=='Success' && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{result}</div>}
                     {result==='Success' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{result}</div>}
+                    {result==='' && <div className="info-msg wordwrap"><i className="fa fa-info-circle"></i>{instruct}</div>}
                     <div className='popup-major stack'>
                     <label 
-                        htmlFor='namespace' className='popup-major-key major'>Namespace<span className='required'>*</span>
+                        htmlFor='namespace' className='popup-major-key major'>Namespace (max 63 characters)<span className='required'>*</span>
                     </label>
                     <input 
                         type='text' 

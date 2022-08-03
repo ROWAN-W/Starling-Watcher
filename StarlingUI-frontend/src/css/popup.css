@@ -12,11 +12,14 @@
 }
 
 .popup-projects-inner{
-    max-height:85vh;
+    /*max-height:85vh;
     min-height: auto;
     width: 45%;
     max-width: 640px;
+    min-width: 300px;*/
+    width: 650px;
     min-width: 300px;
+    max-height: 80vh;
     padding: 2rem;
     padding-top: 1.5rem;
     
@@ -400,9 +403,8 @@
   /*very light gray*/
   background-color: hsl(0, 0%, 95%);
   border-radius: 0px;
-  width: 40vw;
+  width: 600px;
   min-width: 250px;
-  min-height: 30vh;
   max-height: auto;
   position: relative;
 }
@@ -709,7 +711,7 @@ p.forgot:hover, p.create-user{
   justify-content: right;
   margin-top: .5rem;
   color: #fffffe;
-  font-size: .95rem;
+  font-size: 1rem;
 }
 
 .btn.btn-danger:focus{

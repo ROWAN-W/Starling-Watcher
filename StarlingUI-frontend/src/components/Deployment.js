@@ -7,12 +7,25 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import DroneList from "./deployment-droneList/DroneList";
 import { ProjectContext } from './App';
 import DeployMini from "./deployment-menu/deploy/DeployMini";
+import { usePopperTooltip } from 'react-popper-tooltip';
+import 'react-popper-tooltip/dist/styles.css';
 import edit from './img/edit-svgrepo-com.svg';
 import expand from './img/left-arrow-svgrepo-com.svg';
 
 function Deployment({selectedProject}) {
 
-  const {currentUserID, handleProjectChange} = useContext(ProjectContext);
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTooltipRef,
+    setTriggerRef,
+    visible,
+  } = usePopperTooltip({
+    trigger: 'focus',
+    placement: 'right-end',
+  });
+
+  const {handleProjectChange} = useContext(ProjectContext);
   
   const [droneListTrigger,setDroneListTrigger] = useState(true);
   //holding drones data!
@@ -49,10 +62,23 @@ function Deployment({selectedProject}) {
         <input
         className="project-title input"
         value={selectedProject.name}
-        required
         placeholder = "Your Project Name"
         maxLength = {63}
-        onChange={e=>handleChange({name: e.target.value})}></input>
+        onChange={e=>handleChange({name: e.target.value})}
+        ref={setTriggerRef}
+        >
+        </input>
+        {visible && (
+        <div
+          ref={setTooltipRef}
+          {...getTooltipProps({ className: 'tooltip-container project-name-hint' })}
+        >
+          <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+          * only lowercase alphanumeric characters or '-'<br/>
+          * start / end with an alphanumeric character<br/>
+          * at most 63 characters<br/>
+        </div>
+        )}
         <img className="edit-icon" src={edit} alt="edit" title="edit project name"/>
       </div>
       )

@@ -22,10 +22,11 @@ html, body
 {
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     font-family: Cambria;
     color: #1B2522;
     /*background: #1B2522;*/
@@ -34,6 +35,7 @@ body {
 
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
 }
 
 .btn {
@@ -59,7 +61,7 @@ body {
     text-decoration: none;
     border: none;
     cursor: pointer;
-    font-size: inherit;
+    font-size: 1.1rem;
   }
   
 .btn.btn-nav:hover,
@@ -112,7 +114,6 @@ input:focus {
     min-width: 15rem;
 }
 
-
 .project-title.input
 {
     padding: .3rem 1rem;
@@ -130,6 +131,15 @@ input:focus {
     box-shadow: none;
     cursor: pointer;
     border-bottom: 1.5px solid hsl(0, 0%, 95%);
+}
+
+.tooltip-container.project-name-hint{
+    border: none;
+    background: #f2f2f2;
+    line-height: 150%;
+    color: #333;
+    padding: .75rem 1rem;
+    margin-left: 2rem;
 }
 
 .project-title.plan{
@@ -225,7 +235,7 @@ input:focus {
     }
     .project{
         min-width: 350px;
-        width: auto;
+        /*width: auto;*/
     }
     .drone-container{
         min-width: 300px;
@@ -326,12 +336,12 @@ input:focus {
     justify-content: space-between;
     align-items: baseline;
     border-radius: .3em;
-    min-height: 2.1rem;
+    min-height: 2.5rem;
 
     position: fixed; 
     bottom:-0.5%;
     right: 5%;
-    width:17rem; 
+    width:20rem; 
     background-color: hsl(200, 100%, 50%); 
     opacity: 1;
     box-shadow: 0px 3px 5px -1px #ccc;
@@ -340,7 +350,7 @@ input:focus {
 .minimize .popup-close-button{
     color: lightgray;
     margin-right: 1rem;
-    font-size: .95rem;
+    font-size: 1.1rem;
 }
 
 .minimize .popup-close-button:hover{
@@ -352,6 +362,7 @@ input:focus {
     padding-left: .75rem;
     font-weight: bold;
     white-space: nowrap;
+    font-size: 1.2rem;
 }
 
 .minimize-title{
@@ -430,3 +441,7 @@ input:focus {
     width: 0px;
     height: 0px;
   }
+
+.drone-container{
+scrollbar-width: none;
+}

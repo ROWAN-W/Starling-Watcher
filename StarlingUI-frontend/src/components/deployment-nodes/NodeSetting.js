@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import UploadAndDisplayImage from './UploadAndDisplayImage';
+const instructName = "Name can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'-\'.";
+const instructLabel = "Label can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'.\' , \'-\' and \'_\'.";
 
 export default function NodeSetting(props) {
 
@@ -109,7 +111,7 @@ export default function NodeSetting(props) {
                 !(code > 96 && code < 123)) { // lower alpha (a-z)
                 
                 console.log("contain only lowercase alphanumeric characters or '-' or more!");
-                setWarning("Value can only contain lowercase alphanumeric characters or '-', '_' and '.'")
+                setWarning("label can only contain lowercase alphanumeric characters or '-', '_' and '.'")
                 return false;
                 }
             }
@@ -117,7 +119,7 @@ export default function NodeSetting(props) {
             value.charCodeAt(0)===95 || value.charCodeAt(value.length-1)===95 ||
             value.charCodeAt(0)===46 || value.charCodeAt(value.length-1)===46){
                 console.log("start/end with an alphanumeric character");
-                setWarning("Value can only start/end with an alphanumeric character")
+                setWarning("label can only start/end with an alphanumeric character")
                 return false;
             }
         }
@@ -134,9 +136,11 @@ return (props.trigger) ?(
         </div>
             {warning!=='' && <div className="warning-msg wordwrap"><i className="fa fa-warning"></i>{warning}</div>}
             <form onSubmit={saveChange} className="advanced-setting-form">
+            <div className='key-hint advanced-setting'>(Press Tab/Shift+Tab to select, Enter to save content)</div>
                 <div className="advanced-setting">
-                <div className='key-hint advanced-setting'>(Press Tab/Shift+Tab to select, Enter to save content)</div>
-                <div className='popup-major'>
+                {warning==='' && <div className="info-msg wordwrap"><i className="fa fa-info-circle"></i>{instructName}</div>}
+                {warning==='' && <div className="info-msg wordwrap"><i className="fa fa-info-circle"></i>{instructLabel}</div>}
+                <div className='popup-major' style={{marginTop:"1.5rem"}}>
                 <div><label 
                     htmlFor='name' className='popup-major-key major'>Name<span className='required'>*</span>
                 </label>
@@ -159,7 +163,6 @@ return (props.trigger) ?(
                     <option value="deployment">deployment</option>
                 </select></div>
                 </div>
-
                 <div className='sub-title'><span>label (Optional)</span></div>
                 <div className='popup-secondary'>
                 <label 
