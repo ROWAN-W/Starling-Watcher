@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ImageService {
 
-    void setToken(User user);
+    List<Image> getImageList(String repository);
 
-    List<Image> getImageList();
+    List<Image> getImageTag(String imageName);
 
 }

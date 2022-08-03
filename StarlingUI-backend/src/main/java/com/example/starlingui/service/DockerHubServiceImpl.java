@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-public class DockerHubServiceImpl implements ImageService{
+public class DockerHubServiceImpl{
 
     @Resource
     private RestTemplate restTemplate;
@@ -33,7 +33,7 @@ public class DockerHubServiceImpl implements ImageService{
      * @Description (get token from dockerhub,set current user)
      * @param user dockerhub user information(username,password)
      */
-    @Override
+
     public void setToken(User user) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -53,7 +53,7 @@ public class DockerHubServiceImpl implements ImageService{
      * @Description  Send Get request(with token) to docker hub ,get registry content of user
      * @return return images list of user account
      */
-    @Override
+
     public List<Image> getImageList() {
         String url = accountUrl+username;
         JsonArray images = getRequest(url);
@@ -69,6 +69,7 @@ public class DockerHubServiceImpl implements ImageService{
      * @param imageName image name
      * @return return images list with tag
      */
+
     public List<Image> getImageTag(String imageName){
         String url = accountUrl+username+"/"+imageName+"/"+"tags";
         JsonArray images = getRequest(url);

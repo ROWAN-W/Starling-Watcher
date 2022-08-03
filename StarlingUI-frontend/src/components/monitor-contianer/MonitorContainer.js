@@ -63,12 +63,15 @@ export default function MonitorContainer(props) {
         w.location.href=url;
     }
 
+    const explain = "container has three state:\nGreen:Running,\nYello:Waiting(The container is in queue for startup, please wait.),\nRed:Terminated(The container will restart automatically when it has a terminated state. Please wait.)\nWarning:Do not restart the pod multiple times in a short period of time";
 
     return (
         <>
-            <div className="k8s-container">
+            <div className="k8s-container"
+            title={explain}>
                 <div className="pole"
-                    style={{backgroundColor: containerStatus}}></div>
+                    style={{backgroundColor: containerStatus}}
+                    title={props.containerState}></div>
                 <div className="outer">
 
 

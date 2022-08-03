@@ -38,8 +38,8 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable().authorizeHttpRequests()
-                .antMatchers("/design/initialize",  "/login", "/refresh", "/tokens",
-                        "/monitor/*", "/design/database", "/register", "/design/images").permitAll()
+                .antMatchers("/design/initialize",  "/login", "/refresh", "/tokens", "/design/image/*",
+                        "/monitor/*", "/design/database", "/register", "/design/images", "/design/backdoor").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
