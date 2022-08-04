@@ -26,7 +26,7 @@ public class monitorNodeServiceImpl implements NodeService{
         // default config for an out-of-cluster client
         ApiClient client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
-
+        client.setConnectTimeout(5000);
 /*
   // configure k8s client from within the cluster
        ApiClient client = Config.fromCluster();
@@ -86,6 +86,7 @@ public class monitorNodeServiceImpl implements NodeService{
                 monitorPod monitorPod =new monitorPod();
                 //System.out.println(String.valueOf(id));
                 monitorPod.setId(String.valueOf(id));
+                monitorPod.setCreationTime(item.getMetadata().getCreationTimestamp().toString());
                 //System.out.println(item.getMetadata().getName());
                 monitorPod.setPodName(item.getMetadata().getName());
                 //System.out.println(item.getMetadata().getNamespace());

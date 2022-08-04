@@ -4,6 +4,7 @@ package com.example.starlingui.model;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Component
@@ -12,6 +13,7 @@ public class monitorPod {
     private String id;
     private String podName;
     private String namespace;
+    private String creationTime;
 
     private List<monitorContainer> containers;
 
@@ -38,5 +40,9 @@ public class monitorPod {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
     }
 }

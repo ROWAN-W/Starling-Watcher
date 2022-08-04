@@ -73,8 +73,9 @@ public class TemplatingServiceImp implements TemplatingService {
                 return;
             }
         }
+        //add a label for all project deployed from Starling-watcher
         NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
-        Namespace newNameSpace = namespaceBuilder.withNewMetadata().withName(projectName).endMetadata().build();
+        Namespace newNameSpace = namespaceBuilder.withNewMetadata().addToLabels("deployedfrom", "starlingwatcher").withName(projectName).endMetadata().build();
         client.namespaces().resource(newNameSpace).create();
     }
 

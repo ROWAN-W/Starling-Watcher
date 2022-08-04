@@ -152,7 +152,7 @@ KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
             throw new StarlingException("file processing error");
         }
         catch(KubernetesClientException kubernetesClientException){
-            throw new StarlingException("Kubernetes Client Exception");
+            throw new StarlingException("kubernetes server error");
         }
 
     }

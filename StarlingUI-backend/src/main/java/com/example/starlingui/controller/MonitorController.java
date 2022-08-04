@@ -4,6 +4,7 @@ import com.example.starlingui.model.K8sContainer;
 import com.example.starlingui.model.domainNode;
 
 import com.example.starlingui.model.monitorNode;
+import com.example.starlingui.service.deleteServiceImpl;
 import com.example.starlingui.service.designNodeServiceImpl;
 
 import com.example.starlingui.service.monitorNodeServiceImpl;
@@ -92,18 +93,19 @@ public class MonitorController {
       
     }
 
-    @GetMapping("/namespace")
+    @GetMapping("/namespaces")
     public ResponseEntity<String> getNameSpace(){
         try {
             ApiClient client = Config.defaultClient();
             Configuration.setDefaultApiClient(client);
             CoreV1Api api = new CoreV1Api();
+            //filtering namespaces with label:  deployedfrom=starlingwatcher
             V1NamespaceList namespaceList = api.listNamespace(
                     null,
                     null,
                     null,
                     null,
-                    null,
+                    "deployedfrom=starlingwatcher",
                     null,
                     null,
                     null,
@@ -115,16 +117,33 @@ public class MonitorController {
                     .map(v1Namespace -> v1Namespace.getMetadata().getName())
                     .collect(Collectors.toList());
 
+
             Gson gson = new Gson();
             String json = gson.toJson(list);
             return ResponseEntity.ok(json);
 
         }catch (Exception e){
+
             return ResponseEntity
                     .status(404)
                     .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                    .body("Kubernetes API fail :" + e.getMessage());
+                    .body("Unable to get the namespaces" +System.lineSeparator()+ e.getMessage());
         }
     }
 
+
+    @DeleteMapping("/delete/{namespace}")
+    public ResponseEntity<String> deleteDeploymentsInNS(@PathVariable String namespace){
+        deleteServiceImpl deleteServiceImpl=new deleteServiceImpl();
+        try {
+            deleteServiceImpl.deleteDeployment(namespace);
+            return ResponseEntity.ok("ok");
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(404)
+                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                    .body("Unable to delete the project"+namespace +System.lineSeparator()+ e.getMessage());
+        }
+
+    }
 }

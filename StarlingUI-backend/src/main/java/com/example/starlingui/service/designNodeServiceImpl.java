@@ -35,7 +35,7 @@ public class designNodeServiceImpl implements NodeService {
         // default config for an out-of-cluster client
         ApiClient client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
-
+        client.setConnectTimeout(5000);
 /*
   // configure k8s client from within the cluster
        ApiClient client = Config.fromCluster();
