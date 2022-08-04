@@ -41,7 +41,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         Set<String> skipUrls = new HashSet<>(Arrays.asList("/design/initialize",  "/login", "/tokens", "/design/image/*",
-                "/refresh", "/monitor/*", "/design/database", "/register", "/design/images", "/design/backdoor"));
+                "/refresh", "/monitor/*", "/design/database", "/register", "/design/images", "/design/backdoor",
+                "/container/*"));
         AntPathMatcher pathMatcher = new AntPathMatcher();
         return skipUrls.stream().anyMatch(path -> pathMatcher.match(path, request.getServletPath()));
     }

@@ -39,7 +39,8 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable().authorizeHttpRequests()
                 .antMatchers("/design/initialize",  "/login", "/refresh", "/tokens", "/design/image/*",
-                        "/monitor/*", "/design/database", "/register", "/design/images", "/design/backdoor").permitAll()
+                        "/monitor/*", "/design/database", "/register", "/design/images", "/design/backdoor",
+                        "/container/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
