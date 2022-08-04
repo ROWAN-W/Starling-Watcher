@@ -17,15 +17,14 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
 
     const [{isOver},drop] = useDrop(()=>({
         accept: "image",
-        drop: (item) => addImageToBoard(item.id),
+        drop: (item) => addImageToBoard(item),
         collect: (monitor) =>({
             isOver:!!monitor.isOver(),
         }),
     }), [node,nodes,images,projects])
     
-    const addImageToBoard = (id) =>{
-        console.log(id);
-        handleImageAdd(id);
+    const addImageToBoard = (item) =>{
+        handleImageAdd(item.name);
     }
     
     function handleChange(changes){
@@ -43,15 +42,15 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         handleChange({containers: node.containers.filter(element=> element.id !== id)});
     }
     
-    function handleImageAdd(id){
+    function handleImageAdd(name){
         //no duplicate
-        const resultIndex = node.containers.findIndex(element=>element.id===id);
+        const resultIndex = node.containers.findIndex(element=>element.name===name);
         if(resultIndex===-1){
             console.log("no duplicate");
-            const addedImage = images.find(element=>element.id===id);
+            const addedImage = images.find(element=>element.name===name);
             console.log(addedImage.name);
             const newContainer = {
-                id: id,
+                id: addedImage.id,
                 name: addedImage.name,
                 command: '',
 	         	args: '',
@@ -128,7 +127,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
         else{
             return(
-                <img className="black-icon" src={black}/>
+                <img className="black-icon" src={black} alt=""/>
             )
         }
     }

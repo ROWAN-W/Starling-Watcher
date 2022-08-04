@@ -10,7 +10,7 @@
 | GET | /design/database | show all information of users in database(test only) | - |
 | GET | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
 | GET | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
-| POST | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/fail to deploy |
+| POST | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/kubernetes server error/File Processing Error/Empty file |
 | POST | /login | user login, get access token and refresh token | 401: username or password not valid |
 | POST | /register | add a new user | 403: username already exist in database |
 | GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
@@ -19,7 +19,7 @@
 | POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
 | PUT | /design/projects/{id} | update a project | 403: can not find the project by given id or updated project style is not valid |
 | DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
-
+| DELETE | /monitor/delete/{namespace}| delete a certain project from cluster| 404: Unable to delete the project |
 
 
 ### script:

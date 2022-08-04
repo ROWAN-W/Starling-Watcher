@@ -41,7 +41,7 @@ export default function UnsavedWarning(props) {
                 </div>
 
                 <div className='content'>Signing out will lose all unsaved changes.</div>
-                <div className='key-hint'>(Press ENTER to sign out, ESC to cancel)</div>
+                <div className='key-hint'>(Press ENTER to sign out, ESC to cancel. Click project to open.)</div>
                 <div className='popup-footer normal'>
                 <button ref={(button) => { textInput = button; }} className="btn btn-danger" onClick={()=>{props.setTrigger(false);handleCurrentUser(undefined)}}>Still Sign Out</button>
                 <button className="btn btn-cancel" onClick={()=>{props.setTrigger(false);}}>Cancel</button>

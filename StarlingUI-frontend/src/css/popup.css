@@ -139,9 +139,18 @@
 }
 
 .unsaved-item{
-  list-style: inside;
+  list-style: none;
   padding-left: 1rem;
   margin-bottom: .5rem;
+}
+
+.unsaved-item::before {
+  content: '';
+  display: inline-block;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: .5rem;
+  background-image: url('../components/img/file-svgrepo-com.svg');
 }
 
 .unsaved-item:hover{

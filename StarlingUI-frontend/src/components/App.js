@@ -23,7 +23,7 @@ function App() {
 
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const [selectedPage, setSelectedPage] = useState('Deployment');
+  const [selectedPage, setSelectedPage] = useState(window.location.pathname);
 
   const [currentUserID, setCurrentUserID] = useState(''); //undefined -> ''
 
@@ -53,8 +53,6 @@ function App() {
 
   const [unsavedProjectIDs, setUnsavedProjectIDs] = useState([]);
   const [recoverMessage, setRecoverMessage] = useState(true);
-
-  const [fontSize, setFontSize] = useState(0);
 
   useEffect(()=>{
     const refreshToken = getCookie('refreshToken');
@@ -209,7 +207,6 @@ function App() {
     images,
     userSignIn,
     selectedPage,
-    fontSize, setFontSize,
     setUserSignIn,
     setSelectedPage,
     setRememberMe,

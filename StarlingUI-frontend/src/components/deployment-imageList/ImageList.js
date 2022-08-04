@@ -1,12 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
-import axios from "axios";
 import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
 import logo from '../img/load.gif';
 import ImageSort from './ImageSort';
-const IMAGE_URL = 'http://localhost:8080/design/images';
+const IMAGE_URL = 'http://localhost:8080/design/image/';
 
 export default function ImageList() {
 
@@ -14,7 +13,7 @@ export default function ImageList() {
 
   const [userSignIn, setUserSignIn] = useState(false); //login window
 
-  const [finalRepoName, setFinalRepoName] = useState("charaznablegundam");
+  const [finalRepoName, setFinalRepoName] = useState("uobflightlabstarling");
 
   const [imageError, setError] = useState(null);
   const [waiting, setWaiting] = useState(true);
@@ -28,22 +27,21 @@ export default function ImageList() {
   useEffect(() => {
       //use fetch() to avoid triggering axios interceptor
         const options = {
-          method: "POST",
+          method: "GET",
           headers: {
               Accept: "application/json",
               "Content-Type": "application/json;charset=UTF-8",
-          },
-          body: JSON.stringify({
-              username: finalRepoName,
-              password: "362514hao",
-          }),
+          }
           };
           
-          fetch(IMAGE_URL,options)
+          fetch(IMAGE_URL+finalRepoName,options)
           .then(res => {
             if (!res.ok) { // error coming back from server
-              if(res.status===401){
+              if(res.status===403){
                 throw Error("Fail to connect to the repository");
+              }
+              else if(res.status===404){
+                throw Error("Invalid repository name or empty repository");
               }
               throw Error('Error Details: '+res.status);
             } 
@@ -103,7 +101,7 @@ export default function ImageList() {
 
   function show(){
     if(waiting){
-      return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>
+      return <h4 className='wait-message docker'><img className="loading" src={logo} alt="loading..." />Please wait...(3-10 seconds)</h4>
     }
     else{
       if(imageError && !userSignIn){
@@ -131,7 +129,7 @@ export default function ImageList() {
               <><SearchBox handleImageSearch={handleImageSearch}/>
               <ImageSort setSortValue={setOrderCol} setOrder={setOrder}></ImageSort></>
             </div>
-          
+            <div className='total-image-number'>Total: {images.length}</div>
             <div className="items-body">  
             {showResult().map(image=>{
                 return <Image key={image.id} {...image}></Image>

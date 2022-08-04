@@ -31,7 +31,10 @@
     justify-content: center;
     border: 2px solid #dc5671;
     border-radius:8px;
-    width: 65px;
+    /*width: 65px;*/
+    /*removed by yulin to adjust to font change*/
+    font-size: 1rem;
+    /*added by yulin to adjust to font change*/
 }
 
 .container-restart:hover {

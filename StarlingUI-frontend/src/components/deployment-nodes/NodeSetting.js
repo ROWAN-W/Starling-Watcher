@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import UploadAndDisplayImage from './UploadAndDisplayImage';
-const instructName = "Name can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'-\'.";
-const instructLabel = "Label can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'.\' , \'-\' and \'_\'.";
+const instructName = "Name can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '-'.";
+const instructLabel = "Label can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '.' , '-' and '_'.";
 
 export default function NodeSetting(props) {
 

@@ -30,7 +30,7 @@ export default function RecoverMessage(props) {
                     {props.unsavedProjectIDs.map(projectID=>
                     <li className='unsaved-item wordbreak wordwrap' key={projectID} onClick={()=>{handleProjectSelect(projectID); props.setTrigger(false)}}>{projects.find(project=>project.id===projectID)?.name}</li>)}
                 </div>
-            <div className='key-hint'>(Press ESC to leave)</div>
+            <div className='key-hint'>(Press ESC to leave. Click project to open.)</div>
             <div className='popup-footer normal'>
             <button className='btn short' onClick={()=>{props.setTrigger(false);}}>OK</button>
             </div>

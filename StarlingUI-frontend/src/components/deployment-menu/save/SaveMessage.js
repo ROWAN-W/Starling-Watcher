@@ -141,7 +141,7 @@ export default function SaveMessage(props) {
         return(
             <>
             {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-            {!savePending && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
+            {error && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
             {error && <h2 className='title-error'>Save Project Error</h2>}
             {!error && result!=='' && <h2 className='title-success'>Save in the database!</h2>}
             <div className='content'>{error? error: ''}</div>

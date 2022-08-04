@@ -9,7 +9,7 @@ export default function UploadAndDisplayImage({options, selectedImage, setSelect
         <label className="info-msg wordwrap"><i className="fa fa-info-circle"></i>Either 'None' on 'master' or 'deployment' will remove <em>all</em> the pictures. <strong>Specify both to display the pictures</strong>.</label>
         {selectedImage!=="None" && (
           <div>
-          <img className="picture-select" alt="picture" width={"180px"} src={selectedImage}/> 
+          <img className="picture-select" alt="picture preview" width={"180px"} src={selectedImage}/> 
           </div>
         )}
         <div>
