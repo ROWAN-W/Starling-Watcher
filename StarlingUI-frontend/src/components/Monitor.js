@@ -46,7 +46,7 @@ export default function Monitor() {
         }
 
         function getNameSpaces() {
-            return axios.get('http://localhost:8080/monitor/namespace');
+            return axios.get('http://localhost:8080/monitor/namespaces');
         }
 
         Promise.all([getNodes(), getNameSpaces()])
@@ -56,18 +56,19 @@ export default function Monitor() {
                 setData(acct.data);
                 setstate(acct.status);
                 setProjects(perm.data);
+
             })
             .catch(function (error) {
                 setstate(error.response.status);
                 setData(error.response.data);
                 console.log(error.response.status);
-                
+
             });
     }
 
-    
+
     const listItems = projects?.map((project) =>
-    <MenuItem value={project} key={projects.indexOf(project)}>{project}</MenuItem>
+        <MenuItem value={project} key={projects.indexOf(project)}>{project}</MenuItem>
     );
 
     useEffect(() => {
@@ -90,6 +91,24 @@ export default function Monitor() {
         setOpen(true);
     };
 
+    const handleDelete = () => {
+        if (namespace !== '') {
+            let url = 'http://localhost:8080/monitor/delete/';
+            url += namespace;
+            axios.delete(url)
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
+
+        setOpen(false);
+        setTimeout(() => {
+            getK8sData();
+        }, 3000);
+    }
 
     function showData() {
         if (state === 200) {
@@ -145,7 +164,7 @@ export default function Monitor() {
                                     color: "grey"
 
                                 }}>Cancel</Button>
-                            <Button onClick={handleClose}>Ok</Button>
+                            <Button onClick={handleDelete}>Ok</Button>
                         </DialogActions>
                     </Dialog>
                 </div>
