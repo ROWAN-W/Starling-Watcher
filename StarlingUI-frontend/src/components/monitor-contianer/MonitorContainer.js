@@ -1,12 +1,24 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import React from "react";
-import {BarLoader} from 'react-spinners';
-
+import { BarLoader } from 'react-spinners';
+import { usePopperTooltip } from 'react-popper-tooltip';
+import 'react-popper-tooltip/dist/styles.css';
 
 
 export default function MonitorContainer(props) {
     const [containerStatus, setContainerStatus] = useState("#32e6b7");
     const [buttonAvailable, setButtonAvailable] = useState(false);
+
+    const {
+        getArrowProps,
+        getTooltipProps,
+        setTooltipRef,
+        setTriggerRef,
+        visible,
+    } = usePopperTooltip({
+        trigger: 'hover',
+        placement: 'right-end',
+    });
 
     const override = `
         display: block;
@@ -16,8 +28,8 @@ export default function MonitorContainer(props) {
     const style = {
         loading: props.reboot,
         size: 30,
-        width:250,
-        css:override,
+        width: 250,
+        css: override,
         color: "#32e6b7",
     };
 
@@ -27,13 +39,13 @@ export default function MonitorContainer(props) {
             case "running":
                 setContainerStatus("#32e6b7");
                 setButtonAvailable(false);
-                
+
                 break;
             case "null":
             case "terminated":
                 setContainerStatus("#dc5671");
                 setButtonAvailable(true);
-                
+
                 break;
             case "waiting":
                 setContainerStatus("#EEC908");
@@ -43,34 +55,34 @@ export default function MonitorContainer(props) {
 
     }, [props]);
 
-    const openTerminal = ()=>{
-        const w=window.open('about:blank');
+    const openTerminal = () => {
+        const w = window.open('about:blank');
         let url = '/terminal';
         url += '/' + props.podName
             + '/' + props.namespace
             + '/' + props.containerName
         console.log(url);
-        w.location.href=url;
+        w.location.href = url;
     }
 
-    const openLogs = ()=>{
-        const w=window.open('about:blank');
+    const openLogs = () => {
+        const w = window.open('about:blank');
         let url = '/logs';
         url += '/' + props.podName
             + '/' + props.namespace
             + '/' + props.containerName
         console.log(url);
-        w.location.href=url;
+        w.location.href = url;
     }
 
-    const explain = "container has three state:\nGreen:Running,\nYello:Waiting(The container is in queue for startup, please wait.),\nRed:Terminated(The container will restart automatically when it has a terminated state. Please wait.)\nWarning:Do not restart the pod multiple times in a short period of time";
 
     return (
         <>
             <div className="k8s-container"
-            title={explain}>
+                
+                ref={setTriggerRef}>
                 <div className="pole"
-                    style={{backgroundColor: containerStatus}}
+                    style={{ backgroundColor: containerStatus }}
                     title={props.containerState}></div>
                 <div className="outer">
 
@@ -80,18 +92,31 @@ export default function MonitorContainer(props) {
                     </div>
 
 
-                    {props.reboot?<BarLoader {...style} />:
+                    {props.reboot ? <BarLoader {...style} /> :
                         <div className="button-list">
-                                <button className="console-image"
-                                        onClick={() => openTerminal()}
-                                        disabled={buttonAvailable}></button>
-                                <button className="container-logs"
-                                        onClick={() => openLogs()}
-                                        disabled={buttonAvailable}></button>
+                            <button className="console-image"
+                                onClick={() => openTerminal()}
+                                disabled={buttonAvailable}></button>
+                            <button className="container-logs"
+                                onClick={() => openLogs()}
+                                disabled={buttonAvailable}></button>
                         </div>
                     }
                 </div>
             </div>
+            {visible && (
+                <div
+                    ref={setTooltipRef}
+                    {...getTooltipProps({ className: 'tooltip-container project-name-hint' })}
+                >
+                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                    * Container has three state:<br />
+                    * Green:Running<br />
+                    * Yello:Waiting(The container is in queue for startup, please wait.)<br />
+                    * Red:Terminated(The container will restart automatically when it has a terminated state. Please wait.) <br />
+                    * Warning:Do not restart the pod multiple times in a short period of time"<br />
+                </div>
+            )}
         </>
     )
 }
