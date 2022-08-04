@@ -90,9 +90,16 @@
 }
 
 .delete {
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    color: red;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.delete-popup{
+    vertical-align: middle;
+    float:right;
 }
 

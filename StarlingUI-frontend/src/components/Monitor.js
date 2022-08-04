@@ -19,6 +19,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 export default function Monitor() {
 
     const [data, setData] = useState(null);
+    const [projects, setProjects] = useState(null);
     const [state, setstate] = useState(200);
     const [namespace, setNamespace] = useState('');
     const [open, setOpen] = useState(false);
@@ -40,10 +41,40 @@ export default function Monitor() {
 
     }
 
+    const getK8sData = () => {
+        function getNodes() {
+            return axios.get('http://localhost:8080/monitor/nodes');
+        }
+
+        function getNameSpaces() {
+            return axios.get('http://localhost:8080/monitor/namespaces');
+        }
+
+        Promise.all([getNodes(), getNameSpaces()])
+            .then(function (results) {
+                const acct = results[0];
+                const perm = results[1];
+                setData(acct.data);
+                setstate(acct.status);
+                setProjects(perm.data);
+                console.log(perm.data);
+            })
+            .catch(function (error) {
+                const error1 = error[0];
+                setstate(error1.response.data.status);
+                console.log(error1.response.data.status);
+            });
+    }
+
+    
+    const listItems = projects?.map((project) =>
+    <MenuItem value={project}>{project}</MenuItem>
+    );
+
     useEffect(() => {
-        getNodeStatus();
+        getK8sData();
         const interval = setInterval(
-            () => { getNodeStatus(); }, 30000
+            () => { getK8sData(); }, 30000
         )
         return () => clearInterval(interval)
     }, []);
@@ -67,16 +98,19 @@ export default function Monitor() {
                 <div>
 
                     <div className='delete'>
-                        <IconButton 
-                        aria-label="delete" 
-                        size="large" 
-                        onClick={handleOpen}
-                        style={{
-                            color: "grey",
-                            
-                        }}>
-                            <DeleteIcon />
-                        </IconButton>
+                        <Button
+                            variant="outlined"
+                            startIcon={<DeleteIcon />}
+                            onClick={handleOpen}
+                            className="delete-popup"
+                            style={{
+                                color: "white",
+                                borderColor: "white",
+                                textTransform: "none",
+                                fontFamily: "Cambria"
+                            }}>
+                            Delete Project
+                        </Button>
                     </div>
 
                     <div className="node-container">
@@ -85,10 +119,10 @@ export default function Monitor() {
                             return <MonitorNode getNodes={getNodeStatus} key={node.id} {...node}></MonitorNode>
                         })}
                     </div>
-                    <Dialog 
-                    disableEscapeKeyDown 
-                    open={open} 
-                    onClose={handleClose}
+                    <Dialog
+                        disableEscapeKeyDown
+                        open={open}
+                        onClose={handleClose}
                     >
                         <DialogTitle>Delete Project</DialogTitle>
                         <DialogContent>
@@ -104,19 +138,17 @@ export default function Monitor() {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {listItems}
                                 </Select>
                             </FormControl>
                         </DialogContent>
                         <DialogActions>
-                            <Button 
-                            onClick={handleClose}
-                            style={{
-                                color: "grey"
-                                
-                            }}>Cancel</Button>
+                            <Button
+                                onClick={handleClose}
+                                style={{
+                                    color: "grey"
+
+                                }}>Cancel</Button>
                             <Button onClick={handleClose}>Ok</Button>
                         </DialogActions>
                     </Dialog>
