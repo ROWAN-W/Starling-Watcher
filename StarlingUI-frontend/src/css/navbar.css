@@ -6,7 +6,6 @@
   /*background: transparent;*/
   /*border-bottom: 0.5px solid #777;*/
   padding: .25rem 1rem .25rem 1rem;
-  min-width: 420px;
   position: relative;
 }
 
@@ -42,6 +41,7 @@
 .starling-with-logo{
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .starling-with-logo:hover{
@@ -51,6 +51,11 @@
 .bird-icon{
   width: 40px;
   margin-right: 2px;
+}
+
+.watcher{
+  position: absolute;
+
 }
 
 .nav-title {
@@ -102,13 +107,7 @@
   top: .5rem;
 }
 
-.font-changer-small{
-  width: 100%;
-  border: 1px solid #f1f1f1;
-  border-radius: .2rem;
-}
-
-.font-changer-big{
+.font-changer-small, .font-changer-big{
   width: 100%;
   border: 1px solid #f1f1f1;
   border-radius: .2rem;
@@ -116,4 +115,28 @@
 
 .font-changer-big:hover, .font-changer-small:hover{
   cursor: pointer;
+}
+
+@media (max-width: 750px) {
+  .font-changer{
+    top: 4rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav-list {
+    flex-direction: column;
+  }
+  .font-changer{
+    top: 6rem;
+    right: 1rem;
+  }
+  .nav-list a{
+    margin:0;
+  }
+  .watcher{
+    top: 2rem;
+    left: 4rem;
+  }
 }

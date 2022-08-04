@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react';
-import axios from "axios";
 import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';

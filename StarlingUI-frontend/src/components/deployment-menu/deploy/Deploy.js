@@ -95,7 +95,7 @@ export default function Deploy(props) {
     function finalCheck(){
         if(props.drones){
             for(let i=0;i<props.selectedProject.mapping.length;i++){
-                if(props.selectedProject.mapping[i].mappedDrones.length==0){
+                if(props.selectedProject.mapping[i].mappedDrones.length===0){
                     setDeployFeedback('Please specify at least one drone for each design/deployment');
                     return false;
                 }

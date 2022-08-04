@@ -9,7 +9,7 @@ export default function LoginIn(props) {
 
     const [cookies, setCookie] = useCookies(["refreshToken"]);
 
-    const {handleCurrentUser,setRememberMe} =useContext(ProjectContext);
+    const {userData, handleCurrentUser,setRememberMe} =useContext(ProjectContext);
 
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -105,10 +105,10 @@ export default function LoginIn(props) {
         <div className='popup-projects-inner user'>
         <div className='popup-header'>
             <span className='popup-title'>Sign in</span>
-            <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+            {userData && <button type="button" className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>}
         </div>
                 <form onSubmit={handleSubmit} className="form">
-                <div className='key-hint advanced-setting'>(Press Enter to submit, ESC to leave)</div>
+                <div className='key-hint advanced-setting'>(Press Enter to submit{userData? ", ESC to leave": ""})</div>
                 {loginError && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{loginError}</div>}
                 {waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
                 <div className='create-user-container'><p className='create-user' onClick={()=>{props.handleCreateNewAccount(true); props.setTrigger(false);clearField();}}>New user? Create an account</p></div>

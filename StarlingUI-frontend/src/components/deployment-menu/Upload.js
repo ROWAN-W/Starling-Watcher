@@ -3,7 +3,7 @@ import logo from '../img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
 const UPLOAD_URL = 'http://localhost:8080/design/upload';
-const instruct = "Namespace can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or \'-\'.";
+const instruct = "Namespace can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '-'.";
 
 export default function Upload(props) {
 
@@ -61,7 +61,7 @@ export default function Upload(props) {
         .catch(err => {
             setIsPending(false);
             if(err.response.status===404){
-                setResult("Invalid YAML file/ Fail to deploy");
+                setResult(err.response.data);
             }
             else if(err.response.status===401){
                 setResult("Authentication is required. Please sign in again.");

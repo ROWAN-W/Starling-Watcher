@@ -127,7 +127,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
         else{
             return(
-                <img className="black-icon" src={black}/>
+                <img className="black-icon" src={black} alt=""/>
             )
         }
     }
