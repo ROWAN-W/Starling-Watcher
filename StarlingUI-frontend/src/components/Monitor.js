@@ -3,7 +3,6 @@ import MonitorNode from './monitor-contianer/MonitorNode';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -13,7 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import OutlinedInput from '@mui/material/OutlinedInput';
+
 
 
 export default function Monitor() {
@@ -47,7 +46,7 @@ export default function Monitor() {
         }
 
         function getNameSpaces() {
-            return axios.get('http://localhost:8080/monitor/namespaces');
+            return axios.get('http://localhost:8080/monitor/namespace');
         }
 
         Promise.all([getNodes(), getNameSpaces()])
@@ -58,17 +57,19 @@ export default function Monitor() {
                 setstate(acct.status);
                 setProjects(perm.data);
                 console.log(perm.data);
+                console.log(acct.data);
             })
             .catch(function (error) {
-                const error1 = error[0];
-                setstate(error1.response.data.status);
-                console.log(error1.response.data.status);
+                setstate(error.response.status);
+                setData(error.response.data);
+                console.log(error.response.status);
+                
             });
     }
 
     
     const listItems = projects?.map((project) =>
-    <MenuItem value={project}>{project}</MenuItem>
+    <MenuItem value={project} key={projects.indexOf(project)}>{project}</MenuItem>
     );
 
     useEffect(() => {
@@ -127,10 +128,8 @@ export default function Monitor() {
                         <DialogTitle>Delete Project</DialogTitle>
                         <DialogContent>
                             <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
-                                <InputLabel id="demo-simple-select-standard-label">Project</InputLabel>
+                                <InputLabel>Project</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
                                     value={namespace}
                                     onChange={handleChange}
                                     label="namespace"
