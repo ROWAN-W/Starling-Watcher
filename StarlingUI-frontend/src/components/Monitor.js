@@ -56,8 +56,6 @@ export default function Monitor() {
                 setData(acct.data);
                 setstate(acct.status);
                 setProjects(perm.data);
-                console.log(perm.data);
-                console.log(acct.data);
             })
             .catch(function (error) {
                 setstate(error.response.status);
@@ -129,8 +127,7 @@ export default function Monitor() {
                         <DialogContent>
                             <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
                                 <InputLabel>Project</InputLabel>
-                                <Select
-                                    value={namespace}
+                                <Select value={namespace}
                                     onChange={handleChange}
                                     label="namespace"
                                 >
