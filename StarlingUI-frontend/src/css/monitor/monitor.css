@@ -89,17 +89,36 @@
     color: white;
 }
 
+/*modified by yulin*/
 .delete {
-    height: 50px;
+    /*height: 50px;
     line-height: 50px;
     margin-bottom: 5px;
     margin-top: 30px;
     margin-right: 20px;
-    margin-left: 20px;
+    margin-left: 20px;*/
+
+    display: flex;
+    padding: 1rem;
+    position: relative;
+}
+
+/*added by yulin*/
+.delete button{
+    position: absolute;
+    right: 2rem
 }
 
 .delete-popup{
     vertical-align: middle;
     float:right;
+}
+
+/*added by yulin*/
+@media (max-width: 750px) {
+    .delete button{
+        position: absolute;
+        right: 10rem
+    }   
 }
 
