@@ -1,7 +1,7 @@
 # How to change the password through back door
-### Step 1: Paration
+### Step 1: Preparation
 1. Make sure Starling Watcher is running
-2. Install postman [download link](https://www.postman.com/downloads/)
+2. Install [postman](https://www.postman.com/downloads/)
 ### Step 2: Add request
 Open postman, create a new collection and choose "add request"
 ![](./addRequest.png)
