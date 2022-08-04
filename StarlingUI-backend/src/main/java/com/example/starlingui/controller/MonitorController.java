@@ -79,15 +79,21 @@ public class MonitorController {
            return ResponseEntity.ok("ok");
        }catch (ApiException apiException){
 
-           return ResponseEntity
-                   .status(404)
-                   .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                   .body("Kubernetes API fail :" + apiException.getMessage());
+            if(apiException.getMessage().contains("NotFound")){
+                return ResponseEntity.ok("ok");
+            }else{
+                return ResponseEntity
+                        .status(404)
+                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                        .body("Kubernetes API error :" + apiException.getMessage());
+            }
+
+
        }catch (IOException ioException){
            return ResponseEntity
                    .status(404)
                    .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                   .body("Kubernetes API fail :" + ioException.getMessage());
+                   .body("Kubernetes API error :" + ioException.getMessage());
        }
 
       

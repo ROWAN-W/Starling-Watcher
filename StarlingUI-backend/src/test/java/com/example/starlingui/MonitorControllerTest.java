@@ -66,7 +66,7 @@ public class MonitorControllerTest {
 
 
 
-    //prerequisite: a minikube cluster with at least on pod
+    //prerequisite: a minikube cluster with at least one pod
     @Test
     public void testRestartPod(){
 
@@ -81,14 +81,29 @@ public class MonitorControllerTest {
 
             if(size>0){
                 //delete the first pod
-                V1Pod pod=podList.getItems().get(1);
+                V1Pod pod=podList.getItems().get(0);
                 mockMvc.perform(delete("http://localhost:8080/monitor/restart/"+pod.getMetadata().getNamespace()+"/"+pod.getMetadata().getName()))
                         .andDo(print())
                         .andExpect(status().isOk())
                         .andReturn().getResponse().getContentAsString();
 
 
-                TimeUnit.SECONDS.sleep(3);
+                //check the pod-not-found exception is handled
+                mockMvc.perform(delete("http://localhost:8080/monitor/restart/"+pod.getMetadata().getNamespace()+"/"+pod.getMetadata().getName()))
+                        .andDo(print())
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse().getContentAsString();
+
+//wait till the pod is restarted
+                TimeUnit.SECONDS.sleep(5);
+
+                //check that a replacing pod has been started
+                V1PodList newPodList = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null);
+                assertEquals(size, newPodList.getItems().size());
+
+
+/*
+
 
                 //check the deleted pod is not in the cluster anymore
                 mockMvc.perform(delete("http://localhost:8080/monitor/restart/"+pod.getMetadata().getNamespace()+"/"+pod.getMetadata().getName()))
@@ -100,6 +115,8 @@ public class MonitorControllerTest {
                 V1PodList newPodList = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null);
                 assertEquals(size, newPodList.getItems().size());
 
+
+ */
             }
 
 
