@@ -3,7 +3,7 @@ import { ProjectContext } from '../App';
 import DockerLogin from './DockerLogin';
 import Image from './Image';
 import SearchBox from './ImageSearchBox';
-import logo from '../img/load.gif';
+import logo from '../../css/img/load.gif';
 import ImageSort from './ImageSort';
 const IMAGE_URL = 'http://localhost:8080/design/image/';
 

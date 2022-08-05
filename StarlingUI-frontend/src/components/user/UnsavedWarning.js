@@ -1,6 +1,6 @@
 import React, {useContext,useEffect} from 'react';
 import { ProjectContext } from '../App';
-import warning from '../img/warning-svgrepo-com.svg';
+import warning from '../../css/img/warning-svgrepo-com.svg';
 
 export default function UnsavedWarning(props) {
     

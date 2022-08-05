@@ -9,8 +9,8 @@ import { ProjectContext } from './App';
 import DeployMini from "./deployment-menu/deploy/DeployMini";
 import { usePopperTooltip } from 'react-popper-tooltip';
 import 'react-popper-tooltip/dist/styles.css';
-import edit from './img/edit-svgrepo-com.svg';
-import expand from './img/left-arrow-svgrepo-com.svg';
+import edit from '../css/img/edit-svgrepo-com.svg';
+import expand from '../css/img/left-arrow-svgrepo-com.svg';
 
 function Deployment({selectedProject}) {
 

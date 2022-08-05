@@ -5,8 +5,8 @@ import Node from './Node';
 import Filter from './Filter';
 import SearchBox from './SearchBox';
 
-import droneCircle from '../img/oie_151914634owYC2D.png';
-import masterCircle from '../img/oie_15192229OeBZ3dl4.png'
+import droneCircle from '../../css/img/oie_151914634owYC2D.png';
+import masterCircle from '../../css/img/oie_15192229OeBZ3dl4.png'
 
 export default function Project({selectedProject}) {
 

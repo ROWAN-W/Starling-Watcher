@@ -5,7 +5,7 @@ import UserDropDown from './UserDropDown';
 import CreateAccount from './CreateAccount';
 import ManageAccount from './ManageAccount';
 import UnsavedWarning from './UnsavedWarning';
-import account_icon from '../img/account-svgrepo-com.svg';
+import account_icon from '../../css/img/account-svgrepo-com.svg';
 
 export default function User( {currentUser, userSignIn, setUserSignIn} ) {
 

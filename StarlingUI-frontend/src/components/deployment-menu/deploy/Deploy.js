@@ -3,8 +3,8 @@ import DeployPerNode from './DeployPerNode';
 import { ProjectContext } from '../../App';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
-import logo from '../../img/load.gif';
-import syncLogo from '../../img/sync-svgrepo-com-black.svg';
+import logo from '../../../css/img/load.gif';
+import syncLogo from '../../../css/img/sync-svgrepo-com-black.svg';
 const DEPLOY_URL = 'http://localhost:8080/design/templating';
 
 export default function Deploy(props) {

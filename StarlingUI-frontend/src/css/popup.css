@@ -150,7 +150,7 @@
   height: 1.5rem;
   width: 1.5rem;
   margin-right: .5rem;
-  background-image: url('../components/img/file-svgrepo-com.svg');
+  background-image: url('../css/img/file-svgrepo-com.svg');
 }
 
 .unsaved-item:hover{
@@ -315,7 +315,7 @@
   margin-left: .5rem;
   font-size: .9rem;
   width: 100%;
-  background-image: url(../components/img/search-svgrepo-com-grey.svg);
+  background-image: url(../css/img/search-svgrepo-com-grey.svg);
   background-size:15px;
   background-position: left center;
   background-repeat: no-repeat;

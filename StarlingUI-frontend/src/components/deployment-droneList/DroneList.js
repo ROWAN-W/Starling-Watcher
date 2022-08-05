@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import axios from "axios";
 import { ProjectContext } from '../App';
 import Drone from './Drone';
-import sync from '../img/sync-svgrepo-com.svg';
-import logo from '../img/load.gif';
+import sync from '../../css/img/sync-svgrepo-com.svg';
+import logo from '../../css/img/load.gif';
 import SearchType from './SearchType';
 import DroneSearchBox from './DroneSearchBox';
 const DRONE_URL = 'http://localhost:8080/design/nodes';

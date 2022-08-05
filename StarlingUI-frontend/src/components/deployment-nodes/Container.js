@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import ContainerSetting from './ContainerSetting';
-import imagedel from '../img/delete-svgrepo-com.svg';
-import imageset from '../img/setting-svgrepo-com.svg';
+import imagedel from '../../css/img/delete-svgrepo-com.svg';
+import imageset from '../../css/img/setting-svgrepo-com.svg';
 
 export default function Container({image, handleImageDelete, handleContainerChange}) {  
 

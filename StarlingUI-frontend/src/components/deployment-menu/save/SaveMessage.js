@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from "axios";
 import { ProjectContext } from '../../App';
-import logo from '../../img/load.gif';
+import logo from '../../../css/img/load.gif';
 const PROJECT_URL = 'http://localhost:8080/design/projects';
 
 export default function SaveMessage(props) {

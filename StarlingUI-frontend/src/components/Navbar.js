@@ -4,9 +4,9 @@ import React,{useContext} from 'react';
 import FontSizeChanger from 'react-font-size-changer';
 import { ProjectContext } from './App';
 import User from "./user/User";
-import bigger from './img/font-increase-svgrepo-com.png';
-import smaller from './img/font-decrease-svgrepo-com.png';
-import bird from './img/raven-svgrepo-com.svg';
+import bigger from '../css/img/font-increase-svgrepo-com.png';
+import smaller from '../css/img/font-decrease-svgrepo-com.png';
+import bird from '../css/img/raven-svgrepo-com.svg';
 
 const Navbar = () => {
   const history = useHistory()

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrag } from "react-dnd";
-import hand from '../img/hand.gif';
+import hand from '../../css/img/hand.gif';
 
 export default function Image(props) {
     

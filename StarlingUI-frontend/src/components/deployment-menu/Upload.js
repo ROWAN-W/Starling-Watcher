@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import logo from '../img/load.gif';
+import logo from '../../css/img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
 const UPLOAD_URL = 'http://localhost:8080/design/upload';

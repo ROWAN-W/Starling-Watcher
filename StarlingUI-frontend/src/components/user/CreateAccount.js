@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import { ProjectContext } from '../App';
-import logo from '../img/load.gif';
+import logo from '../../css/img/load.gif';
 import { useCookies } from "react-cookie";
 const REGISTER_URL = 'http://localhost:8080/register';
 

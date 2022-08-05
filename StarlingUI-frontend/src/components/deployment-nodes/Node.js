@@ -4,10 +4,10 @@ import { ProjectContext } from '../App';
 import { useDrop } from "react-dnd";
 import NodeSetting from './NodeSetting.js';
 import { v4 as uuidv4 } from 'uuid';
-import search from '../img/setting-svgrepo-com.svg';
-import black from '../img/Solid_black.png';
-import computerIcon from '../img/computer-svgrepo-com.svg';
-import droneIcon from '../img/aerial-drone-uav-svgrepo-com.svg';
+import search from '../../css/img/setting-svgrepo-com.svg';
+import black from '../../css/img/Solid_black.png';
+import computerIcon from '../../css/img/computer-svgrepo-com.svg';
+import droneIcon from '../../css/img/aerial-drone-uav-svgrepo-com.svg';
 
 export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handleNodeDuplicate,masterPic,setMasterPic,dronePic,setDronePic,options}) {
 
