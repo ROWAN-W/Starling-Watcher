@@ -20,7 +20,7 @@ jobs:
       with:
         fetch-depth: 0
     - run: |
-        for commit in $(git rev-list ${{origin/main}}); do
+        for commit in $(git rev-list ${{develop}}); do
             git checkout $commit
             echo "run test"
         done
