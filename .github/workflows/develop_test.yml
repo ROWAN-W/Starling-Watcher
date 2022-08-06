@@ -6,9 +6,9 @@ name: Java CI with Maven
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
     
 
 jobs:
@@ -36,13 +36,6 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
       run: mvn -B package --file StarlingUI-backend/pom.xml
-    - name: Upload JAR
-      #This uploads artifacts from our workflow allowing us to share data between jobs and store data once a workflow is complete.
-      uses: actions/upload-artifact@v2
-      with:
-        name: jarFile
-        #From this path
-        path: target/starling-0.0.1-SNAPSHOT.jar
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -66,4 +59,3 @@ jobs:
         context: StarlingUI-backend
         push: true
         tags: oshia/starling-backend
-        
