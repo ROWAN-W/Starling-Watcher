@@ -19,37 +19,29 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - run: |
-        for commit in $(git rev-list ${{origin/main}}); do
-            git checkout $commit
-            echo "run test"
-        done
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Cache Maven packages
+      #This action allows caching dependencies and build outputs to improve workflow execution time.
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
       run: mvn -B package --file StarlingUI-backend/pom.xml
-      
-    - name: start minikube
-      id: minikube
+    - name: Upload JAR
+      #This uploads artifacts from our workflow allowing us to share data between jobs and store data once a workflow is complete.
+      uses: actions/upload-artifact@v2
       with:
-        minikube-version: 1.24.0
-        driver: docker
-        container-runtime: containerd
-        kubernetes-version: v1.22.3
-        cpus: 2
-        memory: 4000m
-        cni: bridge
-      uses: medyagh/setup-minikube@master
-    # now you can run kubectl to see the pods in the cluster
-    - name: kubectl get pods
-      run: kubectl get pods -A
-    - name: kubectl get nodes
-      run: kubectl get nodes -A
-      
+        name: jarFile
+        #From this path
+        path: target/starling-0.0.1-SNAPSHOT.jar
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -64,7 +56,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: StarlingUI-frontend
-        run: chmod +x /usr/local/bin/docker-entrypoint.sh
         push: true
         tags: oshia/starling-frontend
         
@@ -72,7 +63,5 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: StarlingUI-backend
-        run: chmod +x /usr/local/bin/entry.sh
         push: true
         tags: oshia/starling-backend
-        
