@@ -1,4 +1,3 @@
-
 ### API Path
 
 | Methods | Urls | Actions | Error Response |
@@ -30,5 +29,4 @@
 `kubectl get deployments`
 #### upload sample.yaml to this API and check that a pod named 'nginx' is up
 `kubectl get deploymnets`
-
 
