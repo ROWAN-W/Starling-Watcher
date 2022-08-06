@@ -1,0 +1,157 @@
+.drone-container{
+    margin-right: .5rem;
+    padding: 10px;
+    /*min-width: 300px;
+    width: 30vw;*/
+    height: 77vh;
+    border-radius: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.hide-drone{
+    position: absolute;
+    top: .5rem;
+    right: 0rem;
+}
+
+.sync-drone{
+    position: absolute;
+    top: .5rem;
+    right: 3.75rem;
+}
+
+.syncing{
+    width: 1.2rem;
+    margin-right: .5rem;
+}
+
+.syncing:hover, .syncing:focus{
+    cursor: pointer;
+}
+
+.items-head.drone hr{
+    width: 7rem;
+}
+
+.drone-update-time.drone{
+    color: #fffffe;
+}
+
+.drone-list-search{
+    display: flex;
+    align-items: center;
+    padding: 0rem;
+    width: 100%;
+    background-color: #fffffe;
+    border: 1px solid rgb(205, 205, 205);
+    margin-bottom: .5rem;
+    border-radius: .2em;
+}
+
+.drone-search-type{
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-size: .9rem;
+    color: #444;
+    padding-left: .3em;
+    margin-right: .5rem;
+}
+
+.image__search.project__search.drone{
+    border: none;
+    margin: 0;
+    font-size: .9rem;
+}
+
+ 
+.drone-container .table-wrapper{
+    margin-top: 0;
+    /*height: 55vh;*/
+    height: 76%;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: none;
+    background-color: transparent;
+}
+
+.drone-container .table-wrapper .fl-table{
+    background-color: transparent;
+}
+
+.drone-container .table-wrapper .fl-table td{
+    border-right: none;
+}
+
+.drone-container .table-wrapper .fl-table th{
+    color: #ffffff;
+    background: black;
+    font-size: .9rem;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.drone-container .table-wrapper .fl-table tr{
+    /*background: hsl(200, 100%, 10%);*/
+    background: #333;
+    color: #f2f2f2;
+    font-size: 1rem;
+}
+
+.drone-container .table-wrapper .fl-table tr:hover{
+    background-image: linear-gradient(140deg, #4e4e4e -16%, #333 9%, #1a1a1a 32%, #1a1a1a 62%, #262626 87%, #4e4e4e 112%);
+}
+
+.drone-more-info{
+    background: #333;
+}
+
+.drone-more-info:hover,
+.drone-more-info:focus{
+    cursor: pointer;
+}
+
+/*.drone-container td, .drone-container th {
+    word-break: break-all;
+    white-space: normal;
+}*/
+
+.drone-sort-icon{
+    font-size: .75rem;
+}
+
+.drone-item{
+    text-align: left;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    margin-bottom: .5rem;
+    font-size: .9rem;
+    white-space: pre-wrap;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.drone-item:last-child{
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.drone-item-title{
+    padding-right: .5rem;
+    font-weight: bold;
+
+}
+
+.drone-item-object{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+.drone-item-object span {
+    display: block;
+    margin-top: .3rem;
+    margin-bottom: .3rem;
+  }

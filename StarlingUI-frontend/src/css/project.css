@@ -1,0 +1,98 @@
+.project{
+    padding: 1rem;
+    padding-bottom: 0;
+    /*min-width: 300px;
+    max-width: 75vw;*/
+    height: 77vh;
+    border-radius: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.total-node-number{
+    color: rgb(205, 205, 205);
+    font-size: 1rem;
+    position: absolute;
+    left: 2rem;
+    top:1.25rem;
+}
+
+.node-search-filter{
+    display: flex;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+    padding-left: 1.5rem;
+}
+
+.node__search{
+    padding-left: .5rem;
+    max-width: 60%;
+    width: 15rem;
+    font-size: .9rem; 
+}
+
+.node__filter{
+    background-color: rgb(205, 205, 205);
+    color: #333;
+    border: none;
+    outline: none;
+    margin-left: .5rem;
+    border-radius: .2em;
+    font-size: .9rem;  
+}
+
+.search-icon{
+    width: 15px;
+    position: absolute;
+    top: .5rem;
+}
+
+.search-icon:hover{
+    cursor: pointer;
+    width: 17px;
+    padding: .1rem;
+    background: #777;
+}
+
+.project-container-single{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap:1.75rem;
+    /*justify-items: center;*/
+    /*justify-items: stretch;
+    align-items: stretch;
+    align-content: stretch;
+    grid-auto-flow: column;*/
+}
+
+.btn-add-node{
+    display: flex;
+    justify-content: center;
+    /*background: #333;*/
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-add-node .btn.btn-menu{
+    background: black;
+}
+
+.items-head .instruct{
+    padding-top: 0;
+    /*over the screen
+    width: 75vw;*/
+    line-height: 175%;
+}
+
+.sign-in.instruct{
+    text-decoration: underline;
+}
+
+.sign-in.instruct:hover,
+.sign-in.instruct:focus{
+    cursor: pointer;
+}

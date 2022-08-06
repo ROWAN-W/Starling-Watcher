@@ -1,0 +1,43 @@
+.pod {
+    margin-bottom: 20px;
+}
+
+.pod-info {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 15px;
+
+}
+
+.pod-name {
+    margin-left: 10px;
+    font-size: 15px;
+    width: 250px;
+    margin: 5px;
+    color: #C3C0C0;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.container-restart {
+    margin-right: 40px;
+    background-color: transparent;
+    color: #dc5671;
+    justify-content: center;
+    border: 2px solid #dc5671;
+    border-radius:8px;
+    /*width: 65px;*/
+    /*removed by yulin to adjust to font change*/
+    font-size: 1rem;
+    /*added by yulin to adjust to font change*/
+}
+
+.container-restart:hover {
+    background-color: #dc5671;
+    color: white;
+}

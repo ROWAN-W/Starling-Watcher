@@ -1,0 +1,195 @@
+.image-tag-container{
+    margin-left: .5rem;
+    padding: 10px;
+    /*min-width: 280px;
+    width: 25vw;*/
+    height: 77vh;
+    border-radius: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.logout{
+    position: absolute;
+    top: .5rem;
+    right: 0rem;
+}
+
+.docker-expand{
+    margin: 1.5rem 1rem;
+}
+
+.docker-expand input, .docker-expand label{
+    display: block;
+}
+
+.docker-expand input{
+    width: 100%;
+}
+
+.docker-expand label{
+    width: 100%;
+    margin-bottom: .2rem;
+    color: hsl(200, 100%, 85%);
+}
+
+.docker-try-again{
+    margin: 0;
+    margin-left: 1.3rem;
+    margin-top: .3rem;
+    text-decoration: underline;
+}
+
+.docker-try-again{
+    cursor: pointer;
+}
+
+.wait-message.docker{
+    color: #fffffe;
+    margin-top: 1rem;
+}
+
+.image__search{
+    font-size: .9rem;
+    background-color: #f2f2f2;
+    border: none;
+    outline: none;
+    width: 45%;
+    padding: .3em .8em;
+    padding-left: .5rem;
+}
+
+.image__search:hover, .image__search:focus{
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.image__sort{
+  background-color: rgb(205, 205, 205);
+  color: #333;
+  border: none;
+  outline: none;
+  margin-left: .3rem;
+  border-radius: .2em;
+  font-size: .9rem;
+  height: 1.6rem;
+  width: 30%;
+}
+
+.image__sort__span{
+  color: rgb(205, 205, 205);
+  margin-left: .5rem;
+  font-size: .9rem;
+}
+
+.total-image-number{
+  color: rgb(205, 205, 205);
+  font-size: .9rem;
+  margin-bottom: .2rem;
+}
+
+.node-search-filter.image{
+  display: flex;
+  align-items: baseline;
+  margin-top: .75rem;
+  margin-bottom: .5rem;
+  justify-content: flex-start;
+  padding-left: 0;
+
+}
+
+.items {
+    /*background: #333;*/
+    background: rgba(77, 77, 77, .5);
+    box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
+  }
+  
+  .items-head p{
+    margin: 0;
+    padding: .5rem 0rem;
+    color: #fffffe;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+  
+  .items-head hr {
+    width: 8rem;
+    margin: 0rem .5rem;
+    border: 1px solid #fffffe;
+  }
+  
+  .items-body { 
+    display: grid;
+    grid-gap: .5rem;
+  }
+  
+  .items-body-content {
+    align-items: center;
+    border-radius:5px;
+    /*background: hsl(200, 100%, 10%);*/
+    background: #333;
+    color: #f2f2f2;
+    padding: 1rem .75rem;
+    
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    font-size: 1rem;
+    grid-gap: 10px;
+    box-shadow: 0 0 1px 0 hsl(0, 0%, 70%);
+    position: relative;
+  }
+
+  .hand-icon{
+    width: 50px;
+    position: absolute;
+    right: -1rem;
+    top: -2rem;
+  }
+
+  .items-body-content .image-date{
+    font-size: .85rem;
+    border-left: 2px solid hsl(200, 100%, 50%);
+    padding-left: .3rem;
+  }
+
+  .items-body-content .image-name{
+    word-break: break-all;
+  }
+  
+  .items-body-content:hover {
+    box-shadow: 0 0 5px 0 hsl(0, 0%, 70%);
+  }
+  
+  @keyframes icon {
+    0%,100%{
+      transform: translate(0px);
+    }
+    50% {
+      transform: translate(3px);
+    }
+  }
+
+  .searching{
+    width: 12px;
+  }
+
+  .grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+ /* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.docker-hint{
+  color: #ffeeee;
+  margin-top: .5rem;
+}
