@@ -12,15 +12,15 @@ public class deleteServiceImpl implements deleteService{
 
     @Override
     public void deleteDeployment(String namespace) throws IOException, ApiException {
-        // default config for an out-of-cluster client
-        ApiClient client = Config.defaultClient();
+
+        // configure k8s client from within the cluster
+        ApiClient client = Config.fromCluster();
         Configuration.setDefaultApiClient(client);
 
 /*
-  // configure k8s client from within the cluster
-       ApiClient client = Config.fromCluster();
-     Configuration.setDefaultApiClient(client);
-
+   // default config for an out-of-cluster client
+        ApiClient client = Config.defaultClient();
+        Configuration.setDefaultApiClient(client);
  */
 /*      // configure k8s client from a YAML file
         ApiClient kubeApiClient = null;
