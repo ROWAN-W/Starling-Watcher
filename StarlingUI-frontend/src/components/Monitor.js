@@ -181,7 +181,6 @@ export default function Monitor() {
             return (
                 <>
                     <h1 className='monitor-error'>Fetch failed,Resending request...</h1>
-                    <p className='error-message'>error: {data}</p>
                 </>
             )
         }
