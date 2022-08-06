@@ -132,6 +132,8 @@ public class MonitorControllerTest {
             ApiClient client = Config.defaultClient();
             Configuration.setDefaultApiClient(client);
 
+
+
             CoreV1Api api = new CoreV1Api(client);
             V1NamespaceList namespaceList = api.listNamespace(
                     null,

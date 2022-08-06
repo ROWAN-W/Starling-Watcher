@@ -32,11 +32,15 @@ public class designNodeServiceImpl implements NodeService {
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
 
-        // default config for an out-of-cluster client
+
+        // configure k8s client from within the cluster
+        ApiClient client = Config.fromCluster();
+        Configuration.setDefaultApiClient(client);
+/*
+// default config for an out-of-cluster client
         ApiClient client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
         client.setConnectTimeout(5000);
-/*
   // configure k8s client from within the cluster
        ApiClient client = Config.fromCluster();
      Configuration.setDefaultApiClient(client);
