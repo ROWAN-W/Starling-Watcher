@@ -15,7 +15,7 @@ Welcome to the Starling Watcher!
 ## Example
 
 
-## To start using Kubernetes Java Client
+## To start using Starling Watcher
 1. [Installation](wiki/Installation)
 2. [Demo](wiki/Demo)
 3. [REST APIs](wiki/APIs)
