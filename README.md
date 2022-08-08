@@ -1,34 +1,24 @@
+# Starling Watcher
+Welcome to the Starling Watcher!
+[Starling Watcher](https://github.com/ROWAN-W/SummerProject) is a kubernetes Dashboard design for [StarlingUAS](https://docs.starlinguas.dev/)!
 
-### API Path
+## Features
+- User Account Login.
+- Deploy pods through web interaction, no need for users to write yaml files.
+- Deploy pods by uploading yaml.
+- Get image list based on dockerhub repository name.
+- Monitor the operation of the cluster's node, pod, container, and other resources.
+- Support for opening container shells and logs on the web.
+- Support resize web shell and logs.
+- Support restart pod and delete pod by project name.
 
-| Methods | Urls | Actions | Error Response |
-| ---------- | ------- | -------- |----------|
-| POST | /design/images | get images list from dokcerhub ||
-| PUT | /design/users/{id} | update the information of a user | 403: User to be updated does not exist or invalid old password |
-| POST | /design/templating | do templating and deploy user's designs to Kubernetes| 400: Deploy fail ||
-| GET | /design/users | get id and name of all users | - |
-| GET | /design/initialize | delete all users in database and insert three sample users(test only) | - |
-| GET | /design/database | show all information of users in database(test only) | - |
-| GET | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
-| GET | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
-| POST | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/kubernetes server error/File Processing Error/Empty file |
-| POST | /login | user login, get access token and refresh token | 401: username or password not valid |
-| POST | /register | add a new user | 403: username already exist in database |
-| GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
-| DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
-| GET | /design/projects | get all projects in the database | - |
-| POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
-| PUT | /design/projects/{id} | update a project | 403: can not find the project by given id or updated project style is not valid |
-| DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
-| DELETE | /monitor/delete/{namespace}| delete a certain project from cluster| 404: Unable to delete the project |
+## Example
 
 
-### script:
-#### start minikube
-`minikube start `
-#### check that there's no deployment named 'nginx'
-`kubectl get deployments`
-#### upload sample.yaml to this API and check that a pod named 'nginx' is up
-`kubectl get deploymnets`
+## To start using Kubernetes Java Client
+1. [Installation](wiki/Installation)
+2. [Demo](wiki/Demo)
+3. [REST APIs](wiki/APIs)
+4. [FAQ](wiki/FAQ)
 
 
