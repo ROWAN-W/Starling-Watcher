@@ -16,9 +16,9 @@ Welcome to the Starling Watcher!
 
 
 ## To start using Starling Watcher
-1. [Installation](wiki/Installation)
-2. [Demo](wiki/Demo)
-3. [REST APIs](wiki/APIs)
-4. [FAQ](wiki/FAQ)
+1. [Installation](https://github.com/ROWAN-W/SummerProject/wiki/Installation)
+2. [Demo](https://github.com/ROWAN-W/SummerProject/wiki/Demo)
+3. [REST APIs](https://github.com/ROWAN-W/SummerProject/wiki/APIs)
+4. [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
 
 
