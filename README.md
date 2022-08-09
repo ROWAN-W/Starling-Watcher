@@ -13,6 +13,10 @@ Welcome to the Starling Watcher!
 - Support restart pod and delete pod by project name.
 
 ## Example
+### Design Page
+![alt design](./picture/design.png)
+### Monitor Page
+![alt monitor](./picture/monitor.png)
 
 
 ## To start using Starling Watcher
