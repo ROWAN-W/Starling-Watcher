@@ -28,6 +28,29 @@ Welcome to the Starling Watcher!
     - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 2. [Demo](https://github.com/ROWAN-W/SummerProject/wiki/Demo)
 3. [REST APIs](https://github.com/ROWAN-W/SummerProject/wiki/APIs)
+### API Path
+
+| Methods | Urls | Actions | Error Response |
+| ---------- | ------- | -------- |----------|
+| POST | /design/image | get images list from dokcerhub |
+| POST | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/kubernetes server error/File Processing Error/Empty file |
+| POST | /design/templating | do templating and deploy user's designs to Kubernetes| 400: Deploy fail |
+| POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
+| PUT | /design/users/{id} | update the information of a user | 403: User to be updated does not exist or invalid old password |
+| PUT | /design/projects/{id} | update a project | 403: can not find the project by given id or updated project style is not valid |
+| GET | /design/users | get id and name of all users | - |
+| GET | /design/initialize | delete all users in database and insert three sample users(test only) | - |
+| GET | /design/database | show all information of users in database(test only) | - |
+| GET | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
+| GET | /design/projects | get all projects in the database | - |
+| DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
+| DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
+| GET | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
+| DELETE | /monitor/delete/{namespace}| delete a certain project from cluster| 404: Unable to delete the project |
+| GET | /monitor/namespaces | get the project name (namepsace) | 404: Kubernetes API fail |
+| POST | /login | user login, get access token and refresh token | 401: username or password not valid |
+| POST | /register | add a new user | 403: username already exist in database |
+| GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
 4. [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
 
 
