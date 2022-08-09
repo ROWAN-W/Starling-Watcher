@@ -54,4 +54,7 @@ Welcome to the Starling Watcher!
 | GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
 4. [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
 
+## Support
+If you need support, start with checking whether you're hitting known issues. If that doesn't work, please open an issue to describe the cases. Additionally, before you file an issue, please search existing issues to see if your issue is already covered.
+
 
