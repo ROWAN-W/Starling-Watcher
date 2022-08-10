@@ -24,9 +24,13 @@ public class monitorNodeServiceImpl implements NodeService{
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
 
-        // configure k8s client from within the cluster
-        ApiClient client = Config.fromCluster();
-        Configuration.setDefaultApiClient(client);
+        // configure k8s client from a YAML file
+        ApiClient client = null;
+        try {
+            client = Config.fromConfig("/home/flying/.kube/config");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 /*
     // default config for an out-of-cluster client
         ApiClient client = Config.defaultClient();
@@ -34,14 +38,10 @@ public class monitorNodeServiceImpl implements NodeService{
         client.setConnectTimeout(5000);
 
  */
-/*      // configure k8s client from a YAML file
-        ApiClient kubeApiClient = null;
-        try {
-            kubeApiClient = Config.fromConfig("/home/flying/.kube/config/k3s.yaml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+/*
+   // configure k8s client from within the cluster
+        ApiClient client = Config.fromCluster();
+        Configuration.setDefaultApiClient(client);
 
  */
         CoreV1Api api = new CoreV1Api(client);

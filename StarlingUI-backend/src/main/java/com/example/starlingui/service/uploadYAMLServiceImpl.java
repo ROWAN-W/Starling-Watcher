@@ -138,14 +138,18 @@ k8s.apps().deployments().inNamespace(namespace).create(deploy);
 
         try {
         /*
- //configure a client from a YAML file
- String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
-Config config = Config.fromKubeconfig(kubeConfigContent);
-KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
+  //default client
+            KubernetesClient client = new KubernetesClientBuilder().build();
+
   */
 
-            //default client
-            KubernetesClient client = new KubernetesClientBuilder().build();
+
+
+            //configure a client from a YAML file
+            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+            Config config = Config.fromKubeconfig(kubeConfigContents);
+            KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+
             client.load(new FileInputStream(file)).inNamespace(namespace).create();
 
         }catch (IOException ioException){
