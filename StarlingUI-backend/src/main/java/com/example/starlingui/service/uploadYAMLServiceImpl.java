@@ -2,6 +2,9 @@ package com.example.starlingui.service;
 
 
 import com.example.starlingui.exceptions.StarlingException;
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceBuilder;
+import io.fabric8.kubernetes.api.model.NamespaceList;
 import io.fabric8.kubernetes.api.model.apps.DaemonSet;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 
@@ -12,6 +15,7 @@ import io.fabric8.kubernetes.client.KubernetesClientException;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
@@ -59,6 +63,20 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
         files.add(singleFile);
         buffReader.close();
         return  files;
+    }
+
+    public void checkNameSpace(KubernetesClient client, String projectName){
+        NamespaceList List = client.namespaces().list();
+        List<Namespace> namespaceList = List.getItems();
+        for (Namespace namespace : namespaceList) {
+            if (projectName.equals(namespace.getMetadata().getName())) {
+                return;
+            }
+        }
+        //add a label for all project deployed from Starling-watcher
+        NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
+        Namespace newNameSpace = namespaceBuilder.withNewMetadata().addToLabels("deployedfrom", "starlingwatcher").withName(projectName).endMetadata().build();
+        client.namespaces().resource(newNameSpace).create();
     }
 
     @Override
@@ -149,6 +167,8 @@ k8s.apps().deployments().inNamespace(namespace).create(deploy);
             String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
             Config config = Config.fromKubeconfig(kubeConfigContents);
             KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+
+            checkNameSpace(client,namespace);
 
             client.load(new FileInputStream(file)).inNamespace(namespace).create();
 
