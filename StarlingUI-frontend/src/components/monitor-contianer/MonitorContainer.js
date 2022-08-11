@@ -114,7 +114,6 @@ export default function MonitorContainer(props) {
                     * Green:Running<br />
                     * Yello:Waiting(The container is in queue for startup, please wait.)<br />
                     * Red:Terminated(The container will restart automatically when it has a terminated state. Please wait.) <br />
-                    * Warning:Do not restart the pod multiple times in a short period of time"<br />
                 </div>
             )}
         </>

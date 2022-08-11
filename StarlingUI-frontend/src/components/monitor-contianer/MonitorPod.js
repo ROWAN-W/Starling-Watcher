@@ -28,7 +28,7 @@ export default function MonitorPod(props){
             });
 
         if(state !== 200){
-            alert("Restart Pod Failed !")
+            console.log("Restart Pod Failed !")
         }
 
 
