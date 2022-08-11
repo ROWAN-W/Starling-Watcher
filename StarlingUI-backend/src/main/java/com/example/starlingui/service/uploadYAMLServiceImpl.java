@@ -121,6 +121,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
             Map<String, Object> obj = yaml.load(inputStream);
         }catch (Exception e){
+            System.out.println(e.getMessage());
             throw new StarlingException("Invalid Yaml File");
         }
 
@@ -176,6 +177,7 @@ k8s.apps().deployments().inNamespace(namespace).create(deploy);
             throw new StarlingException("file processing error");
         }
         catch(KubernetesClientException kubernetesClientException){
+            System.out.println(kubernetesClientException.getMessage());
             throw new StarlingException("kubernetes server error");
         }
 

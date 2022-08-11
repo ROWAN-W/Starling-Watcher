@@ -4,11 +4,15 @@ import com.example.starlingui.model.*;
 import io.fabric8.kubernetes.api.model.*;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
+import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import org.springframework.stereotype.Service;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +32,11 @@ public class TemplatingServiceImp implements TemplatingService {
      * @return String of deploy status message
      */
     @Override
-    public String doTemplating(Design JsonOfDesign){
+    public String doTemplating(Design JsonOfDesign) throws IOException {
         String projectName = JsonOfDesign.getName();
-        io.fabric8.kubernetes.client.Config config = new ConfigBuilder().build();
+        //configure a client from a YAML file
+        String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+        io.fabric8.kubernetes.client.Config config = Config.fromKubeconfig(kubeConfigContents);
 
         final KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
         List<Configuration> configList = JsonOfDesign.getConfig();
