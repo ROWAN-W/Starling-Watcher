@@ -70,9 +70,29 @@ public class MonitorController {
     public ResponseEntity<String> restartPod(@PathVariable String namespace,@PathVariable String podName){
 
         try {
-            ApiClient client = Config.defaultClient();
-            Configuration.setDefaultApiClient(client);
+            // configure k8s client from a file
+            ApiClient client = null;
+            try {
+                client = Config.fromConfig("/home/flying/.kube/config");
+            } catch (IOException ioException) {
+                return ResponseEntity
+                        .status(404)
+                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+                        .body("Kubernetes API error :" + ioException.getMessage());
+            }
+/*
+    // default config for an out-of-cluster client
+        ApiClient client = Config.defaultClient();
+        Configuration.setDefaultApiClient(client);
+        client.setConnectTimeout(5000);
 
+ */
+/*
+   // configure k8s client from within the cluster
+        ApiClient client = Config.fromCluster();
+        Configuration.setDefaultApiClient(client);
+
+ */
             CoreV1Api api = new CoreV1Api(client);
 
            api.deleteNamespacedPod(podName,namespace,null,null,null,null,null,null);
@@ -89,13 +109,7 @@ public class MonitorController {
             }
 
 
-       }catch (IOException ioException){
-           return ResponseEntity
-                   .status(404)
-                   .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                   .body("Kubernetes API error :" + ioException.getMessage());
        }
-
       
     }
 

@@ -156,6 +156,7 @@ public class DesignControllerTest {
         assertTrue(thrown.getMessage().contains("Stuff"));
 
     }
+
 /*
 //prerequisite: a freshly started kubernetes cluster without a former sample.yaml deployment
     @Test public void testYamlDeployer(){
