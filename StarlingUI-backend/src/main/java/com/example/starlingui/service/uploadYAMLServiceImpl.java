@@ -113,6 +113,20 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
     }
 
+    public void checkNameSpace(KubernetesClient client, String projectName){
+        NamespaceList List = client.namespaces().list();
+        java.util.List<Namespace> namespaceList = List.getItems();
+        for (Namespace namespace : namespaceList) {
+            if (projectName.equals(namespace.getMetadata().getName())) {
+                return;
+            }
+        }
+        //add a label for all project deployed from Starling-watcher
+        NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
+        Namespace newNameSpace = namespaceBuilder.withNewMetadata().addToLabels("deployedfrom", "starlingwatcher").withName(projectName).endMetadata().build();
+        client.namespaces().resource(newNameSpace).create();
+    }
+
     @Override
     public void validateYAML(File file) throws StarlingException,FileNotFoundException {
         Yaml yaml = new Yaml();
@@ -164,14 +178,18 @@ k8s.apps().deployments().inNamespace(namespace).create(deploy);
 
 
 
+
             //configure a client from a YAML file
             String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
             Config config = Config.fromKubeconfig(kubeConfigContents);
             KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
 
+
             checkNameSpace(client,namespace);
 
             client.load(new FileInputStream(file)).inNamespace(namespace).create();
+
+
 
         }catch (IOException ioException){
             throw new StarlingException("file processing error");
