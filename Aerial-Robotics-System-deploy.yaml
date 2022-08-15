@@ -6,31 +6,56 @@ spec:
   selector:
     matchLabels:
       app: starling-aerial-robotics-system 
-  replicas: 2 
+  replicas: 1
   template:
     metadata:
       labels:
         app: starling-aerial-robotics-system 
     spec:
+      hostNetwork: true
+      shareProcessNamespace: true
+      nodeSelector:
+        name: master
+      tolerations:
+        - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
       containers:
-        - name: spring-boot-backend
-          image: oshia/starling-backend:latest
-          imagePullPolicy: Always
-          ports: 
-            - containerPort: 8080
-        - name: react-frontend
-          image: oshia/starling-frontend:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3000           
         - name:  mongodb
           image: mongo
           imagePullPolicy: Always
           ports:
             - containerPort: 27017
-            
-      volumes:
-      - name: database-backup
-        hostPath:
-          path: /etc/starling/database-backup
-          type: File
+        - name: spring-boot-backend
+          image: oshia/starling-backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+        - name: react-frontend
+          image: oshia/starling-frontend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+    volumes:
+    - name: database-backup
+    hostPath:
+      path: /etc/starling/database-backup
+      type: File
+
+---
+# ... Service YAML definition
+apiVersion: v1                                               
+kind: Service                                                # Type of the kubernetes resource
+metadata:
+  name: starlingui-service                                   # Name of the kubernetes resource
+  labels:                                                    # Labels that will be applied to this resource
+    app: starlingui-service
+  namespace: starlingui-aerial-robotics-system
+spec:
+  type: NodePort                                             # The service will be exposed by opening a Port on each node and proxying it.
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:                                                  # The service exposes Pods with label `app=starlingui-service`
+    app: starlingui-service
+
