@@ -113,19 +113,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
 
     }
 
-    public void checkNameSpace(KubernetesClient client, String projectName){
-        NamespaceList List = client.namespaces().list();
-        java.util.List<Namespace> namespaceList = List.getItems();
-        for (Namespace namespace : namespaceList) {
-            if (projectName.equals(namespace.getMetadata().getName())) {
-                return;
-            }
-        }
-        //add a label for all project deployed from Starling-watcher
-        NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
-        Namespace newNameSpace = namespaceBuilder.withNewMetadata().addToLabels("deployedfrom", "starlingwatcher").withName(projectName).endMetadata().build();
-        client.namespaces().resource(newNameSpace).create();
-    }
+
 
     @Override
     public void validateYAML(File file) throws StarlingException,FileNotFoundException {
