@@ -23,19 +23,20 @@ public class monitorNodeServiceImpl implements NodeService{
     @Override
     public List<domainNode> getNodeList() throws IOException, ApiException {
 
+        // default config for an out-of-cluster client
+        ApiClient client = Config.defaultClient();
+        Configuration.setDefaultApiClient(client);
+        client.setConnectTimeout(5000);
 
-        // configure k8s client from a YAML file
+
+/*
+    // configure k8s client from a YAML file
         ApiClient client = null;
         try {
             client = Config.fromConfig("/home/flying/.kube/config");
         } catch (IOException e) {
             e.printStackTrace();
         }
-/*
-    // default config for an out-of-cluster client
-        ApiClient client = Config.defaultClient();
-        Configuration.setDefaultApiClient(client);
-        client.setConnectTimeout(5000);
 
  */
 /*

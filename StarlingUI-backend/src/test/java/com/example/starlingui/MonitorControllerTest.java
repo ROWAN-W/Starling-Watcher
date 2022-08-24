@@ -95,7 +95,7 @@ public class MonitorControllerTest {
                         .andReturn().getResponse().getContentAsString();
 
 //wait till the pod is restarted
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(10);
 
                 //check that a replacing pod has been started
                 V1PodList newPodList = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null);
