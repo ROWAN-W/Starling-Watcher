@@ -37,7 +37,7 @@ Welcome to the Starling Watcher!
 | Methods | Urls | Actions | Error Response |
 | ---------- | ------- | -------- |----------|
 | POST | /design/image | get images list from dokcerhub |
-| POST | /design/upload (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/kubernetes server error/File Processing Error/Empty file |
+| POST | /design/upload/{namespace} (with multipart file as body) | upload and deploy yaml file | 404: invalid yaml file/kubernetes server error/File Processing Error/Empty file |
 | POST | /design/templating | do templating and deploy user's designs to Kubernetes| 400: Deploy fail |
 | POST | /design/projects | save a project in the dataabse | 403: invalid project style, missing some keys |
 | PUT | /design/users/{id} | update the information of a user | 403: User to be updated does not exist or invalid old password |
@@ -48,7 +48,7 @@ Welcome to the Starling Watcher!
 | GET | /design/nodes | List all the avtive nodes in the cluster | 404: Kubernetes API fail |
 | GET | /design/projects | get all projects in the database | - |
 | DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
-| DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
+| DELETE | /monitor/restart/{namespace}/{podName} | restart a certain pod in a certain namespace | 404: Kubernetes API fail |
 | GET | /monitor/nodes | List all the active nodes in the cluster for monitor page | 404: Kubernetes API fail |
 | DELETE | /monitor/delete/{namespace}| delete a certain project from cluster| 404: Unable to delete the project |
 | GET | /monitor/namespaces | get the project name (namepsace) | 404: Kubernetes API fail |
