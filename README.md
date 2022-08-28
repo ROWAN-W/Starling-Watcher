@@ -49,7 +49,7 @@ Welcome to the Starling Watcher!
 | GET | /design/projects | get all projects in the database | - |
 | DELETE | /design/projects/{id} | delete a project | 403: can not find the project by given id |
 | DELETE | /monitor/restart/{namespace}/{podName} | restar a certain pod in a certain namespace | 404: Kubernetes API fail |
-| GET | /monitor/nodes | List all the avtive nodes in the cluster for monitor page | 404: Kubernetes API fail |
+| GET | /monitor/nodes | List all the active nodes in the cluster for monitor page | 404: Kubernetes API fail |
 | DELETE | /monitor/delete/{namespace}| delete a certain project from cluster| 404: Unable to delete the project |
 | GET | /monitor/namespaces | get the project name (namepsace) | 404: Kubernetes API fail |
 | POST | /login | user login, get access token and refresh token | 401: username or password not valid |
