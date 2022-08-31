@@ -2,6 +2,9 @@ package com.example.starlingui.service;
 
 
 import com.example.starlingui.exceptions.StarlingException;
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceBuilder;
+import io.fabric8.kubernetes.api.model.NamespaceList;
 import io.fabric8.kubernetes.api.model.apps.DaemonSet;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 
@@ -12,6 +15,7 @@ import io.fabric8.kubernetes.client.KubernetesClientException;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
@@ -61,6 +65,7 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
         return  files;
     }
 
+
     @Override
     public void processYAML(MultipartFile file, String namespace) throws StarlingException {
         if (!file.isEmpty()) {
@@ -93,6 +98,20 @@ public class uploadYAMLServiceImpl implements uploadYAMLService {
            throw new StarlingException("Empty File");
         }
 
+    }
+
+    public void checkNameSpace(KubernetesClient client, String projectName){
+        NamespaceList List = client.namespaces().list();
+        java.util.List<Namespace> namespaceList = List.getItems();
+        for (Namespace namespace : namespaceList) {
+            if (projectName.equals(namespace.getMetadata().getName())) {
+                return;
+            }
+        }
+        //add a label for all project deployed from Starling-watcher
+        NamespaceBuilder namespaceBuilder = new NamespaceBuilder();
+        Namespace newNameSpace = namespaceBuilder.withNewMetadata().addToLabels("deployedfrom", "starlingwatcher").withName(projectName).endMetadata().build();
+        client.namespaces().resource(newNameSpace).create();
     }
 
     @Override
@@ -138,15 +157,25 @@ k8s.apps().deployments().inNamespace(namespace).create(deploy);
 
         try {
         /*
- //configure a client from a YAML file
- String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config/k3s.yaml").toPath());
-Config config = Config.fromKubeconfig(kubeConfigContent);
-KubernetesClient k8s = new KubernetesClientBuilder().withConfig(config).build();
+
+     //configure a client from a YAML file
+            String kubeConfigContents = Files.readString(new File("/home/flying/.kube/config").toPath());
+            Config config = Config.fromKubeconfig(kubeConfigContents);
+            KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+
   */
 
-            //default client
+
+//default client
             KubernetesClient client = new KubernetesClientBuilder().build();
+
+
+
+            checkNameSpace(client,namespace);
+
             client.load(new FileInputStream(file)).inNamespace(namespace).create();
+
+
 
         }catch (IOException ioException){
             throw new StarlingException("file processing error");

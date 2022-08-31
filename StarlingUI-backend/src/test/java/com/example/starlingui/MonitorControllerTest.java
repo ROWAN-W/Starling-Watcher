@@ -95,7 +95,7 @@ public class MonitorControllerTest {
                         .andReturn().getResponse().getContentAsString();
 
 //wait till the pod is restarted
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(10);
 
                 //check that a replacing pod has been started
                 V1PodList newPodList = api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null);
@@ -131,6 +131,8 @@ public class MonitorControllerTest {
         try {
             ApiClient client = Config.defaultClient();
             Configuration.setDefaultApiClient(client);
+
+
 
             CoreV1Api api = new CoreV1Api(client);
             V1NamespaceList namespaceList = api.listNamespace(

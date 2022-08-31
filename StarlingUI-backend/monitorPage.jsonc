@@ -1,0 +1,107 @@
+[
+    {
+        "id":"0",
+        "nodeName":"minikube",
+        "containers":
+        [
+            {
+                "id":"0",
+                "containerName":"echoserver",
+                "containerID":"docker://f2cc54479f420e33aaf7766d9147ff862cc81ad0db906289551d80a673cec21e",
+                "podName":"hello-node-6b89d599b9-776rz",
+                "namespace":"default",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"1",
+                "containerName":"nginx",
+                "containerID":"docker://29cdf90901b6d32edc52f76356914348340cafb63c58e7d0af2be07ea2c7819d",
+                "podName":"nginx-deployment-9456bbbf9-lt4dj",
+                "namespace":"default",
+                "containerState":"running"
+            },
+                
+            {
+                "id":"2",
+                "containerName":"nginx",
+                "containerID":"docker://3e961a24a4df03769ac5e08b362cfe17435d8f28a643349ba5686d1470791c2c",
+                "podName":"nginx-deployment-9456bbbf9-nq9lg",
+                "namespace":"default",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"3",
+                "containerName":"nginx",
+                "containerID":"docker://c4bc14212ebca883d576601322e3387e57e428a116e11a8ba7a3f8adcfcc69e5",
+                "podName":"nginx-deployment-9456bbbf9-v9bsd",
+                "namespace":"default",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"4",
+                "containerName":"coredns",
+                "containerID":"docker://c6fb4a182929599ae4963fb84501abef2b12603e3d0a0b378ebfe30a11694988",
+                "podName":"coredns-64897985d-h5s4z",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"5",
+                "containerName":"etcd",
+                "containerID":"docker://ade0fce563f07db4b3834d9100cc75be9bb58878124f16af109a36a1e5fccb64",
+                "podName":"etcd-minikube",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"6",
+                "containerName":"kube-apiserver",
+                "containerID":"docker://c695fa7aa6884290b40111626b1fbabf917163740a047c9b8fc5d0b6ea7465ce",
+                "podName":"kube-apiserver-minikube",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"7",
+                "containerName":"kube-controller-manager",
+                "containerID":"docker://d799feedbc6aca6a61ebd70f41718e85e1e5e45d5f5140f45f5a95b24ab8f6dc",
+                "podName":"kube-controller-manager-minikube",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"8",
+                "containerName":"kube-proxy",
+                "containerID":"docker://89219cb9e8c4eabfa4d0822ae4691446df365c8af0e0982fa9abd9a857162072",
+                "podName":"kube-proxy-dwd4t",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"9",
+                "containerName":"kube-scheduler",
+                "containerID":"docker://fe5bcf6f5adbbe60e01fa8d2a399681fba8bc6978b964f6842a86146100cc6cb",
+                "podName":"kube-scheduler-minikube",
+                "namespace":"kube-system",
+                "containerState":"running"
+            },
+            
+            {
+                "id":"10",
+                "containerName":"storage-provisioner",
+                "containerID":"docker://74177a5806d8e83ec54baf5207351d96ca4ffc61ba8e4b15e7ca87267e02e9ab",
+                "podName":"storage-provisioner",
+                "namespace":"kube-system",
+                "containerState":"running"
+            }
+        ]
+    }
+]

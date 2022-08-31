@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - ./.m2:/root/.m2
+      - $HOME/.kube/config:/app/config
+    working_dir: /app
+    command: sh run.sh
+    ports:
+      - "8080:8080"
+      - "35729:35729"
+      - "5005:5005"
+      - "443:443"
+    depends_on:
+      - mongo_db
+  mongo_db:
+    image: "mongo:latest"
+    restart: always
+    ports:
+      - "27017:27017"

@@ -9,6 +9,10 @@ export default function MonitorNode(props){
         setPods(props.pods);
     }, [props]);
 
+    pods.sort(function(a,b){
+        return Date.parse(b.creationTime) - Date.parse(a.creationTime);
+    })
+
     return(
         <>
             <div className="card">

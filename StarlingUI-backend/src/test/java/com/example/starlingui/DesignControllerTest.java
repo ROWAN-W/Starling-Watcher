@@ -130,7 +130,64 @@ public class DesignControllerTest {
     }
 
 
+    @Test public void testValidTemplating() throws Exception {
+        String fileName = "Project_JSON_valid_template.jsonc";
+        Resource fileResource = new ClassPathResource(fileName);
+        assertNotNull(fileResource);
+        String projectJson = new Scanner(new File(fileName)).useDelimiter("\\Z").next();
+        JSONObject validProject = new JSONObject(projectJson);
+        
+        //The Templating API should return 200 status code.
+        mockMvc.perform(post("/design/templating")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validProject.toString()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
+        //After successful deploying, we should retrieve the data from Kubernetes to check if the pod spec is correct.
+        try {
+            ApiClient client = Config.defaultClient();
+            Configuration.setDefaultApiClient(client);
+
+            CoreV1Api api = new CoreV1Api(client);
+            V1PodList podList = api.listNamespacedPod("project1",null, null, null, null, null, null, null, null, null, null);
+
+            int size = podList.getItems().size();
+            if (size > 0) {
+                V1Pod pod = podList.getItems().get(0);
+                V1Container container = pod.getSpec().getContainers().get(0);
+                assertEquals("charaznablegundam-testdevelop-api-v2", container.getName());
+                assertEquals("charaznablegundam/testdevelop_api:v2", container.getImage());
+                assertEquals("[aaa]", container.getArgs().toString());
+                assertEquals("[aaa]", container.getCommand().toString());
+                assertEquals("Always", container.getImagePullPolicy());
+                assertEquals("aaa", Objects.requireNonNull(container.getEnv()).get(0).getName());
+                assertEquals("aaa", Objects.requireNonNull(container.getEnv().get(0).getValue()));
+                assertEquals(1234, Objects.requireNonNull(container.getPorts()).get(0).getContainerPort());
+                assertEquals("TCP", Objects.requireNonNull(container.getPorts().get(0).getProtocol()));
+            }
+        }catch (Exception exception){
+            throw new RuntimeException(exception.getMessage());
+        }
+    }
+
+    
+    @Test public void testInvalidTemplating() throws Exception {
+        String fileName = "Project_JSON_invalid_template.jsonc";
+        Resource fileResource = new ClassPathResource(fileName);
+        assertNotNull(fileResource);
+        String projectJson = new Scanner(new File(fileName)).useDelimiter("\\Z").next();
+        JSONObject invalidProject = new JSONObject(projectJson);
+        
+        //The Templating API should return 400 status code.
+        mockMvc.perform(post("/design/templating")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidProject.toString()))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andReturn().getResponse().getContentAsString();
+    }
 
 
 
@@ -156,6 +213,7 @@ public class DesignControllerTest {
         assertTrue(thrown.getMessage().contains("Stuff"));
 
     }
+
 /*
 //prerequisite: a freshly started kubernetes cluster without a former sample.yaml deployment
     @Test public void testYamlDeployer(){
