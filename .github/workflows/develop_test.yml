@@ -35,7 +35,18 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
+<<<<<<< HEAD
       run: mvn -B package --file StarlingUI-backend/pom.xml
+=======
+      run: mvn clean -B package --file StarlingUI-backend/pom.xml
+    - name: Upload JAR
+      #This uploads artifacts from our workflow allowing us to share data between jobs and store data once a workflow is complete.
+      uses: actions/upload-artifact@v2
+      with:
+        name: jarFile
+        #From this path
+        path: target/starling-0.0.1-SNAPSHOT.jar
+>>>>>>> main
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2

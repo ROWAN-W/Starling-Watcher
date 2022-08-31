@@ -1,0 +1,53 @@
+{
+    "id": 1,
+    "name": "!project1",
+    "dateModified": "02/07/2022 16:40:55",
+    "lastModifiedBy": "62bee77523ef850c64ecca3b",
+    "saved": true,
+    "ownerID": "62bee77523ef850c64ecca3b",
+    "memberIDs": [
+      "62bee77523ef850c64ecca3b",
+      "62bee77523ef850c64ecca3c"
+    ],
+    "config": [
+      {
+        "id": "1000",
+        "name": "A11",
+        "kind": "master",
+        "label": {
+          "app": "starling",
+          "platform": "pixhawk"
+        },
+        "containers": [
+          {
+            "id": "1385",
+            "name": "charaznablegundam/testdevelop_api:v2",
+            "command": "aaa",
+            "args": "aaa",
+            "env": [
+              {
+                "id": "726924f7-f2f8-45b8-90f3-ba284003163e",
+                "name": "aaa",
+                "value": "aaa"
+              }
+            ],
+            "port": [
+              {
+                "id": "d5736471-ad2f-470a-998a-9bf2ac1b6aaa",
+                "containerPort": "123",
+                "protocol": ""
+              }
+            ]
+          }
+        ]
+      }
+    ],
+       "mapping":[
+      {
+        "nodeID": "1000",
+        "mappedDrones": [
+            "minikube"
+        ]
+      }
+    ]
+}
