@@ -2,9 +2,18 @@ package com.example.starlingui;
 
 import com.example.starlingui.exceptions.StarlingException;
 import com.example.starlingui.model.User;
+import com.example.starlingui.model.monitorNode;
+import com.example.starlingui.model.monitorPod;
 import com.google.gson.Gson;
 
 
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.Configuration;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1Node;
+import io.kubernetes.client.openapi.models.V1Pod;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.kubernetes.client.util.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.*;
-
+import java.util.ArrayList;
 
 
 import com.example.starlingui.service.uploadYAMLServiceImpl;
@@ -95,22 +104,16 @@ public class DesignControllerTest {
 
     //prerequisite: a freshly started kubernetes cluster without a former sample.yaml deployment
     @Test
-    public void testController() throws Exception {
+    public void testUploadController() throws Exception {
         ResultMatcher ok = MockMvcResultMatchers.status().isOk();
-
         String fileName = "k8.ros_monitor.amd64.yaml";
         File file = new File( "Yaml"+File.separator+fileName);
-
         Resource fileResource = new ClassPathResource("Yaml"+File.separator+fileName);
-
         assertNotNull(fileResource);
-
         MockMultipartFile firstFile = new MockMultipartFile(
                 "file",file.getName(),
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new BufferedInputStream(new FileInputStream(file)));
-
-
         // deployed sample.yaml
         MvcResult andReturn = mockMvc.perform(MockMvcRequestBuilders
                         .multipart("http://localhost:8080/design/upload")
@@ -118,15 +121,21 @@ public class DesignControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-
-        //test that sample.yaml is already deployed
-        MvcResult andReturnFalse = mockMvc.perform(MockMvcRequestBuilders
-                .multipart("http://localhost:8080/design/upload")
-           .file(firstFile).param("namespace", "default"))
-            .andDo(print())
-                .andExpect(status().is4xxClientError())
-                .andReturn();
-
+        //test pod "nginx" is running
+        // default config for an out-of-cluster client
+        ApiClient client = Config.defaultClient();
+        Configuration.setDefaultApiClient(client);
+        client.setConnectTimeout(5000);
+        CoreV1Api api = new CoreV1Api(client);
+        ArrayList<monitorPod> monitorPods =new ArrayList<>();
+        V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
+        //check if pod "nginx" is up and running
+        boolean test=false;
+        for (V1Pod item : list.getItems()) {
+            if(item.getMetadata().getName().contains("nginx")){
+                test=true;}
+        }
+        assertTrue(test);
     }
 
 
@@ -137,8 +146,6 @@ public class DesignControllerTest {
     @Test public void testYamlValidator(){
 
       uploadYAMLServiceImpl upload=new uploadYAMLServiceImpl();
-
-
       // test valid yaml file
       File file=new File( "Yaml" +File.separator+"sample.yaml");
       try{upload.validateYAML(file);}catch (Exception e){
@@ -153,29 +160,38 @@ public class DesignControllerTest {
                 "Expected validateYAML() to throw, but it didn't"
         );
 
-        assertTrue(thrown.getMessage().contains("Stuff"));
-
     }
 
-/*
+
 //prerequisite: a freshly started kubernetes cluster without a former sample.yaml deployment
-    @Test public void testYamlDeployer(){
+    @Test public void testYamlDeployer() throws Exception{
+        uploadYAMLServiceImpl upload=new uploadYAMLServiceImpl();
+            // validate yaml file
+            File file = new File("Yaml" + File.separator + "sample.yaml");
+            assertDoesNotThrow(()->{
+                //validate the YAML file
+                upload.validateYAML(file);
+                // deploy the yaml file to namespace "default"
+                upload.deployYAML(file, "default");
+            });
 
-        uploadYMLServiceImpl upload=new uploadYMLServiceImpl();
-
-
-        // test valid yaml file
-        File file=new File( "Yaml" +File.separator+"sample.yaml");
-        assertTrue(upload.validateYML(file));
-
-
-        // deploy the yaml file
-        assertTrue(upload.deployYML(file));
-
-
+        // default config for an out-of-cluster client
+        ApiClient client = Config.defaultClient();
+        Configuration.setDefaultApiClient(client);
+        client.setConnectTimeout(5000);
+        CoreV1Api api = new CoreV1Api(client);
+        ArrayList<monitorPod> monitorPods =new ArrayList<>();
+        V1PodList list=api.listPodForAllNamespaces(null,null,null,null,null,null,null,null,null,null);
+        //check if pod "nginx" is up and running
+        boolean test=false;
+        for (V1Pod item : list.getItems()) {
+            if(item.getMetadata().getName().contains("nginx")){
+                test=true;}
+        }
+        assertTrue(test);
     }
 
- */
+
 
 
 
