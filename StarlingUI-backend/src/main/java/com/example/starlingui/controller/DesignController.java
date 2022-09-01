@@ -128,7 +128,7 @@ public class DesignController {
      * @return ResponseEntity<String>
      */
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/{namespace}")
     public ResponseEntity<String> uploadYAML (@RequestParam("file") MultipartFile file, @RequestParam("namespace") String namespace) {
 
         File temDir=new File("temdir");
