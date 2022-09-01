@@ -45,6 +45,10 @@ export default function ContainerTerminal(){
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
         socket = new WebSocket(url);
+        socket.onerror = function(event) {
+            // handle error event
+            terminal.write("Failed to connect to the server");
+        };
 
         const attachAddon = new AttachAddon(socket);
         // Attach the socket to term

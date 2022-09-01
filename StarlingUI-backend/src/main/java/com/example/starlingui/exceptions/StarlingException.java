@@ -1,3 +1,6 @@
+
+
+
 package com.example.starlingui.exceptions;
 
 public class StarlingException extends Exception{
