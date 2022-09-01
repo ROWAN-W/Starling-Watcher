@@ -61,6 +61,10 @@
     margin-right: .5rem;
 }
 
+.drone-search-type:focus{
+    border: 2px solid  hsl(200, 100%, 50%)
+}
+
 .image__search.project__search.drone{
     border: none;
     margin: 0;

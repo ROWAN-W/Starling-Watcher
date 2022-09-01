@@ -200,7 +200,7 @@ input:focus {
     padding: .5em .75em;
 }
 
-.btn.btn-menu:hover{
+.btn.btn-menu:hover, .btn.btn-menu:focus{
     background-color: #333;
 }
 

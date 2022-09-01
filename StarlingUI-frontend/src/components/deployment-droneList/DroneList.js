@@ -113,11 +113,13 @@ export default function DroneList(props) {
         }
         else{
             if(searchType!=='labels' && searchType!=='annotations'){
-                return props.data.filter(i=>i[searchType].toLowerCase().includes(searchDrone.toLowerCase())); 
+                return props.data.filter(
+                    i=>i[searchType].toLowerCase().includes(searchDrone.toLowerCase())); 
             }
             else{
                 console.log(Object.values(props.data[0][searchType]));
-                return props.data.filter(i=>Object.values(i[searchType]).includes(searchDrone.toLowerCase())); 
+                return props.data.filter(
+                    i=>Object.values(i[searchType]).includes(searchDrone.toLowerCase())); 
             }
             
         }
@@ -127,7 +129,7 @@ export default function DroneList(props) {
     <>
     <div className='drone-container items'>
     <div className="items-head drone">
-        <p>Available Devices {props.data? '('+props.data.length+')': null}</p>
+        <h2>Available Devices {props.data? '('+props.data.length+')': null}</h2>
         <hr/>
     </div>
     <button className='btn btn-small hide-drone btn-menu' onClick={()=>props.setTrigger(false)}>Hide</button>

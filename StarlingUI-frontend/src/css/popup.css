@@ -334,6 +334,10 @@
   margin-right: .5rem;
 }
 
+.project-search-type:focus{
+  border: 2px solid  hsl(200, 100%, 50%)
+}
+
 .user-id{
   font-size: .8rem;
   margin-left: .2rem;

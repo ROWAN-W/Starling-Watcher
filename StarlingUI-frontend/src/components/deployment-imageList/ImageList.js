@@ -171,7 +171,7 @@ export default function ImageList() {
     <>
       <div className='image-tag-container items'>
       <div className="items-head">
-      <p>Docker Hub Images</p>
+      <h2>Docker Hub Images</h2>
       <hr/>
       </div>
       {show()}

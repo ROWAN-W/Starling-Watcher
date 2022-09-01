@@ -63,7 +63,7 @@
 .image__search:hover, .image__search:focus{
     border: none;
     outline: none;
-    box-shadow: none;
+    box-shadow: hsl(200, 100%, 50%);
 }
 
 .image__sort{
@@ -76,6 +76,10 @@
   font-size: .9rem;
   height: 1.6rem;
   width: 30%;
+}
+
+.image__sort:focus{
+  border: 2px solid  hsl(200, 100%, 50%)
 }
 
 .image__sort__span{
@@ -106,7 +110,7 @@
     box-shadow: 0 3px 6px rgba(black,0.16), 0 3px 6px rgba(black,0.23);
   }
   
-  .items-head p{
+  .items-head h2{
     margin: 0;
     padding: .5rem 0rem;
     color: #fffffe;

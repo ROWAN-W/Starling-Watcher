@@ -115,13 +115,13 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
             if(kind==='master'){
                 const sizeSettingIndex = options.findIndex(element=>element===masterPic);
                 return(
-                    <img className={sizeSetting[sizeSettingIndex]} src={masterPic} alt="master"/>
+                    <img className={sizeSetting[sizeSettingIndex]} src={masterPic} alt=""/>
                 )
             }
             else if(kind==='deployment'){
                 const sizeSettingIndex = options.findIndex(element=>element===dronePic);
                 return(
-                    <img className={sizeSetting[sizeSettingIndex]} src={dronePic} alt="drone deployment"/>
+                    <img className={sizeSetting[sizeSettingIndex]} src={dronePic} alt=""/>
                 )
             }
         }
@@ -136,12 +136,12 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         if(masterPic==='None' || dronePic==='None'){
             if(kind==='master'){
                 return(
-                    <img className='computer-title-icon' src={computerIcon} alt="master icon"/>
+                    <img className='computer-title-icon' src={computerIcon} alt=""/>
                 )
             }
             else if(kind==='deployment'){
                 return(
-                    <img className='drone-title-icon' src={droneIcon} alt="deployment icon"/>
+                    <img className='drone-title-icon' src={droneIcon} alt=""/>
                 )
             }
 
@@ -162,7 +162,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     <div>
         <div className='node'>
             <div className='node-title-bar' onClick={()=>setSetting(true)} title={node.name}>
-                <div className={masterPic==='None'||dronePic==='None'? 'node-title wordwrap with-icon' : 'node-title wordwrap'}>{showIcon(node.kind)}{node.name}</div>
+                <div className={masterPic==='None'||dronePic==='None'? 'node-title wordwrap wordbreak with-icon' : 'node-title wordwrap wordbreak'}>{showIcon(node.kind)}{node.name}</div>
                 <div className='node-kind' style={{ borderLeft: node.kind==='master'? "2px solid hsl(200, 100%, 70%)" : "2px solid #f2f2f2"}}><span>{showKindColor(node.kind)}</span></div>
             </div>
             <img className="setting-icon" src={search} alt="setting" title="setting" onClick={()=>setSetting(true)}/>

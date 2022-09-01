@@ -91,12 +91,12 @@ function handleNodeDuplicate(node){
     function showInstruction(){
       //test
       if(currentUserID===''){
-        return <div className='items-head'><p className='instruct'>Welcome!<br/>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em>.</p></div>
+        return <div className='items-head'><h2 className='instruct'>Welcome!<br/>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em>.</h2></div>
       }
       else if(selectedProject===undefined){
-        return <div className='items-head'><p className='instruct'>
+        return <div className='items-head'><h2 className='instruct'>
           Hello {userData?.find(user=>user.id===currentUserID).name}!<br/>
-          Please <em>select</em> or <em>create</em> a project.</p>
+          Please <em>select</em> or <em>create</em> a project.</h2>
           </div>
       }
     }

@@ -43,6 +43,10 @@
     font-size: .9rem;  
 }
 
+.node__filter:focus{
+    border: 2px solid  hsl(200, 100%, 50%)
+}
+
 .search-icon{
     width: 15px;
     position: absolute;
@@ -96,3 +100,4 @@
 .sign-in.instruct:focus{
     cursor: pointer;
 }
+
