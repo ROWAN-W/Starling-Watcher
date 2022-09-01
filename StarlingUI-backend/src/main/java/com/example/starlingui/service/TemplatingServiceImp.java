@@ -44,7 +44,7 @@ public class TemplatingServiceImp implements TemplatingService {
                 Deployment deployment = deploymentTemplating(configOfDesign);
                 String id = configOfDesign.getId();
                 //Add node selector part to the deployment object
-                ArrayList<String> nodeNameList = getMapping(id, JsonOfDesign);
+                ArrayList<String> nodeNameList = setMapping(id, JsonOfDesign);
                 if (nodeNameList.size() > 0) {
                     for (String nodeName : nodeNameList) {
                         deployment.getMetadata().setName(deploymentName + "-" + nodeName);
@@ -140,13 +140,13 @@ public class TemplatingServiceImp implements TemplatingService {
         pod.build().setShareProcessNamespace(true);
         pod.build().setRestartPolicy("Always");
         //set Toleration & Volumes
-        pod.withTolerations(getToleration(kind));
+        pod.withTolerations(setToleration(kind));
         if(!kind.equalsIgnoreCase("master")) {
-            pod.withVolumes(getVolumes());
+            pod.withVolumes(setVolumes());
         }
         //containers spec templating
         List<Containers> containersArray = configOfDesign.getContainers();
-        pod = getContainerSpec(containersArray, pod);
+        pod = setContainerSpec(containersArray, pod);
         return pod;
     }
 
@@ -157,8 +157,8 @@ public class TemplatingServiceImp implements TemplatingService {
      * @param containersArray,pod List of Containers and a PodSpecBuilder
      * @return PodSpecBuilder
      */
-    public PodSpecBuilder getContainerSpec(List<Containers> containersArray, PodSpecBuilder pod){
-        //get containers info
+    public PodSpecBuilder setContainerSpec(List<Containers> containersArray, PodSpecBuilder pod){
+        //set containers info
         for(int i = 0; i < containersArray.size(); i++) {
             ContainerBuilder container = new ContainerBuilder();
             pod.addNewContainer().endContainer();
@@ -178,8 +178,8 @@ public class TemplatingServiceImp implements TemplatingService {
                 container.withArgs(args);
             }
             //set Env & Port
-            container = getEnvList(container, envArray);
-            container = getPortList(container, portArray);
+            container = setEnvList(container, envArray);
+            container = setPortList(container, portArray);
             pod.setToContainers(i, container.build());
         }
         return pod;
@@ -208,7 +208,7 @@ public class TemplatingServiceImp implements TemplatingService {
      * @param container,envArray A ContainerBuilder and a list of Env
      * @return ContainerBuilder
      */
-    public ContainerBuilder getEnvList(ContainerBuilder container, List<Env> envArray){
+    public ContainerBuilder setEnvList(ContainerBuilder container, List<Env> envArray){
         if(envArray.size() >= 1 && !envArray.get(0).getName().equals("")) {
             List<EnvVar> envVarList = new ArrayList<>();
             for (Env env : envArray) {
@@ -228,7 +228,7 @@ public class TemplatingServiceImp implements TemplatingService {
      * @param container,portArray A ContainerBuilder and a list of Env
      * @return ContainerBuilder
      */
-    public ContainerBuilder getPortList(ContainerBuilder container, List<Port> portArray){
+    public ContainerBuilder setPortList(ContainerBuilder container, List<Port> portArray){
         if(portArray.size() >= 1 && portArray.get(0).getContainerPort() != 0) {
             List<ContainerPort> containerPortList = new ArrayList<>();
             for (Port port : portArray) {
@@ -250,7 +250,7 @@ public class TemplatingServiceImp implements TemplatingService {
      * @param kind master or deployment kind
      * @return Toleration
      */
-    public Toleration getToleration(String kind){
+    public Toleration setToleration(String kind){
         TolerationBuilder toleration = new TolerationBuilder();
         if(kind.equalsIgnoreCase("deployment")) {
             toleration.withKey("starling.dev/type").withOperator("Equal")
@@ -269,7 +269,7 @@ public class TemplatingServiceImp implements TemplatingService {
      * @Description Build the default content of the Volume
      * @return Volume
      */
-    public Volume getVolumes(){
+    public Volume setVolumes(){
         VolumeBuilder volumes = new VolumeBuilder();
         volumes.withName("vehicleconfig").withNewHostPath("/etc/starling/vehicle.config", "File");
         return volumes.build();
@@ -281,7 +281,7 @@ public class TemplatingServiceImp implements TemplatingService {
      * @param id,JsonOfDesign design id and Json of Design List
      * @return Toleration
      */
-    public ArrayList<String> getMapping(String id, Design JsonOfDesign){
+    public ArrayList<String> setMapping(String id, Design JsonOfDesign){
         List<Mapping> mapping = JsonOfDesign.getMapping();
         //HashMap<String, String> nodeSelector = mapping.get(0).get(id);
         ArrayList<String> nodeNameList = new ArrayList<>();
