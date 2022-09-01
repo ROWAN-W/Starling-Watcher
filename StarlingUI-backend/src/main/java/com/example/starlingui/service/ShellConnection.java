@@ -106,6 +106,8 @@ public class ShellConnection implements Runnable {
         } catch (ApiException | IOException e) {
             e.printStackTrace();
             try {
+                TextMessage textMessage = new TextMessage("Failed to connect to the container");
+                session.sendMessage(textMessage);
                 session.close();
             } catch (IOException e1) {
                 e1.printStackTrace();
