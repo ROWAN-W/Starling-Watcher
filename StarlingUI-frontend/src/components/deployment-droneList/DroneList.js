@@ -23,7 +23,8 @@ export default function DroneList(props) {
     useEffect(() => {
         console.log("fetch available devices");
 
-        (async () => {
+        //back end responds 401 when the minikube is not running, causing infinite loop
+        /*(async () => {
             try {
                 const {data} = await axios.get(DRONE_URL);
                 props.setWaiting(false);
@@ -47,10 +48,10 @@ export default function DroneList(props) {
                 }
                 console.log(err.message);
             }
-        })();
+        })();*/
 
         //temporary for 401 error from /design/nodes
-        /*const options = {
+        const options = {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -79,7 +80,7 @@ export default function DroneList(props) {
               props.setData();
               props.setWaiting(false);
               props.setError(err.message);
-            })*/
+            })
     
       },[props.updateClick])
 

@@ -58,7 +58,7 @@ function Deployment({selectedProject}) {
       return <h1 className="project-title plan">Project Planning</h1>
     }else{
       return (
-      <div>
+      <div className="whole">
         <input
         className="project-title input"
         value={selectedProject.name}

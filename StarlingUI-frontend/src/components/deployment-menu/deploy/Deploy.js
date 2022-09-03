@@ -96,7 +96,7 @@ export default function Deploy(props) {
         if(props.drones){
             for(let i=0;i<props.selectedProject.mapping.length;i++){
                 if(props.selectedProject.mapping[i].mappedDrones.length===0){
-                    setDeployFeedback('Please specify at least one drone for each design/deployment');
+                    setDeployFeedback('Please specify at least one device for each configuration. No device left? Delete unused templates. ');
                     return false;
                 }
             }
@@ -139,7 +139,7 @@ export default function Deploy(props) {
 
             return true;
         }
-        setDeployFeedback('Please specify at least one drone for each design/deployment');
+        setDeployFeedback('No available devices');
         return false;
     }
 
@@ -183,7 +183,7 @@ export default function Deploy(props) {
                 <>
                 <div className='key-hint popup-inner'>(Press Enter to monitor, ESC to leave. Click '-' to minimize. )</div>
                 <div className='popup-footer normal deploy-display'>
-                <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={() => {history.push('/monitor');setSelectedPage("Monitor")}}>Go to Monitor</button>
+                <button ref={(button) => { textInput = button; }} className='btn btn-primary' onClick={() => {history.push('/monitor');setSelectedPage("/monitor")}}>Go to Monitor</button>
                 <button className='btn btn-cancel' onClick={()=>{props.setMinimize(null);props.setTrigger(false)}}>Close</button>
                 </div>
                 </>
@@ -202,6 +202,10 @@ export default function Deploy(props) {
         }
     }
 
+    const openInNewTab = url => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      };
+
     return (props.trigger) ? (
         <div className='popup-projects'>
             <div className='popup-projects-inner'>                
@@ -209,6 +213,7 @@ export default function Deploy(props) {
                     <span className='popup-title'>Deploy Configurations to Devices</span>
                     {!props.waiting && !deployWaiting && 
                     <div>
+                    <button className='popup-close-button hide' onClick={() => openInNewTab('https://docs.google.com/document/d/1NMfBBrReewYa-scV08dLgkERnHrKWU_1o3UF1Qobino/edit')}>HELP</button>
                     <button className='popup-close-button hide' onClick={()=>{props.setMinimize(true);props.setTrigger(false)}}>—</button>
                     <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
                     </div>}
@@ -219,9 +224,14 @@ export default function Deploy(props) {
                     <span>last sync: {props.updateTime}</span>
                     </div>
                 }
+                {props.selectedProject?.config.length > props.drones?.length? <div className="info-msg wordwrap">
+                <i className="fa fa-info-circle"></i>
+                The number of templates should ≤ the number of available devices. Please delete unused templates.
+                </div>: null}
                 <div className='deploy'>
                 {props.error && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>No available devices</div>}
                 {props.waiting && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
+                <div className='node-deploy deploy-map-title'><div>Configuration Templates ({props.selectedProject?.config.length})</div><div>Available Devices ({props.drones?.length})</div></div>
                 {props.selectedProject?.mapping.map(node=>{
                     //for displaying node name
                     const completeNode = props.selectedProject.config.find(n=>n.id===node.nodeID)

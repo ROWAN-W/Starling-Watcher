@@ -51,7 +51,7 @@ export default function CreateProject(props) {
         config:[
           {
             id:masterId,
-            name: 'design',
+            name: 'server',
             kind: 'master',
             //can be empty
             label: 
@@ -64,7 +64,7 @@ export default function CreateProject(props) {
           },
           {
             id:deploymentId,
-            name: 'deployment',
+            name: 'device',
             kind: 'deployment',
             //can be empty
             label: 
@@ -115,7 +115,7 @@ export default function CreateProject(props) {
           //close automatically
           setTimeout(() => {
             closeWindow();
-          }, 1300)
+          }, 800)
         })
         .catch((err) => {
           console.log(err.message);
@@ -161,7 +161,7 @@ export default function CreateProject(props) {
           {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
           {error && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
           {error && <h2 className='title-error'>Create Project Error</h2>}
-          {!error && result!=='' && <h2 className='title-success'>Create in the database!</h2>}
+          {!error && result!=='' && <h2 className='title-success'>Create Success</h2>}
           <div className='content'>{error? error: ''}</div>
           {error && <div className='key-hint'>(Press ESC to leave)</div>}
           {error && 

@@ -67,7 +67,7 @@ export default function SaveMessage(props) {
           //close automatically
           setTimeout(() => {
             closeWindow();
-          }, 1500)
+          }, 1000)
         }
     }
     

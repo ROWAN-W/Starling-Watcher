@@ -182,12 +182,13 @@ function App() {
     }
   }
 
-  function handleUserAdd(id, name){
+  /*function handleUserAdd(id, name){
     const newUser = {id: id, name: name};
-    console.log(newUser);
-    setUserData([...userData, newUser]);
     setCurrentUserID(id);
-  }
+    console.log(newUser);
+    console.log(userData);
+    setUserData([...userData, newUser]);
+  }*/
 
   function checkUnsavedProjects(){
     let unsavedArray=[];
@@ -216,7 +217,6 @@ function App() {
     signInPage,
     handleProjectSelect,
     handleCurrentUser,
-    handleUserAdd,
     handleProjectChange,
   } 
   

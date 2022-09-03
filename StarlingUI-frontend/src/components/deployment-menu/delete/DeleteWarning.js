@@ -10,7 +10,7 @@ export default function DeleteWarning(props) {
 
     let textInput = null;
     useEffect(()=>{
-        if(props.trigger===true && hide===false){
+        if(props.trigger===true && hide===false && currentUserID===props.selectedProject.ownerID){
             textInput.focus();
         }
     })
