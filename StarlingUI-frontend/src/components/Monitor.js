@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { PacmanLoader} from 'react-spinners';
 
 
 
@@ -22,6 +23,19 @@ export default function Monitor() {
     const [state, setstate] = useState(200);
     const [namespace, setNamespace] = useState('');
     const [open, setOpen] = useState(false);
+    const [waiting,setWaiting] = useState(false);
+
+    const override = `
+        display: block;
+        margin: 10 auto;
+    `;
+
+    const style = {
+        loading: waiting,
+        size: 35,
+        css: override,
+        color: "#32e6b7",
+    };
 
     const getNodeStatus = () => {
         axios.get('http://localhost:8080/monitor/nodes')
@@ -54,6 +68,7 @@ export default function Monitor() {
                 const acct = results[0];
                 const perm = results[1];
                 setData(acct.data);
+                
                 setstate(acct.status);
                 setProjects(perm.data);
 
@@ -64,6 +79,7 @@ export default function Monitor() {
                 console.log(error.response.status);
 
             });
+        console.log(data);
     }
 
 
@@ -74,7 +90,7 @@ export default function Monitor() {
     useEffect(() => {
         getK8sData();
         const interval = setInterval(
-            () => { getK8sData(); }, 30000
+            () => { getK8sData(); }, 20000
         )
         return () => clearInterval(interval)
     }, []);
@@ -84,6 +100,8 @@ export default function Monitor() {
     };
 
     const handleClose = () => {
+        setWaiting(false);
+        setNamespace('');
         setOpen(false);
     };
 
@@ -95,26 +113,33 @@ export default function Monitor() {
         if (namespace !== '') {
             let url = 'http://localhost:8080/monitor/delete/';
             url += namespace;
-            axios.delete(url)
+            const fetchData = async () => {
+                
+                setWaiting(true);
+                await axios.delete(url)
                 .then(function (response) {
                     console.log(response)
                 })
                 .catch(function (error) {
                     console.log(error)
-                })
+                });
+                setWaiting(false);
+                setOpen(false);
+            }
+            fetchData();
+            setNamespace('');
+            
+        }else{
+            setNamespace('');
+            setOpen(false);
         }
-
-        setOpen(false);
-        setTimeout(() => {
-            getK8sData();
-        }, 3000);
+        getK8sData();
     }
 
     function showData() {
         if (state === 200) {
             return (
                 <div>
-
                     <div className='delete'>
                         <Button
                             variant="outlined"
@@ -141,10 +166,16 @@ export default function Monitor() {
                         disableEscapeKeyDown
                         open={open}
                         onClose={handleClose}
+                        PaperProps={{
+                            sx: {
+                            width: 350,
+                            height: 210
+                            }
+                        }}
                     >
                         <DialogTitle>Delete Project</DialogTitle>
                         <DialogContent>
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+                            {waiting?<PacmanLoader {...style} />:<FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
                                 <InputLabel>Project</InputLabel>
                                 <Select value={namespace}
                                     onChange={handleChange}
@@ -155,7 +186,7 @@ export default function Monitor() {
                                     </MenuItem>
                                     {listItems}
                                 </Select>
-                            </FormControl>
+                            </FormControl>}
                         </DialogContent>
                         <DialogActions>
                             <Button
