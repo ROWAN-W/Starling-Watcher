@@ -99,7 +99,7 @@ export default function MonitorContainer(props) {
                                 disabled={buttonAvailable}></button>
                             <button className="container-logs"
                                 onClick={() => openLogs()}
-                                disabled={buttonAvailable}></button>
+                                ></button>
                         </div>
                     }
                 </div>
