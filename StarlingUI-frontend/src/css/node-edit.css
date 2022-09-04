@@ -38,13 +38,9 @@
 .node-title{
     font-size: 1.5em;
     font-weight: bold;
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
     line-height: 1em; 
     max-height: 2em; 
-    height: 3em;
-    max-width: 12em;
 }
 
 .node-title-bar:hover,
@@ -55,13 +51,9 @@
 .node-title.with-icon{
     font-size: 1.5em;
     font-weight: bold;
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
     line-height: 1em; 
-    max-height: 2em; 
-    height: 3em;
-    max-width: 15em;
+    max-height: 2.5em; 
 }
 
 .node-kind{
@@ -142,6 +134,15 @@
 .node-image-tag-number .btn.btn-small.btn-menu{
     margin: 0;
     background: transparent;
+}
+
+.node-image-tag-number .btn.btn-small.btn-menu:hover,
+.node-image-tag-number .btn.btn-small.btn-menu:focus,
+.node-btn .btn-menu.btn:hover,
+.node-btn .btn-menu.btn:focus,
+.btn-add-node .btn-menu:hover,
+.btn-add-node .btn-menu:focus{
+    background: rgba(77, 77, 77, 1);
 }
 
 .image-number{

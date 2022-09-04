@@ -26,12 +26,13 @@ export default function DockerLogin(props) {
         <div className='docker-expand'>
                 <form onSubmit={handleSubmit}>
                     <label 
-                        htmlFor='DockerRepoName'>Repository Name
+                        htmlFor='DockerRepoName'>Public Repository Name
                     </label>
                     <input 
                         type='text' 
                         name='DockerRepoName' 
                         id='DockerRepoName'
+                        placeholder='example: uobflightlabstarling'
                         required
                         value={repoName}
                         onChange={e=>setRepoName(e.target.value)}

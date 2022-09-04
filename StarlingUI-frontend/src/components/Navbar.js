@@ -30,7 +30,7 @@ const Navbar = () => {
       <ul className="nav-list">
         <li className={selectedPage==='/'? "nav-list click": null}><Link to="/"><span onClick={()=>{setSelectedPage('/'); document.title="StarlingWatcher | Design"}}>Design</span></Link></li>
         <li className={selectedPage==='/monitor'? "nav-list click": null}><Link to="/monitor"><span onClick={()=>{setSelectedPage('/monitor'); document.title="StarlingWatcher | Monitor"}}>Monitor</span></Link></li>
-        <li><a href="/#" onClick={() => openInNewTab('https://www.notion.so/Help-Centre-4092371e72e745eca6c56f236babc998')}>FAQ</a></li>
+        <li><a href="/#" onClick={() => openInNewTab('https://fire-iguana-f4d.notion.site/Help-Centre-4092371e72e745eca6c56f236babc998')}>FAQ</a></li>
       </ul>
       <div className="font-changer"><FontSizeChanger
         targets={['html']}

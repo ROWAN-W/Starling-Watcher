@@ -118,7 +118,6 @@
   font-weight: bold;
   padding-top: 1rem;
   font-size: 1rem;
-  color: hsl(200, 100%, 20%);
 }
 
 .dropdown-input.node-deploy{
@@ -332,6 +331,10 @@
   color: #444;
   padding-left: .3em;
   margin-right: .5rem;
+}
+
+.project-search-type:focus{
+  border: 2px solid  hsl(200, 100%, 50%)
 }
 
 .user-id{
@@ -738,4 +741,11 @@ p.forgot:hover, p.create-user{
 .add-port-env-btn{
   margin-left: .5rem;
   font-size: 1rem;
+}
+
+.deploy-map-title{
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: .5rem;
+  color: hsl(200, 100%, 20%);
 }

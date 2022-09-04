@@ -6,6 +6,7 @@ export default function ProjectSearchBox( {setSearchProject, searchProject} ) {
     <input 
             className='image__search project__search'
             type="search"
+            placeholder=' search'
             value={searchProject}
             onChange={(e)=>setSearchProject(e.target.value)}></input>    
     </>

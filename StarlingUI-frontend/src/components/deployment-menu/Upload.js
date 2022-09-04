@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import logo from '../../css/img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
@@ -7,8 +8,10 @@ const instruct = "Namespace can only start / end with an alphanumeric character 
 
 export default function Upload(props) {
 
+    const history = useHistory()
+
     const [namespace, setNamespace] = useState('');
-    const {handleCurrentUser} = useContext(ProjectContext);
+    const {handleCurrentUser,setSelectedPage} = useContext(ProjectContext);
 
     const [selectedFile, setSelectedFile] = useState();
     const [result, setResult] = useState('');
@@ -56,7 +59,7 @@ export default function Upload(props) {
         })
         .then(res => { 
             setIsPending(false);
-            setResult('Success'); //respond from Rowan's server
+            setResult('Success!'); //respond from Rowan's server
           })
         .catch(err => {
             setIsPending(false);
@@ -71,6 +74,20 @@ export default function Upload(props) {
                 setResult(err.message);
             }
         })
+
+        //only for testing transition
+            /*const r = Math.floor(Math.random() * 10) + 1;
+            if(r%2===0){
+                setTimeout(() => {
+                    setIsPending(false);
+                    setResult('Success!');
+                }, 1000)
+            }else{
+                setTimeout(() => {
+                    setIsPending(false);
+                    setResult("kubernetes server error");
+                }, 1000)
+            }*/
     }
 
     function clearField(){
@@ -148,12 +165,12 @@ export default function Upload(props) {
             </div>
                 <form method="post" action="#" id="#" onSubmit={handleSubmit} className="advanced-setting-form">
                     {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
-                    {!savePending && result!=='' && result!=='Success' && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{result}</div>}
-                    {result==='Success' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{result}</div>}
+                    {!savePending && result!=='' && result!=='Success!' && <div className="error-msg wordwrap"><i className="fa fa-times-circle"></i>{result}</div>}
+                    {result==='Success!' && <div className="success-msg wordwrap"><i className="fa fa-check"></i>{result}</div>}
                     {result==='' && <div className="info-msg wordwrap"><i className="fa fa-info-circle"></i>{instruct}</div>}
                     <div className='popup-major stack'>
                     <label 
-                        htmlFor='namespace' className='popup-major-key major'>Namespace (max 63 characters)<span className='required'>*</span>
+                        htmlFor='namespace' className='popup-major-key major'>Project Name (max 63 characters)<span className='required'>*</span>
                     </label>
                     <input 
                         type='text' 
@@ -175,9 +192,9 @@ export default function Upload(props) {
                     <input type="file" required 
                         onClick={()=>{setResult('');setSelectedFile()}} onChange={e=>{checkMimeType(e)&&setSelectedFile(e.target.files[0])}} className="width-100"/>
                     </div>
-                    <div className='key-hint popup-inner'>(Press Enter to upload, ESC to leave)</div>
+                    <div className='key-hint popup-inner'>(Press Tab/Shift+Tab to select, ESC to leave)</div>
                     <div className='popup-footer single'>
-                        <button className='btn' type='submit'>Deploy</button>
+                        {result==='Success!'? <button className='btn' type='button' onClick={() => {history.push('/monitor');setSelectedPage("/monitor")}}>Go to Monitor</button>: <button className='btn' type='submit'>Deploy</button> }
                     </div> 
                 </form>
             </div>

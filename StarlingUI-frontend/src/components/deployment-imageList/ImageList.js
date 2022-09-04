@@ -129,7 +129,7 @@ export default function ImageList() {
               <><SearchBox handleImageSearch={handleImageSearch}/>
               <ImageSort setSortValue={setOrderCol} setOrder={setOrder}></ImageSort></>
             </div>
-            <div className='total-image-number'>Total: {images.length}</div>
+            <div className='total-image-number'><div>Current Repo: {finalRepoName}</div><div>Total Image: {images.length}</div></div>
             <div className="items-body">  
             {showResult().map(image=>{
                 return <Image key={image.id} {...image}></Image>
@@ -171,7 +171,7 @@ export default function ImageList() {
     <>
       <div className='image-tag-container items'>
       <div className="items-head">
-      <p>Docker Hub Images</p>
+      <h2>Docker Hub Images</h2>
       <hr/>
       </div>
       {show()}
