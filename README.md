@@ -7,10 +7,10 @@ Welcome to the Starling Watcher!
 - User Account Login.
 - Deploy pods through web interaction, no need for users to write yaml files.
 - Deploy pods by uploading yaml.
-- Get image list based on dockerhub repository name.
+- Project (configuration of pods) management based on user account.
+- Get image list based on dockerhub repository (public) name.
 - Monitor the operation of the cluster's node, pod, container, and other resources.
-- Support for opening container shells and logs on the web.
-- Support resize web shell and logs.
+- Support for opening container shells and logs on the web (resizable window).
 - Support restart pod and delete pod by project name.
 
 ## Example
