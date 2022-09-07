@@ -1,6 +1,6 @@
 
 # Starling Watcher
-Welcome to the Starling Watcher!
+Welcome to Starling Watcher!
 [Starling Watcher](https://github.com/ROWAN-W/SummerProject) is a kubernetes Dashboard design for [StarlingUAS](https://docs.starlinguas.dev/)!
 
 ## Features
