@@ -58,7 +58,7 @@ Welcome to the Starling Watcher!
 | GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
 
 ## Tutorials
-* [Starling Watcher Tutorial Video] (https://github.com/ROWAN-W/SummerProject/wiki/Demo)
+* [Starling Watcher Tutorial Video](https://github.com/ROWAN-W/SummerProject/wiki/Demo)
 * [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
 * [User Help Centre](https://fire-iguana-f4d.notion.site/Help-Centre-4092371e72e745eca6c56f236babc998)
 
