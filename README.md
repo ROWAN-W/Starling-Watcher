@@ -31,8 +31,7 @@ Welcome to the Starling Watcher!
 - To run the simulation cluster locally you can use：
     - [Kind](https://kind.sigs.k8s.io/)
     - [minikube](https://minikube.sigs.k8s.io/docs/start/)
-2. [Demo](https://github.com/ROWAN-W/SummerProject/wiki/Demo)
-3. [REST APIs](https://github.com/ROWAN-W/SummerProject/wiki/APIs)
+2. [REST APIs](https://github.com/ROWAN-W/SummerProject/wiki/APIs)
 
 ### API Path
 
@@ -57,7 +56,19 @@ Welcome to the Starling Watcher!
 | POST | /login | user login, get access token and refresh token | 401: username or password not valid |
 | POST | /register | add a new user | 403: username already exist in database |
 | GET | /refresh | refresh access token, get new access token and old refresh token | 401: invalid refresh token |
-4. [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
+
+## Tutorials
+* [Starling Watcher Tutorial Video] (https://github.com/ROWAN-W/SummerProject/wiki/Demo)
+* [FAQ](https://github.com/ROWAN-W/SummerProject/wiki/FAQ)
+* [User Help Centre](https://fire-iguana-f4d.notion.site/Help-Centre-4092371e72e745eca6c56f236babc998)
+
+## Team (alphabetical order)
+University of Bristol - Computer Science (MSc)
+* Haoxiang Song
+* Pench Xie
+* Ting-I Chen
+* Rowan Wang
+* Yu-Lin Chen
 
 ## Support
 If you need support, start with checking whether you're hitting known issues. If that doesn't work, please open an issue to describe the cases. Additionally, before you file an issue, please search existing issues to see if your issue is already covered.
