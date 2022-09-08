@@ -156,7 +156,7 @@ export default function Monitor() {
                                 textTransform: "none",
                                 fontFamily: "Cambria"
                             }}>
-                            Delete Project
+                            Undeploy Project
                         </Button>
                     </div>
 
@@ -177,7 +177,7 @@ export default function Monitor() {
                             }
                         }}
                     >
-                        <DialogTitle>Delete Project</DialogTitle>
+                        <DialogTitle>Undeploy Project</DialogTitle>
                         <DialogContent>
                             {waiting?<PacmanLoader {...style} />:<FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
                                 <InputLabel>Project</InputLabel>
