@@ -2,7 +2,6 @@ import React, {useState, useContext, useEffect} from 'react';
 import { ProjectContext } from '../../App';
 import Member from './Member';
 import MemberSelection from './MemberSelection';
-const PROJECT_URL = 'http://localhost:8080/design/projects';
 
 export default function ShareProject(props) {
 

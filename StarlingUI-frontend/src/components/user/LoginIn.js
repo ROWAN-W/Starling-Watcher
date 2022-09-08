@@ -3,7 +3,9 @@ import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../../css/img/load.gif';
 import { useCookies } from "react-cookie";
-const LOGIN_URL = 'http://localhost:8080/login';
+const port = '8080';
+const protocol = "http://";
+const LOGIN_URL = protocol+window.location.hostname+':'+port+'/login';
 
 export default function LoginIn(props) {
 

@@ -3,7 +3,9 @@ import axios from "axios";
 import { ProjectContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 import logo from '../../css/img/load.gif';
-const PROJECT_URL = 'http://localhost:8080/design/projects';
+const port = '8080';
+const protocol = "http://";
+const PROJECT_URL = protocol+window.location.hostname+':'+port+'/design/projects';
 
 export default function CreateProject(props) {
     

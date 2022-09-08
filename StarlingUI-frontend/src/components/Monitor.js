@@ -13,7 +13,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { PacmanLoader} from 'react-spinners';
-
+const port = '8080';
+const protocol = "http://";
+const NODES_URL = protocol+window.location.hostname+':'+port+'/monitor/nodes';
+const NAMESPACES_URL = protocol+window.location.hostname+':'+port+'/monitor/namespaces';
+const UNDEPLOY_URL = protocol+window.location.hostname+':'+port+'/monitor/delete/';
 
 
 export default function Monitor() {
@@ -38,7 +42,7 @@ export default function Monitor() {
     };
 
     const getNodeStatus = () => {
-        axios.get('http://localhost:8080/monitor/nodes')
+        axios.get(NODES_URL)
             .then(function (response) {
                 setData(response.data);
                 setstate(response.status);
@@ -56,11 +60,11 @@ export default function Monitor() {
 
     const getK8sData = () => {
         function getNodes() {
-            return axios.get('http://localhost:8080/monitor/nodes');
+            return axios.get(NODES_URL);
         }
 
         function getNameSpaces() {
-            return axios.get('http://localhost:8080/monitor/namespaces');
+            return axios.get(NAMESPACES_URL);
         }
 
         Promise.all([getNodes(), getNameSpaces()])
@@ -111,7 +115,7 @@ export default function Monitor() {
 
     const handleDelete = () => {
         if (namespace !== '') {
-            let url = 'http://localhost:8080/monitor/delete/';
+            let url = UNDEPLOY_URL;
             url += namespace;
             const fetchData = async () => {
                 

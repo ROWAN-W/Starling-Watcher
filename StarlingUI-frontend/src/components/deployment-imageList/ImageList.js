@@ -5,7 +5,9 @@ import Image from './Image';
 import SearchBox from './ImageSearchBox';
 import logo from '../../css/img/load.gif';
 import ImageSort from './ImageSort';
-const IMAGE_URL = 'http://localhost:8080/design/image/';
+const port = '8080';
+const protocol = "http://";
+const IMAGE_URL = protocol+window.location.hostname+':'+port+'/design/image/';
 
 export default function ImageList() {
 

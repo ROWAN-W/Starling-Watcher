@@ -3,7 +3,9 @@ import { useHistory } from "react-router-dom";
 import logo from '../../css/img/load.gif';
 import axios from 'axios';
 import { ProjectContext } from '../App';
-const UPLOAD_URL = 'http://localhost:8080/design/upload';
+const port = '8080';
+const protocol = "http://";
+const UPLOAD_URL = protocol+window.location.hostname+':'+port+'/design/upload';
 const instruct = "Namespace can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '-'.";
 
 export default function Upload(props) {

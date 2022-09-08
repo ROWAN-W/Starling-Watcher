@@ -6,9 +6,9 @@ import sync from '../../css/img/sync-svgrepo-com.svg';
 import logo from '../../css/img/load.gif';
 import SearchType from './SearchType';
 import DroneSearchBox from './DroneSearchBox';
-const DRONE_URL = 'http://localhost:8080/design/nodes';
-//http://localhost:8080/design/nodes
-//http://localhost:8002/sampleDrone
+const port = '8080';
+const protocol = "http://";
+const DRONE_URL = protocol+window.location.hostname+':'+port+'/design/nodes';
 
 export default function DroneList(props) {
 

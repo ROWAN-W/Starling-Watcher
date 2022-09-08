@@ -5,7 +5,9 @@ import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import logo from '../../../css/img/load.gif';
 import syncLogo from '../../../css/img/sync-svgrepo-com-black.svg';
-const DEPLOY_URL = 'http://localhost:8080/design/templating';
+const port = '8080';
+const protocol = "http://";
+const DEPLOY_URL = protocol+window.location.hostname+':'+port+'/design/templating';
 
 export default function Deploy(props) {
 

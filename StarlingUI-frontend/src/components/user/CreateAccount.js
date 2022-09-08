@@ -3,8 +3,10 @@ import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../../css/img/load.gif';
 import { useCookies } from "react-cookie";
-const REGISTER_URL = 'http://localhost:8080/register';
-const USER_URL = 'http://localhost:8080/design/users';
+const port = '8080';
+const protocol = "http://";
+const REGISTER_URL = protocol+window.location.hostname+':'+port+'/register';
+const USER_URL = protocol+window.location.hostname+':'+port+'/design/users';
 
 export default function CreateAccount(props) {
 
@@ -146,7 +148,7 @@ export default function CreateAccount(props) {
                         name='userName' 
                         id='userName'
                         required
-                        maxlength="10"
+                        maxLength="10"
                         onChange={e=>setNewUserName(e.target.value)}
                         ref={(button) => { textInput = button; }}
                         >

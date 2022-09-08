@@ -2,6 +2,9 @@
 import React, {useEffect, useState} from "react";
 import MonitorContainer from "./MonitorContainer";
 import axios from "axios";
+const port = '8080';
+const protocol = "http://";
+const RESTART_URL = protocol+window.location.hostname+':'+port+'/monitor/restart/';
 
 
 export default function MonitorPod(props){
@@ -15,7 +18,7 @@ export default function MonitorPod(props){
 
     function change(){
         setReboot(true);
-        let url = 'http://localhost:8080/monitor/restart/';
+        let url = RESTART_URL;
         url += props.namespace + '/' + props.podName;
         axios.delete(url)
             .then(function (response){
