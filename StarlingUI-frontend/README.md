@@ -4,4 +4,4 @@ Please refer to the issue table: https://docs.google.com/spreadsheets/d/1wYO6p2I
 
 ## side note
 
-1. use http://localhost:8080/design/database to see the entire user db, use http://localhost:8080/design/initialize to initialize the database
+1. use http://localhost:8080/design/database to see the entire user db, use http://localhost:8080/design/initialize to initialize the database (the hostname is dependent on your environment)
