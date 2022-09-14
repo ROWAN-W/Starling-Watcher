@@ -64,7 +64,7 @@ Welcome to Starling Watcher!
 
 ## Team (alphabetical order)
 University of Bristol - Computer Science (MSc)
-* Haoxiang Song
+* Evan Song
 * Pench Xie
 * Ting-I Chen
 * Rowan Wang
