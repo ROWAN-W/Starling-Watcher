@@ -17,11 +17,7 @@ spec:
       nodeSelector:
         name: master
       tolerations:
-<<<<<<< HEAD
         - key: node-role.kubernetes.io/master
-=======
-      - key: node-role.kubernetes.io/master
->>>>>>> main
         operator: Exists
         effect: NoSchedule
       containers:
@@ -40,7 +36,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-<<<<<<< HEAD
     volumes:
     - name: database-backup
     hostPath:
@@ -55,29 +50,11 @@ metadata:
   name: starlingui-service                                   # Name of the kubernetes resource
   labels:                                                    # Labels that will be applied to this resource
     app: starlingui-service
-=======
-   
-
----
-# ... Service YAML definition
-apiVersion: v1                                               # API version
-kind: Service                                                # Type of the kubernetes resource
-metadata:
-  name: starlingui-backend-service                             # Name of the kubernetes resource
-  labels:                                                    # Labels that will be applied to this resource
-    app: starlingui-backend
->>>>>>> main
   namespace: starlingui-aerial-robotics-system
 spec:
   type: NodePort                                             # The service will be exposed by opening a Port on each node and proxying it.
   ports:
     - port: 3000
       targetPort: 3000
-<<<<<<< HEAD
   selector:                                                  # The service exposes Pods with label `app=starlingui-service`
     app: starlingui-service
-
-=======
-  selector:                                                  # The service exposes Pods with label `app=starlingui-backend`
-    app: starlingui-backend
->>>>>>> main
