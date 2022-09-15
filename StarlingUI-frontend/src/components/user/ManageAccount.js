@@ -2,7 +2,9 @@ import React, {useContext, useState,useEffect} from 'react';
 import axios from "axios";
 import { ProjectContext } from '../App';
 import logo from '../../css/img/load.gif';
-const USER_URL = 'http://localhost:8080/design/users';
+const port = '8080';
+const protocol = "http://";
+const USER_URL = protocol+window.location.hostname+':'+port+'/design/users';
 
 export default function ManageAccount(props) {
     

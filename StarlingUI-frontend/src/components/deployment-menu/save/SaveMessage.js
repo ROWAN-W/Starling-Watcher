@@ -2,7 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from "axios";
 import { ProjectContext } from '../../App';
 import logo from '../../../css/img/load.gif';
-const PROJECT_URL = 'http://localhost:8080/design/projects';
+const port = '8080';
+const protocol = "http://";
+const PROJECT_URL = protocol+window.location.hostname+':'+port+'/design/projects';
 
 export default function SaveMessage(props) {
 
@@ -67,7 +69,7 @@ export default function SaveMessage(props) {
           //close automatically
           setTimeout(() => {
             closeWindow();
-          }, 1500)
+          }, 1000)
         }
     }
     

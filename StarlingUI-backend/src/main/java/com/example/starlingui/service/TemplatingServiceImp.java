@@ -199,7 +199,7 @@ public class TemplatingServiceImp implements TemplatingService {
         if(imageSplit.length >= 2){
             containerName += "-" + imageSplit[1].replaceAll("[_/+^:,]", "-");
         }
-        return containerName;
+        return containerName.replaceAll("\\s+","");
     }
     
 

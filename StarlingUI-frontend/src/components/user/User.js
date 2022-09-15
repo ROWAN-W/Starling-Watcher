@@ -79,7 +79,7 @@ export default function User( {currentUser, userSignIn, setUserSignIn} ) {
             return (
                 <>
                 <span className='btn btn-nav' onClick={()=>{handleUserManagement(); handleUserSignIn(false)}}>
-                    <img className='account-icon' src={account_icon} alt="Account Icon"></img>{currentUser.name}</span>
+                    <img className='account-icon' src={account_icon} alt=""></img>{currentUser.name}</span>
                 <UserDropDown trigger={userManagement} setTrigger={setUserManagement} 
                     handleAccountManagement={handleAccountManagement}
                     handleUserSignOut={handleUserSignOut}></UserDropDown>       

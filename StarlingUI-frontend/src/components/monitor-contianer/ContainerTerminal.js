@@ -3,6 +3,9 @@ import {Terminal} from "xterm";
 import {AttachAddon} from "xterm-addon-attach";
 import {FitAddon} from "xterm-addon-fit";
 import {useEffect} from "react";
+const port = '8080';
+const protocol = "ws://";
+const SHELL_URL = protocol+window.location.hostname+':'+port+'/container/shell';
 
 let socket;
 let cols;
@@ -36,7 +39,7 @@ export default function ContainerTerminal(){
         terminal.open(document.getElementById("terminal-container"));
 
 
-        let url = 'ws://localhost:8080/container/shell';
+        let url = SHELL_URL;
         url += '?name=' + name
             + '&namespace=' + namespace
             + '&container=' + container

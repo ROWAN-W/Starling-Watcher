@@ -3,6 +3,9 @@ import {FitAddon} from "xterm-addon-fit";
 import {useEffect} from "react";
 import {AttachAddon} from "xterm-addon-attach";
 import {Terminal} from "xterm";
+const port = '8080';
+const protocol = "ws://";
+const LOGS_URL = protocol+window.location.hostname+':'+port+'/container/logs';
 
 
 let socket;
@@ -32,7 +35,7 @@ export default function ContainerLogs(){
 
 
 
-            let url = 'ws://localhost:8080/container/logs';
+            let url = LOGS_URL;
             url += '?name=' + name
                 + '&namespace=' + namespace
                 + '&container=' + container

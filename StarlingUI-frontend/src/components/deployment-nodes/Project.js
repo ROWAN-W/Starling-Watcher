@@ -5,8 +5,6 @@ import Node from './Node';
 import Filter from './Filter';
 import SearchBox from './SearchBox';
 
-import droneCircle from '../../css/img/oie_151914634owYC2D.png';
-import masterCircle from '../../css/img/oie_15192229OeBZ3dl4.png'
 
 export default function Project({selectedProject}) {
 
@@ -17,9 +15,7 @@ export default function Project({selectedProject}) {
 
     const [clickAdd, setClickAdd] =useState(false);
 
-    const options = [droneCircle, masterCircle, 'None'];
-    const [masterPic, setMasterPic] = useState(options[2]);
-    const [dronePic, setDronePic] = useState(options[2]);
+    const [pictureDisplay, setPictureDisplay] = useState(false);
 
     const messagesEndRef = useRef(null)
 
@@ -56,7 +52,7 @@ function handleNodeAdd(){
   const number = selectedProject.config.length+1;
   const newNode = {
       id: uuidv4(),
-      name: 'deployment-'+number,
+      name: 'device-'+number,
       kind: 'deployment',
       //can be empty
       label: {app: selectedProject.name ,platform: ''},
@@ -85,19 +81,31 @@ function handleNodeDuplicate(node){
       label: node.label,
       containers: [...node.containers],
   }
-  handleChange({config: [...selectedProject.config, newNode]});
+  const newMapping = {
+    nodeID: newNode.id,
+    mappedDrones: []
+  }
+  handleChange({config: [...selectedProject.config, newNode],mapping: [...selectedProject.mapping, newMapping]});
+  //handleMappingAdd(newNode.id);
 }
+
+const openInNewTab = url => {
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
     
     function showInstruction(){
-      //test
       if(currentUserID===''){
-        return <div className='items-head'><p className='instruct'>Welcome!<br/>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em>.</p></div>
+        return <div className='items-head'><h2 className='instruct'>Welcome!<br/>Please <em className='sign-in instruct' onClick={()=>signInPage()}>sign in</em>.</h2></div>
       }
-      else if(selectedProject===undefined){
-        return <div className='items-head'><p className='instruct'>
-          Hello {userData?.find(user=>user.id===currentUserID).name}!<br/>
-          Please <em>select</em> or <em>create</em> a project.</p>
-          </div>
+      else{
+        if(selectedProject===undefined){
+          return <div className='items-head'><h2 className='instruct'>
+            Hello {userData?.find(user=>user.id===currentUserID).name}!<br/>
+            Please "create" or "select" a project to configure a template.<br/>
+            More instructions on <a href="/#" style={{ color:'yellow' }} onClick={() => openInNewTab('https://docs.google.com/document/d/1NMfBBrReewYa-scV08dLgkERnHrKWU_1o3UF1Qobino/edit?usp=sharing')}>Quick Start Guide</a>.
+            </h2>
+            </div>
+        }
       }
     }
 
@@ -116,11 +124,8 @@ function handleNodeDuplicate(node){
                   handleNodeChange={handleNodeChange}
                   handleNodeDelete={handleNodeDelete}
                   handleNodeDuplicate={handleNodeDuplicate}
-                  options={options}
-                  masterPic={masterPic}
-                  setMasterPic={setMasterPic}
-                  dronePic={dronePic}
-                  setDronePic={setDronePic}
+                  pictureDisplay={pictureDisplay}
+                  setPictureDisplay={setPictureDisplay}
                 >
                 </Node>):
                 filterResult.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
@@ -131,11 +136,8 @@ function handleNodeDuplicate(node){
                     handleNodeChange={handleNodeChange}
                     handleNodeDelete={handleNodeDelete}
                     handleNodeDuplicate={handleNodeDuplicate}
-                    options={options}
-                    masterPic={masterPic}
-                    setMasterPic={setMasterPic}
-                    dronePic={dronePic}
-                    setDronePic={setDronePic}
+                    pictureDisplay={pictureDisplay}
+                    setPictureDisplay={setPictureDisplay}
                   >
                   </Node>
                 )}
@@ -154,11 +156,8 @@ function handleNodeDuplicate(node){
               handleNodeChange={handleNodeChange}
               handleNodeDelete={handleNodeDelete}
               handleNodeDuplicate={handleNodeDuplicate}
-              options={options}
-              masterPic={masterPic}
-              setMasterPic={setMasterPic}
-              dronePic={dronePic}
-              setDronePic={setDronePic}
+              pictureDisplay={pictureDisplay}
+              setPictureDisplay={setPictureDisplay}
             >
             </Node>): 
             selectedProject.config.filter(node=>node.name.toLowerCase().includes(searchNode.toLowerCase())).map(node=>
@@ -169,11 +168,8 @@ function handleNodeDuplicate(node){
                 handleNodeChange={handleNodeChange}
                 handleNodeDelete={handleNodeDelete}
                 handleNodeDuplicate={handleNodeDuplicate}
-                options={options}
-                masterPic={masterPic}
-                setMasterPic={setMasterPic}
-                dronePic={dronePic}
-                setDronePic={setDronePic}
+                pictureDisplay={pictureDisplay}
+                setPictureDisplay={setPictureDisplay}
               >
               </Node>)}
           </>
@@ -192,7 +188,7 @@ function handleNodeDuplicate(node){
       }else{
         return (
           <div className='project items'>
-            <div className='total-node-number'>Total: {selectedProject.config?.length}</div>
+            <div className='total-node-number'>Configuration ({selectedProject.config?.length})<span className='show-picture' onClick={()=>setPictureDisplay(prev=>!prev)}>{pictureDisplay===false? "Show Picture":"Hide Picture"}</span></div>
             <div className='node-search-filter'>
               <SearchBox setSearchNode={setSearchNode} searchNode={searchNode}></SearchBox>
               <Filter filterValue={filterValue} setFilterValue={setFilterValue}></Filter>

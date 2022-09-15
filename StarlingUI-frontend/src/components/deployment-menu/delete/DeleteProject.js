@@ -2,7 +2,9 @@ import React, { useState,useEffect, useContext } from 'react';
 import axios from "axios";
 import { ProjectContext } from '../../App';
 import logo from '../../../css/img/load.gif';
-const PROJECT_URL = 'http://localhost:8080/design/projects';
+const port = '8080';
+const protocol = "http://";
+const PROJECT_URL = protocol+window.location.hostname+':'+port+'/design/projects';
 
 export default function DeleteProject(props) {
     
@@ -57,7 +59,7 @@ export default function DeleteProject(props) {
             //close automatically
             setTimeout(() => {
                 closeWindow();
-            }, 1300)
+            }, 800)
         })
         .catch((err) => {
             console.log(err.message);
@@ -105,7 +107,7 @@ export default function DeleteProject(props) {
             {savePending && <h4 className='wait-message'><img className="loading" src={logo} alt="loading..." />Please wait...</h4>}
             {error && <button className='close' onClick={()=>{closeWindow()}}>&times;</button>}
             {error && <h2 className='title-error'>Delete Project Error</h2>}
-            {!error && result!=='' && <h2 className='title-success'>Delete in the database!</h2>}
+            {!error && result!=='' && <h2 className='title-success'>Delete Success</h2>}
             <div className='content'>{error? error: ''}</div>
             {error && <div className='key-hint'>(Press ESC to leave)</div>}
             {error && 

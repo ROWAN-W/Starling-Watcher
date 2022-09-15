@@ -10,9 +10,11 @@ import ContainerTerminal from "./monitor-contianer/ContainerTerminal";
 import ContainerLogs from "./monitor-contianer/ContainerLogs";
 import RecoverMessage from "./RecoverMessage";
 import axios from "axios";
-const PROJECT_URL = 'http://localhost:8080/design/projects';
-const USER_URL = 'http://localhost:8080/design/users';
-const REFRESH_URL = 'http://localhost:8080/refresh';
+const port = '8080';
+const protocol = "http://";
+const PROJECT_URL = protocol+window.location.hostname+':'+port+'/design/projects';
+const USER_URL = protocol+window.location.hostname+':'+port+'/design/users';
+const REFRESH_URL = protocol+window.location.hostname+':'+port+'/refresh';
 
 
 const LOCAL_STORAGE_KEY = 'Starling.user.projects';
@@ -20,6 +22,8 @@ const LOCAL_STORAGE_KEY = 'Starling.user.projects';
 export const ProjectContext = React.createContext();
 
 function App() {
+
+  console.log(window.location.hostname);
 
   const [cookies, setCookie, removeCookie] = useCookies();
 
@@ -182,12 +186,13 @@ function App() {
     }
   }
 
-  function handleUserAdd(id, name){
+  /*function handleUserAdd(id, name){
     const newUser = {id: id, name: name};
-    console.log(newUser);
-    setUserData([...userData, newUser]);
     setCurrentUserID(id);
-  }
+    console.log(newUser);
+    console.log(userData);
+    setUserData([...userData, newUser]);
+  }*/
 
   function checkUnsavedProjects(){
     let unsavedArray=[];
@@ -216,7 +221,6 @@ function App() {
     signInPage,
     handleProjectSelect,
     handleCurrentUser,
-    handleUserAdd,
     handleProjectChange,
   } 
   

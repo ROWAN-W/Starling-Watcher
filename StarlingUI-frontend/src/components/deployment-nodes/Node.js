@@ -9,7 +9,10 @@ import black from '../../css/img/Solid_black.png';
 import computerIcon from '../../css/img/computer-svgrepo-com.svg';
 import droneIcon from '../../css/img/aerial-drone-uav-svgrepo-com.svg';
 
-export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handleNodeDuplicate,masterPic,setMasterPic,dronePic,setDronePic,options}) {
+import dronePic from '../../css/img/oie_151914634owYC2D.png';
+import masterPic from '../../css/img/oie_15192229OeBZ3dl4.png'
+
+export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handleNodeDuplicate,pictureDisplay,setPictureDisplay}) {
 
     const {images, projects} = useContext(ProjectContext);
 
@@ -108,20 +111,16 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         }
     }
 
-    function showPicture(kind){
-        //const options = [drone, master, null];        
-        if(masterPic!=='None' && dronePic!=='None'){
-            const sizeSetting = ["circle-drone-icon", "circle-computer-icon"];
+    function showPicture(kind){    
+        if(pictureDisplay!==false){
             if(kind==='master'){
-                const sizeSettingIndex = options.findIndex(element=>element===masterPic);
                 return(
-                    <img className={sizeSetting[sizeSettingIndex]} src={masterPic} alt="master"/>
+                    <img className="circle-computer-icon" src={masterPic} alt=""/>
                 )
             }
             else if(kind==='deployment'){
-                const sizeSettingIndex = options.findIndex(element=>element===dronePic);
                 return(
-                    <img className={sizeSetting[sizeSettingIndex]} src={dronePic} alt="drone deployment"/>
+                    <img className="circle-computer-icon" src={dronePic} alt=""/>
                 )
             }
         }
@@ -133,15 +132,15 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     }
 
     function showIcon(kind){
-        if(masterPic==='None' || dronePic==='None'){
+        if(pictureDisplay===false){
             if(kind==='master'){
                 return(
-                    <img className='computer-title-icon' src={computerIcon} alt="master icon"/>
+                    <img className='computer-title-icon' src={computerIcon} alt=""/>
                 )
             }
             else if(kind==='deployment'){
                 return(
-                    <img className='drone-title-icon' src={droneIcon} alt="deployment icon"/>
+                    <img className='drone-title-icon' src={droneIcon} alt=""/>
                 )
             }
 
@@ -162,14 +161,14 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
     <div>
         <div className='node'>
             <div className='node-title-bar' onClick={()=>setSetting(true)} title={node.name}>
-                <div className={masterPic==='None'||dronePic==='None'? 'node-title wordwrap with-icon' : 'node-title wordwrap'}>{showIcon(node.kind)}{node.name}</div>
+                <div className={pictureDisplay===false? 'node-title wordwrap wordbreak with-icon' : 'node-title wordwrap wordbreak'}>{showIcon(node.kind)}{node.name}</div>
                 <div className='node-kind' style={{ borderLeft: node.kind==='master'? "2px solid hsl(200, 100%, 70%)" : "2px solid #f2f2f2"}}><span>{showKindColor(node.kind)}</span></div>
             </div>
             <img className="setting-icon" src={search} alt="setting" title="setting" onClick={()=>setSetting(true)}/>
         
         <div className='drone-icon-container' onClick={()=>setSetting(true)}>{showPicture(node.kind)}</div>
         
-        <div className={masterPic==='None'||dronePic==='None'? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop} style={{background: isOver? "#444": "#1a1a1a"}}>
+        <div className={pictureDisplay===false? "node-image-tag-container no-picture": "node-image-tag-container"} ref={drop} style={{background: isOver? "#444": "#1a1a1a"}}>
             <div className='node-image-tag-number'>
                 <p className='image-number'>Number of images: {node.containers.length}</p>
                 <button className='btn btn-small btn-menu btn-pill' onClick={()=>handleImageAllDelete()}>Clear All</button>
@@ -184,12 +183,7 @@ export default function Node({node,nodes,handleNodeChange,handleNodeDelete,handl
         <NodeSetting 
         trigger={setting} setTrigger={setSetting} 
         node={node} nodes={nodes} 
-        handleNodeChange={handleNodeChange}
-        options={options}
-        masterPic={masterPic}
-        setMasterPic={setMasterPic}
-        dronePic={dronePic}
-        setDronePic={setDronePic}></NodeSetting>
+        handleNodeChange={handleNodeChange}></NodeSetting>
     </div>
       )
     }

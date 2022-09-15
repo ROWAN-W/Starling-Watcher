@@ -13,7 +13,7 @@ import SaveWarning from './save/SaveWarning';
 
 export default function Menu( {selectedProject, drones, handleUpdateTime, updateTime, error, waiting, minimize, setMinimize} ) {
 
-  const {currentUserID} = useContext(ProjectContext);
+  const {currentUserID, projects} = useContext(ProjectContext);
 
     const [projectSelection, setProjectSelection] = useState(false);
     const [projectCreate, setProjectCreate] = useState(false);
@@ -153,17 +153,23 @@ export default function Menu( {selectedProject, drones, handleUpdateTime, update
         setProjectCreate(clickEvent);
       }
     }
+
+    function projectCount(){
+      if(currentUserID!==''){
+        return " ("+projects.length+")";
+      }
+    }
     
   return (
     <>
     <div className='menu'>
-    <button className='btn btn-menu' onClick={()=>handleProjectSelection(true)}>Select</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectCreate(true)}>Create</button>
-    <button className='btn btn-menu btn-accent' onClick={()=>handleProjectDeploy(true)}>Deploy</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectLoad(true)}>Upload</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectSave(true)}>Save</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectConfig(true)}>Share</button>
-    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectCreate(true)}>Create Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectSelection(true)}>Select Project{projectCount()}</button>
+    <button className='btn btn-menu btn-accent' onClick={()=>handleProjectDeploy(true)}>Deploy Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectLoad(true)}>Upload Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectSave(true)}>Save Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectConfig(true)}>Share Project</button>
+    <button className='btn btn-menu' onClick={()=>handleProjectDelete(true)}>Delete Project</button>
     </div>
     
     <ProjectList trigger={projectSelection} setTrigger={setProjectSelection}></ProjectList>

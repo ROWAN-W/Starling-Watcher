@@ -48,13 +48,7 @@ export default function ShareProject(props) {
     }
 
     function saveChange(){
-        const result = existingMembers.find(member=>member===currentUserID);
-        if(result===undefined){
-            console.log("delete yourself");
-            //sign out to make the data sync
-            props.setWarning(true);
-        }
-        handleChange({memberIDs: existingMembers});        
+        handleChange({memberIDs: existingMembers});
     }
 
     function clearField(){
@@ -78,6 +72,10 @@ export default function ShareProject(props) {
                 <div className='popup-header owner'>
                     <span className='popup-title wordwrap wordbreak'>Share {props.selectedProject.name}</span>
                     <button className='popup-close-button' onClick={()=>{closeWindow()}}>&times;</button>
+                </div>
+                <div className="info-msg wordwrap">
+                <i className="fa fa-info-circle"></i>
+                To save the change to database, click "Save Project" after the change is done.
                 </div>
 
                 <div className="share">

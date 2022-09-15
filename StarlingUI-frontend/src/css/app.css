@@ -114,6 +114,10 @@ input:focus {
     min-width: 15rem;
 }
 
+.whole{
+    display: flex;
+}
+
 .project-title.input
 {
     padding: .3rem 1rem;
@@ -164,7 +168,7 @@ input:focus {
 }
 
 /*responsive*/
-@media (min-width: 580px) {
+@media (min-width: 600px) {
     .menu{
         display: flex;
         justify-content: flex-end;
@@ -173,7 +177,7 @@ input:focus {
     }
   }
 
-@media (max-width: 580px) {
+@media (max-width: 600px) {
     .menu{
         display: grid;
         grid-template-columns: repeat(4,auto);
@@ -200,7 +204,7 @@ input:focus {
     padding: .5em .75em;
 }
 
-.btn.btn-menu:hover{
+.btn.btn-menu:hover, .btn.btn-menu:focus{
     background-color: #333;
 }
 

@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface deleteService {
 
-    public void deleteDeployment(String namespace) throws IOException, ApiException;
+    public void deleteDeployment(String namespace) throws IOException, ApiException, InterruptedException;
 
 }

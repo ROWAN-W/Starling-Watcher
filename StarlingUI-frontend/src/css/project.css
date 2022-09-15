@@ -11,17 +11,36 @@
 }
 
 .total-node-number{
-    color: rgb(205, 205, 205);
+    /*color: rgb(205, 205, 205);
     font-size: 1rem;
     position: absolute;
     left: 2rem;
-    top:1.25rem;
+    top:1.25rem;*/
+
+    color: #fffffe;
+    font-weight: bold;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+.show-picture{
+    color: rgb(205, 205, 205);
+    font-size: 1rem;
+}
+
+.show-picture:hover, .show-picture:focus{
+    cursor: pointer;
+}
+
+.save-status{
+    color: rgb(205, 205, 205);
+    font-size: 1rem;
 }
 
 .node-search-filter{
     display: flex;
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
     justify-content: flex-end;
     padding-left: 1.5rem;
 }
@@ -41,6 +60,10 @@
     margin-left: .5rem;
     border-radius: .2em;
     font-size: .9rem;  
+}
+
+.node__filter:focus{
+    border: 2px solid  hsl(200, 100%, 50%)
 }
 
 .search-icon{
@@ -96,3 +119,4 @@
 .sign-in.instruct:focus{
     cursor: pointer;
 }
+

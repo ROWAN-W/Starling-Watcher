@@ -6,6 +6,7 @@ export default function DroneSearchBox( {setSearchDrone, searchDrone} ) {
     <input 
             className='image__search project__search drone'
             type="search"
+            placeholder=' search'
             value={searchDrone}
             onChange={(e)=>setSearchDrone(e.target.value)}></input>    
     </>

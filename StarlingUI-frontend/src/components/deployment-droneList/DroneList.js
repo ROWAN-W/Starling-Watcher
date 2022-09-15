@@ -6,9 +6,9 @@ import sync from '../../css/img/sync-svgrepo-com.svg';
 import logo from '../../css/img/load.gif';
 import SearchType from './SearchType';
 import DroneSearchBox from './DroneSearchBox';
-const DRONE_URL = 'http://localhost:8080/design/nodes';
-//http://localhost:8080/design/nodes
-//http://localhost:8002/sampleDrone
+const port = '8080';
+const protocol = "http://";
+const DRONE_URL = protocol+window.location.hostname+':'+port+'/design/nodes';
 
 export default function DroneList(props) {
 
@@ -23,7 +23,8 @@ export default function DroneList(props) {
     useEffect(() => {
         console.log("fetch available devices");
 
-        (async () => {
+        //back end responds 401 when the minikube is not running, causing infinite loop
+        /*(async () => {
             try {
                 const {data} = await axios.get(DRONE_URL);
                 props.setWaiting(false);
@@ -47,10 +48,10 @@ export default function DroneList(props) {
                 }
                 console.log(err.message);
             }
-        })();
+        })();*/
 
         //temporary for 401 error from /design/nodes
-        /*const options = {
+        const options = {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -79,7 +80,7 @@ export default function DroneList(props) {
               props.setData();
               props.setWaiting(false);
               props.setError(err.message);
-            })*/
+            })
     
       },[props.updateClick])
 
@@ -113,11 +114,13 @@ export default function DroneList(props) {
         }
         else{
             if(searchType!=='labels' && searchType!=='annotations'){
-                return props.data.filter(i=>i[searchType].toLowerCase().includes(searchDrone.toLowerCase())); 
+                return props.data.filter(
+                    i=>i[searchType].toLowerCase().includes(searchDrone.toLowerCase())); 
             }
             else{
                 console.log(Object.values(props.data[0][searchType]));
-                return props.data.filter(i=>Object.values(i[searchType]).includes(searchDrone.toLowerCase())); 
+                return props.data.filter(
+                    i=>Object.values(i[searchType]).includes(searchDrone.toLowerCase())); 
             }
             
         }
@@ -127,7 +130,7 @@ export default function DroneList(props) {
     <>
     <div className='drone-container items'>
     <div className="items-head drone">
-        <p>Available Devices {props.data? '('+props.data.length+')': null}</p>
+        <h2>Available Devices {props.data? '('+props.data.length+')': null}</h2>
         <hr/>
     </div>
     <button className='btn btn-small hide-drone btn-menu' onClick={()=>props.setTrigger(false)}>Hide</button>

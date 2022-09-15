@@ -1,6 +1,8 @@
 import axios from "axios";
 import { getCookie } from 'react-use-cookie'
-const REFRESH_URL = 'http://localhost:8080/refresh';
+const port = '8080';
+const protocol = "http://";
+const REFRESH_URL = protocol+window.location.hostname+':'+port+'/refresh';
 
 let refresh = false;
 

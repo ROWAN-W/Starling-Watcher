@@ -12,7 +12,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-
+import { PacmanLoader} from 'react-spinners';
+const port = '8080';
+const protocol = "http://";
+const NODES_URL = protocol+window.location.hostname+':'+port+'/monitor/nodes';
+const NAMESPACES_URL = protocol+window.location.hostname+':'+port+'/monitor/namespaces';
+const UNDEPLOY_URL = protocol+window.location.hostname+':'+port+'/monitor/delete/';
 
 
 export default function Monitor() {
@@ -22,9 +27,22 @@ export default function Monitor() {
     const [state, setstate] = useState(200);
     const [namespace, setNamespace] = useState('');
     const [open, setOpen] = useState(false);
+    const [waiting,setWaiting] = useState(false);
+
+    const override = `
+        display: block;
+        margin: 10 auto;
+    `;
+
+    const style = {
+        loading: waiting,
+        size: 35,
+        css: override,
+        color: "#32e6b7",
+    };
 
     const getNodeStatus = () => {
-        axios.get('http://localhost:8080/monitor/nodes')
+        axios.get(NODES_URL)
             .then(function (response) {
                 setData(response.data);
                 setstate(response.status);
@@ -42,11 +60,11 @@ export default function Monitor() {
 
     const getK8sData = () => {
         function getNodes() {
-            return axios.get('http://localhost:8080/monitor/nodes');
+            return axios.get(NODES_URL);
         }
 
         function getNameSpaces() {
-            return axios.get('http://localhost:8080/monitor/namespaces');
+            return axios.get(NAMESPACES_URL);
         }
 
         Promise.all([getNodes(), getNameSpaces()])
@@ -54,6 +72,7 @@ export default function Monitor() {
                 const acct = results[0];
                 const perm = results[1];
                 setData(acct.data);
+                
                 setstate(acct.status);
                 setProjects(perm.data);
 
@@ -64,6 +83,7 @@ export default function Monitor() {
                 console.log(error.response.status);
 
             });
+        console.log(data);
     }
 
 
@@ -74,7 +94,7 @@ export default function Monitor() {
     useEffect(() => {
         getK8sData();
         const interval = setInterval(
-            () => { getK8sData(); }, 30000
+            () => { getK8sData(); }, 20000
         )
         return () => clearInterval(interval)
     }, []);
@@ -84,6 +104,8 @@ export default function Monitor() {
     };
 
     const handleClose = () => {
+        setWaiting(false);
+        setNamespace('');
         setOpen(false);
     };
 
@@ -93,28 +115,35 @@ export default function Monitor() {
 
     const handleDelete = () => {
         if (namespace !== '') {
-            let url = 'http://localhost:8080/monitor/delete/';
+            let url = UNDEPLOY_URL;
             url += namespace;
-            axios.delete(url)
+            const fetchData = async () => {
+                
+                setWaiting(true);
+                await axios.delete(url)
                 .then(function (response) {
                     console.log(response)
                 })
                 .catch(function (error) {
                     console.log(error)
-                })
+                });
+                setWaiting(false);
+                setOpen(false);
+            }
+            fetchData();
+            setNamespace('');
+            
+        }else{
+            setNamespace('');
+            setOpen(false);
         }
-
-        setOpen(false);
-        setTimeout(() => {
-            getK8sData();
-        }, 3000);
+        getK8sData();
     }
 
     function showData() {
         if (state === 200) {
             return (
                 <div>
-
                     <div className='delete'>
                         <Button
                             variant="outlined"
@@ -127,7 +156,7 @@ export default function Monitor() {
                                 textTransform: "none",
                                 fontFamily: "Cambria"
                             }}>
-                            Delete Project
+                            Undeploy Project
                         </Button>
                     </div>
 
@@ -141,10 +170,16 @@ export default function Monitor() {
                         disableEscapeKeyDown
                         open={open}
                         onClose={handleClose}
+                        PaperProps={{
+                            sx: {
+                            width: 350,
+                            height: 210
+                            }
+                        }}
                     >
-                        <DialogTitle>Delete Project</DialogTitle>
+                        <DialogTitle>Undeploy Project</DialogTitle>
                         <DialogContent>
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+                            {waiting?<PacmanLoader {...style} />:<FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
                                 <InputLabel>Project</InputLabel>
                                 <Select value={namespace}
                                     onChange={handleChange}
@@ -155,7 +190,7 @@ export default function Monitor() {
                                     </MenuItem>
                                     {listItems}
                                 </Select>
-                            </FormControl>
+                            </FormControl>}
                         </DialogContent>
                         <DialogActions>
                             <Button
@@ -181,6 +216,7 @@ export default function Monitor() {
             return (
                 <>
                     <h1 className='monitor-error'>Fetch failed,Resending request...</h1>
+                    <p className='error-message'>error: {data}</p>
                 </>
             )
         }

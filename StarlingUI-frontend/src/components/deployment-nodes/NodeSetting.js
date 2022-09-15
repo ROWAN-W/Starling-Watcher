@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import UploadAndDisplayImage from './UploadAndDisplayImage';
 const instructName = "Name can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '-'.";
 const instructLabel = "Label can only start / end with an alphanumeric character and contain lowercase alphanumeric characters or '.' , '-' and '_'.";
 
@@ -10,15 +9,13 @@ export default function NodeSetting(props) {
     const [app, setApp] = useState(props.node.label.app);
     const [platform, setPlatform] = useState(props.node.label.platform);
 
-    const [selectedImage, setSelectedImage] = useState(props.node.kind==='master'? props.masterPic: props.dronePic);
-
     const [warning, setWarning] = useState('');
 
     useEffect(()=>{
         if(props.trigger===true){
             setWarning('');
         }
-    },[name, kind, app, platform, selectedImage]);
+    },[name, kind, app, platform]);
 
     let textInput = null;
     useEffect(()=>{
@@ -88,12 +85,6 @@ export default function NodeSetting(props) {
         setWarning('');
         handleChange({name:name, kind:kind, label: {app: app, platform: platform} });
         props.setTrigger(false);
-
-        if(kind==='master'){
-            props.setMasterPic(selectedImage);
-        }else{
-            props.setDronePic(selectedImage);
-        }
     }
     
     /**
@@ -190,7 +181,6 @@ return (props.trigger) ?(
                     >
                 </input>
                 </div>
-                <UploadAndDisplayImage options={props.options} selectedImage={selectedImage} setSelectedImage={setSelectedImage}></UploadAndDisplayImage>
                 </div>
                 <div className='popup-footer normal display'>
                 <button className='btn btn-primary' type="submit">Done</button>
